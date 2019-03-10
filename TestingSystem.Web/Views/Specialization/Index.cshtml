@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div id="partial-content">
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery-3.3.1.js">
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#partial-content").load("@Url.Action("PartialIndex", "Specialization")");
+
+            $("body").on("click", ".btn-delete", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "Specialization")",
+                    data: { id: $(this).attr("data-id") },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Specialization")");
+                        $("#div-info").empty();
+                        $("#div-info").append(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("#div-alert").append(textStatus);
+                        $("#div-alert").append("<br/>" + errorThrown);
+                        alert("error");
+                    }
+                });
+            });
+        });
+
+    </script>
+}
