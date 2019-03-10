@@ -4,29 +4,35 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Roles</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Edit", new { id = 0})
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
+<div id="partial-content">
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#partial-content").load("@Url.Action("PartialIndex", "Role")");
+
+            $("body").on("click", ".btn-delete", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "Role")",
+                    data: { id: $(this).attr("data-id") },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Role")");
+                        $("#div-info").empty();
+                        $("#div-info").append(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("#div-alert").append(textStatus);
+                        $("#div-alert").append("<br/>" + errorThrown);
+                        alert("error");
+                    }
+                });
+            });
+        });
+
+    </script>
 }
-
-</table>

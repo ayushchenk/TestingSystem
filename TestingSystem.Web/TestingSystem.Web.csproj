@@ -232,6 +232,7 @@
     <Content Include="Views\Specialization\Edit.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Specialization\PartialIndex.cshtml" />
+    <Content Include="Views\Role\PartialIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

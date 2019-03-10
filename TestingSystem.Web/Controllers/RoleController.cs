@@ -25,7 +25,12 @@ namespace TestingSystem.Web.Controllers
 
         public ActionResult Index()
         {
-            return View(RoleManager.Roles);
+            return View();
+        }
+
+        public PartialViewResult PartialIndex()
+        {
+            return PartialView(RoleManager.Roles);
         }
 
         public async Task<ActionResult> Edit(int id = 0)
@@ -59,15 +64,15 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> Delete(int id = 0)
         {
-            if (id == 0)
-                return RedirectToAction("Index");
-
             AppRole role = await RoleManager.FindByIdAsync(id);
-
-            if (role != null && role.Users.Count == 0)
+            if (role != null)
+            {
+                if (role.Users.Count != 0)
+                    return Json($"There are users relying os such role: Id = {role.Id}, Role = {role.Name}", JsonRequestBehavior.AllowGet);
                 await RoleManager.DeleteAsync(role);
-
-            return RedirectToAction("Index");
+                return Json($"Successfully deleted: {role.Id} - {role.Name}", JsonRequestBehavior.AllowGet);
+            }
+            return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
         }
     }
 }

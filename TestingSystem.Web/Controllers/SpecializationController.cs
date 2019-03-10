@@ -58,7 +58,7 @@ namespace TestingSystem.Web.Controllers
                 specService.Delete(item);
                 return Json($"Successfully deleted: {item.Id} - {item.SpecializationName}", JsonRequestBehavior.AllowGet);
             }
-            return Json($"No item found by such id: {item.Id}", JsonRequestBehavior.AllowGet);
+            return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
         }
     }
 }
