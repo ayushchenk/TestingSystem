@@ -1,9 +1,9 @@
 ﻿@{
-    ViewBag.Title = "Roles";
+    ViewBag.Title = "Groups";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Roles</h2>
+<h2>Groups</h2>
 
 <div id="partial-content">
 </div>
@@ -11,17 +11,16 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            alert();
-            $("#partial-content").load("@Url.Action("PartialIndex", "Role")");
+            $("#partial-content").load("@Url.Action("PartialIndex", "Group")");
 
             $("body").on("click", ".btn-delete", function (e) {
                 e.preventDefault();
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("Delete", "Role")",
+                    url: "@Url.Action("Delete", "Group")",
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
-                        $("#partial-content").load("@Url.Action("PartialIndex", "Role")");
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Group")");
                         $("#div-info").empty();
                         $("#div-info").append(data);
                     },
@@ -37,3 +36,4 @@
 
     </script>
 }
+

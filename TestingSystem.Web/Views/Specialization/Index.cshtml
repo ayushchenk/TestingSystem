@@ -1,6 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Specializations";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Specializations</h2>
@@ -25,6 +26,7 @@
                         $("#div-info").append(data);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
+                        $("$div-alert").empty();
                         $("#div-alert").append(textStatus);
                         $("#div-alert").append("<br/>" + errorThrown);
                         alert("error");

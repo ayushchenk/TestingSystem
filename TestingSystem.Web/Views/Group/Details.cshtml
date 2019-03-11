@@ -1,0 +1,76 @@
+﻿@model TestingSystem.Web.Models.ViewModels.GroupDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Group @Model.Group.GroupName Details</h2>
+<hr />
+@Html.ActionLink("Create new", "Edit", "User", new { id = 0@*, groupId = Model.Group.Id*@ })
+
+@if (Model.Users != null && Model.Users.Count() != 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Login")
+        </th>
+        <th>
+            @Html.DisplayName("Email")
+        </th>
+        <th>
+            @Html.DisplayName("FirstName")
+        </th>
+        <th>
+            @Html.DisplayName("LastName")
+        </th>
+        <th>
+            @Html.DisplayName("Patronymic")
+        </th>
+        <th>
+            @Html.DisplayName("SpecializationName")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Users)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Login)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patronymic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecializationName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "User", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", "User", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+}
+else
+{
+    <div class="alert-info">
+        No users
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Group.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

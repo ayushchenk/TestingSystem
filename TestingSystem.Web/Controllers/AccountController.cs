@@ -80,7 +80,11 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = await UserManager.FindAsync(model.Email, model.Password);
+                AppUser user;
+                //if (model.Email == "Admin")
+                //    user = await UserManager.FindByEmailAsync("Admin");
+                //else
+                    user = await UserManager.FindAsync(model.Email, model.Password);
                 if (user == null)
                 {
                     ModelState.AddModelError("", "Wrong credentials.");
