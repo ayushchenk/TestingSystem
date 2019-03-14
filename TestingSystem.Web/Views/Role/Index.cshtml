@@ -11,7 +11,6 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            alert();
             $("#partial-content").load("@Url.Action("PartialIndex", "Role")");
 
             $("body").on("click", ".btn-delete", function (e) {
@@ -29,7 +28,6 @@
                         $("$div-alert").empty();
                         $("#div-alert").append(textStatus);
                         $("#div-alert").append("<br/>" + errorThrown);
-                        alert("error");
                     }
                 });
             });

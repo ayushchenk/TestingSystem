@@ -39,7 +39,7 @@ namespace MailSender
                 if (!String.IsNullOrWhiteSpace(str))
                     msg.Attachments.Add(new Attachment(str, MediaTypeNames.Application.Octet));
 
-            client.SendAsync(msg, null);
+            client.Send(msg);
 
             foreach (var i in msg.Attachments)
                 i.Dispose();
