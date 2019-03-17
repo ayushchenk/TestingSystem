@@ -1,37 +1,40 @@
-﻿@model IEnumerable<TestingSystem.BOL.Model.UserDTO>
+﻿@model TestingSystem.Web.Models.ViewModels.SpecUsersViewModel
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-@if (Model.Count() != 0)
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Specialization @Model.Specialization.SpecializationName Users</h2>
+<hr />
+@Html.ActionLink("Create new", "Create", "User", new { groupId = 0, specId = Model.Specialization.Id }, new { })
+
+@if (Model.Users != null && Model.Users.Count() != 0)
 {
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Login)
+                @Html.DisplayName("Login")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayName("Email")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayName("FirstName")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayName("LastName")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Patronymic)
+                @Html.DisplayName("Patronymic")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GroupName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpecializationName)
+                @Html.DisplayName("SpecializationName")
             </th>
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Users)
         {
             <tr>
                 <td>
@@ -50,18 +53,14 @@
                     @Html.DisplayFor(modelItem => item.Patronymic)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.GroupName)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.SpecializationName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                    @Html.ActionLink("Edit", "Edit", "User", new { id = item.Id }, new { }) |
+                    @Html.ActionLink("Delete", "Delete", "User", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
                 </td>
             </tr>
         }
-
     </table>
 }
 else
@@ -70,3 +69,9 @@ else
         No users
     </div>
 }
+
+<p>
+    @Html.ActionLink("Edit specialization", "Edit", new { id = Model.Specialization.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

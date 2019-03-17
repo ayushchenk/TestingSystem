@@ -20,29 +20,33 @@ namespace MailSender
         {
             port = 587;
             host = "smtp.gmail.com";
-            login = "a.yushchenk@gmail.com";
-            password = "rhjn1234rn32ahxg";
+            login = "testing.system.yl@gmail.com";
+            password = "testing.system.yl123";
         }
 
         public void SendComplexMessage(string To, string Subject, string Body, params string[] Path)
         {
-            SmtpClient client = new SmtpClient(this.host, this.port);
-            client.Credentials = new NetworkCredential(this.login, this.password);
-            client.EnableSsl = true;
+            try
+            {
+                SmtpClient client = new SmtpClient(this.host, this.port);
+                client.Credentials = new NetworkCredential(this.login, this.password);
+                client.EnableSsl = true;
 
-            MailMessage msg = new MailMessage();
-            msg.From = new MailAddress(this.login);
-            msg.To.Add(new MailAddress(To));
-            msg.Subject = Subject;
-            msg.Body = Body;
-            foreach (var str in Path)
-                if (!String.IsNullOrWhiteSpace(str))
-                    msg.Attachments.Add(new Attachment(str, MediaTypeNames.Application.Octet));
+                MailMessage msg = new MailMessage();
+                msg.From = new MailAddress(this.login);
+                msg.To.Add(new MailAddress(To));
+                msg.Subject = Subject;
+                msg.Body = Body;
+                foreach (var str in Path)
+                    if (!String.IsNullOrWhiteSpace(str))
+                        msg.Attachments.Add(new Attachment(str, MediaTypeNames.Application.Octet));
 
-            client.Send(msg);
+                client.Send(msg);
 
-            foreach (var i in msg.Attachments)
-                i.Dispose();
+                foreach (var i in msg.Attachments)
+                    i.Dispose();
+            }
+            catch { }
         }
     }
 }

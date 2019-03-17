@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
+using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
@@ -45,6 +46,17 @@ namespace TestingSystem.Web.Controllers
                 return RedirectToAction("Index");
             }
             return View(spec);
+        }
+
+        public ActionResult Users(int id = 0)
+        {
+            var spec = specService.Get(id);
+            if (spec == null)
+                return RedirectToAction("Index");
+            var model = new SpecUsersViewModel();
+            model.Specialization = spec;
+            model.Users = userService.FindBy(user => user.SpecializationId == spec.Id);
+            return View(model);
         }
 
         public ActionResult Delete(int id = 0)

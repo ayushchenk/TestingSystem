@@ -31,7 +31,7 @@ namespace TestingSystem.Web.Controllers
             return PartialView(groupService.GetAll());
         }
 
-        public ActionResult Details(int id = 0)
+        public ActionResult Users(int id = 0)
         {
             var group = groupService.Get(id);
             if (group == null)

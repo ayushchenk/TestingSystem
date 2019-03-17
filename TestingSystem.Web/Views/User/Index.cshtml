@@ -28,7 +28,6 @@
                     error: function (jqXHR, textStatus, errorThrown) {
                         $("$div-alert").empty();
                         $("#div-alert").append(textStatus);
-                        $("#div-alert").append("<br/>" + errorThrown);
                         alert("error");
                     }
                 });

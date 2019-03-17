@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Group @Model.Group.GroupName Details</h2>
+<h2>Group @Model.Group.GroupName Users</h2>
 <hr />
-@Html.ActionLink("Create new", "Edit", "User", new { id = 0@*, groupId = Model.Group.Id*@ })
+@Html.ActionLink("Create new", "Create", "User", new {groupId = Model.Group.Id, specId = 0}, new { })
 
 @if (Model.Users != null && Model.Users.Count() != 0)
 {
@@ -56,7 +56,7 @@
                 @Html.DisplayFor(modelItem => item.SpecializationName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", "User", new { id = item.Id }) |
+                @Html.ActionLink("Edit", "Edit", "User", new { id = item.Id }, new { }) |
                 @Html.ActionLink("Delete", "Delete", "User", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
             </td>
         </tr>
@@ -71,6 +71,6 @@ else
 }
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Group.Id }) |
+    @Html.ActionLink("Edit group", "Edit", new { id = Model.Group.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
