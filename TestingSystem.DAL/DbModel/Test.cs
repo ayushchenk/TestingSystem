@@ -21,6 +21,9 @@ namespace TestingSystem.DAL.DbModel
         [StringLength(128)]
         public string TestName { get; set; }
 
+        [Required]
+        public bool IsOpen { set; get; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupsInTest> GroupsInTests { get; set; }
 

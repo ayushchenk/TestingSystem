@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
@@ -26,49 +27,49 @@ namespace TestingSystem.Web.Controllers
             return View();
         }
 
-        public PartialViewResult PartialIndex()
+        public async Task<PartialViewResult> PartialIndex()
         {
-            return PartialView(specService.GetAll());
+            return PartialView(await specService.GetAllAsync());
         }
 
-        public ActionResult Edit(int id = 0)
+        public async Task<ActionResult> Edit(int id = 0)
         {
-            var model = specService.Get(id) ?? new SpecializationDTO();
+            var model = await specService.GetAsync(id) ?? new SpecializationDTO();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(SpecializationDTO spec)
+        public async Task<ActionResult> Edit(SpecializationDTO spec)
         {
             if (ModelState.IsValid)
             {
-                specService.AddOrUpdate(spec);
+                await specService.AddOrUpdateAsync(spec);
                 return RedirectToAction("Index");
             }
             return View(spec);
         }
 
-        public ActionResult Users(int id = 0)
+        public async Task<ActionResult> Users(int id = 0)
         {
-            var spec = specService.Get(id);
+            var spec = await specService.GetAsync(id);
             if (spec == null)
                 return RedirectToAction("Index");
             var model = new SpecUsersViewModel();
+            model.Users = await userService.FindByAsync(user => user.SpecializationId == spec.Id);
             model.Specialization = spec;
-            model.Users = userService.FindBy(user => user.SpecializationId == spec.Id);
             return View(model);
         }
 
-        public ActionResult Delete(int id = 0)
+        public async Task<ActionResult> Delete(int id = 0)
         {
-            var item = specService.Get(id);
+            var item = await specService.GetAsync(id);
             if (item != null)
             {
-                var users = userService.FindBy(user => user.SpecializationId == item.Id);
+                var users = await userService.FindByAsync(user => user.SpecializationId == item.Id);
                 if (users.Count() != 0)
                     return Json($"There are users relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
-                specService.Delete(item);
-                return Json($"Successfully deleted: {item.Id} - {item.SpecializationName}", JsonRequestBehavior.AllowGet);
+                await specService.DeleteAsync(item);
+                return Json($"Successfully deleted: #{item.Id} - \"{item.SpecializationName}\"", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
         }

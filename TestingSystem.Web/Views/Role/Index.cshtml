@@ -26,8 +26,7 @@
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         $("$div-alert").empty();
-                        $("#div-alert").append(textStatus);
-                        $("#div-alert").append("<br/>" + errorThrown);
+                        $("#div-alert").append("An error occured while processing request");
                     }
                 });
             });

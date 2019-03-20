@@ -12,7 +12,7 @@ using TestingSystem.DAL.DbModel;
 
 namespace TestingSystem.BOL.Service
 {
-    public class UserDTOService:IEntityService<UserDTO>
+    public class UserDTOService : IEntityService<UserDTO>
     {
         IGenericRepository<User> repository;
         readonly IMapper mapper;
@@ -56,6 +56,31 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<UserDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<UserDTO>(role));
+        }
+
+        public Task<IEnumerable<UserDTO>> GetAllAsync()
+        {
+            return Task.Run(() => GetAll());
+        }
+
+        public Task<IEnumerable<UserDTO>> FindByAsync(Expression<Func<UserDTO, bool>> predicate)
+        {
+            return Task.Run(() => FindBy(predicate));
+        }
+
+        public Task<UserDTO> GetAsync(int id)
+        {
+            return Task.Run(() => Get(id));
+        }
+
+        public Task<UserDTO> AddOrUpdateAsync(UserDTO obj)
+        {
+            return Task.Run(() => AddOrUpdate(obj));
+        }
+
+        public Task<UserDTO> DeleteAsync(UserDTO obj)
+        {
+            return Task.Run(() => Delete(obj));
         }
     }
 }

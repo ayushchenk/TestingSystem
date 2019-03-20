@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TestingSystem.BOL.Model;
 using TestingSystem.DAL.DbModel;
 
 namespace TestingSystem.BOL.Service
 {
-    public class GroupsInTestDTOService:IEntityService<GroupsInTestDTO>
+    public class GroupsInTestDTOService : IEntityService<GroupsInTestDTO>
     {
         IGenericRepository<GroupsInTest> repository;
         readonly IMapper mapper;
@@ -22,7 +23,7 @@ namespace TestingSystem.BOL.Service
             {
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<GroupsInTest, GroupsInTestDTO>()
-                    .ForMember("GroupName", opt => opt.MapFrom( git => git.Group.GroupName))
+                    .ForMember("GroupName", opt => opt.MapFrom(git => git.Group.GroupName))
                     .ForMember("TestName", opt => opt.MapFrom(git => git.Test.TestName));
                 cfg.CreateMap<GroupsInTestDTO, GroupsInTest>();
             }).CreateMapper();
@@ -54,6 +55,31 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<GroupsInTestDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<GroupsInTestDTO>(role));
+        }
+
+        public Task<IEnumerable<GroupsInTestDTO>> GetAllAsync()
+        {
+            return Task.Run(() => GetAll());
+        }
+
+        public Task<IEnumerable<GroupsInTestDTO>> FindByAsync(Expression<Func<GroupsInTestDTO, bool>> predicate)
+        {
+            return Task.Run(() => FindBy(predicate));
+        }
+
+        public Task<GroupsInTestDTO> GetAsync(int id)
+        {
+            return Task.Run(() => Get(id));
+        }
+
+        public Task<GroupsInTestDTO> AddOrUpdateAsync(GroupsInTestDTO obj)
+        {
+            return Task.Run(() => AddOrUpdate(obj));
+        }
+
+        public Task<GroupsInTestDTO> DeleteAsync(GroupsInTestDTO obj)
+        {
+            return Task.Run(() => Delete(obj));
         }
     }
 }

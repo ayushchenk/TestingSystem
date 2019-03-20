@@ -38,8 +38,6 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<SpecializationDTOService>().As<IEntityService<SpecializationDTO>>();
             builder.RegisterType<TestDTOService>().As<IEntityService<TestDTO>>();
             builder.RegisterType<UserDTOService>().As<IEntityService<UserDTO>>();
-
-            base.Load(builder);
         }
     }
 }

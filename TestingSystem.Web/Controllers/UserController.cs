@@ -152,10 +152,10 @@ namespace TestingSystem.Web.Controllers
                     if (res.Succeeded)
                     {
                         userService.Delete(user);
-                        return Json($"Successfully deleted: {user.Id} - {user.Email}", JsonRequestBehavior.AllowGet);
+                        return Json($"Successfully deleted: #{user.Id} - \"{user.Email}\"", JsonRequestBehavior.AllowGet);
                     }
                 }
-                return Json($"Error occured on deleting identity: {user.Id} - {user.Email}", JsonRequestBehavior.AllowGet);
+                return Json($"Error occured on deleting identity: Id = {user.Id} - UserName = {user.Email}", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
         }

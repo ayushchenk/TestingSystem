@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using TestingSystem.BOL.Model;
 using TestingSystem.DAL.DbModel;
 using AutoMapper.Extensions.ExpressionMapping;
+using System.Threading.Tasks;
 
 namespace TestingSystem.BOL.Service
 {
@@ -52,6 +53,31 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<RoleDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<RoleDTO>(role));
+        }
+
+        public Task<IEnumerable<RoleDTO>> GetAllAsync()
+        {
+            return Task.Run(() => GetAll());
+        }
+
+        public Task<IEnumerable<RoleDTO>> FindByAsync(Expression<Func<RoleDTO, bool>> predicate)
+        {
+            return Task.Run(() => FindBy(predicate));
+        }
+
+        public Task<RoleDTO> GetAsync(int id)
+        {
+            return Task.Run(() => Get(id));
+        }
+
+        public Task<RoleDTO> AddOrUpdateAsync(RoleDTO obj)
+        {
+            return Task.Run(() => AddOrUpdate(obj));
+        }
+
+        public Task<RoleDTO> DeleteAsync(RoleDTO obj)
+        {
+            return Task.Run(() => Delete(obj));
         }
     }
 }

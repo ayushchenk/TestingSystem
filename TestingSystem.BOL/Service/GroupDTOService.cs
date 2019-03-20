@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TestingSystem.BOL.Model;
 using TestingSystem.DAL.DbModel;
 
 namespace TestingSystem.BOL.Service
 {
-    public class GroupDTOService:IEntityService<GroupDTO>
+    public class GroupDTOService : IEntityService<GroupDTO>
     {
         IGenericRepository<Group> repository;
         readonly IMapper mapper;
@@ -52,6 +53,31 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<GroupDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<GroupDTO>(role));
+        }
+
+        public Task<IEnumerable<GroupDTO>> GetAllAsync()
+        {
+            return Task.Run(() => GetAll());
+        }
+
+        public Task<IEnumerable<GroupDTO>> FindByAsync(Expression<Func<GroupDTO, bool>> predicate)
+        {
+            return Task.Run(() => FindBy(predicate));
+        }
+
+        public Task<GroupDTO> GetAsync(int id)
+        {
+            return Task.Run(() => Get(id));
+        }
+
+        public Task<GroupDTO> AddOrUpdateAsync(GroupDTO obj)
+        {
+            return Task.Run(() => AddOrUpdate(obj));
+        }
+
+        public Task<GroupDTO> DeleteAsync(GroupDTO obj)
+        {
+            return Task.Run(() => Delete(obj));
         }
     }
 }

@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TestingSystem.BOL.Model;
 using TestingSystem.DAL.DbModel;
 
 namespace TestingSystem.BOL.Service
 {
-    public class QuestionImageDTOService:IEntityService<QuestionImageDTO>
+    public class QuestionImageDTOService : IEntityService<QuestionImageDTO>
     {
         IGenericRepository<QuestionImage> repository;
         readonly IMapper mapper;
@@ -52,6 +53,31 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<QuestionImageDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<QuestionImageDTO>(role));
+        }
+
+        public Task<IEnumerable<QuestionImageDTO>> GetAllAsync()
+        {
+            return Task.Run(() => GetAll());
+        }
+
+        public Task<IEnumerable<QuestionImageDTO>> FindByAsync(Expression<Func<QuestionImageDTO, bool>> predicate)
+        {
+            return Task.Run(() => FindBy(predicate));
+        }
+
+        public Task<QuestionImageDTO> GetAsync(int id)
+        {
+            return Task.Run(() => Get(id));
+        }
+
+        public Task<QuestionImageDTO> AddOrUpdateAsync(QuestionImageDTO obj)
+        {
+            return Task.Run(() => AddOrUpdate(obj));
+        }
+
+        public Task<QuestionImageDTO> DeleteAsync(QuestionImageDTO obj)
+        {
+            return Task.Run(() => Delete(obj));
         }
     }
 }

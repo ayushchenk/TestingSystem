@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TestingSystem.BOL.Model
 {
@@ -9,5 +10,8 @@ namespace TestingSystem.BOL.Model
         [Required]
         [StringLength(128)]
         public string TestName { get; set; }
+
+        [Required]
+        public bool IsOpen { set; get; }
     }
 }

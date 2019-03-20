@@ -1,0 +1,53 @@
+﻿@model TestingSystem.Web.Models.ViewModels.AssignGroupsViewModel
+
+@{
+    ViewBag.Title = "AssignGroups";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>AssignGroups</h2>
+
+@if (Model.Groups != null && Model?.Groups.Count != 0)
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("model.TestId", Model.TestId)
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayName("Assign")
+                </th>
+                <th>
+                    @Html.DisplayName("Group Name")
+                </th>
+                <th></th>
+            </tr>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @for (int i = 0; i < Model.Groups.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.EditorFor(x => Model.Groups[i].Assign)
+                    </td>
+                    <td>
+                        @Html.Label(Model.Groups[i].Group.GroupName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Users", "Users", new { id = Model.Groups[i].Group.Id })
+                    </td>
+                </tr>
+                @Html.Hidden($"model.Groups[{i}].Group.Id", Model.Groups[i].Group.Id);
+                @Html.Hidden($"model.Groups[{i}].Group.GroupName", Model.Groups[i].Group.GroupName);
+            }
+
+        </table>
+        <input type="submit" value="Save" class="btn btn-default" />
+    }
+}
+else
+{
+    <div class="alert-info">
+        No groups
+    </div>
+}

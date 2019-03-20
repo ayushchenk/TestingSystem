@@ -176,6 +176,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SpecializationController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -183,6 +184,8 @@
     <Compile Include="Infrastructure\Autofac\AutofacConfig.cs" />
     <Compile Include="Models\Identity\LoginViewModel.cs" />
     <Compile Include="Models\Identity\RegisterViewModel.cs" />
+    <Compile Include="Models\ViewModels\AssignGroupItem.cs" />
+    <Compile Include="Models\ViewModels\AssignGroupsViewModel.cs" />
     <Compile Include="Models\ViewModels\EditUserViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\IndexUserViewModel.cs" />
@@ -248,6 +251,10 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Specialization\Users.cshtml" />
+    <Content Include="Views\Test\PartialIndex.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\Edit.cshtml" />
+    <Content Include="Views\Test\AssignGroups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

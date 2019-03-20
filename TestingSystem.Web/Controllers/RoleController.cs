@@ -70,7 +70,7 @@ namespace TestingSystem.Web.Controllers
                 if (role.Users.Count != 0)
                     return Json($"There are users relying os such role: Id = {role.Id}, Role = {role.Name}", JsonRequestBehavior.AllowGet);
                 await RoleManager.DeleteAsync(role);
-                return Json($"Successfully deleted: {role.Id} - {role.Name}", JsonRequestBehavior.AllowGet);
+                return Json($"Successfully deleted: #{role.Id} - \"{role.Name}\"", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
         }

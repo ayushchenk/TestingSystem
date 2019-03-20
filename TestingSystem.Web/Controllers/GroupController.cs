@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
@@ -26,49 +27,49 @@ namespace TestingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult PartialIndex()
+        public async Task<ActionResult> PartialIndex()
         {
-            return PartialView(groupService.GetAll());
+            return PartialView(await groupService.GetAllAsync());
         }
 
-        public ActionResult Users(int id = 0)
+        public async Task<ActionResult> Users(int id = 0)
         {
-            var group = groupService.Get(id);
+            var group = await groupService.GetAsync(id);
             if (group == null)
                 return RedirectToAction("Index");
             var model = new GroupDetailsViewModel();
+            model.Users = await userService.FindByAsync(user => user.GroupId == group.Id);
             model.Group = group;
-            model.Users = userService.FindBy(user => user.GroupId == group.Id);
             return View(model);
         }
 
-        public ActionResult Edit(int id = 0)
+        public async Task<ActionResult> Edit(int id = 0)
         {
-            var model = groupService.Get(id) ?? new GroupDTO();
+            var model = await groupService.GetAsync(id) ?? new GroupDTO();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(GroupDTO group)
+        public async Task<ActionResult> Edit(GroupDTO group)
         {
             if (ModelState.IsValid)
             {
-                groupService.AddOrUpdate(group);
+                await groupService.AddOrUpdateAsync(group);
                 return RedirectToAction("Index");
             }
             return View(group);
         }
 
-        public ActionResult Delete(int id = 0)
+        public async Task<ActionResult> Delete(int id = 0)
         {
-            var item = groupService.Get(id);
+            var item = await groupService.GetAsync(id);
             if (item != null)
             {
-                var users = userService.FindBy(user => user.GroupId == item.Id).ToList();
+                var users = await userService.FindByAsync(user => user.GroupId == item.Id);
                 if (users.Count() != 0)
-                    return Json($"There are users relying os such group: Id = {item.Id}, SpecName = {item.GroupName}", JsonRequestBehavior.AllowGet);
-                groupService.Delete(item);
-                return Json($"Successfully deleted: {item.Id} - {item.GroupName}", JsonRequestBehavior.AllowGet);
+                    return Json($"There are users relying on such group: Id = {item.Id}, SpecName = {item.GroupName}", JsonRequestBehavior.AllowGet);
+                await groupService.DeleteAsync(item);
+                return Json($"Successfully deleted: #{item.Id} - \"{item.GroupName}\"", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
         }

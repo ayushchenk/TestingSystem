@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using TestingSystem.BOL.Model;
 using TestingSystem.DAL.DbModel;
 
@@ -52,6 +53,31 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<SpecializationDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<SpecializationDTO>(role));
+        }
+
+        public Task<IEnumerable<SpecializationDTO>> GetAllAsync()
+        {
+            return Task.Run(() => GetAll());
+        }
+
+        public Task<IEnumerable<SpecializationDTO>> FindByAsync(Expression<Func<SpecializationDTO, bool>> predicate)
+        {
+            return Task.Run(() => FindBy(predicate));
+        }
+
+        public Task<SpecializationDTO> GetAsync(int id)
+        {
+            return Task.Run(() => Get(id));
+        }
+
+        public Task<SpecializationDTO> AddOrUpdateAsync(SpecializationDTO obj)
+        {
+            return Task.Run(() => AddOrUpdate(obj));
+        }
+
+        public Task<SpecializationDTO> DeleteAsync(SpecializationDTO obj)
+        {
+            return Task.Run(() => Delete(obj));
         }
     }
 }

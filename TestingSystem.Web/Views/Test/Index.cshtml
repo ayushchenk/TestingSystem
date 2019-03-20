@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Tests";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Tests</h2>
+
+<div id="partial-content">
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#partial-content").load("@Url.Action("PartialIndex", "Test")");
+
+            $("body").on("click", ".btn-delete", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "Test")",
+                    data: { id: $(this).attr("data-id") },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Test")");
+                        $("#div-info").empty();
+                        $("#div-info").append(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("$div-alert").empty();
+                        $("#div-alert").append("An error occured while processing request");
+                    }
+                });
+            });
+
+            $("body").on("click", ".btn-set-status", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SetStatus", "Test")",
+                    data: {
+                        id: $(this).attr("data-id"),
+                        status: $(this).attr("data-status")
+                    },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Test")");
+                        $("#div-info").empty();
+                        $("#div-info").append(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("$div-alert").empty();
+                        $("#div-alert").append("An error occured while processing request");
+                    }
+                });
+            });
+        });
+
+    </script>
+}
+

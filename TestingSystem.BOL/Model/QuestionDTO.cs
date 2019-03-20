@@ -14,11 +14,14 @@ namespace TestingSystem.BOL.Model
 
         public int TestId { get; set; }
 
-        [Required]
+        public int SpecializationId { set; get; }
+
+        [StringLength(128)]
+        public string SpecializationName { get; set; }
+
         [StringLength(128)]
         public string TestName { get; set; }
 
-        [Required]
         [StringLength(256)]
         public string ImagePath { get; set; }
 
