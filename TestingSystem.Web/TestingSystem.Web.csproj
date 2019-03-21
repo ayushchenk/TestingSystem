@@ -255,6 +255,8 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\AssignGroups.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\GroupDTO.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AssignGroupItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

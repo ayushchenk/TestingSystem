@@ -7,12 +7,12 @@
 
 <h2>AssignGroups</h2>
 
-@if (Model.Groups != null && Model?.Groups.Count != 0)
+@if (Model.Groups != null && Model.Groups.Count != 0)
 {
     using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        @Html.Hidden("model.TestId", Model.TestId)
+        @Html.HiddenFor(model => model.TestId)
         <table class="table">
             <tr>
                 <th>
@@ -21,24 +21,42 @@
                 <th>
                     @Html.DisplayName("Group Name")
                 </th>
+                <th>
+                    @Html.DisplayName("Date")
+                </th>
+                <th>
+                    @Html.DisplayName("Start time")
+                </th>
+                <th>
+                    @Html.DisplayName("Length")
+                </th>
                 <th></th>
             </tr>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @for (int i = 0; i < Model.Groups.Count; i++)
+            @for(int i = 0; i< Model.Groups.Count; i++)
             {
                 <tr>
                     <td>
-                        @Html.EditorFor(x => Model.Groups[i].Assign)
+                        @Html.CheckBoxFor(x => x.Groups[i].Assign, new { @class = "assign-chbox form-control", data_id = Model.Groups[i].Group.Id })
                     </td>
                     <td>
                         @Html.Label(Model.Groups[i].Group.GroupName)
                     </td>
                     <td>
-                        @Html.ActionLink("Users", "Users", new { id = Model.Groups[i].Group.Id })
+                        @Html.EditorFor(x => x.Groups[i].StartDate, new { @type = "date",  htmlAttributes = new { @class = $"to-hide start-date-{Model.Groups[i].Group.Id} form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.Groups[i].StartTime, new { htmlAttributes = new { @class = $"to-hide start-time-{Model.Groups[i].Group.Id} form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.Groups[i].Length, new { htmlAttributes = new { @class = $"to-hide length-{Model.Groups[i].Group.Id} form-control" } })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Users", "Users", "Group",  new { id = Model.Groups[i].Group.Id }, null)
                     </td>
                 </tr>
-                @Html.Hidden($"model.Groups[{i}].Group.Id", Model.Groups[i].Group.Id);
-                @Html.Hidden($"model.Groups[{i}].Group.GroupName", Model.Groups[i].Group.GroupName);
+                @Html.HiddenFor(x => x.Groups[i].Group.Id)
+                @Html.HiddenFor(x => x.Groups[i].Group.GroupName)
             }
 
         </table>
@@ -50,4 +68,24 @@ else
     <div class="alert-info">
         No groups
     </div>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".to-hide").hide();
+
+            $(".assign-chbox").change(function () {
+                if (this.checked) {
+                    $(".start-date-" + $(this).attr("data-id")).show();
+                    $(".start-time-" + $(this).attr("data-id")).show();
+                    $(".length-" + $(this).attr("data-id")).show();
+                } else {
+                    $(".start-date-" + $(this).attr("data-id")).hide();
+                    $(".start-time-" + $(this).attr("data-id")).hide();
+                    $(".length-" + $(this).attr("data-id")).hide();
+                }
+            });
+        });
+    </script>
 }
