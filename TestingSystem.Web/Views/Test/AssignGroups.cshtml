@@ -52,7 +52,8 @@
                         @Html.EditorFor(x => x.Groups[i].Length, new { htmlAttributes = new { @class = $"to-hide length-{Model.Groups[i].Group.Id} form-control" } })
                     </td>
                     <td>
-                        @Html.ActionLink("Users", "Users", "Group",  new { id = Model.Groups[i].Group.Id }, null)
+                        @Html.ActionLink("Users", "Users", "Group",  new { id = Model.Groups[i].Group.Id }, null) |
+                        @Html.ActionLink("Tests", "Tests", "Group", new { id = Model.Groups[i].Group.Id }, null)
                     </td>
                 </tr>
                 @Html.HiddenFor(x => x.Groups[i].Group.Id)

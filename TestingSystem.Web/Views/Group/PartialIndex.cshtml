@@ -10,6 +10,9 @@
         <th>
             @Html.DisplayNameFor(model => model.GroupName)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecializationName)
+        </th>
         <th></th>
     </tr>
 
@@ -20,8 +23,12 @@
                 @Html.DisplayFor(modelItem => item.GroupName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.SpecializationName)
+            </td>
+            <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Users", "Users", new { id = item.Id }) |
+                @Html.ActionLink("Tests", "Tests", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
             </td>
         </tr>

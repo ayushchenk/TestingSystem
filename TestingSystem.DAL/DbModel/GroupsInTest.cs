@@ -10,15 +10,16 @@ namespace TestingSystem.DAL.DbModel
     {
         public int Id { get; set; }
 
-        [Column(TypeName = "datetime2")]
-        public DateTime StartTime { get; set; }
-
-        [Column(TypeName = "datetime2")]
-        public DateTime EndTime { get; set; }
+        public TimeSpan StartTime { get; set; }
 
         public int GroupId { get; set; }
 
         public int TestId { get; set; }
+
+        public int Length { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime StartDate { get; set; }
 
         public virtual Group Group { get; set; }
 

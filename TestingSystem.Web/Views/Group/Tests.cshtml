@@ -1,0 +1,59 @@
+﻿@model TestingSystem.Web.Models.ViewModels.GroupTestsViewModel
+
+@{
+    ViewBag.Title = "Tests";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Group @Model.Group.GroupName Tests</h2>
+
+@if (Model.Tests.Count > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Start date", new { @class = "from-group" })
+        </th>
+        <th>
+            @Html.Label("Start time", new { @class="from-group"})
+        </th>
+        <th>
+            @Html.Label("Length", new { @class = "from-group" })
+        </th>
+        <th>
+            @Html.Label("Test name", new { @class = "from-group" })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Tests)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Length)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TestName)
+        </td>
+        <td>
+            @Html.ActionLink("Cancel", "Cancel", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+}
+else
+{
+    <div class="alert-info">
+        No tests for this group
+    </div>
+}
+@Html.ActionLink("Back to list", "Index")
+

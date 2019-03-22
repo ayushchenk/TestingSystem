@@ -21,13 +21,16 @@ namespace TestingSystem.DAL.DbModel
         [StringLength(128)]
         public string TestName { get; set; }
 
-        [Required]
-        public bool IsOpen { set; get; }
+        public bool IsOpen { get; set; }
+
+        public int SpecializationId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupsInTest> GroupsInTests { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
+
+        public virtual Specialization Specialization { get; set; }
     }
 }

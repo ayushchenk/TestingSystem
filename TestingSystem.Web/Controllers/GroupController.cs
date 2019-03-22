@@ -13,13 +13,17 @@ namespace TestingSystem.Web.Controllers
     [Authorize(Roles = "Admin")]
     public class GroupController : Controller
     {
-        private IEntityService<GroupDTO> groupService;
         private IEntityService<UserDTO> userService;
+        private IEntityService<GroupDTO> groupService;
+        private IEntityService<SpecializationDTO> specService;
+        private IEntityService<GroupsInTestDTO> groupInTestService;
 
-        public GroupController(IEntityService<GroupDTO> groupService, IEntityService<UserDTO> userService)
+        public GroupController(IEntityService<GroupDTO> groupService, IEntityService<UserDTO> userService, IEntityService<GroupsInTestDTO> groupInTestService, IEntityService<SpecializationDTO> specService)
         {
             this.groupService = groupService;
             this.userService = userService;
+            this.groupInTestService = groupInTestService;
+            this.specService = specService;
         }
 
         public ActionResult Index()
@@ -43,9 +47,22 @@ namespace TestingSystem.Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> Tests(int id = 0)
+        {
+            var group = await groupService.GetAsync(id);
+            if (group == null)
+                return RedirectToAction("Index");
+            var model = new GroupTestsViewModel();
+            model.Group = group;
+            foreach (var item in await groupInTestService.FindByAsync(git => git.GroupId == group.Id))
+                model.Tests.Add(item);
+            return View(model);
+        }
+
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await groupService.GetAsync(id) ?? new GroupDTO();
+            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
             return View(model);
         }
 
@@ -57,6 +74,7 @@ namespace TestingSystem.Web.Controllers
                 await groupService.AddOrUpdateAsync(group);
                 return RedirectToAction("Index");
             }
+            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", group.SpecializationId);
             return View(group);
         }
 
@@ -72,6 +90,15 @@ namespace TestingSystem.Web.Controllers
                 return Json($"Successfully deleted: #{item.Id} - \"{item.GroupName}\"", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> Cancel(int id = 0)
+        {
+            var item = await groupInTestService.GetAsync(id);
+            if (item == null)
+                return RedirectToAction("Index");
+            await groupInTestService.DeleteAsync(item);
+            return RedirectToAction("Tests", item.GroupId);
         }
     }
 }

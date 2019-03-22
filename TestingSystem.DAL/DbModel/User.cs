@@ -29,10 +29,6 @@ namespace TestingSystem.DAL.DbModel
 
         public int? GroupId { get; set; }
 
-        public int? SpecializationId { get; set; }
-
         public virtual Group Group { get; set; }
-
-        public virtual Specialization Specialization { get; set; }
     }
 }

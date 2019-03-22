@@ -21,6 +21,10 @@ namespace TestingSystem.DAL.DbModel
         [StringLength(64)]
         public string GroupName { get; set; }
 
+        public int SpecializationId { get; set; }
+
+        public virtual Specialization Specialization { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupsInTest> GroupsInTests { get; set; }
 

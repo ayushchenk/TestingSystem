@@ -26,7 +26,7 @@ namespace TestingSystem.BOL.Model
 
         public int? GroupId { get; set; }
 
-        public int? SpecializationId { get; set; }
+        public int SpecializationId { get; set; }
 
         [StringLength(64)]
         public string GroupName { get; set; }

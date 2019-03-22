@@ -15,11 +15,13 @@ namespace TestingSystem.Web.Controllers
     {
         private IEntityService<TestDTO> testService;
         private IEntityService<GroupDTO> groupService;
+        private IEntityService<SpecializationDTO> specService;
         private IEntityService<GroupsInTestDTO> groupsInTestService;
 
-        public TestController(IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupService, IEntityService<GroupsInTestDTO> groupsInTestService)
+        public TestController(IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupService, IEntityService<SpecializationDTO> specService, IEntityService<GroupsInTestDTO> groupsInTestService)
         {
             this.testService = testService;
+            this.specService = specService;
             this.groupService = groupService;
             this.groupsInTestService = groupsInTestService;
         }
@@ -37,6 +39,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await testService.GetAsync(id) ?? new TestDTO();
+            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
             return View(model);
         }
 
@@ -48,6 +51,7 @@ namespace TestingSystem.Web.Controllers
                 await testService.AddOrUpdateAsync(model);
                 return RedirectToAction("Index");
             }
+            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
             return View(model);
         }
 
@@ -56,7 +60,7 @@ namespace TestingSystem.Web.Controllers
             var item = await testService.GetAsync(id);
             if (item != null)
             {
-                var groups = await groupsInTestService.FindByAsync(git => git.TestId == item.Id && git.EndTime > DateTime.Now);
+                var groups = await groupsInTestService.FindByAsync(git => git.TestId == item.Id);
                 if (groups.Count() != 0)
                     return Json($"This test is currently in use: Id = {item.Id} - TestName = {item.TestName}", JsonRequestBehavior.AllowGet);
                 await testService.DeleteAsync(item);
@@ -70,7 +74,7 @@ namespace TestingSystem.Web.Controllers
             var item = await testService.GetAsync(id);
             if (item != null)
             {
-                if(item.IsOpen == status)
+                if (item.IsOpen == status)
                     return Json($"Item: #{item.Id} - \"{item.TestName}\" already has such status", JsonRequestBehavior.AllowGet);
                 item.IsOpen = status;
                 await testService.AddOrUpdateAsync(item);
@@ -84,10 +88,11 @@ namespace TestingSystem.Web.Controllers
             var item = await testService.GetAsync(id);
             if (item != null)
             {
+                var groupIds = groupsInTestService.GetAll().Select(git => git.GroupId);
                 AssignGroupsViewModel model = new AssignGroupsViewModel();
                 model.TestId = item.Id;
-                foreach (var group in groupService.GetAll())
-                    model.Groups.Add(new AssignGroupItem() { Group = group});
+                foreach (var group in await groupService.FindByAsync(group => !groupIds.Contains(group.Id)))
+                    model.Groups.Add(new AssignGroupItem() { Group = group });
                 return View(model);
             }
             return RedirectToAction("Index");
@@ -96,18 +101,21 @@ namespace TestingSystem.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> AssignGroups(AssignGroupsViewModel model)
         {
-            if(ModelState.IsValid)
+            //if(ModelState.IsValid)
             {
                 model.Groups = model.Groups.Where(item => item.Assign == true).ToList();
                 foreach (var item in model.Groups)
                     await groupsInTestService.AddOrUpdateAsync(new GroupsInTestDTO()
                     {
                         GroupId = item.Group.Id,
-                        TestId = model.TestId
+                        TestId = model.TestId,
+                        StartDate = item.StartDate,
+                        StartTime = item.StartTime,
+                        Length = item.Length
                     });
                 return RedirectToAction("Index");
             }
-            return View(model);
+            //return View(model);
         }
     }
 }

@@ -12,21 +12,21 @@ namespace TestingSystem.BOL.Model
     {
         public int Id { get; set; }
 
-        [Column(TypeName = "datetime2")]
-        public DateTime StartTime { get; set; }
+        [Column(TypeName = "time")]
+        public TimeSpan StartTime { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime EndTime { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public int Length { set; get; }
 
         public int GroupId { get; set; }
 
         public int TestId { get; set; }
 
-        [Required]
         [StringLength(64)]
         public string GroupName { get; set; }
 
-        [Required]
         [StringLength(128)]
         public string TestName { get; set; }
     }

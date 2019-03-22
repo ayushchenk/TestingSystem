@@ -48,19 +48,19 @@ namespace TestingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult PartialIndex()
+        public async Task<ActionResult> PartialIndex()
         {
-            return PartialView(userService.GetAll());
+            var users = userService.GetAll().ToList();
+            return PartialView(await userService.GetAllAsync());
         }
 
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = new EditUserViewModel();
-            model.User = userService.Get(id) ?? new UserDTO();
+            model.User = await userService.GetAsync(id) ?? new UserDTO();
             AppUser appUser = await UserManager.FindByEmailAsync(model.User.Email);
             ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name", UserManager.GetRoles(appUser.Id).First());
-            ViewBag.Group = new SelectList(groupService.GetAll(), "Id", "GroupName", model.User.GroupId);
-            ViewBag.Specialization = new SelectList(specService.GetAll(), "Id", "SpecializationName", model.User.SpecializationId);
+            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", model.User.GroupId);
             return View(model);
         }
 
@@ -69,7 +69,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserDTO oldUser = userService.Get(model.User.Id);
+                UserDTO oldUser = await userService.GetAsync(model.User.Id);
                 if (oldUser != null)
                 {
                     AppUser appUser = await UserManager.FindByEmailAsync(oldUser.Email);
@@ -85,26 +85,23 @@ namespace TestingSystem.Web.Controllers
                         oldUser.LastName = model.User.LastName;
                         oldUser.Patronymic = model.User.Patronymic;
                         oldUser.GroupId = model.Group;
-                        oldUser.SpecializationId = model.Specialization;
                         await UserManager.UpdateAsync(appUser);
-                        userService.AddOrUpdate(oldUser);
+                        await userService.AddOrUpdateAsync(oldUser);
                         return RedirectToAction("Index");
                     }
                 }
             }
             ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.Specialization = new SelectList(specService.GetAll(), "SpecializationName", "SpecializationName");
-            ViewBag.Group = new SelectList(groupService.GetAll(), "GroupName", "GroupName");
+            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "GroupName", "GroupName");
             return View(model);
         }
 
-        public ActionResult Create(int groupId = 0, int specId = 0)
+        public async Task<ActionResult> Create(int groupId = 0, int specId = 0)
         {
             var model = new EditUserViewModel();
             model.User = new UserDTO();
             ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.Group = new SelectList(groupService.GetAll(), "Id", "GroupName", groupId);
-            ViewBag.Specialization = new SelectList(specService.GetAll(), "Id", "SpecializationName", specId);
+            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", groupId);
             return View("Edit", model);
         }
 
@@ -120,8 +117,7 @@ namespace TestingSystem.Web.Controllers
                 {
                     await UserManager.AddToRoleAsync(user.Id, model.Role);
                     model.User.GroupId = model.Group;
-                    model.User.SpecializationId = model.Specialization;
-                    userService.AddOrUpdate(model.User);
+                    await userService.AddOrUpdateAsync(model.User);
                     MailService sender = new MailService();
                     sender.SendComplexMessage(model.User.Email, "TestingSystem", password);
                     return RedirectToAction("Index", "User");
@@ -135,14 +131,13 @@ namespace TestingSystem.Web.Controllers
                 }
             }
             ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.Specialization = new SelectList(specService.GetAll(), "SpecializationName", "SpecializationName");
-            ViewBag.Group = new SelectList(groupService.GetAll(), "GroupName", "GroupName");
+            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "GroupName", "GroupName");
             return View(model);
         }
 
         public async Task<ActionResult> Delete(int id = 0)
         {
-            UserDTO user = userService.Get(id);
+            UserDTO user = await userService.GetAsync(id);
             if (user != null)
             {
                 AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
@@ -151,7 +146,7 @@ namespace TestingSystem.Web.Controllers
                     var res = await UserManager.DeleteAsync(appUser);
                     if (res.Succeeded)
                     {
-                        userService.Delete(user);
+                        await userService.DeleteAsync(user);
                         return Json($"Successfully deleted: #{user.Id} - \"{user.Email}\"", JsonRequestBehavior.AllowGet);
                     }
                 }

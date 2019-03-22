@@ -9,5 +9,11 @@ namespace TestingSystem.BOL.Model
         [Required]
         [StringLength(64)]
         public string GroupName { get; set; }
+
+        [Required]
+        public int SpecializationId { set; get; }
+
+        [StringLength(128)]
+        public string SpecializationName { get; set; }
     }
 }

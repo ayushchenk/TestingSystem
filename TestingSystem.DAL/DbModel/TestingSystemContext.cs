@@ -41,8 +41,28 @@ namespace TestingSystem.DAL.DbModel
                 .WithRequired(e => e.Question)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Specialization>()
+                .HasMany(e => e.Groups)
+                .WithRequired(e => e.Specialization)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Specialization>()
+                .HasMany(e => e.Questions)
+                .WithRequired(e => e.Specialization)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Specialization>()
+                .HasMany(e => e.Tests)
+                .WithRequired(e => e.Specialization)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Test>()
                 .HasMany(e => e.GroupsInTests)
+                .WithRequired(e => e.Test)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Test>()
+                .HasMany(e => e.Questions)
                 .WithRequired(e => e.Test)
                 .WillCascadeOnDelete(false);
         }

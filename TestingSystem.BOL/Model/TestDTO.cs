@@ -13,5 +13,11 @@ namespace TestingSystem.BOL.Model
 
         [Required]
         public bool IsOpen { set; get; }
+
+        [Required]
+        public int SpecializationId { set; get; }
+
+        [StringLength(128)]
+        public string SpecializationName { get; set; }
     }
 }

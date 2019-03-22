@@ -12,6 +12,9 @@
             @Html.DisplayNameFor(model => model.TestName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.SpecializationName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.IsOpen)
         </th>
         <th></th>
@@ -23,6 +26,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.TestName)
         </td>
+        <th>
+            @Html.DisplayFor(modelItem => item.SpecializationName)
+        </th>
         <td>
             @Html.DisplayFor(modelItem => item.IsOpen)
         </td>
@@ -30,7 +36,7 @@
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Open", "SetStatus", new { id = item.Id },  new { @class = "btn-set-status", data_id = item.Id, data_status = true }) |
             @Html.ActionLink("Close", "SetStatus", new { id = item.Id }, new { @class = "btn-set-status", data_id = item.Id, data_status = false }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id } , new { @class = "btn-delete", data_id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id } , new { @class = "btn-delete", data_id = item.Id }) 
             @if (item.IsOpen)
             {
                 @Html.ActionLink("Assign groups", "AssignGroups", new { id = item.Id })
