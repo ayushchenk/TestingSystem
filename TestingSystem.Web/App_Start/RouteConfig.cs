@@ -15,8 +15,8 @@ namespace TestingSystem.Web
 
             routes.MapRoute(
                 name: "UserCreate",
-                url: "User/Create/{groupId}/{specId}",
-                defaults: new { controller = "User", action = "Create", groupId = 0 , specId = 0}
+                url: "User/Create/{groupId}",
+                defaults: new { controller = "User", action = "Create", groupId = 0}
             );
 
             routes.MapRoute(

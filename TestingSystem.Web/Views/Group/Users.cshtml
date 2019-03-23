@@ -7,7 +7,7 @@
 
 <h2>Group @Model.Group.GroupName Users</h2>
 <hr />
-@Html.ActionLink("Create new", "Create", "User", new {groupId = Model.Group.Id, specId = 0}, new { })
+@Html.ActionLink("Create new", "Create", "User", new {groupId = Model.Group.Id}, new { })
 
 @if (Model.Users != null && Model.Users.Count() != 0)
 {
@@ -74,3 +74,21 @@ else
     @Html.ActionLink("Edit group", "Edit", new { id = Model.Group.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("body").on("click", ".btn-delete", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "User")",
+                    data: { id: $(this).attr("data-id") },
+                success: function (data) {
+                    window.location.reload(true);
+                }
+            });
+        });
+        });
+    </script>    
+}

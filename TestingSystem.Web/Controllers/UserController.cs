@@ -96,7 +96,7 @@ namespace TestingSystem.Web.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> Create(int groupId = 0, int specId = 0)
+        public async Task<ActionResult> Create(int groupId = 0)
         {
             var model = new EditUserViewModel();
             model.User = new UserDTO();
