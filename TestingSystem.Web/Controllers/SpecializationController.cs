@@ -27,8 +27,10 @@ namespace TestingSystem.Web.Controllers
             return View();
         }
 
-        public async Task<PartialViewResult> PartialIndex()
+        public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
+            if (!String.IsNullOrWhiteSpace(filter))
+                return PartialView(await specService.FindByAsync(spec=> spec.SpecializationName.ToLower().Contains(filter.ToLower())));
             return PartialView(await specService.GetAllAsync());
         }
 

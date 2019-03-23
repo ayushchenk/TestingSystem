@@ -28,8 +28,10 @@ namespace TestingSystem.Web.Controllers
             return View();
         }
 
-        public PartialViewResult PartialIndex()
+        public PartialViewResult PartialIndex(string filter = null)
         {
+            if (!String.IsNullOrWhiteSpace(filter))
+                return PartialView(RoleManager.Roles.Where(role => role.Name.ToLower().Contains(filter.ToLower())));
             return PartialView(RoleManager.Roles);
         }
 

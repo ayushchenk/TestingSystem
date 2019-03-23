@@ -48,9 +48,14 @@ namespace TestingSystem.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> PartialIndex()
+        public async Task<ActionResult> PartialIndex(string filter = null)
         {
-            var users = userService.GetAll().ToList();
+            if(!string.IsNullOrWhiteSpace(filter))
+                return PartialView(await userService.FindByAsync(user => user.Email.ToLower().Contains(filter.ToLower()) 
+                                                                  || user.Login.ToLower().Contains(filter.ToLower())
+                                                                  || user.LastName.ToLower().Contains(filter.ToLower())
+                                                                  || user.FirstName.ToLower().Contains(filter.ToLower())
+                                                                  || user.Patronymic.ToLower().Contains(filter.ToLower())));
             return PartialView(await userService.GetAllAsync());
         }
 
@@ -119,7 +124,7 @@ namespace TestingSystem.Web.Controllers
                     model.User.GroupId = model.Group;
                     await userService.AddOrUpdateAsync(model.User);
                     MailService sender = new MailService();
-                    sender.SendComplexMessage(model.User.Email, "TestingSystem", password);
+                    await sender.SendComplexMessageAsync(model.User.Email, "TestingSystem", password);
                     return RedirectToAction("Index", "User");
                 }
                 else

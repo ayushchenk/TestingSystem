@@ -5,7 +5,7 @@
 }
 
 <h2>Users</h2>
-
+<input type="text" id="filter-input" class="form-control" />
 <div id="partial-content">
 </div>
 
@@ -30,6 +30,11 @@
                         $("#div-alert").append("An error occured while processing request");
                     }
                 });
+            });
+
+            $("body").on("keypress", "#filter-input", function (e) {
+                if (e.which == 13)
+                    $("#partial-content").load("@Url.Action("PartialIndex", "User")", { filter : $(this).val()});
             });
         });
 

@@ -31,8 +31,11 @@ namespace TestingSystem.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> PartialIndex()
+        public async Task<ActionResult> PartialIndex(string filter = null)
         {
+            if (!String.IsNullOrWhiteSpace(filter))
+                return PartialView(await groupService.FindByAsync(group => group.GroupName.ToLower().Contains(filter.ToLower())
+                                                                        || group.SpecializationName.ToLower().Contains(filter.ToLower())));
             return PartialView(await groupService.GetAllAsync());
         }
 

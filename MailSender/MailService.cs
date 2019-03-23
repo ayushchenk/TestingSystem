@@ -48,5 +48,10 @@ namespace MailSender
             }
             catch { }
         }
+
+        public Task SendComplexMessageAsync(string To, string Subject, string Body, params string[] Path)
+        {
+            return Task.Run(() => SendComplexMessage(To, Subject, Body, Path));
+        }
     }
 }
