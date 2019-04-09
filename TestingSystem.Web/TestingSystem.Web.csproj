@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props')" />
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -26,6 +27,8 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,9 +76,8 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -195,14 +197,433 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Design Storage\loginForm\CSS\loginForm.css" />
+    <Content Include="Design Storage\loginForm\JS\loginForm.js" />
+    <Content Include="Design Storage\WebLayout\about.html" />
+    <Content Include="Design Storage\WebLayout\blog-home.html" />
+    <Content Include="Design Storage\WebLayout\blog-single.html" />
+    <Content Include="Design Storage\WebLayout\contacts.html" />
+    <Content Include="Design Storage\WebLayout\course-details.html" />
+    <Content Include="Design Storage\WebLayout\courses.html" />
+    <Content Include="Design Storage\WebLayout\css\availability-calendar.css" />
+    <Content Include="Design Storage\WebLayout\css\bootstrap.css" />
+    <Content Include="Design Storage\WebLayout\css\font-awesome.min.css" />
+    <Content Include="Design Storage\WebLayout\css\hexagons.min.css" />
+    <Content Include="Design Storage\WebLayout\css\ion.rangeSlider.css" />
+    <Content Include="Design Storage\WebLayout\css\ion.rangeSlider.skinFlat.css" />
+    <Content Include="Design Storage\WebLayout\css\jquerysctipttop.css" />
+    <Content Include="Design Storage\WebLayout\css\linearicons.css" />
+    <Content Include="Design Storage\WebLayout\css\magnific-popup.css" />
+    <Content Include="Design Storage\WebLayout\css\main.css" />
+    <Content Include="Design Storage\WebLayout\css\nice-select.css" />
+    <Content Include="Design Storage\WebLayout\css\owl.carousel.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\css\font-awesome.min.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\css\main.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\css\normalize.min.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\fonts\fontawesome-webfont.svg" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\img\logo.png" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\index.html" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\js\custom.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\js\jquery-1.11.0.min.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\js\jquery.nav.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shAutoloader.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushAppleScript.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushAS3.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushBash.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushColdFusion.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushCpp.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushCSharp.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushCss.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushDelphi.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushDiff.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushErlang.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushGroovy.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushJava.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushJavaFX.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushJScript.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushPerl.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushPhp.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushPlain.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushPowerShell.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushPython.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushRuby.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushSass.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushScala.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushSql.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushVb.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shBrushXml.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\scripts\shLegacy.js" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCore.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCoreDefault.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCoreDjango.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCoreEclipse.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCoreEmacs.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCoreFadeToGrey.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCoreMDUltra.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCoreMidnight.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shCoreRDark.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shThemeDefault.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shThemeDjango.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shThemeEclipse.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shThemeEmacs.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shThemeFadeToGrey.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shThemeMDUltra.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shThemeMidnight.css" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\syntax-highlighter\styles\shThemeRDark.css" />
+    <Content Include="Design Storage\WebLayout\elements.html" />
+    <Content Include="Design Storage\WebLayout\fonts\fontawesome-webfont.svg" />
+    <Content Include="Design Storage\WebLayout\fonts\Linearicons-Free.svg" />
+    <Content Include="Design Storage\WebLayout\img\about-img.png" />
+    <Content Include="Design Storage\WebLayout\img\banner-bg.png" />
+    <Content Include="Design Storage\WebLayout\img\blog-post\b1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog-post\b2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog-post\b3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\ads-banner.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\blog-home-banner.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\c1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\c2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\c3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\c4.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\c5.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\c6.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\cat-widget1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\cat-widget2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\cat-widget3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\feature-img1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\feature-img2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\feature-img3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\feature-img4.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\feature-img5.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\next.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\post-img1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\post-img2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\pp1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\pp2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\pp3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\pp4.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\prev.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\s-img.jpg" />
+    <Content Include="Design Storage\WebLayout\img\blog\user-info.png" />
+    <Content Include="Design Storage\WebLayout\img\courses\course-details.jpg" />
+    <Content Include="Design Storage\WebLayout\img\courses\trainer1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\d.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\disabled-check.png" />
+    <Content Include="Design Storage\WebLayout\img\elements\disabled-radio.png" />
+    <Content Include="Design Storage\WebLayout\img\elements\f1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\f2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\f3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\f4.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\f5.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\f6.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\f7.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\f8.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\g1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\g2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\g3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\g4.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\g5.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\g6.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\g7.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\g8.jpg" />
+    <Content Include="Design Storage\WebLayout\img\elements\primary-check.png" />
+    <Content Include="Design Storage\WebLayout\img\elements\primary-radio.png" />
+    <Content Include="Design Storage\WebLayout\img\elements\success-check.png" />
+    <Content Include="Design Storage\WebLayout\img\elements\success-radio.png" />
+    <Content Include="Design Storage\WebLayout\img\fav.png" />
+    <Content Include="Design Storage\WebLayout\img\footer-bg.png" />
+    <Content Include="Design Storage\WebLayout\img\header-img.png" />
+    <Content Include="Design Storage\WebLayout\img\home-banner-bg.png" />
+    <Content Include="Design Storage\WebLayout\img\i1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\i2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\i3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\i4.jpg" />
+    <Content Include="Design Storage\WebLayout\img\i5.jpg" />
+    <Content Include="Design Storage\WebLayout\img\i6.jpg" />
+    <Content Include="Design Storage\WebLayout\img\i7.jpg" />
+    <Content Include="Design Storage\WebLayout\img\i8.jpg" />
+    <Content Include="Design Storage\WebLayout\img\logo.png" />
+    <Content Include="Design Storage\WebLayout\img\next.png" />
+    <Content Include="Design Storage\WebLayout\img\play-btn.png" />
+    <Content Include="Design Storage\WebLayout\img\popular-course\p1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\popular-course\p2.jpg" />
+    <Content Include="Design Storage\WebLayout\img\popular-course\p3.jpg" />
+    <Content Include="Design Storage\WebLayout\img\popular-course\p4.jpg" />
+    <Content Include="Design Storage\WebLayout\img\prev.png" />
+    <Content Include="Design Storage\WebLayout\img\quote.png" />
+    <Content Include="Design Storage\WebLayout\img\registration-bg.png" />
+    <Content Include="Design Storage\WebLayout\img\testimonial\t1.jpg" />
+    <Content Include="Design Storage\WebLayout\img\video-area-bg.png" />
+    <Content Include="Design Storage\WebLayout\img\video-img.jpg" />
+    <Content Include="Design Storage\WebLayout\index.html" />
+    <Content Include="Design Storage\WebLayout\js\hexagons.min.js" />
+    <Content Include="Design Storage\WebLayout\js\ion.rangeSlider.js" />
+    <Content Include="Design Storage\WebLayout\js\jquery.ajaxchimp.min.js" />
+    <Content Include="Design Storage\WebLayout\js\jquery.counterup.min.js" />
+    <Content Include="Design Storage\WebLayout\js\jquery.magnific-popup.min.js" />
+    <Content Include="Design Storage\WebLayout\js\jquery.nice-select.min.js" />
+    <Content Include="Design Storage\WebLayout\js\jquery.sticky.js" />
+    <Content Include="Design Storage\WebLayout\js\main.js" />
+    <Content Include="Design Storage\WebLayout\js\owl.carousel.min.js" />
+    <Content Include="Design Storage\WebLayout\js\parallax.min.js" />
+    <Content Include="Design Storage\WebLayout\js\vendor\bootstrap.min.js" />
+    <Content Include="Design Storage\WebLayout\js\vendor\jquery-2.2.4.min.js" />
+    <Content Include="Design Storage\WebLayout\js\waypoints.min.js" />
+    <Content Include="Design Storage\WebLayout\mail.php" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._about.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._blog-home.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._blog-single.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._contacts.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._course-details.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._courses.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._elements.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._index.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._mail.php" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._availability-calendar.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._bootstrap.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._font-awesome.min.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._hexagons.min.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._ion.rangeSlider.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._ion.rangeSlider.skinFlat.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._jquerysctipttop.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._linearicons.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._magnific-popup.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._main.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._nice-select.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._owl.carousel.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\._index.html" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\css\._font-awesome.min.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\css\._main.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\css\._normalize.min.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\fonts\._fontawesome-webfont.svg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\img\._logo.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\js\._custom.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\js\._jquery-1.11.0.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\js\._jquery.nav.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shAutoloader.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushAppleScript.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushAS3.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushBash.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushColdFusion.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushCpp.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushCSharp.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushCss.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushDelphi.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushDiff.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushErlang.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushGroovy.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushJava.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushJavaFX.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushJScript.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushPerl.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushPhp.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushPlain.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushPowerShell.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushPython.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushRuby.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushSass.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushScala.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushSql.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushVb.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shBrushXml.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\scripts\._shLegacy.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCore.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCoreDefault.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCoreDjango.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCoreEclipse.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCoreEmacs.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCoreFadeToGrey.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCoreMDUltra.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCoreMidnight.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shCoreRDark.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shThemeDefault.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shThemeDjango.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shThemeEclipse.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shThemeEmacs.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shThemeFadeToGrey.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shThemeMDUltra.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shThemeMidnight.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\syntax-highlighter\styles\._shThemeRDark.css" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._fontawesome-webfont.svg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._Linearicons-Free.svg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._about-img.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._banner-bg.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._fav.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._footer-bg.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._header-img.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._home-banner-bg.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._i1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._i2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._i3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._i4.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._i5.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._i6.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._i7.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._i8.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._logo.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._next.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._play-btn.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._prev.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._quote.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._registration-bg.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._video-area-bg.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\._video-img.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog-post\._b1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog-post\._b2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog-post\._b3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._ads-banner.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._blog-home-banner.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._c1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._c2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._c3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._c4.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._c5.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._c6.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._cat-widget1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._cat-widget2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._cat-widget3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._feature-img1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._feature-img2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._feature-img3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._feature-img4.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._feature-img5.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._next.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._post-img1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._post-img2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._pp1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._pp2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._pp3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._pp4.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._prev.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._s-img.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\blog\._user-info.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\courses\._course-details.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\courses\._trainer1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._d.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._disabled-check.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._disabled-radio.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._f1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._f2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._f3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._f4.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._f5.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._f6.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._f7.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._f8.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._g1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._g2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._g3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._g4.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._g5.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._g6.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._g7.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._g8.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._primary-check.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._primary-radio.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._success-check.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\elements\._success-radio.png" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\popular-course\._p1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\popular-course\._p2.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\popular-course\._p3.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\popular-course\._p4.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\img\testimonial\._t1.jpg" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._hexagons.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._ion.rangeSlider.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._jquery.ajaxchimp.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._jquery.counterup.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._jquery.magnific-popup.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._jquery.nice-select.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._jquery.sticky.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._main.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._owl.carousel.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._parallax.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\._waypoints.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\vendor\._bootstrap.min.js" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\js\vendor\._jquery-2.2.4.min.js" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Design Storage\WebLayout\.gitignore" />
+    <Content Include="Design Storage\WebLayout\css\main.css.map" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\fonts\fontawesome-webfont.eot" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\fonts\fontawesome-webfont.woff" />
+    <Content Include="Design Storage\WebLayout\eclipse education-doc\fonts\FontAwesome.otf" />
+    <Content Include="Design Storage\WebLayout\fonts\fontawesome-webfont.eot" />
+    <Content Include="Design Storage\WebLayout\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Design Storage\WebLayout\fonts\fontawesome-webfont.woff" />
+    <Content Include="Design Storage\WebLayout\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Design Storage\WebLayout\fonts\FontAwesome.otf" />
+    <Content Include="Design Storage\WebLayout\fonts\Linearicons-Free.eot" />
+    <Content Include="Design Storage\WebLayout\fonts\Linearicons-Free.ttf" />
+    <Content Include="Design Storage\WebLayout\fonts\Linearicons-Free.woff" />
+    <Content Include="Design Storage\WebLayout\fonts\Linearicons-Free.woff2" />
+    <Content Include="Design Storage\WebLayout\scss\main.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_banner.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_blog.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_elements.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_flexbox.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_footer.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_header.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_home.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_mixins.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_predefined.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_reset.scss" />
+    <Content Include="Design Storage\WebLayout\scss\theme\_variables.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\._.gitignore" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\css\._main.css.map" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\fonts\._fontawesome-webfont.eot" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\fonts\._fontawesome-webfont.ttf" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\fonts\._fontawesome-webfont.woff" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\eclipse education-doc\fonts\._FontAwesome.otf" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._fontawesome-webfont.eot" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._fontawesome-webfont.ttf" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._fontawesome-webfont.woff" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._fontawesome-webfont.woff2" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._FontAwesome.otf" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._Linearicons-Free.eot" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._Linearicons-Free.ttf" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._Linearicons-Free.woff" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\fonts\._Linearicons-Free.woff2" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\._main.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__banner.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__blog.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__elements.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__flexbox.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__footer.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__header.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__home.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__mixins.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__predefined.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__reset.scss" />
+    <Content Include="Design Storage\WebLayout\__MACOSX\scss\theme\.__variables.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -216,8 +637,16 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -232,7 +661,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -259,15 +687,22 @@
     <Content Include="Views\Shared\EditorTemplates\GroupDTO.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AssignGroupItem.cshtml" />
     <Content Include="Views\Group\Tests.cshtml" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\GroupsInTest\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
@@ -285,11 +720,18 @@
       <Name>TestingSystem.BOL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
@@ -317,9 +759,11 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.10.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
