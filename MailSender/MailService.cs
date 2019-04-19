@@ -51,6 +51,11 @@ namespace MailSender
 
         public Task SendComplexMessageAsync(string To, string Subject, string Body, params string[] Path)
         {
+            if (Subject == null)
+            {
+                throw new ArgumentNullException(nameof(Subject));
+            }
+
             return Task.Run(() => SendComplexMessage(To, Subject, Body, Path));
         }
     }

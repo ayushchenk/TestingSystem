@@ -13,18 +13,8 @@ namespace TestingSystem.Web.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        public ActionResult About() => View();
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        public ActionResult Contact() => View();
     }
 }
