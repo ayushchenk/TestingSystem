@@ -56,7 +56,6 @@
     <Compile Include="Repositories\QuestionAnswerRepository.cs" />
     <Compile Include="Repositories\QuestionImageRepository.cs" />
     <Compile Include="Repositories\QuestionRepository.cs" />
-    <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\SpecializationRepository.cs" />
     <Compile Include="Repositories\TestRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />

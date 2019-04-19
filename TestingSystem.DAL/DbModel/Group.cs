@@ -6,6 +6,7 @@ namespace TestingSystem.DAL.DbModel
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("public.groups")]
     public partial class Group
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -15,12 +16,18 @@ namespace TestingSystem.DAL.DbModel
             Users = new HashSet<User>();
         }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("id")]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(64)]
+        [MaxLength(10)]
+        [Column("group_name")]
         public string GroupName { get; set; }
 
+        [Required]
+        [Column("specialization_id")]
         public int SpecializationId { get; set; }
 
         public virtual Specialization Specialization { get; set; }

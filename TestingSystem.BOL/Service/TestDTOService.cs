@@ -53,7 +53,7 @@ namespace TestingSystem.BOL.Service
 
         public IEnumerable<TestDTO> GetAll()
         {
-            return repository.GetAll().Select(role => mapper.Map<TestDTO>(role));
+            return repository.GetAll().ToList().Select(test => mapper.Map<TestDTO>(test));
         }
 
         public Task<IEnumerable<TestDTO>> GetAllAsync()

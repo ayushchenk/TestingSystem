@@ -7,7 +7,7 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [StringLength(256)]
+        [MaxLength(50)]
         public string AnswerString { get; set; }
 
         public bool IsCorrect { get; set; }
@@ -17,11 +17,11 @@ namespace TestingSystem.BOL.Model
         public int TestId { set; get; }
 
         [Required]
-        [StringLength(256)]
+        [MaxLength(500)]
         public string QuestionString { get; set; }
 
         [Required]
-        [StringLength(128)]
+        [MaxLength(20)]
         public string TestName { get; set; }
     }
 }

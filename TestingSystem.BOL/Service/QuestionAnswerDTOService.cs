@@ -23,8 +23,7 @@ namespace TestingSystem.BOL.Service
             {
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<QuestionAnswer, QuestionAnswerDTO>()
-                    .ForMember("QuestionString", opt => opt.MapFrom(answer => answer.Question.QuestionString))
-                    .ForMember("TestName", opt => opt.MapFrom(answer => answer.Question.Test.TestName));
+                    .ForMember("QuestionString", opt => opt.MapFrom(answer => answer.Question.QuestionString));
                 cfg.CreateMap<QuestionAnswerDTO, QuestionAnswer>();
             }).CreateMapper();
         }
@@ -54,7 +53,7 @@ namespace TestingSystem.BOL.Service
 
         public IEnumerable<QuestionAnswerDTO> GetAll()
         {
-            return repository.GetAll().Select(role => mapper.Map<QuestionAnswerDTO>(role));
+            return repository.GetAll().ToList().Select(role => mapper.Map<QuestionAnswerDTO>(role));
         }
 
         public Task<IEnumerable<QuestionAnswerDTO>> GetAllAsync()

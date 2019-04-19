@@ -6,6 +6,7 @@ namespace TestingSystem.DAL.DbModel
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("public.question_images")]
     public partial class QuestionImage
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -14,13 +15,18 @@ namespace TestingSystem.DAL.DbModel
             Questions = new HashSet<Question>();
         }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("id")]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(256)]
+        [MaxLength(200)]
+        [Column("image_path")]
         public string ImagePath { get; set; }
 
-        [StringLength(32)]
+        [MaxLength(15)]
+        [Column("mime_type")]
         public string MimeType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

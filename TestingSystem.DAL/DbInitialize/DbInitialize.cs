@@ -12,11 +12,6 @@ namespace TestingSystem.DAL.DbInitialize
     {
         protected override void Seed(TestingSystemContext context)
         {
-            if(!context.Roles.Any( role => role.RoleName == "Admin"))
-            {
-                context.Roles.Add(new DbModel.Role { RoleName = "Admin"});
-                context.SaveChanges();
-            }
             base.Seed(context);
         }
     }

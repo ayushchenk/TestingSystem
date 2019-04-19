@@ -8,7 +8,7 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [StringLength(128)]
+        [MaxLength(20)]
         public string TestName { get; set; }
 
         [Required]
@@ -17,7 +17,7 @@ namespace TestingSystem.BOL.Model
         [Required]
         public int SpecializationId { set; get; }
 
-        [StringLength(128)]
+        [MaxLength(40)]
         public string SpecializationName { get; set; }
     }
 }

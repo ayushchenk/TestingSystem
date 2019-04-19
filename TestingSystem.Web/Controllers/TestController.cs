@@ -71,6 +71,7 @@ namespace TestingSystem.Web.Controllers
             return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public async Task<JsonResult> SetStatus(bool status, int id = 0)
         {
             var item = await testService.GetAsync(id);

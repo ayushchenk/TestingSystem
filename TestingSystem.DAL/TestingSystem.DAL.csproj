@@ -39,6 +39,18 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.2.2.7\lib\net45\Mono.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Npgsql, Version=2.2.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.2.2.7\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Npgsql.EntityFramework, Version=2.2.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.EntityFramework.2.2.7\lib\net45\Npgsql.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -57,7 +69,6 @@
     <Compile Include="DbExtensions\QuestionAnswerExt.cs" />
     <Compile Include="DbExtensions\QuestionExt.cs" />
     <Compile Include="DbExtensions\QuestionImageExt.cs" />
-    <Compile Include="DbExtensions\RoleExt.cs" />
     <Compile Include="DbExtensions\SpecializationExt.cs" />
     <Compile Include="DbExtensions\TestExt.cs" />
     <Compile Include="DbExtensions\UserExt.cs" />
@@ -69,7 +80,6 @@
     <Compile Include="DbModel\Question.cs" />
     <Compile Include="DbModel\QuestionAnswer.cs" />
     <Compile Include="DbModel\QuestionImage.cs" />
-    <Compile Include="DbModel\Role.cs" />
     <Compile Include="DbModel\Specialization.cs" />
     <Compile Include="DbModel\Test.cs" />
     <Compile Include="DbModel\User.cs" />

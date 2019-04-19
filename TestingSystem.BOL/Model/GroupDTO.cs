@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestingSystem.BOL.Model
 {
@@ -7,13 +8,12 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [StringLength(64)]
+        [MaxLength(10)]
         public string GroupName { get; set; }
 
         [Required]
-        public int SpecializationId { set; get; }
+        public int SpecializationId { get; set; }
 
-        [StringLength(128)]
-        public string SpecializationName { get; set; }
+        public string SpecializationName { set; get; }
     }
 }

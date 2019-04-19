@@ -24,7 +24,6 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<QuestionAnswerRepository>().As<IGenericRepository<QuestionAnswer>>().InstancePerRequest();
             builder.RegisterType<QuestionRepository>().As<IGenericRepository<Question>>().InstancePerRequest();
             builder.RegisterType<QuestionImageRepository>().As<IGenericRepository<QuestionImage>>().InstancePerRequest();
-            builder.RegisterType<RoleRepository>().As<IGenericRepository<Role>>().InstancePerRequest();
             builder.RegisterType<SpecializationRepository>().As<IGenericRepository<Specialization>>().InstancePerRequest();
             builder.RegisterType<TestRepository>().As<IGenericRepository<Test>>().InstancePerRequest();
             builder.RegisterType<UserRepository>().As<IGenericRepository<User>>().InstancePerRequest();
@@ -34,7 +33,6 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<QuestionAnswerDTOService>().As<IEntityService<QuestionAnswerDTO>>();
             builder.RegisterType<QuestionDTOService>().As<IEntityService<QuestionDTO>>();
             builder.RegisterType<QuestionImageDTOService>().As<IEntityService<QuestionImageDTO>>();
-            builder.RegisterType<RoleDTOService>().As<IEntityService<RoleDTO>>();
             builder.RegisterType<SpecializationDTOService>().As<IEntityService<SpecializationDTO>>();
             builder.RegisterType<TestDTOService>().As<IEntityService<TestDTO>>();
             builder.RegisterType<UserDTOService>().As<IEntityService<UserDTO>>();

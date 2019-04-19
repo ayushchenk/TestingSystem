@@ -14,12 +14,16 @@ namespace TestingSystem.Web.Controllers
     public class SpecializationController : Controller
     {
         private IEntityService<SpecializationDTO> specService;
+        private IEntityService<GroupDTO> groupsService;
+        private IEntityService<TestDTO> testService;
         private IEntityService<UserDTO> userService;
 
-        public SpecializationController(IEntityService<SpecializationDTO> specService, IEntityService<UserDTO> userService)
+        public SpecializationController(IEntityService<SpecializationDTO> specService, IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupsService, IEntityService<UserDTO> userService)
         {
+            this.testService = testService;
             this.specService = specService;
             this.userService = userService;
+            this.groupsService = groupsService;
         }
 
         public ActionResult Index()
@@ -30,7 +34,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
             if (!String.IsNullOrWhiteSpace(filter))
-                return PartialView(await specService.FindByAsync(spec=> spec.SpecializationName.ToLower().Contains(filter.ToLower())));
+                return PartialView(await specService.FindByAsync(spec => spec.SpecializationName.ToLower().Contains(filter.ToLower())));
             return PartialView(await specService.GetAllAsync());
         }
 
@@ -51,14 +55,16 @@ namespace TestingSystem.Web.Controllers
             return View(spec);
         }
 
-        public async Task<ActionResult> Users(int id = 0)
+        public async Task<ActionResult> Groups(int id = 0)
         {
             var spec = await specService.GetAsync(id);
             if (spec == null)
                 return RedirectToAction("Index");
-            var model = new SpecUsersViewModel();
-            model.Users = await userService.FindByAsync(user => user.SpecializationId == spec.Id);
-            model.Specialization = spec;
+            var model = new SpecGroupsViewModel
+            {
+                Groups = await groupsService.FindByAsync(group => group.SpecializationId == spec.Id),
+                Specialization = spec
+            };
             return View(model);
         }
 
@@ -67,9 +73,12 @@ namespace TestingSystem.Web.Controllers
             var item = await specService.GetAsync(id);
             if (item != null)
             {
-                var users = await userService.FindByAsync(user => user.SpecializationId == item.Id);
-                if (users.Count() != 0)
-                    return Json($"There are users relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
+                var groups = await groupsService.FindByAsync(group => group.SpecializationId == item.Id);
+                var tests = await testService.FindByAsync(test => test.SpecializationId == item.Id);
+                if (groups.Count() != 0)
+                    return Json($"There are groups relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
+                if (tests.Count() != 0)
+                    return Json($"There are tests relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
                 await specService.DeleteAsync(item);
                 return Json($"Successfully deleted: #{item.Id} - \"{item.SpecializationName}\"", JsonRequestBehavior.AllowGet);
             }

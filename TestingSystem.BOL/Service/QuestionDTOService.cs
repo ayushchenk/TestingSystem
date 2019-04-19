@@ -23,7 +23,6 @@ namespace TestingSystem.BOL.Service
             {
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<Question, QuestionDTO>()
-                    .ForMember("TestName", opt => opt.MapFrom(question => question.Test.TestName))
                     .ForMember("SpecializationName", opt => opt.MapFrom(question => question.Specialization.SpecializationName))
                     .ForMember("ImagePath", opt => opt.MapFrom(question => question.QuestionImage.ImagePath))
                     .ForMember("MimeType", opt => opt.MapFrom(question => question.QuestionImage.MimeType));
@@ -56,7 +55,7 @@ namespace TestingSystem.BOL.Service
 
         public IEnumerable<QuestionDTO> GetAll()
         {
-            return repository.GetAll().Select(role => mapper.Map<QuestionDTO>(role));
+            return repository.GetAll().ToList().Select(role => mapper.Map<QuestionDTO>(role));
         }
 
         public Task<IEnumerable<QuestionDTO>> GetAllAsync()

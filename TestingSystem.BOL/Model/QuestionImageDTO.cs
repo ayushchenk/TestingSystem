@@ -7,10 +7,10 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [StringLength(256)]
+        [MaxLength(200)]
         public string ImagePath { get; set; }
 
-        [StringLength(32)]
+        [MaxLength(15)]
         public string MimeType { get; set; }
     }
 }

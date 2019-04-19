@@ -73,7 +73,6 @@
     <Compile Include="Model\QuestionAnswerDTO.cs" />
     <Compile Include="Model\QuestionDTO.cs" />
     <Compile Include="Model\QuestionImageDTO.cs" />
-    <Compile Include="Model\RoleDTO.cs" />
     <Compile Include="Model\SpecializationDTO.cs" />
     <Compile Include="Model\TestDTO.cs" />
     <Compile Include="Model\UserDTO.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="Service\QuestionAnswerDTOService.cs" />
     <Compile Include="Service\QuestionDTOService.cs" />
     <Compile Include="Service\QuestionImageDTOService.cs" />
-    <Compile Include="Service\RoleDTOService.cs" />
     <Compile Include="Service\SpecializationDTOService.cs" />
     <Compile Include="Service\TestDTOService.cs" />
     <Compile Include="Service\UserDTOService.cs" />

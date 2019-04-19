@@ -1,0 +1,89 @@
+﻿@model TestingSystem.Web.Models.ViewModels.SpecGroupsViewModel
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Specialization @Model.Specialization.SpecializationName Groups</h2>
+<hr />
+
+<div id="partial-content">
+</div>
+
+@*@Html.ActionLink("Create new", "Edit", "Group", new { id = 0 }, new { })
+
+@if (Model.Groups != null && Model.Groups.Count() != 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("GroupName")
+            </th>
+            <th>
+                @Html.DisplayName("SpecializationName")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Groups)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecializationName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Group", new { id = item.Id }, new { }) |
+                    @Html.ActionLink("Users", "Users", "Group", new { id = item.Id }, new { }) |
+                    @Html.ActionLink("Delete", "Delete", "Group", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="alert-info">
+        No groups
+    </div>
+}
+    *@
+<p>
+    @Html.ActionLink("Edit specialization", "Edit", new { id = Model.Specialization.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#partial-content").load("@Url.Action("PartialIndex", "Group", new { filter = Model.Specialization.SpecializationName})");
+
+            $("body").on("click", ".btn-delete", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "Group")",
+                    data: { id: $(this).attr("data-id") },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Group")");
+                        $("#div-info").empty();
+                        $("#div-info").append(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("An error occured while processing request");
+                    }
+                });
+            });
+
+            $("body").on("keypress", "#filter-input", function (e) {
+                if (e.which == 13)
+                    $("#partial-content").load("@Url.Action("PartialIndex", "Group")", { filter : $(this).val()});
+            });
+        });
+
+    </script>
+}

@@ -8,30 +8,30 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [StringLength(64)]
+        [MaxLength(40)]
         public string Login { get; set; }
 
         [Required]
-        [StringLength(64)]
+        [MaxLength(40)]
         public string Email { get; set; }
 
-        [StringLength(64)]
+        [MaxLength(15)]
         public string FirstName { get; set; }
 
-        [StringLength(64)]
+        [MaxLength(20)]
         public string LastName { get; set; }
 
-        [StringLength(64)]
+        [MaxLength(20)]
         public string Patronymic { get; set; }
 
-        public int? GroupId { get; set; }
+        public int GroupId { get; set; }
 
         public int SpecializationId { get; set; }
 
-        [StringLength(64)]
+        [MaxLength(10)]
         public string GroupName { get; set; }
 
-        [StringLength(128)]
+        [MaxLength(40)]
         public string SpecializationName { get; set; }
     }
 }

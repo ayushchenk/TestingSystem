@@ -24,10 +24,10 @@ namespace TestingSystem.BOL.Model
 
         public int TestId { get; set; }
 
-        [StringLength(64)]
+        [MaxLength(10)]
         public string GroupName { get; set; }
 
-        [StringLength(128)]
+        [MaxLength(20)]
         public string TestName { get; set; }
     }
 }

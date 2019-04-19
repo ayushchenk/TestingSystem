@@ -35,7 +35,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (!String.IsNullOrWhiteSpace(filter))
                 return PartialView(await groupService.FindByAsync(group => group.GroupName.ToLower().Contains(filter.ToLower())
-                                                                        || group.SpecializationName.ToLower().Contains(filter.ToLower())));
+                                                             || group.SpecializationName.ToLower().Contains(filter.ToLower())));
             return PartialView(await groupService.GetAllAsync());
         }
 
@@ -88,7 +88,7 @@ namespace TestingSystem.Web.Controllers
             {
                 var users = await userService.FindByAsync(user => user.GroupId == item.Id);
                 if (users.Count() != 0)
-                    return Json($"There are users relying on such group: Id = {item.Id}, SpecName = {item.GroupName}", JsonRequestBehavior.AllowGet);
+                    return Json($"There are users relying on such group: Id = {item.Id}, GroupName = {item.GroupName}", JsonRequestBehavior.AllowGet);
                 await groupService.DeleteAsync(item);
                 return Json($"Successfully deleted: #{item.Id} - \"{item.GroupName}\"", JsonRequestBehavior.AllowGet);
             }
