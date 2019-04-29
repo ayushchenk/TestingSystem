@@ -10,7 +10,7 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+  //  [Authorize(Roles = "Admin")]
     public class GroupController : Controller
     {
         private IEntityService<UserDTO> userService;
@@ -35,7 +35,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (!String.IsNullOrWhiteSpace(filter))
                 return PartialView(await groupService.FindByAsync(group => group.GroupName.ToLower().Contains(filter.ToLower())
-                                                             || group.SpecializationName.ToLower().Contains(filter.ToLower())));
+                                                                        || group.SpecializationName.ToLower().Contains(filter.ToLower())));
             return PartialView(await groupService.GetAllAsync());
         }
 
@@ -44,9 +44,11 @@ namespace TestingSystem.Web.Controllers
             var group = await groupService.GetAsync(id);
             if (group == null)
                 return RedirectToAction("Index");
-            var model = new GroupDetailsViewModel();
-            model.Users = await userService.FindByAsync(user => user.GroupId == group.Id);
-            model.Group = group;
+            var model = new GroupDetailsViewModel
+            {
+                Users = await userService.FindByAsync(user => user.GroupId == group.Id),
+                Group = group
+            };
             return View(model);
         }
 
@@ -81,6 +83,17 @@ namespace TestingSystem.Web.Controllers
             return View(group);
         }
 
+        public async Task<ActionResult> Cancel(int id = 0)
+        {
+            var item = await groupInTestService.GetAsync(id);
+            if (item != null)
+            {
+                await groupInTestService.DeleteAsync(item);
+                return RedirectToAction("Tests", item.GroupId);
+            }
+            return RedirectToAction("Index");
+        }
+
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await groupService.GetAsync(id);
@@ -93,15 +106,6 @@ namespace TestingSystem.Web.Controllers
                 return Json($"Successfully deleted: #{item.Id} - \"{item.GroupName}\"", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
-        }
-
-        public async Task<ActionResult> Cancel(int id = 0)
-        {
-            var item = await groupInTestService.GetAsync(id);
-            if (item == null)
-                return RedirectToAction("Index");
-            await groupInTestService.DeleteAsync(item);
-            return RedirectToAction("Tests", item.GroupId);
         }
     }
 }

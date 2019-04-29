@@ -34,13 +34,20 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Open", "SetStatus", new { id = item.Id },  new { @class = "btn-set-status", data_id = item.Id, data_status = true }) |
-            @Html.ActionLink("Close", "SetStatus", new { id = item.Id }, new { @class = "btn-set-status", data_id = item.Id, data_status = false }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id } , new { @class = "btn-delete", data_id = item.Id }) 
+            @if(item.IsOpen)
+            {
+                @Html.ActionLink("Close | ", "SetStatus", new { id = item.Id }, new { @class = "btn-set-status", data_id = item.Id, data_status = !item.IsOpen }) 
+            }
+            else
+            {
+                @Html.ActionLink("Open | ", "SetStatus", new { id = item.Id },  new { @class = "btn-set-status", data_id = item.Id, data_status = !item.IsOpen }) 
+            }
+            @Html.ActionLink("Delete | ", "Delete", new { id = item.Id } , new { @class = "btn-delete", data_id = item.Id }) 
             @if (item.IsOpen)
             {
-                @Html.ActionLink("Assign groups", "AssignGroups", new { id = item.Id })
+                @Html.ActionLink("Assign groups", "AssignGroups", "GroupsInTest", new { id = item.Id }, null)
             }
+            @Html.ActionLink("Groups", "Groups", "GroupsInTest", new { id = item.Id }, null)
         </td>
     </tr>
 }

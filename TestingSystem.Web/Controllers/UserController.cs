@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace TestingSystem.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   // [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private IEntityService<UserDTO> userService;
@@ -52,10 +52,10 @@ namespace TestingSystem.Web.Controllers
         {
             if(!string.IsNullOrWhiteSpace(filter))
                 return PartialView(await userService.FindByAsync(user => user.Email.ToLower().Contains(filter.ToLower()) 
-                                                                  || user.Login.ToLower().Contains(filter.ToLower())
-                                                                  || user.LastName.ToLower().Contains(filter.ToLower())
-                                                                  || user.FirstName.ToLower().Contains(filter.ToLower())
-                                                                  || user.Patronymic.ToLower().Contains(filter.ToLower())));
+                                                                      || user.Login.ToLower().Contains(filter.ToLower())
+                                                                      || user.LastName.ToLower().Contains(filter.ToLower())
+                                                                      || user.FirstName.ToLower().Contains(filter.ToLower())
+                                                                      || user.Patronymic.ToLower().Contains(filter.ToLower())));
             return PartialView(await userService.GetAllAsync());
         }
 

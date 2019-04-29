@@ -12,16 +12,12 @@ namespace TestingSystem.Web.Models.ViewModels
         public AssignGroupItem()
         {
             Group = new GroupDTO();
+            GroupInTest = new GroupsInTestDTO();
         }
 
         [Required]
         public GroupDTO Group { set; get; }
+        public GroupsInTestDTO GroupInTest { set; get; }
         public bool Assign { set; get; }
-        public int Length { set; get; }
-        public TimeSpan StartTime { set; get; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime StartDate { set; get; }
     }
 }

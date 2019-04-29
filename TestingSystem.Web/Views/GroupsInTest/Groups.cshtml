@@ -1,0 +1,57 @@
+﻿@model TestingSystem.Web.Models.ViewModels.AssignGroupsViewModel
+
+@if (Model.Groups.Count() != 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Group")
+            </th>
+            <th>
+                @Html.DisplayName("Specialization")
+            </th>
+            <th>
+                @Html.DisplayName("Start date")
+            </th>
+            <th>
+                @Html.DisplayName("Start time")
+            </th>
+            <th>
+                @Html.DisplayName("Length")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Groups)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Group.GroupName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Group.SpecializationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupInTest.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupInTest.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupInTest.Length)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.GroupInTest.Id}, null) |
+                    @Html.ActionLink("Delete", "Delete", "GroupsInTest", new { id = item.GroupInTest.Id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert-info">
+        No groups
+    </div>
+}

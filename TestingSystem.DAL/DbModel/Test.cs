@@ -33,6 +33,10 @@ namespace TestingSystem.DAL.DbModel
         [Column("specialization_id")]
         public int SpecializationId { get; set; }
 
+        [Required]
+        [Column("question_number")]
+        public int Questions { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupsInTest> GroupsInTests { get; set; }
 

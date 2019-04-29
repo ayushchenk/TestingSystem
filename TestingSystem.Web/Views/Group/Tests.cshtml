@@ -43,6 +43,7 @@
         </td>
         <td>
             @Html.ActionLink("Cancel", "Cancel", new { id = item.Id })
+            @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.Id }, null)
         </td>
     </tr>
 }

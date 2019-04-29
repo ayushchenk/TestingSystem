@@ -42,7 +42,7 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<QuestionImageDTO> FindBy(Expression<Func<QuestionImageDTO, bool>> predicate)
         {
             var expr = mapper.Map<Expression<Func<QuestionImageDTO, bool>>, Expression<Func<QuestionImage, bool>>>(predicate);
-            return repository.FindBy(expr).Select(a => mapper.Map<QuestionImageDTO>(a));
+            return repository.FindBy(expr).ToList().Select(a => mapper.Map<QuestionImageDTO>(a));
         }
 
         public QuestionImageDTO Get(int id)

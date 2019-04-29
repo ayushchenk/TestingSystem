@@ -42,7 +42,7 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<SpecializationDTO> FindBy(Expression<Func<SpecializationDTO, bool>> predicate)
         {
             var expr = mapper.Map<Expression<Func<SpecializationDTO, bool>>, Expression<Func<Specialization, bool>>>(predicate);
-            return repository.FindBy(expr).Select(a => mapper.Map<SpecializationDTO>(a));
+            return repository.FindBy(expr).ToList().Select(a => mapper.Map<SpecializationDTO>(a));
         }
 
         public SpecializationDTO Get(int id)

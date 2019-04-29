@@ -10,7 +10,7 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class SpecializationController : Controller
     {
         private IEntityService<SpecializationDTO> specService;

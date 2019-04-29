@@ -34,7 +34,8 @@ namespace TestingSystem.Web.Controllers
         public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
             if (!String.IsNullOrWhiteSpace(filter))
-                return PartialView(await testService.FindByAsync(test => test.SpecializationName.ToLower().Contains(filter.ToLower())));
+                return PartialView(await testService.FindByAsync(test => test.TestName.ToLower().Contains(filter.ToLower())
+                                                                      || test.SpecializationName.ToLower().Contains(filter.ToLower())));
             return PartialView(await testService.GetAllAsync());
         }
 
@@ -86,39 +87,6 @@ namespace TestingSystem.Web.Controllers
             return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> AssignGroups(int id = 0)
-        {
-            var item = await testService.GetAsync(id);
-            if (item != null)
-            {
-                var groupIds = groupsInTestService.GetAll().Select(git => git.GroupId);
-                AssignGroupsViewModel model = new AssignGroupsViewModel();
-                model.TestId = item.Id;
-                foreach (var group in await groupService.FindByAsync(group => !groupIds.Contains(group.Id)))
-                    model.Groups.Add(new AssignGroupItem() { Group = group });
-                return View(model);
-            }
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> AssignGroups(AssignGroupsViewModel model)
-        {
-            //if(ModelState.IsValid)
-            {
-                model.Groups = model.Groups.Where(item => item.Assign == true).ToList();
-                foreach (var item in model.Groups)
-                    await groupsInTestService.AddOrUpdateAsync(new GroupsInTestDTO()
-                    {
-                        GroupId = item.Group.Id,
-                        TestId = model.TestId,
-                        StartDate = item.StartDate,
-                        StartTime = item.StartTime,
-                        Length = item.Length
-                    });
-                return RedirectToAction("Index");
-            }
-            //return View(model);
-        }
+        
     }
 }

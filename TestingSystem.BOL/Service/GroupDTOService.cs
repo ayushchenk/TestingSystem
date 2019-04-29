@@ -43,7 +43,7 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<GroupDTO> FindBy(Expression<Func<GroupDTO, bool>> predicate)
         {
             var expr = mapper.Map<Expression<Func<GroupDTO, bool>>, Expression<Func<Group, bool>>>(predicate);
-            return repository.FindBy(expr).Select(a => mapper.Map<GroupDTO>(a));
+            return repository.FindBy(expr).ToList().Select(a => mapper.Map<GroupDTO>(a));
         }
 
         public GroupDTO Get(int id)

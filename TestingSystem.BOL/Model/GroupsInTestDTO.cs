@@ -15,6 +15,8 @@ namespace TestingSystem.BOL.Model
         [Column(TypeName = "time")]
         public TimeSpan StartTime { get; set; }
 
+        [DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "datetime2")]
         public DateTime StartDate { get; set; }
 

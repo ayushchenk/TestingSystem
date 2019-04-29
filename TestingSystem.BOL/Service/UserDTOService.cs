@@ -46,7 +46,7 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<UserDTO> FindBy(Expression<Func<UserDTO, bool>> predicate)
         {
             var expr = mapper.Map<Expression<Func<UserDTO, bool>>, Expression<Func<User, bool>>>(predicate);
-            return repository.FindBy(expr).Select(a => mapper.Map<UserDTO>(a));
+            return repository.FindBy(expr).ToList().Select(a => mapper.Map<UserDTO>(a));
         }
 
         public UserDTO Get(int id)

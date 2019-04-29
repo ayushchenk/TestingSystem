@@ -17,6 +17,9 @@ namespace TestingSystem.BOL.Model
         [Required]
         public int SpecializationId { set; get; }
 
+        [Required]
+        public int Questions { set; get; }
+
         [MaxLength(40)]
         public string SpecializationName { get; set; }
     }
