@@ -1,0 +1,73 @@
+﻿@model TestingSystem.BOL.Model.QuestionDTO
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm("Edit", "Question", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.QuestionImageId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionString, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.QuestionString, rows: 5, columns: 100, htmlAttributes: new { @class = "form-control", maxlength = 500 })
+                @Html.ValidationMessageFor(model => model.QuestionString, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SpecializationName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("SpecializationId", null, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="file" id="file">
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Image")
+            <div class="col-md-10">
+                @if (!String.IsNullOrWhiteSpace(Model.ImagePath))
+                {
+                    <div>
+                        <img src="@Model.ImagePath" style="max-height: 150px; max-width: 150px;">
+                    </div>
+                }
+                else
+                {
+                    Html.Label("No image");
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -188,6 +188,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\GroupsInTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SpecializationController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -275,9 +276,13 @@
     <Content Include="Views\Group\Tests.cshtml" />
     <Content Include="Views\GroupsInTest\Groups.cshtml" />
     <Content Include="Views\GroupsInTest\Edit.cshtml" />
+    <Content Include="Views\Question\Index.cshtml" />
+    <Content Include="Views\Question\PartialIndex.cshtml" />
+    <Content Include="Views\Question\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

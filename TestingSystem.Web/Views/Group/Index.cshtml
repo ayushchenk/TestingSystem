@@ -23,6 +23,9 @@
                         $("#partial-content").load("@Url.Action("PartialIndex", "Group")");
                         $("#div-info").empty();
                         $("#div-info").append(data);
+                        setTimeout(function () {
+                            $("#div-info").empty();
+                        }, 3500);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert("An error occured while processing request");

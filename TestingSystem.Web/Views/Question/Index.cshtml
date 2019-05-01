@@ -1,27 +1,31 @@
 ﻿
 @{
-    ViewBag.Title = "Specializations";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Specializations</h2>
-<input type="text" id="filter-input" class="form-control" />
+<h2>Questions</h2>
+@Html.DropDownList("SpecializationId", null, new { @class = "form-control", id = "filter-input" })
 <div id="partial-content">
+</div>
+<div class="tooltip">
+    item.Id
+    <span class="tooltiptext">item.QuestionString</span>
 </div>
 
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            $("#partial-content").load("@Url.Action("PartialIndex", "Specialization")");
+            $("#partial-content").load("@Url.Action("PartialIndex", "Question", new { id = 0})");
 
             $("body").on("click", ".btn-delete", function (e) {
                 e.preventDefault();
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("Delete", "Specialization")",
+                    url: "@Url.Action("Delete", "Question")",
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
-                        $("#partial-content").load("@Url.Action("PartialIndex", "Specialization")");
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Question")");
                         $("#div-info").empty();
                         $("#div-info").append(data);
                         setTimeout(function () {
@@ -34,9 +38,8 @@
                 });
             });
 
-            $("body").on("keypress", "#filter-input", function (e) {
-                if (e.which == 13)
-                    $("#partial-content").load("@Url.Action("PartialIndex", "Specialization")", { filter : $(this).val()});
+            $("body").on("change", "#filter-input", function () {
+                $("#partial-content").load("@Url.Action("PartialIndex", "Question")", { filter : $(this).val()});
             });
         });
 

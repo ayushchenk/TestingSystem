@@ -26,7 +26,7 @@ namespace TestingSystem.DAL.DbModel
         public string QuestionString { get; set; }
 
         [Column("image_id")]
-        public int? ImageId { get; set; }
+        public int? QuestionImageId { get; set; }
 
         [Required]
         [Column("specialization_id")]

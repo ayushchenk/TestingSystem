@@ -12,7 +12,7 @@ namespace TestingSystem.DAL.DbModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public QuestionImage()
         {
-            Questions = new HashSet<Question>();
+            //Questions = new HashSet<Question>();
         }
 
         [Key]
@@ -29,7 +29,7 @@ namespace TestingSystem.DAL.DbModel
         [Column("mime_type")]
         public string MimeType { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<Question> Questions { get; set; }
     }
 }

@@ -14,18 +14,6 @@ namespace TestingSystem.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "UserCreate",
-                url: "User/Create/{groupId}",
-                defaults: new { controller = "User", action = "Create", groupId = 0}
-            );
-
-            routes.MapRoute(
-                name: "UserEdit",
-                url: "User/Edit/{id}",
-                defaults: new { controller = "User", action = "Edit", id = 0 }
-            );
-
-            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

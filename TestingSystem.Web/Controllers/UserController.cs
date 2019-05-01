@@ -21,6 +21,7 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<UserDTO> userService;
         private IEntityService<GroupDTO> groupService;
         private IEntityService<SpecializationDTO> specService;
+
         private AppUserManager UserManager
         {
             get
@@ -28,6 +29,7 @@ namespace TestingSystem.Web.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
             }
         }
+
         private AppRoleManager RoleManager
         {
             get

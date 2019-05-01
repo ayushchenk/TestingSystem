@@ -10,8 +10,9 @@ namespace TestingSystem.BOL.Model
         [MaxLength(500)]
         public string QuestionString { get; set; }
 
-        public int? ImageId { get; set; }
+        public int? QuestionImageId { get; set; }
 
+        [Required]
         public int SpecializationId { set; get; }
 
         [MaxLength(40)]
