@@ -6,32 +6,20 @@ namespace TestingSystem.DAL.DbModel
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("public.groups_in_tests")]
     public partial class GroupsInTest
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("id")]
         public int Id { get; set; }
 
-        [Required]
-        [Column("start_time")]
-        public TimeSpan StartTime { get; set; }
+        public int Length { set; get; }
 
-        [Required]
-        [Column("start_date")]
+        [Column(TypeName = "datetime2")]
+        public DateTime StartTime { get; set; }
+
+        [Column(TypeName = "datetime2")]
         public DateTime StartDate { get; set; }
 
-        [Required]
-        [Column("length")]
-        public int Length { get; set; }
-
-        [Required]
-        [Column("group_id")]
         public int GroupId { get; set; }
 
-        [Required]
-        [Column("test_id")]
         public int TestId { get; set; }
 
         public virtual Group Group { get; set; }

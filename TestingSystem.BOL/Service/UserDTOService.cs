@@ -26,7 +26,9 @@ namespace TestingSystem.BOL.Service
                 cfg.CreateMap<User, UserDTO>()
                     .ForMember("GroupName", opt => opt.MapFrom(user => user.Group.GroupName))
                     .ForMember("SpecializationId", opt => opt.MapFrom(user => user.Group.Specialization.Id))
-                    .ForMember("SpecializationName", opt => opt.MapFrom(user => user.Group.Specialization.SpecializationName));
+                    .ForMember("SpecializationName", opt => opt.MapFrom(user => user.Group.Specialization.SpecializationName))
+                    .ForMember("EducationUnitId", opt => opt.MapFrom(user => user.Group.EducationUnit.Id))
+                    .ForMember("EducationUnitName", opt => opt.MapFrom(user => user.Group.EducationUnit.EducationUnitName));
                 cfg.CreateMap<UserDTO, User>();
             }).CreateMapper();
         }
@@ -46,7 +48,7 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<UserDTO> FindBy(Expression<Func<UserDTO, bool>> predicate)
         {
             var expr = mapper.Map<Expression<Func<UserDTO, bool>>, Expression<Func<User, bool>>>(predicate);
-            return repository.FindBy(expr).ToList().Select(a => mapper.Map<UserDTO>(a));
+            return repository.FindBy(expr).Select(a => mapper.Map<UserDTO>(a));
         }
 
         public UserDTO Get(int id)
@@ -56,7 +58,7 @@ namespace TestingSystem.BOL.Service
 
         public IEnumerable<UserDTO> GetAll()
         {
-            return repository.GetAll().ToList().Select(role => mapper.Map<UserDTO>(role));
+            return repository.GetAll().Select(role => mapper.Map<UserDTO>(role));
         }
 
         public Task<IEnumerable<UserDTO>> GetAllAsync()

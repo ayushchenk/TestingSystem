@@ -24,8 +24,7 @@ namespace TestingSystem.BOL.Service
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<Question, QuestionDTO>()
                     .ForMember("SpecializationName", opt => opt.MapFrom(question => question.Specialization.SpecializationName))
-                    .ForMember("ImagePath", opt => opt.MapFrom(question => question.QuestionImage.ImagePath))
-                    .ForMember("MimeType", opt => opt.MapFrom(question => question.QuestionImage.MimeType));
+                    .ForMember("ImagePath", opt => opt.MapFrom(question => question.QuestionImage.ImagePath));
                 cfg.CreateMap<QuestionDTO, Question>();
             }).CreateMapper();
         }
@@ -45,7 +44,7 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<QuestionDTO> FindBy(Expression<Func<QuestionDTO, bool>> predicate)
         {
             var expr = mapper.Map<Expression<Func<QuestionDTO, bool>>, Expression<Func<Question, bool>>>(predicate);
-            return repository.FindBy(expr).ToList().Select(a => mapper.Map<QuestionDTO>(a));
+            return repository.FindBy(expr).Select(a => mapper.Map<QuestionDTO>(a));
         }
 
         public QuestionDTO Get(int id)
@@ -55,7 +54,7 @@ namespace TestingSystem.BOL.Service
 
         public IEnumerable<QuestionDTO> GetAll()
         {
-            return repository.GetAll().ToList().Select(role => mapper.Map<QuestionDTO>(role));
+            return repository.GetAll().Select(role => mapper.Map<QuestionDTO>(role));
         }
 
         public Task<IEnumerable<QuestionDTO>> GetAllAsync()

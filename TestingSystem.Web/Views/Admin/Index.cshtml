@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    @Html.ActionLink(linkText: "Roles", actionName: "Index", controllerName: "Role")
+</div>
+<div class="row">
+    @Html.ActionLink(linkText: "Education units", actionName: "Index", controllerName: "EducationUnit")
+</div>
+<div class="row">
+    @Html.ActionLink(linkText: "Groups", actionName: "Index", controllerName: "Group")
+</div>
+<div class="row">
+    @Html.ActionLink(linkText: "Users", actionName: "Index", controllerName: "User")
+</div>
+<div class="row">
+    @Html.ActionLink(linkText: "Tests", actionName: "Index", controllerName: "Test")
+</div>
+<div class="row">
+    @Html.ActionLink(linkText: "Questions", actionName: "Index", controllerName: "Question")
+</div>
+<div class="row">
+    @Html.ActionLink(linkText: "Answers", actionName: "Index", controllerName: "Answer")
+</div>
+<div class="row">
+    @Html.ActionLink(linkText: "Question images", actionName: "Index", controllerName: "QuestionImage")
+</div>
+

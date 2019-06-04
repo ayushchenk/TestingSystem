@@ -15,19 +15,19 @@ namespace AspNetIdentity.Models
             return new ApplicationDbContext();
         }
 
-        static ApplicationDbContext()
-        {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
-        }
+        //static ApplicationDbContext()
+        //{
+        //    Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+        //}
 
     }
 
-    internal class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
-    {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = true;
-            SetSqlGenerator("Devart.Data.PostgreSql", new Devart.Data.PostgreSql.Entity.Migrations.PgSqlEntityMigrationSqlGenerator());
-        }
-    }
+    //internal class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    //{
+    //    public Configuration()
+    //    {
+    //        AutomaticMigrationsEnabled = true;
+    //        SetSqlGenerator("Devart.Data.PostgreSql", new Devart.Data.PostgreSql.Entity.Migrations.PgSqlEntityMigrationSqlGenerator());
+    //    }
+    //}
 }

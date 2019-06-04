@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
+using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
@@ -14,11 +12,13 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<TestDTO> testService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<SpecializationDTO> specService;
+        private IEntityService<QuestionImageDTO> imageService;
 
-        public QuestionController(IEntityService<TestDTO> testService, IEntityService<QuestionDTO> questionService, IEntityService<SpecializationDTO> specService)
+        public QuestionController(IEntityService<TestDTO> testService, IEntityService<QuestionDTO> questionService, IEntityService<SpecializationDTO> specService, IEntityService<QuestionImageDTO> imageService)
         {
             this.testService = testService;
             this.specService = specService;
+            this.imageService = imageService;
             this.questionService = questionService;
         }
 
@@ -36,32 +36,64 @@ namespace TestingSystem.Web.Controllers
             return PartialView(await questionService.GetAllAsync());
         }
 
-        [HttpGet]
-        public async Task<ActionResult> Edit(int questionId = 0, int specId = 0)
+        public async Task<ActionResult> Create(int specId = 0)
         {
-            var model = await questionService.GetAsync(questionId) ?? new QuestionDTO();
-            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId == 0 ? specId : model.SpecializationId);
+            var model = new CreateQuestionViewModel();
+            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", specId);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(QuestionDTO model)
+        public async Task<ActionResult> Create(CreateQuestionViewModel model)
         {
             if (ModelState.IsValid)
             {
                 if (Request.Files.Count > 0)
                 {
                     var upload = Request.Files[0];
-                    string fileName = DateTime.Now.Millisecond + System.IO.Path.GetFileName(upload.FileName);
+                    string fileName = DateTime.Now.Ticks + System.IO.Path.GetFileName(upload.FileName);
                     upload.SaveAs(Server.MapPath("~/Images/" + fileName));
-                    model.ImagePath = @"/Images/" + fileName;
+                    model.Question.ImagePath = @"/Images/" + fileName;
+                    await imageService.AddOrUpdateAsync(new QuestionImageDTO
+                    {
+                        ImagePath = model.Question.ImagePath
+                    });
                 }
 
-                await questionService.AddOrUpdateAsync(model);
+                await questionService.AddOrUpdateAsync(model.Question);
 
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(int questionId = 0)
+        {
+            var model = await questionService.GetAsync(questionId) ?? new QuestionDTO();
+            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(QuestionDTO model)
+        {
+            //if (ModelState.IsValid)
+            //{
+            //    if (Request.Files.Count > 0)
+            //    {
+            //        var upload = Request.Files[0];
+            //        string fileName = DateTime.Now.Millisecond + System.IO.Path.GetFileName(upload.FileName);
+            //        upload.SaveAs(Server.MapPath("~/Images/" + fileName));
+            //        model.ImagePath = @"/Images/" + fileName;
+            //    }
+
+            //    await questionService.AddOrUpdateAsync(model);
+
+            //    return RedirectToAction("Index");
+            //}
+            //return View(model);
+            return new EmptyResult();
         }
 
         public async Task<ActionResult> Delete(int id = 0)

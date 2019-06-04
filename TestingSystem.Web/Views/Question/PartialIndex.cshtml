@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.QuestionDTO>
 
 <p>
-    @Html.ActionLink("Create New", "Edit", new { questionId = 0, specId = ViewBag.SpecializationId })
+    @Html.ActionLink("Create New", "Create", new { specId = ViewBag.SpecializationId })
 </p>
 @if (Model.Count() != 0)
 {

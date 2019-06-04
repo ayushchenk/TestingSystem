@@ -23,7 +23,8 @@ namespace TestingSystem.BOL.Service
             {
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<Group, GroupDTO>()
-                    .ForMember("SpecializationName", opt => opt.MapFrom(group => group.Specialization.SpecializationName));
+                    .ForMember("SpecializationName", opt => opt.MapFrom(group => group.Specialization.SpecializationName))
+                    .ForMember("EducationUnitName", opt => opt.MapFrom(group => group.EducationUnit.EducationUnitName));
                 cfg.CreateMap<GroupDTO, Group>();
             }).CreateMapper();
         }
@@ -43,7 +44,7 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<GroupDTO> FindBy(Expression<Func<GroupDTO, bool>> predicate)
         {
             var expr = mapper.Map<Expression<Func<GroupDTO, bool>>, Expression<Func<Group, bool>>>(predicate);
-            return repository.FindBy(expr).ToList().Select(a => mapper.Map<GroupDTO>(a));
+            return repository.FindBy(expr).Select(a => mapper.Map<GroupDTO>(a));
         }
 
         public GroupDTO Get(int id)
@@ -53,7 +54,7 @@ namespace TestingSystem.BOL.Service
 
         public IEnumerable<GroupDTO> GetAll()
         {
-            return repository.GetAll().ToList().Select(group => mapper.Map<GroupDTO>(group));
+            return repository.GetAll().Select(group => mapper.Map<GroupDTO>(group));
         }
 
         public Task<IEnumerable<GroupDTO>> GetAllAsync()

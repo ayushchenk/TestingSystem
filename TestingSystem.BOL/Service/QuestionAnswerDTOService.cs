@@ -23,7 +23,8 @@ namespace TestingSystem.BOL.Service
             {
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<QuestionAnswer, QuestionAnswerDTO>()
-                    .ForMember("QuestionString", opt => opt.MapFrom(answer => answer.Question.QuestionString));
+                    .ForMember("QuestionString", opt => opt.MapFrom(answer => answer.Question.QuestionString))
+                    .ForMember("SpecializationName", opt => opt.MapFrom(answer => answer.Question.Specialization.SpecializationName));
                 cfg.CreateMap<QuestionAnswerDTO, QuestionAnswer>();
             }).CreateMapper();
         }
@@ -43,7 +44,7 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<QuestionAnswerDTO> FindBy(Expression<Func<QuestionAnswerDTO, bool>> predicate)
         {
             var expr = mapper.Map<Expression<Func<QuestionAnswerDTO, bool>>, Expression<Func<QuestionAnswer, bool>>>(predicate);
-            return repository.FindBy(expr).ToList().Select(a => mapper.Map<QuestionAnswerDTO>(a));
+            return repository.FindBy(expr).Select(a => mapper.Map<QuestionAnswerDTO>(a));
         }
 
         public QuestionAnswerDTO Get(int id)
@@ -53,7 +54,7 @@ namespace TestingSystem.BOL.Service
 
         public IEnumerable<QuestionAnswerDTO> GetAll()
         {
-            return repository.GetAll().ToList().Select(role => mapper.Map<QuestionAnswerDTO>(role));
+            return repository.GetAll().Select(role => mapper.Map<QuestionAnswerDTO>(role));
         }
 
         public Task<IEnumerable<QuestionAnswerDTO>> GetAllAsync()

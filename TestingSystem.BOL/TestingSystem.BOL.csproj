@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autofac\AutofacConfig.cs" />
+    <Compile Include="Model\EducationUnitDTO.cs" />
     <Compile Include="Model\GroupDTO.cs" />
     <Compile Include="Model\GroupsInTestDTO.cs" />
     <Compile Include="Model\QuestionAnswerDTO.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Model\TestDTO.cs" />
     <Compile Include="Model\UserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\EducationUnitDTOService.cs" />
     <Compile Include="Service\GroupDTOService.cs" />
     <Compile Include="Service\GroupsInTestDTOService.cs" />
     <Compile Include="Service\IEntityService.cs" />

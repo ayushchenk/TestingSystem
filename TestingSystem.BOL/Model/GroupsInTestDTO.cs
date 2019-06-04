@@ -12,24 +12,26 @@ namespace TestingSystem.BOL.Model
     {
         public int Id { get; set; }
 
-        [Column(TypeName = "time")]
-        public TimeSpan StartTime { get; set; }
+        public int Length { set; get; }
+
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "datetime2")]
+        public DateTime StartTime { get; set; }
 
         [DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "datetime2")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
-        public int Length { set; get; }
+        [StringLength(32)]
+        public string GroupName { get; set; }
+
+        [StringLength(128)]
+        public string TestName { get; set; }
 
         public int GroupId { get; set; }
 
         public int TestId { get; set; }
-
-        [MaxLength(10)]
-        public string GroupName { get; set; }
-
-        [MaxLength(20)]
-        public string TestName { get; set; }
     }
 }

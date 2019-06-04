@@ -7,21 +7,17 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [StringLength(256)]
         public string AnswerString { get; set; }
 
         public bool IsCorrect { get; set; }
 
-        public int QuestionId { get; set; }
-
-        public int TestId { set; get; }
-
-        [Required]
-        [MaxLength(500)]
+        [StringLength(256)]
         public string QuestionString { get; set; }
 
-        [Required]
-        [MaxLength(20)]
-        public string TestName { get; set; }
+        [StringLength(64)]
+        public string SpecializationName { get; set; }
+
+        public int QuestionId { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<UserDTO> userService;
         private IEntityService<GroupDTO> groupService;
         private IEntityService<SpecializationDTO> specService;
+        private IEntityService<EducationUnitDTO> unitService;
 
         private AppUserManager UserManager
         {
@@ -38,11 +39,12 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
-        public UserController(IEntityService<UserDTO> userService, IEntityService<GroupDTO> groupService, IEntityService<SpecializationDTO> specService)
+        public UserController(IEntityService<UserDTO> userService, IEntityService<GroupDTO> groupService, IEntityService<SpecializationDTO> specService, IEntityService<EducationUnitDTO> unitService)
         {
             this.userService = userService;
             this.groupService = groupService;
             this.specService = specService;
+            this.unitService = unitService;
         }
 
         public ActionResult Index()
@@ -57,7 +59,8 @@ namespace TestingSystem.Web.Controllers
                                                                       || user.Login.ToLower().Contains(filter.ToLower())
                                                                       || user.LastName.ToLower().Contains(filter.ToLower())
                                                                       || user.FirstName.ToLower().Contains(filter.ToLower())
-                                                                      || user.Patronymic.ToLower().Contains(filter.ToLower())));
+                                                                      || user.Patronymic.ToLower().Contains(filter.ToLower())
+                                                                      || user.EducationUnitName.ToLower().Contains(filter.ToLower())));
             return PartialView(await userService.GetAllAsync());
         }
 
@@ -67,7 +70,8 @@ namespace TestingSystem.Web.Controllers
             model.User = await userService.GetAsync(id) ?? new UserDTO();
             AppUser appUser = await UserManager.FindByEmailAsync(model.User.Email);
             ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name", UserManager.GetRoles(appUser.Id).First());
-            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", model.User.GroupId);
+            ViewBag.EducationUnit = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
+            ViewBag.Group = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
             return View(model);
         }
 
@@ -99,16 +103,18 @@ namespace TestingSystem.Web.Controllers
                 }
             }
             ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "GroupName", "GroupName");
+            ViewBag.EducationUnit = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
+            ViewBag.Group = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
             return View(model);
         }
 
-        public async Task<ActionResult> Create(int groupId = 0)
+        public async Task<ActionResult> Create()
         {
             var model = new EditUserViewModel();
             model.User = new UserDTO();
             ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", groupId);
+            ViewBag.EducationUnit = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
+            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View("Edit", model);
         }
 
@@ -138,7 +144,8 @@ namespace TestingSystem.Web.Controllers
                 }
             }
             ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "GroupName", "GroupName");
+            ViewBag.EducationUnit = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnit);
+            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View(model);
         }
 
@@ -160,6 +167,14 @@ namespace TestingSystem.Web.Controllers
                 return Json($"Error occured on deleting identity: Id = {user.Id} - UserName = {user.Email}", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetGroupsByUnit(int id = 0)
+        {
+            var unit = unitService.Get(id);
+            if (unit != null)
+                return Json(groupService.FindBy(group => group.EducationUnitId == unit.Id).Select(group => new { Id = group.Id, GroupName = group.GroupName}), JsonRequestBehavior.AllowGet);
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
     }
 }

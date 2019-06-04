@@ -185,11 +185,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\GroupsInTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\EducationUnitController.cs" />
     <Compile Include="Controllers\SpecializationController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -201,7 +203,9 @@
     <Compile Include="Models\Identity\RegisterViewModel.cs" />
     <Compile Include="Models\ViewModels\AssignGroupItem.cs" />
     <Compile Include="Models\ViewModels\AssignGroupsViewModel.cs" />
+    <Compile Include="Models\ViewModels\CreateQuestionViewModel.cs" />
     <Compile Include="Models\ViewModels\EditUserViewModel.cs" />
+    <Compile Include="Models\ViewModels\EducationUnitGroupsViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupTestsViewModel.cs" />
     <Compile Include="Models\ViewModels\IndexUserViewModel.cs" />
@@ -265,7 +269,6 @@
     <Content Include="Views\User\PartialIndex.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Specialization\Groups.cshtml" />
     <Content Include="Views\Test\PartialIndex.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
@@ -279,6 +282,14 @@
     <Content Include="Views\Question\Index.cshtml" />
     <Content Include="Views\Question\PartialIndex.cshtml" />
     <Content Include="Views\Question\Edit.cshtml" />
+    <Content Include="Views\EducationUnit\Edit.cshtml" />
+    <Content Include="Views\EducationUnit\Groups.cshtml" />
+    <Content Include="Views\EducationUnit\Index.cshtml" />
+    <Content Include="Views\EducationUnit\PartialIndex.cshtml" />
+    <Content Include="Views\User\Create - Copy.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout - Copy.cshtml" />
+    <Content Include="Views\Question\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -27,6 +27,7 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<SpecializationRepository>().As<IGenericRepository<Specialization>>().InstancePerRequest();
             builder.RegisterType<TestRepository>().As<IGenericRepository<Test>>().InstancePerRequest();
             builder.RegisterType<UserRepository>().As<IGenericRepository<User>>().InstancePerRequest();
+            builder.RegisterType<EducationUnitRepository>().As<IGenericRepository<EducationUnit>>().InstancePerRequest();
 
             builder.RegisterType<GroupDTOService>().As<IEntityService<GroupDTO>>();
             builder.RegisterType<GroupsInTestDTOService>().As<IEntityService<GroupsInTestDTO>>();
@@ -36,6 +37,7 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<SpecializationDTOService>().As<IEntityService<SpecializationDTO>>();
             builder.RegisterType<TestDTOService>().As<IEntityService<TestDTO>>();
             builder.RegisterType<UserDTOService>().As<IEntityService<UserDTO>>();
+            builder.RegisterType<EducationUnitDTOService>().As<IEntityService<EducationUnitDTO>>();
         }
     }
 }

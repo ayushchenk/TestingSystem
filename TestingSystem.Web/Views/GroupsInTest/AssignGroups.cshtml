@@ -33,7 +33,7 @@
                 <th></th>
             </tr>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @for(int i = 0; i< Model.Groups.Count; i++)
+            @for (int i = 0; i < Model.Groups.Count; i++)
             {
                 <tr>
                     <td>
@@ -43,10 +43,10 @@
                         @Html.Label(Model.Groups[i].Group.GroupName)
                     </td>
                     <td>
-                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartDate, new { @type = "date",  htmlAttributes = new { @class = $"to-hide start-date-{Model.Groups[i].Group.Id} form-control" } })
+                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartDate, new { @type = "date", htmlAttributes = new { @class = $"to-hide start-date-{Model.Groups[i].Group.Id} form-control" } })
                     </td>
                     <td>
-                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartTime, new { htmlAttributes = new { @class = $"to-hide start-time-{Model.Groups[i].Group.Id} form-control" } })
+                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartTime, new { @type = "time",  htmlAttributes = new { @class = $"to-hide start-time-{Model.Groups[i].Group.Id} form-control" } })
                     </td>
                     <td>
                         @Html.EditorFor(x => x.Groups[i].GroupInTest.Length, new { htmlAttributes = new { @class = $"to-hide length-{Model.Groups[i].Group.Id} form-control" } })

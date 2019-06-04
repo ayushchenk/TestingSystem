@@ -17,13 +17,15 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<GroupDTO> groupService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<GroupsInTestDTO> groupInTestService;
+        private IEntityService<EducationUnitDTO> unitService;
 
-        public GroupController(IEntityService<GroupDTO> groupService, IEntityService<UserDTO> userService, IEntityService<GroupsInTestDTO> groupInTestService, IEntityService<SpecializationDTO> specService)
+        public GroupController(IEntityService<GroupDTO> groupService, IEntityService<UserDTO> userService, IEntityService<GroupsInTestDTO> groupInTestService, IEntityService<SpecializationDTO> specService, IEntityService<EducationUnitDTO> unitService)
         {
             this.groupService = groupService;
             this.userService = userService;
             this.groupInTestService = groupInTestService;
             this.specService = specService;
+            this.unitService = unitService;
         }
 
         public ActionResult Index()
@@ -35,7 +37,8 @@ namespace TestingSystem.Web.Controllers
         {
             if (!String.IsNullOrWhiteSpace(filter))
                 return PartialView(await groupService.FindByAsync(group => group.GroupName.ToLower().Contains(filter.ToLower())
-                                                                        || group.SpecializationName.ToLower().Contains(filter.ToLower())));
+                                                                        || group.SpecializationName.ToLower().Contains(filter.ToLower())
+                                                                        || group.EducationUnitName.ToLower().Contains(filter.ToLower())));
             return PartialView(await groupService.GetAllAsync());
         }
 
@@ -68,6 +71,7 @@ namespace TestingSystem.Web.Controllers
         {
             var model = await groupService.GetAsync(id) ?? new GroupDTO();
             ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            ViewBag.EducationUnitId = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
             return View(model);
         }
 
@@ -80,6 +84,7 @@ namespace TestingSystem.Web.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", group.SpecializationId);
+            ViewBag.EducationUnitId = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", group.EducationUnitId);
             return View(group);
         }
 

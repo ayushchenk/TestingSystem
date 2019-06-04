@@ -6,38 +6,27 @@ namespace TestingSystem.DAL.DbModel
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("public.users")]
     public partial class User
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("id")]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(40)]
-        [Column("login")]
+        [StringLength(64)]
         public string Login { get; set; }
 
         [Required]
-        [MaxLength(40)]
-        [Column("email")]
+        [StringLength(64)]
         public string Email { get; set; }
 
-        [MaxLength(15)]
-        [Column("firstname")]
+        [StringLength(64)]
         public string FirstName { get; set; }
 
-        [MaxLength(20)]
-        [Column("lastname")]
+        [StringLength(64)]
         public string LastName { get; set; }
 
-        [MaxLength(20)]
-        [Column("patronymic")]
+        [StringLength(64)]
         public string Patronymic { get; set; }
 
-        [Required]
-        [Column("group_id")]
         public int GroupId { get; set; }
 
         public virtual Group Group { get; set; }

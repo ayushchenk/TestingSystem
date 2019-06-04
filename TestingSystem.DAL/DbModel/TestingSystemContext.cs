@@ -7,8 +7,12 @@ namespace TestingSystem.DAL.DbModel
 
     public partial class TestingSystemContext : DbContext
     {
-        public TestingSystemContext() : base("name=TestingSystem") { }
+        public TestingSystemContext()
+            : base("name=TestingSystemContext")
+        {
+        }
 
+        public virtual DbSet<EducationUnit> EducationUnits { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<GroupsInTest> GroupsInTests { get; set; }
         public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
@@ -20,40 +24,43 @@ namespace TestingSystem.DAL.DbModel
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("public");
+            modelBuilder.Entity<EducationUnit>()
+                .HasMany(e => e.Groups)
+                .WithRequired(e => e.EducationUnit)
+                .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Group>()
-            //    .HasMany(e => e.GroupsInTests)
-            //    .WithRequired(e => e.Group)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Group>()
+                .HasMany(e => e.GroupsInTests)
+                .WithRequired(e => e.Group)
+                .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<QuestionImage>()
-            //    .HasMany(e => e.Questions)
-            //    .WithOptional(e => e.QuestionImage)
-            //    .HasForeignKey(e => e.ImageId);
+            modelBuilder.Entity<Group>()
+                .HasMany(e => e.Users)
+                .WithRequired(e => e.Group)
+                .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Question>()
-            //    .HasMany(e => e.QuestionAnswers)
-            //    .WithRequired(e => e.Question)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Question>()
+                .HasMany(e => e.QuestionAnswers)
+                .WithRequired(e => e.Question)
+                .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Specialization>()
-            //    .HasMany(e => e.Groups)
-            //    .WithRequired(e => e.Specialization)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Specialization>()
+                .HasMany(e => e.Groups)
+                .WithRequired(e => e.Specialization)
+                .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Specialization>()
-            //    .HasMany(e => e.Questions)
-            //    .WithRequired(e => e.Specialization)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Specialization>()
+                .HasMany(e => e.Questions)
+                .WithRequired(e => e.Specialization)
+                .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Specialization>()
-            //    .HasMany(e => e.Tests)
-            //    .WithRequired(e => e.Specialization)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Test>()
+                .HasMany(e => e.GroupsInTests)
+                .WithRequired(e => e.Test)
+                .WillCascadeOnDelete(false);
 
             //modelBuilder.Entity<Test>()
-            //    .HasMany(e => e.GroupsInTests)
+            //    .HasMany(e => e.Questions)
             //    .WithRequired(e => e.Test)
             //    .WillCascadeOnDelete(false);
         }

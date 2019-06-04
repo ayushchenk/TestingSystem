@@ -14,5 +14,7 @@ namespace TestingSystem.Web.Models.ViewModels
         public string Role { set; get; }
 
         public int Group { set; get; }
+
+        public int EducationUnit { set; get; }
     }
 }

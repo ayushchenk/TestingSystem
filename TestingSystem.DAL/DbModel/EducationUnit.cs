@@ -6,21 +6,21 @@ namespace TestingSystem.DAL.DbModel
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class QuestionImage
+    public partial class EducationUnit
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public QuestionImage()
+        public EducationUnit()
         {
-            Questions = new HashSet<Question>();
+            Groups = new HashSet<Group>();
         }
 
         public int Id { get; set; }
 
         [Required]
-        [StringLength(256)]
-        public string ImagePath { get; set; }
+        [StringLength(128)]
+        public string EducationUnitName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
     }
 }

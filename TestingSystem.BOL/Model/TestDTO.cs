@@ -8,19 +8,16 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [StringLength(128)]
         public string TestName { get; set; }
 
-        [Required]
-        public bool IsOpen { set; get; }
+        public bool IsOpen { get; set; }
 
-        [Required]
-        public int SpecializationId { set; get; }
+        public int QuestionCount { set; get; }
 
-        [Required]
-        public int Questions { set; get; }
-
-        [MaxLength(40)]
+        [StringLength(64)]
         public string SpecializationName { get; set; }
+
+        public int SpecializationId { get; set; }
     }
 }
