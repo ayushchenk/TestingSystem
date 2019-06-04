@@ -16,7 +16,7 @@ namespace TestingSystem.Console
             //context.SaveChanges();
             //context.Groups.Add(new Group { GroupName = "FOAIS 1.6", SpecializationId =  });
             //context.SaveChanges();
-
+                
             UsingContext(context);
             System.Console.WriteLine(new string('=', 50));
             UsingRepository(context);
@@ -29,6 +29,7 @@ namespace TestingSystem.Console
             System.Console.ReadKey();
         }
 
+        #region UsingContext
         private static void UsingContext(TestingSystemContext context)
         {
             System.Console.WriteLine("Using context:");
@@ -39,7 +40,8 @@ namespace TestingSystem.Console
             foreach (var group in context.Groups)
                 System.Console.WriteLine($"{group.Id} \t {group.GroupName} \t {group.Specialization.SpecializationName}");
         }
-
+        #endregion
+        #region UsingRepository
         private static void UsingRepository(TestingSystemContext context)
         {
             IGenericRepository<Group> groupRepos = new GroupRepository(context);
@@ -54,7 +56,8 @@ namespace TestingSystem.Console
             foreach (var group in groupRepos.GetAll())
                 System.Console.WriteLine($"{group.Id} \t {group.GroupName} \t {group.Specialization.SpecializationName}");
         }
-
+        #endregion
+        #region UsingServicesAsync
         private static async void UsingServices(TestingSystemContext context)
         {
             IGenericRepository<Group> groupRepos = new GroupRepository(context);
@@ -71,5 +74,6 @@ namespace TestingSystem.Console
             foreach (var group in await groupService.GetAllAsync())
                 System.Console.WriteLine($"{group.Id} \t {group.GroupName} \t {group.SpecializationName}");
         }
+        #endregion
     }
 }
