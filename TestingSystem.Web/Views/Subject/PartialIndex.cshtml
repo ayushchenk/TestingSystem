@@ -1,40 +1,47 @@
-﻿@model IEnumerable<TestingSystem.BOL.Model.SpecializationDTO>
+﻿@model IEnumerable<TestingSystem.BOL.Model.SubjectDTO>
 
 <p>
-    @Html.ActionLink("Create New", "Edit", new { id = 0 }, new { })
+    @Html.ActionLink("Create New", "Edit", new { id = 0})
 </p>
 @if (Model.Count() != 0)
 {
     <table class="table">
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.SubjectName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.SpecializationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecializationId)
             </th>
             <th></th>
         </tr>
-
 
         @foreach (var item in Model)
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.SpecializationName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Groups", "Groups", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Subjects", "Subjects", new { id = item.Id }, new { }) |
+                    @Html.DisplayFor(modelItem => item.SpecializationId)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
                 </td>
             </tr>
         }
-
     </table>
 }
 else
 {
     <div class="alert-info">
-        No specializations
+        No subjects
     </div>
 }
-

@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="Common\GenericRepository.cs" />
     <Compile Include="Common\IGenericRepository.cs" />
-    <Compile Include="Common\Entity.cs" />
+    <Compile Include="Common\IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

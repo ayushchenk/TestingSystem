@@ -15,14 +15,16 @@ namespace TestingSystem.Web.Controllers
     {
         private IEntityService<TestDTO> testService;
         private IEntityService<GroupDTO> groupService;
+        private IEntityService<SubjectDTO> subjectService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<GroupsInTestDTO> groupsInTestService;
 
-        public TestController(IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupService, IEntityService<SpecializationDTO> specService, IEntityService<GroupsInTestDTO> groupsInTestService)
+        public TestController(IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupService, IEntityService<SpecializationDTO> specService, IEntityService<GroupsInTestDTO> groupsInTestService, IEntityService<SubjectDTO> subjectService)
         {
             this.testService = testService;
             this.specService = specService;
             this.groupService = groupService;
+            this.subjectService = subjectService;
             this.groupsInTestService = groupsInTestService;
         }
 
@@ -39,10 +41,19 @@ namespace TestingSystem.Web.Controllers
             return PartialView(await testService.GetAllAsync());
         }
 
+        public async Task<ActionResult> Create()
+        {
+            var model = new TestDTO();
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName");
+            ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
+            return View("Edit", model);
+        }
+
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await testService.GetAsync(id) ?? new TestDTO();
-            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => subject.SpecializationId == model.SpecializationId), "Id", "SubjectName", model.SubjectId);
             return View(model);
         }
 
@@ -54,7 +65,8 @@ namespace TestingSystem.Web.Controllers
                 await testService.AddOrUpdateAsync(model);
                 return RedirectToAction("Index");
             }
-            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => subject.SpecializationId == model.SpecializationId), "Id", "SubjectName", model.SubjectId);
             return View(model);
         }
 
@@ -86,7 +98,5 @@ namespace TestingSystem.Web.Controllers
             }
             return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
         }
-
-        
     }
 }

@@ -36,23 +36,31 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="file" id="file">
+                <input type="file" accept="image/*" name="file" id="file" />
+                <input type="button" value="Discard" id="btn-discard" style="margin-left: 20px;" />
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("Image")
             <div class="col-md-10">
-                @if (!String.IsNullOrWhiteSpace(Model.ImagePath))
-                {
-                    <div>
-                        <img src="@Model.ImagePath" style="max-height: 150px; max-width: 150px;">
-                    </div>
-                }
-                else
-                {
-                    Html.Label("No image");
-                }
+                @Html.Label("Image: ")
+                <div>
+                    <img id="output" src="@Model.ImagePath" style="max-height: 250px; max-width: 250px;" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" id="answer-cont-master">
+            <div class="col-md-10">
+                <table id="answer-cont">
+                    <tbody>
+                        <tr>
+                            <th>Answers</th>
+                            <th>IsCorrect</th>
+                            <th>Action</th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -70,4 +78,16 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            $("#btn-discard").click(function () {
+                $("#file").val("");
+                $("#output").attr("src", "@Model.ImagePath");
+            });
+
+            $("#file").change(function (e) {
+                $("#output").attr("src", URL.createObjectURL(e.target.files[0]));
+            });
+        });
+    </script>
 }

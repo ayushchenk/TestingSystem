@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TestingSystem.DAL.DbModel
 {
-    public partial class EducationUnit:IEntity<int>
+    public partial class Subject : IEntity<int>
     {
         [NotMapped]
         int IEntity<int>.Id

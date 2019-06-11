@@ -6,10 +6,10 @@ using System.Data.Entity.Migrations;
 
 namespace GenericRepository.Common
 {
-    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class, Entity<int>,new()
+    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity<int>,new()
     {
         DbContext context;
-        IDbSet<T> dbSet;
+        DbSet<T> dbSet;
 
         public GenericRepository(DbContext context)
         {

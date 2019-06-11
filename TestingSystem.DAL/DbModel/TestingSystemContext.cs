@@ -19,6 +19,7 @@ namespace TestingSystem.DAL.DbModel
         public virtual DbSet<QuestionImage> QuestionImages { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<Specialization> Specializations { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
@@ -39,30 +40,30 @@ namespace TestingSystem.DAL.DbModel
                 .WithRequired(e => e.Group)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Question>()
-                .HasMany(e => e.QuestionAnswers)
-                .WithRequired(e => e.Question)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Specialization>()
                 .HasMany(e => e.Groups)
                 .WithRequired(e => e.Specialization)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Specialization>()
-                .HasMany(e => e.Questions)
+                .HasMany(e => e.Subjects)
                 .WithRequired(e => e.Specialization)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany(e => e.Questions)
+                .WithRequired(e => e.Subject)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany(e => e.Tests)
+                .WithRequired(e => e.Subject)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Test>()
                 .HasMany(e => e.GroupsInTests)
                 .WithRequired(e => e.Test)
                 .WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<Test>()
-            //    .HasMany(e => e.Questions)
-            //    .WithRequired(e => e.Test)
-            //    .WillCascadeOnDelete(false);
         }
     }
 }

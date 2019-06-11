@@ -22,13 +22,13 @@ namespace TestingSystem.DAL.DbModel
 
         public int? QuestionImageId { get; set; }
 
-        public int SpecializationId { set; get; }
+        public int SubjectId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
 
         public virtual QuestionImage QuestionImage { get; set; }
 
-        public virtual Specialization Specialization { get; set; }
+        public virtual Subject Subject { get; set; }
     }
 }

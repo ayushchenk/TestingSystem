@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestingSystem.DAL.DbModel
 {
-    public partial class Question:Entity<int>
+    public partial class Question:IEntity<int>
     {
         [NotMapped]
-        int Entity<int>.Id
+        int IEntity<int>.Id
         {
             get { return this.Id; }
             set { this.Id = value; }

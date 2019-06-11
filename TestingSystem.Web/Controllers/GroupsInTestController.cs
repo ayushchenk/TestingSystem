@@ -33,7 +33,7 @@ namespace TestingSystem.Web.Controllers
                 var alreadyAssigned = groupsInTestService.FindBy(git => git.TestId == id).Select(git => git.GroupId);
                 var model = new AssignGroupsViewModel();
                 model.TestId = id;
-                foreach (var group in await groupService.FindByAsync(group => !alreadyAssigned.Contains(group.Id)))
+                foreach (var group in await groupService.FindByAsync(group => !alreadyAssigned.Contains(group.Id) && group.SpecializationId == item.SpecializationId))
                     model.Groups.Add(new AssignGroupItem
                     {
                         Group = group

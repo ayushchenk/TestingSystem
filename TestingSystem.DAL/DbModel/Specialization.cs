@@ -12,8 +12,7 @@ namespace TestingSystem.DAL.DbModel
         public Specialization()
         {
             Groups = new HashSet<Group>();
-            Tests = new HashSet<Test>();
-            Questions = new HashSet<Question>();
+            Subjects = new HashSet<Subject>();
         }
 
         public int Id { get; set; }
@@ -26,9 +25,6 @@ namespace TestingSystem.DAL.DbModel
         public virtual ICollection<Group> Groups { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Test> Tests { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Subject> Subjects { get; set; }
     }
 }

@@ -17,10 +17,10 @@ namespace TestingSystem.BOL.Model
         [StringLength(128)]
         public string EducationUnitName { get; set; }
 
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SpecializationId { get; set; }
 
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int EducationUnitId { get; set; }
     }
 }

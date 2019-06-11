@@ -44,15 +44,21 @@
                     </td>
                     <td>
                         @Html.EditorFor(x => x.Groups[i].GroupInTest.StartDate, new { @type = "date", htmlAttributes = new { @class = $"to-hide start-date-{Model.Groups[i].Group.Id} form-control" } })
+                        <br />
+                        @Html.ValidationMessageFor(x => x.Groups[i].GroupInTest.StartDate, "", new { @class = "text-danger" })
                     </td>
                     <td>
-                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartTime, new { @type = "time",  htmlAttributes = new { @class = $"to-hide start-time-{Model.Groups[i].Group.Id} form-control" } })
+                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartTime, new { @type = "time", htmlAttributes = new { @class = $"to-hide start-time-{Model.Groups[i].Group.Id} form-control" } })
+                        <br />
+                        @Html.ValidationMessageFor(x => x.Groups[i].GroupInTest.StartTime, "", new { @class = "text-danger" })
                     </td>
                     <td>
                         @Html.EditorFor(x => x.Groups[i].GroupInTest.Length, new { htmlAttributes = new { @class = $"to-hide length-{Model.Groups[i].Group.Id} form-control" } })
+                        <br />
+                        @Html.ValidationMessageFor(x => x.Groups[i].GroupInTest.Length, "", new { @class = "text-danger" })
                     </td>
                     <td>
-                        @Html.ActionLink("Users", "Users", "Group",  new { id = Model.Groups[i].Group.Id }, null) 
+                        @Html.ActionLink("Users", "Users", "Group", new { id = Model.Groups[i].Group.Id }, null)
                     </td>
                 </tr>
                 @Html.HiddenFor(x => x.Groups[i].Group.Id)
@@ -72,6 +78,7 @@ else
 }
 
 @section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
             $(".to-hide").hide();

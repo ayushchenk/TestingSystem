@@ -24,7 +24,7 @@ namespace TestingSystem.BOL.Service
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<QuestionAnswer, QuestionAnswerDTO>()
                     .ForMember("QuestionString", opt => opt.MapFrom(answer => answer.Question.QuestionString))
-                    .ForMember("SpecializationName", opt => opt.MapFrom(answer => answer.Question.Specialization.SpecializationName));
+                    .ForMember("SpecializationName", opt => opt.MapFrom(answer => answer.Question.Subject.Specialization.SpecializationName));
                 cfg.CreateMap<QuestionAnswerDTO, QuestionAnswer>();
             }).CreateMapper();
         }

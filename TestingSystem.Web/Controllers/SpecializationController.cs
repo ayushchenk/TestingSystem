@@ -13,17 +13,19 @@ namespace TestingSystem.Web.Controllers
     //[Authorize(Roles = "Admin")]
     public class SpecializationController : Controller
     {
-        private IEntityService<SpecializationDTO> specService;
-        private IEntityService<GroupDTO> groupsService;
         private IEntityService<TestDTO> testService;
         private IEntityService<UserDTO> userService;
+        private IEntityService<GroupDTO> groupsService;
+        private IEntityService<SubjectDTO> subjectService;
+        private IEntityService<SpecializationDTO> specService;
 
-        public SpecializationController(IEntityService<SpecializationDTO> specService, IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupsService, IEntityService<UserDTO> userService)
+        public SpecializationController(IEntityService<SpecializationDTO> specService, IEntityService<SubjectDTO> subjectService, IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupsService, IEntityService<UserDTO> userService)
         {
             this.testService = testService;
             this.specService = specService;
             this.userService = userService;
             this.groupsService = groupsService;
+            this.subjectService = subjectService;
         }
 
         public ActionResult Index()
@@ -68,17 +70,33 @@ namespace TestingSystem.Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> Subjects(int id = 0)
+        {
+            var spec = await specService.GetAsync(id);
+            if (spec == null)
+                return RedirectToAction("Index");
+            var model = new SpecSubjectsViewModel
+            {
+                Subjects = await subjectService.FindByAsync(group => group.SpecializationId == spec.Id),
+                Specialization = spec
+            };
+            return View(model);
+        }
+
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await specService.GetAsync(id);
             if (item != null)
             {
-                var groups = await groupsService.FindByAsync(group => group.SpecializationId == item.Id);
                 var tests = await testService.FindByAsync(test => test.SpecializationId == item.Id);
+                var groups = await groupsService.FindByAsync(group => group.SpecializationId == item.Id);
+                var subjects = await subjectService.FindByAsync(subject => subject.SpecializationId == item.Id);
                 if (groups.Count() != 0)
                     return Json($"There are groups relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
                 if (tests.Count() != 0)
                     return Json($"There are tests relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
+                if (subjects.Count() != 0)
+                    return Json($"There are subjects relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
                 await specService.DeleteAsync(item);
                 return Json($"Successfully deleted: #{item.Id} - \"{item.SpecializationName}\"", JsonRequestBehavior.AllowGet);
             }

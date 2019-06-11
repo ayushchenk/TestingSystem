@@ -65,6 +65,7 @@
     <Compile Include="Repositories\QuestionImageRepository.cs" />
     <Compile Include="Repositories\QuestionRepository.cs" />
     <Compile Include="Repositories\SpecializationRepository.cs" />
+    <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Repositories\TestRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>

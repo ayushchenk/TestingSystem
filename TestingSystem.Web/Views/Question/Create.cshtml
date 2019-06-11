@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Create</h2>
 
 
-@using (Html.BeginForm("Edit", "Question", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Question", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -29,38 +29,65 @@
         <div class="form-group">
             @Html.LabelFor(m => m.Question.SpecializationName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("SpecializationId", null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Question.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Question.SpecializationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="subject-container">
+            @Html.LabelFor(m => m.Question.SubjectName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Question.SubjectId, ((SelectList)ViewBag.Subjects), null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Question.SubjectId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Question.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="file" id="file">
+                <input type="file" accept="image/*" name="file" id="file" />
+                <input type="button" value="Discard photo" id="btn-discard" style="margin-left: 20px;" />
+            </div>
+        </div>
+
+        <div class="form-group" id="img-container">
+            <div class="col-md-6">
+                <img id="output" src="@Model.Question.ImagePath" style="max-height: 250px; max-width: 250px;" />
+                <input type="button" value="Delete photo" id="btn-delete-photo" style="margin-left: 20px;"/>
             </div>
         </div>
 
         <div class="form-group" id="answer-cont-master">
             <div class="col-md-10">
                 <table id="answer-cont">
-                    <tr>
-                        <th>Answer</th>
-                        <th></th>
-                    </tr>
-
+                    <tbody>
+                        <tr>
+                            <th>Answers</th>
+                            <th>IsCorrect</th>
+                            <th>Action</th>
+                        </tr>
+                        @for (int i = 0; i < Model.Answers.Count(); i++)
+                        {
+                            <tr data-id="@i">
+                                <td>@Html.EditorFor(model => model.Answers[i].AnswerString, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="text-center">@Html.EditorFor(model => model.Answers[i].IsCorrect)</td>
+                                <td><input type="button" value="Remove" class="btn-remove" /></td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-10">
-                <input type="button" class="btn-default" id="add-item" title="Add answer"/>
+                <input type="button" class="btn-default" id="add-item" value="Add answer" />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" id="submit" />
             </div>
         </div>
     </div>
@@ -74,24 +101,105 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            id = 0;
-            $("#answer-cont-master").hide();
+            specId = @Model.Question.SpecializationId;
+            subId = @Model.Question.SubjectId;
+
+            if(specId == 0)
+                $("#Question_SpecializationId").val([]);
+            if(subId == 0)
+                $("#subject-container").hide();
+
+            id = @Model.Answers.Count();
+
+            isPathEmpty = $.parseJSON("@string.IsNullOrWhiteSpace(Model.Question.ImagePath)".toLowerCase());
+            if(isPathEmpty)
+                $("#img-container").hide();
+
+            if(id == 0)
+                $("#answer-cont-master").hide();
 
             $("#add-item").click(function () {
-                $("#answer-cont-master").show();
-                html = "<tr> <td> <input type='text'/> </td> </tr>"
-                //html = "<tr>" +
-                //            `<td> <input type="text"  id="Answers_${id}__Id" name="Answers[${id}].Id"/> </td>` +
-                //       "</tr>";
-                $.ajax({
-                    url: this.href,
-                    cache: false,
-                    success: function () { $("#answer-cont").append(html); }
-                });
-                return false;
+                if (id < 10) {
+                    $("#answer-cont-master").show();
+                    html = `<tr data-id=${id}>` +
+                                `<td> <textarea id="Answers_${id}__AnswerString" name="Answers[${id}].AnswerString" class="form-control" rows="3" columns="100" maxlength="250"/> </td>` +
+                                `<td class="text-center"> <input type="checkbox" id="Answers_${id}__IsCorrect" name="Answers[${id}].IsCorrect" value="true"/>` +
+                                `<input type="hidden" value="false" name="Answers[${id}].IsCorrect"/></td> ` +
+                                `<td> <input type="button" value="Remove" class="btn-remove"/> </td>` +
+                           "</tr>";
+                    $.ajax({
+                        url: this.href,
+                        cache: false,
+                        success: function () { $("#answer-cont").append(html); id++; }
+                    });
+                    return false;
+                }
             });
 
-            //id="Answers_0__Id" name="Answers[0].Id"
+            $("#answer-cont tbody").on("click", ".btn-remove", function () {
+                selectedId = $(this).closest("tr").attr("data-id");
+                $(this).closest("tr").remove(); id--;
+
+                for (i = selectedId; i <= id; i++) {
+                    $(`tr[data-id="${i}"]`).attr("data-id", i - 1);
+                    answerString = $(`#Answers_${i}__AnswerString`);
+                    answerString.attr("id", `Answers_${i - 1}__AnswerString`);
+                    answerString.attr("name", `Answers[${i - 1}].AnswerString`);
+                    isCorrect = $(`#Answers_${i}__IsCorrect`);
+                    isCorrect.attr("id", `Answers_${i - 1}__IsCorrect`);
+                    isCorrect.attr("name", `Answers[${i - 1}].IsCorrect`);
+                    $(`[name="Answers[${id}].IsCorrect"][type="hidden"]`).attr("name", `Answers[${i - 1}].IsCorrect`);
+                }
+
+                if (id === 0) {
+                    $("#answer-cont-master").hide();
+                }
+            });
+
+            $("#btn-delete-photo").click(function(){
+                $("#Question_QuestionImageId").attr("value", null);
+                $("#file").val("");
+                $("#output").attr("src", "");
+                $("#img-container").hide();
+            });
+
+            $("#btn-discard").click(function () {
+                if(isPathEmpty)
+                    $("#img-container").hide();
+                $("#file").val("");
+                if(isPathEmpty)
+                    $("#output").attr("src", "");
+                else
+                    $("#output").attr("src", "@Model.Question.ImagePath");
+            });
+
+            $("#submit").click(function (e) {
+                correctCount = 0;
+                for (i = 0; i < id; i++) {
+                    if ($(`#Answers_${i}__IsCorrect`).prop('checked') &&
+                        $(`#Answers_${i}__AnswerString`).val() !== "") correctCount++;
+                }
+                if (correctCount === 0) {
+                    alert("Question must have at least one correct answer");
+                    e.preventDefault();
+                }
+            });
+
+            $("#file").change(function (e) {
+                $("#img-container").show();
+                $("#output").attr("src", URL.createObjectURL(e.target.files[0]));
+            });
+
+            $("#Question_SpecializationId").change(function () {
+                subjects = $("#Question_SubjectId");
+                $("#subject-container").show();
+                $.getJSON("@Url.Action("GetSubjectsBySpecialization", "Service")", { id : $(this).val()}, function (response) {
+                    subjects.empty();
+                    $.each(response, function (index, item) {
+                        subjects.append($('<option></option>').text(item.SubjectName).val(item.Id));
+                    });
+                });
+            });
         });
     </script>
 }

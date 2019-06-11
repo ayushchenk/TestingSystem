@@ -6,29 +6,29 @@ namespace TestingSystem.DAL.DbModel
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Test
+    public partial class Subject
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Test()
+        public Subject()
         {
-            GroupsInTests = new HashSet<GroupsInTest>();
+            Questions = new HashSet<Question>();
+            Tests = new HashSet<Test>();
         }
 
         public int Id { get; set; }
 
         [Required]
-        [StringLength(128)]
-        public string TestName { get; set; }
+        [StringLength(32)]
+        public string SubjectName { get; set; }
 
-        public bool IsOpen { get; set; }
-
-        public int QuestionCount { get; set; }
-
-        public int SubjectId { get; set; }
+        public int SpecializationId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GroupsInTest> GroupsInTests { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
 
-        public virtual Subject Subject { get; set; }
+        public virtual Specialization Specialization { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Test> Tests { get; set; }
     }
 }

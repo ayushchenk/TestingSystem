@@ -19,8 +19,13 @@ namespace TestingSystem.BOL.Model
         [StringLength(64)]
         public string SpecializationName { get; set; }
 
+        [StringLength(32)]
+        public string SubjectName { get; set; }
+
         public int? QuestionImageId { get; set; }
 
         public int SpecializationId { get; set; }
+
+        public int SubjectId { get; set; }
     }
 }

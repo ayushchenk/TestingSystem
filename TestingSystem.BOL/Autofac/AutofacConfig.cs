@@ -28,16 +28,18 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<TestRepository>().As<IGenericRepository<Test>>().InstancePerRequest();
             builder.RegisterType<UserRepository>().As<IGenericRepository<User>>().InstancePerRequest();
             builder.RegisterType<EducationUnitRepository>().As<IGenericRepository<EducationUnit>>().InstancePerRequest();
+            builder.RegisterType<SubjectRepository>().As<IGenericRepository<Subject>>().InstancePerRequest();
 
-            builder.RegisterType<GroupDTOService>().As<IEntityService<GroupDTO>>();
-            builder.RegisterType<GroupsInTestDTOService>().As<IEntityService<GroupsInTestDTO>>();
-            builder.RegisterType<QuestionAnswerDTOService>().As<IEntityService<QuestionAnswerDTO>>();
-            builder.RegisterType<QuestionDTOService>().As<IEntityService<QuestionDTO>>();
-            builder.RegisterType<QuestionImageDTOService>().As<IEntityService<QuestionImageDTO>>();
-            builder.RegisterType<SpecializationDTOService>().As<IEntityService<SpecializationDTO>>();
-            builder.RegisterType<TestDTOService>().As<IEntityService<TestDTO>>();
-            builder.RegisterType<UserDTOService>().As<IEntityService<UserDTO>>();
-            builder.RegisterType<EducationUnitDTOService>().As<IEntityService<EducationUnitDTO>>();
+            builder.RegisterType<GroupDTOService>().As<IEntityService<GroupDTO>>().InstancePerRequest();
+            builder.RegisterType<GroupsInTestDTOService>().As<IEntityService<GroupsInTestDTO>>().InstancePerRequest();
+            builder.RegisterType<QuestionAnswerDTOService>().As<IEntityService<QuestionAnswerDTO>>().InstancePerRequest();
+            builder.RegisterType<QuestionDTOService>().As<IEntityService<QuestionDTO>>().InstancePerRequest();
+            builder.RegisterType<QuestionImageDTOService>().As<IEntityService<QuestionImageDTO>>().InstancePerRequest();
+            builder.RegisterType<SpecializationDTOService>().As<IEntityService<SpecializationDTO>>().InstancePerRequest();
+            builder.RegisterType<TestDTOService>().As<IEntityService<TestDTO>>().InstancePerRequest();
+            builder.RegisterType<UserDTOService>().As<IEntityService<UserDTO>>().InstancePerRequest();
+            builder.RegisterType<EducationUnitDTOService>().As<IEntityService<EducationUnitDTO>>().InstancePerRequest();
+            builder.RegisterType<SubjectDTOService>().As<IEntityService<SubjectDTO>>().InstancePerRequest();
         }
     }
 }

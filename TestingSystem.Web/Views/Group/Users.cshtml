@@ -7,7 +7,7 @@
 
 <h2>Group @Model.Group.GroupName Users</h2>
 <hr />
-@Html.ActionLink("Create new", "Create", "User", new {groupId = Model.Group.Id}, new { })
+@Html.ActionLink("Create new", "Create", "User", new {id = Model.Group.Id}, new { })
 
 @if (Model.Users != null && Model.Users.Count() != 0)
 {

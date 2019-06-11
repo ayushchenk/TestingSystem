@@ -61,21 +61,24 @@
         <div class="form-group">
             @Html.LabelFor(m => m.EducationUnit, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("EducationUnit", null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.EducationUnit, (IEnumerable<SelectListItem>)ViewBag.EducationUnits, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EducationUnit, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group" id="group-cont">
             @Html.LabelFor(m => m.Group, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("Group", null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Group, (IEnumerable<SelectListItem>)ViewBag.Groups, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Group, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("Role", null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Role, (IEnumerable<SelectListItem>)ViewBag.Roles, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -99,7 +102,7 @@
 
             $("#EducationUnit").change(function () {
                 groups = $("#Group");
-                $.getJSON("@Url.Action("GetGroupsByUnit")", { id : $(this).val()}, function (response) {
+                $.getJSON("@Url.Action("GetGroupsByUnit", "Service")", { id : $(this).val()}, function (response) {
                     groups.empty();
                     $("#group-cont").show();
                     $.each(response, function (index, item) {

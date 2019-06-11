@@ -1,6 +1,6 @@
 ﻿namespace GenericRepository.Common
 {
-    public interface Entity<T>
+    public interface IEntity<T>
     {
         T Id { set; get; }
     }

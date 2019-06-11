@@ -11,7 +11,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>TestDTO</h4>
         <hr />
@@ -29,7 +29,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SpecializationName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("SpecializationId", null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SpecializationId, (IEnumerable<SelectListItem>)ViewBag.Specializations, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SpecializationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="subject-cont">
+            @Html.LabelFor(m => m.SubjectName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SubjectId, (IEnumerable<SelectListItem>)ViewBag.Subjects, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -37,6 +46,7 @@
             @Html.LabelFor(model => model.QuestionCount, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.QuestionCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.QuestionCount, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -64,4 +74,27 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            specId = @Model.SpecializationId;
+            subId = @Model.SubjectId;
+
+            if(specId == 0)
+                $("#SpecializationId").val([]);
+            if(subId == 0)
+                $("#subject-container").hide();
+
+
+            $("#SpecializationId").change(function () {
+                subjects = $("#SubjectId");
+                $("#subject-container").show();
+                $.getJSON("@Url.Action("GetSubjectsBySpecialization", "Service")", { id : $(this).val()}, function (response) {
+                    subjects.empty();
+                    $.each(response, function (index, item) {
+                        subjects.append($('<option></option>').text(item.SubjectName).val(item.Id));
+                    });
+                });
+            });
+        });
+    </script>
 }

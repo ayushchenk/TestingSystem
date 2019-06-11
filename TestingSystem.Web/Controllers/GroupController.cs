@@ -21,11 +21,11 @@ namespace TestingSystem.Web.Controllers
 
         public GroupController(IEntityService<GroupDTO> groupService, IEntityService<UserDTO> userService, IEntityService<GroupsInTestDTO> groupInTestService, IEntityService<SpecializationDTO> specService, IEntityService<EducationUnitDTO> unitService)
         {
-            this.groupService = groupService;
             this.userService = userService;
-            this.groupInTestService = groupInTestService;
             this.specService = specService;
             this.unitService = unitService;
+            this.groupService = groupService;
+            this.groupInTestService = groupInTestService;
         }
 
         public ActionResult Index()
@@ -70,8 +70,8 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await groupService.GetAsync(id) ?? new GroupDTO();
-            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
-            ViewBag.EducationUnitId = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
             return View(model);
         }
 
@@ -83,8 +83,8 @@ namespace TestingSystem.Web.Controllers
                 await groupService.AddOrUpdateAsync(group);
                 return RedirectToAction("Index");
             }
-            ViewBag.SpecializationId = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", group.SpecializationId);
-            ViewBag.EducationUnitId = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", group.EducationUnitId);
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", group.SpecializationId);
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", group.EducationUnitId);
             return View(group);
         }
 

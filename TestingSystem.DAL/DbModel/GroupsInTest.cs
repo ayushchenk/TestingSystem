@@ -10,8 +10,6 @@ namespace TestingSystem.DAL.DbModel
     {
         public int Id { get; set; }
 
-        public int Length { set; get; }
-
         [Column(TypeName = "datetime2")]
         public DateTime StartTime { get; set; }
 
@@ -21,6 +19,8 @@ namespace TestingSystem.DAL.DbModel
         public int GroupId { get; set; }
 
         public int TestId { get; set; }
+
+        public int Length { get; set; }
 
         public virtual Group Group { get; set; }
 

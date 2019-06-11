@@ -1,32 +1,37 @@
-﻿
+﻿@model TestingSystem.Web.Models.ViewModels.SpecSubjectsViewModel
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Questions</h2>
-<input type="text" id="filter-input" class="form-control" />
+<h2>Specialization @Model.Specialization.SpecializationName Subjects</h2>
+<hr />
+
 <div id="partial-content">
 </div>
+
+<p>
+    @Html.ActionLink("Edit specialization", "Edit", new { id = Model.Specialization.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
 
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            $("#partial-content").load("@Url.Action("PartialIndex", "Question")", { id: $("#filter-input").val() });
+            $("#partial-content").load("@Url.Action("PartialIndex", "Subject", new { filter = Model.Specialization.SpecializationName})");
 
             $("body").on("click", ".btn-delete", function (e) {
                 e.preventDefault();
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("Delete", "Question")",
+                    url: "@Url.Action("Delete", "Subject")",
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
-                        $("#partial-content").load("@Url.Action("PartialIndex", "Question")");
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Subject")");
                         $("#div-info").empty();
                         $("#div-info").append(data);
-                        setTimeout(function () {
-                            $("#div-info").empty();
-                        }, 3500);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert("An error occured while processing request");
@@ -36,7 +41,7 @@
 
             $("body").on("keypress", "#filter-input", function (e) {
                 if (e.which == 13)
-                    $("#partial-content").load("@Url.Action("PartialIndex", "Question")", { id: $(this).val() });
+                    $("#partial-content").load("@Url.Action("PartialIndex", "Subject")", { filter : $(this).val()});
             });
         });
 

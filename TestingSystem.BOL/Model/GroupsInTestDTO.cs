@@ -12,17 +12,20 @@ namespace TestingSystem.BOL.Model
     {
         public int Id { get; set; }
 
+        [Range(1, int.MaxValue, ErrorMessage = "Input type in minutes greater than 0")]
         public int Length { set; get; }
 
+        [Required]
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "datetime2")]
-        public DateTime StartTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+        public DateTime? StartTime { get; set; }
 
+        [Required]
         [DataType(DataType.Date)]
         [Column(TypeName = "datetime2")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [StringLength(32)]
         public string GroupName { get; set; }

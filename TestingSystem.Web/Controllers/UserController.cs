@@ -69,9 +69,9 @@ namespace TestingSystem.Web.Controllers
             var model = new EditUserViewModel();
             model.User = await userService.GetAsync(id) ?? new UserDTO();
             AppUser appUser = await UserManager.FindByEmailAsync(model.User.Email);
-            ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name", UserManager.GetRoles(appUser.Id).First());
-            ViewBag.EducationUnit = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
-            ViewBag.Group = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
+            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", UserManager.GetRoles(appUser.Id).First());
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
+            ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
             return View(model);
         }
 
@@ -102,9 +102,9 @@ namespace TestingSystem.Web.Controllers
                     }
                 }
             }
-            ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.EducationUnit = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
-            ViewBag.Group = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
+            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name");
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
+            ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
             return View(model);
         }
 
@@ -112,9 +112,9 @@ namespace TestingSystem.Web.Controllers
         {
             var model = new EditUserViewModel();
             model.User = new UserDTO();
-            ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.EducationUnit = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
-            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
+            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name");
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
+            ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View("Edit", model);
         }
 
@@ -143,9 +143,9 @@ namespace TestingSystem.Web.Controllers
                     }
                 }
             }
-            ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.EducationUnit = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnit);
-            ViewBag.Group = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
+            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name");
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnit);
+            ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View(model);
         }
 
@@ -167,14 +167,6 @@ namespace TestingSystem.Web.Controllers
                 return Json($"Error occured on deleting identity: Id = {user.Id} - UserName = {user.Email}", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetGroupsByUnit(int id = 0)
-        {
-            var unit = unitService.Get(id);
-            if (unit != null)
-                return Json(groupService.FindBy(group => group.EducationUnitId == unit.Id).Select(group => new { Id = group.Id, GroupName = group.GroupName}), JsonRequestBehavior.AllowGet);
-            return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
     }
 }
