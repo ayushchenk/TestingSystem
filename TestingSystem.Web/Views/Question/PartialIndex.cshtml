@@ -57,38 +57,6 @@
         }
         <hr />
     }
-
-    @*<table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Question.Id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Question.SpecializationName)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <div tooltip="@item.Question.QuestionString">
-                            @Html.DisplayFor(modelItem => item.Question.Id)
-                        </div>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Question.SpecializationName)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Answers", "Answers", new { id = item.Question.Id }) |
-                        @Html.ActionLink("Edit", "Edit", new { questionId = item.Question.Id, specId = item.Question.SpecializationId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Question.Id }, new { @class = "btn-delete", data_id = item.Question.Id })
-                    </td>
-                </tr>
-            }
-
-        </table>*@
 }
 else
 {

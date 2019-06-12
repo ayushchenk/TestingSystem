@@ -1,0 +1,25 @@
+﻿@model IEnumerable<TestingSystem.BOL.Model.QuestionImageDTO>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@if (Model.Count() != 0)
+{
+    <ul id="image-list">
+        @foreach (var item in Model)
+        {
+            <li>
+                <img src="@item.ImagePath" style="max-height: 250px; max-width: 250px;" /> <br/>
+                @item.FileName<br/>
+                Id: @item.Id @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id }) 
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div class="alert-info">
+        No images
+    </div>
+}
+

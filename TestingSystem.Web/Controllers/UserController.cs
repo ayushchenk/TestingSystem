@@ -20,8 +20,8 @@ namespace TestingSystem.Web.Controllers
     {
         private IEntityService<UserDTO> userService;
         private IEntityService<GroupDTO> groupService;
-        private IEntityService<SpecializationDTO> specService;
         private IEntityService<EducationUnitDTO> unitService;
+        private IEntityService<SpecializationDTO> specService;
 
         private AppUserManager UserManager
         {

@@ -9,5 +9,14 @@ namespace TestingSystem.BOL.Model
         [Required]
         [StringLength(256)]
         public string ImagePath { get; set; }
+
+        public string FileName
+        {
+            get
+            {
+                var parts = ImagePath.Split('/');
+                return parts[parts.Length - 1];
+            }
+        }
     }
 }

@@ -16,7 +16,10 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<SpecializationDTO> specService;
 
-        public SubjectController(IEntityService<SubjectDTO> subjectService, IEntityService<SpecializationDTO> specService, IEntityService<TestDTO> testService, IEntityService<QuestionDTO> questionService)
+        public SubjectController(IEntityService<TestDTO> testService, 
+                                 IEntityService<SubjectDTO> subjectService,
+                                 IEntityService<QuestionDTO> questionService,
+                                 IEntityService<SpecializationDTO> specService)
         {
             this.testService = testService;
             this.specService = specService;

@@ -19,7 +19,11 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<SpecializationDTO> specService;
 
-        public SpecializationController(IEntityService<SpecializationDTO> specService, IEntityService<SubjectDTO> subjectService, IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupsService, IEntityService<UserDTO> userService)
+        public SpecializationController(IEntityService<UserDTO> userService,
+                                        IEntityService<TestDTO> testService, 
+                                        IEntityService<GroupDTO> groupsService, 
+                                        IEntityService<SubjectDTO> subjectService, 
+                                        IEntityService<SpecializationDTO> specService)
         {
             this.testService = testService;
             this.specService = specService;
@@ -92,11 +96,11 @@ namespace TestingSystem.Web.Controllers
                 var groups = await groupsService.FindByAsync(group => group.SpecializationId == item.Id);
                 var subjects = await subjectService.FindByAsync(subject => subject.SpecializationId == item.Id);
                 if (groups.Count() != 0)
-                    return Json($"There are groups relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
+                    return Json($"There are groups relying on such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
                 if (tests.Count() != 0)
-                    return Json($"There are tests relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
+                    return Json($"There are tests relying on such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
                 if (subjects.Count() != 0)
-                    return Json($"There are subjects relying os such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
+                    return Json($"There are subjects relying on such specialization: Id = {item.Id}, SpecName = {item.SpecializationName}", JsonRequestBehavior.AllowGet);
                 await specService.DeleteAsync(item);
                 return Json($"Successfully deleted: #{item.Id} - \"{item.SpecializationName}\"", JsonRequestBehavior.AllowGet);
             }

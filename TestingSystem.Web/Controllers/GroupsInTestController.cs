@@ -17,7 +17,10 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<GroupsInTestDTO> groupsInTestService;
 
-        public GroupsInTestController(IEntityService<TestDTO> testService, IEntityService<GroupDTO> groupService, IEntityService<SpecializationDTO> specService, IEntityService<GroupsInTestDTO> groupsInTestService)
+        public GroupsInTestController(IEntityService<TestDTO> testService, 
+                                      IEntityService<GroupDTO> groupService, 
+                                      IEntityService<SpecializationDTO> specService, 
+                                      IEntityService<GroupsInTestDTO> groupsInTestService)
         {
             this.testService = testService;
             this.specService = specService;

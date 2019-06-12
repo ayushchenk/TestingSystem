@@ -15,11 +15,15 @@ namespace TestingSystem.Web.Controllers
     {
         private IEntityService<UserDTO> userService;
         private IEntityService<GroupDTO> groupService;
+        private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<GroupsInTestDTO> groupInTestService;
-        private IEntityService<EducationUnitDTO> unitService;
 
-        public GroupController(IEntityService<GroupDTO> groupService, IEntityService<UserDTO> userService, IEntityService<GroupsInTestDTO> groupInTestService, IEntityService<SpecializationDTO> specService, IEntityService<EducationUnitDTO> unitService)
+        public GroupController(IEntityService<UserDTO> userService, 
+                               IEntityService<GroupDTO> groupService, 
+                               IEntityService<EducationUnitDTO> unitService,
+                               IEntityService<SpecializationDTO> specService, 
+                               IEntityService<GroupsInTestDTO> groupInTestService)
         {
             this.userService = userService;
             this.specService = specService;

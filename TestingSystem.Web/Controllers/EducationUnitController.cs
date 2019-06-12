@@ -16,7 +16,8 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<GroupDTO> groupsService;
 
-        public EducationUnitController(IEntityService<EducationUnitDTO> unitService, IEntityService<GroupDTO> groupsService)
+        public EducationUnitController(IEntityService<EducationUnitDTO> unitService,
+                                       IEntityService<GroupDTO> groupsService)
         {
             this.unitService = unitService;
             this.groupsService = groupsService;

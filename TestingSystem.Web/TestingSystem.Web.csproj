@@ -189,6 +189,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\GroupsInTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\EducationUnitController.cs" />
@@ -296,6 +297,9 @@
     <Content Include="Views\Subject\Index.cshtml" />
     <Content Include="Views\Specialization\Subjects.cshtml" />
     <Content Include="Views\Subject\Edit.cshtml" />
+    <Content Include="Views\Image\Create.cshtml" />
+    <Content Include="Views\Image\PartialIndex.cshtml" />
+    <Content Include="Views\Image\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
