@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
@@ -14,15 +15,18 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
+        private IEntityService<QuestionAnswerDTO> answerService;
 
         public ServiceController(IEntityService<GroupDTO> groupService,
                                  IEntityService<SubjectDTO> subjectService,
                                  IEntityService<EducationUnitDTO> unitService,
-                                 IEntityService<SpecializationDTO> specService)
+                                 IEntityService<SpecializationDTO> specService,
+                                 IEntityService<QuestionAnswerDTO> answerService)
         {
             this.unitService = unitService;
             this.specService = specService;
             this.groupService = groupService;
+            this.answerService = answerService;
             this.subjectService = subjectService;
         }
 
@@ -40,6 +44,14 @@ namespace TestingSystem.Web.Controllers
             if (unit != null)
                 return Json(groupService.FindBy(group => group.EducationUnitId == unit.Id).Select(group => new { Id = group.Id, GroupName = group.GroupName }), JsonRequestBehavior.AllowGet);
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task DeleteAnswer(int id = 0)
+        {
+            var item = await answerService.GetAsync(id);
+            if (item != null)
+                await answerService.DeleteAsync(item);
         }
     }
 }

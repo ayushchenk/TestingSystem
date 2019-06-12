@@ -66,7 +66,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
+                if (Request.Files[0].ContentLength > 0)
                 {
                     var upload = Request.Files[0];
                     string fileName = DateTime.Now.Ticks + System.IO.Path.GetFileName(upload.FileName);
@@ -107,7 +107,6 @@ namespace TestingSystem.Web.Controllers
             var item = await questionService.GetAsync(id);
             if (item != null)
             {
-                //await answerService.DeleteRangeAsync(answer => answer.QuestionId == item.Id);
                 await questionService.DeleteAsync(item);
                 return Json($"Successfully deleted: #{item.Id} - \"{item.SpecializationName}\"", JsonRequestBehavior.AllowGet);
             }

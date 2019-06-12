@@ -12,12 +12,6 @@ namespace TestingSystem.BOL.Model
 
         public bool IsCorrect { get; set; }
 
-        [StringLength(256)]
-        public string QuestionString { get; set; }
-
-        [StringLength(64)]
-        public string SpecializationName { get; set; }
-
         public int QuestionId { get; set; }
     }
 }

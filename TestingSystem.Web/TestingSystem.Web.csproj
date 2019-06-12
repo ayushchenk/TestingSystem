@@ -284,7 +284,6 @@
     <Content Include="Views\GroupsInTest\Edit.cshtml" />
     <Content Include="Views\Question\Index.cshtml" />
     <Content Include="Views\Question\PartialIndex.cshtml" />
-    <Content Include="Views\Question\Edit.cshtml" />
     <Content Include="Views\EducationUnit\Edit.cshtml" />
     <Content Include="Views\EducationUnit\Groups.cshtml" />
     <Content Include="Views\EducationUnit\Index.cshtml" />

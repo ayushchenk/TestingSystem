@@ -22,9 +22,7 @@ namespace TestingSystem.BOL.Service
             mapper = new MapperConfiguration(cfg =>
             {
                 cfg.AddExpressionMapping();
-                cfg.CreateMap<QuestionAnswer, QuestionAnswerDTO>()
-                    .ForMember("QuestionString", opt => opt.MapFrom(answer => answer.Question.QuestionString))
-                    .ForMember("SpecializationName", opt => opt.MapFrom(answer => answer.Question.Subject.Specialization.SpecializationName));
+                cfg.CreateMap<QuestionAnswer, QuestionAnswerDTO>();
                 cfg.CreateMap<QuestionAnswerDTO, QuestionAnswer>();
             }).CreateMapper();
         }

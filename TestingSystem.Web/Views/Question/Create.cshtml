@@ -53,7 +53,7 @@
         <div class="form-group" id="img-container">
             <div class="col-md-6">
                 <img id="output" src="@Model.Question.ImagePath" style="max-height: 250px; max-width: 250px;" />
-                <input type="button" value="Delete photo" id="btn-delete-photo" style="margin-left: 20px;"/>
+                <input type="button" value="Delete photo" id="btn-delete-photo" style="margin-left: 20px;" />
             </div>
         </div>
 
@@ -69,7 +69,8 @@
                         @for (int i = 0; i < Model.Answers.Count(); i++)
                         {
                             <tr data-id="@i">
-                                <td>@Html.EditorFor(model => model.Answers[i].AnswerString, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                @Html.HiddenFor(model => model.Answers[i].Id)
+                                <td>@Html.TextAreaFor(model => model.Answers[i].AnswerString, rows: 2, columns: 100, htmlAttributes: new { @class = "form-control" })</td>
                                 <td class="text-center">@Html.EditorFor(model => model.Answers[i].IsCorrect)</td>
                                 <td><input type="button" value="Remove" class="btn-remove" /></td>
                             </tr>
@@ -122,7 +123,8 @@
                 if (id < 10) {
                     $("#answer-cont-master").show();
                     html = `<tr data-id=${id}>` +
-                                `<td> <textarea id="Answers_${id}__AnswerString" name="Answers[${id}].AnswerString" class="form-control" rows="3" columns="100" maxlength="250"/> </td>` +
+                                `<input type="hidden" id="Answers_${id}__Id" name="Answers[${id}].Id" value="0"/>` +
+                                `<td> <textarea id="Answers_${id}__AnswerString" name="Answers[${id}].AnswerString" class="form-control" rows="2" columns="100" maxlength="250"/> </td>` +
                                 `<td class="text-center"> <input type="checkbox" id="Answers_${id}__IsCorrect" name="Answers[${id}].IsCorrect" value="true"/>` +
                                 `<input type="hidden" value="false" name="Answers[${id}].IsCorrect"/></td> ` +
                                 `<td> <input type="button" value="Remove" class="btn-remove"/> </td>` +
@@ -138,7 +140,17 @@
 
             $("#answer-cont tbody").on("click", ".btn-remove", function () {
                 selectedId = $(this).closest("tr").attr("data-id");
-                $(this).closest("tr").remove(); id--;
+                tr = $(this).closest("tr");
+                if(tr.children(`#Answers_${selectedId}__Id`).val() != 0){
+                    $.ajax({
+                        method : "POST",
+                        url: "@Url.Action("DeleteAnswer", "Service")",
+                        data :{id : tr.children(`#Answers_${selectedId}__Id`).val()}
+                    });
+                    
+                }
+                tr.remove();
+                id--;
 
                 for (i = selectedId; i <= id; i++) {
                     $(`tr[data-id="${i}"]`).attr("data-id", i - 1);
@@ -148,6 +160,8 @@
                     isCorrect = $(`#Answers_${i}__IsCorrect`);
                     isCorrect.attr("id", `Answers_${i - 1}__IsCorrect`);
                     isCorrect.attr("name", `Answers[${i - 1}].IsCorrect`);
+                    answerId = $(`#Answers_${i}__Id`).attr("name", `Answers[${i - 1}].Id`);
+                    answerId.attr("id", `Answers_${i - 1}__Id`);
                     $(`[name="Answers[${id}].IsCorrect"][type="hidden"]`).attr("name", `Answers[${i - 1}].IsCorrect`);
                 }
 

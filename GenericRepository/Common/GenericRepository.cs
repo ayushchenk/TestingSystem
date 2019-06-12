@@ -9,7 +9,7 @@ namespace GenericRepository.Common
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity<int>,new()
     {
         DbContext context;
-        DbSet<T> dbSet;
+        IDbSet<T> dbSet;
 
         public GenericRepository(DbContext context)
         {
@@ -19,7 +19,7 @@ namespace GenericRepository.Common
 
         public T AddOrUpdate(T obj)
         {
-            dbSet.AddOrUpdate(obj);
+            dbSet.AddOrUpdate(x => x.Id, obj);
             Save();
             return obj;
         }
