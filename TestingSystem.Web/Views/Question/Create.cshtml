@@ -16,7 +16,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Question.Id)
-        @Html.HiddenFor(model => model.Question.QuestionImageId)
+        @*@Html.HiddenFor(model => model.Question.QuestionImageId)*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Question.QuestionString, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -47,6 +47,7 @@
             <div class="col-md-10">
                 <input type="file" accept="image/*" name="file" id="file" />
                 <input type="button" value="Discard photo" id="btn-discard" style="margin-left: 20px;" />
+                @Html.DropDownListFor(model => model.Question.QuestionImageId, (SelectList)ViewBag.Images, null, new { @class = "form-control" })
             </div>
         </div>
 
@@ -104,13 +105,14 @@
         $(function () {
             specId = @Model.Question.SpecializationId;
             subId = @Model.Question.SubjectId;
-
             if(specId == 0)
                 $("#Question_SpecializationId").val([]);
             if(subId == 0)
                 $("#subject-container").hide();
 
             id = @Model.Answers.Count();
+            if(!$("#output").attr("src"))
+                $("select#Question_QuestionImageId").val([]);
 
             isPathEmpty = $.parseJSON("@string.IsNullOrWhiteSpace(Model.Question.ImagePath)".toLowerCase());
             if(isPathEmpty)
@@ -171,20 +173,28 @@
             });
 
             $("#btn-delete-photo").click(function(){
-                $("#Question_QuestionImageId").attr("value", null);
-                $("#file").val("");
+                $("#Question_QuestionImageId[type='hidden']").attr("value", null);
+                $("select#Question_QuestionImageId").val([]);
+                $("select#Question_QuestionImageId").show();
                 $("#output").attr("src", "");
                 $("#img-container").hide();
+                $("#file").val("");
             });
 
             $("#btn-discard").click(function () {
-                if(isPathEmpty)
-                    $("#img-container").hide();
                 $("#file").val("");
+                $("select#Question_QuestionImageId").show();
                 if(isPathEmpty)
+                {
                     $("#output").attr("src", "");
+                    $("#img-container").hide();
+                    $("select#Question_QuestionImageId").val([]);
+                }
                 else
+                {
                     $("#output").attr("src", "@Model.Question.ImagePath");
+                    $("select#Question_QuestionImageId").val("@Model.Question.QuestionImageId");
+                }
             });
 
             $("#submit").click(function (e) {
@@ -201,6 +211,8 @@
 
             $("#file").change(function (e) {
                 $("#img-container").show();
+                $("select#Question_QuestionImageId").val([]);
+                $("select#Question_QuestionImageId").hide();
                 $("#output").attr("src", URL.createObjectURL(e.target.files[0]));
             });
 
@@ -213,6 +225,12 @@
                         subjects.append($('<option></option>').text(item.SubjectName).val(item.Id));
                     });
                 });
+            });
+
+            $("select#Question_QuestionImageId").change(function(){
+                $("#file").val("");
+                $("#img-container").show();
+                $("#output").attr("src", $("select#Question_QuestionImageId option:selected").text());
             });
         });
     </script>

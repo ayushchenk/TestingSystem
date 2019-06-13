@@ -58,6 +58,7 @@ namespace TestingSystem.Web.Controllers
             var model = new CreateQuestionViewModel();
             ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName");
             ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
+            ViewBag.Images = new SelectList(await imageService.GetAllAsync(), "Id", "ImagePath");
             return View(model);
         }
 
@@ -66,7 +67,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Request.Files[0].ContentLength > 0)
+                if (Request.Files[0].ContentLength > 0 && model.Question.QuestionImageId == null)
                 {
                     var upload = Request.Files[0];
                     string fileName = DateTime.Now.Ticks + System.IO.Path.GetFileName(upload.FileName);
@@ -88,6 +89,8 @@ namespace TestingSystem.Web.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName");
+            ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
+            ViewBag.Images = new SelectList(await imageService.GetAllAsync(), "Id", "ImagePath");
             return View(model);
         }
 
@@ -99,6 +102,7 @@ namespace TestingSystem.Web.Controllers
             model.Answers = answerService.FindBy(answer => answer.QuestionId == model.Question.Id).ToList();
             ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.Question.SpecializationId);
             ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName", model.Question.SubjectId);
+            ViewBag.Images = new SelectList(await imageService.GetAllAsync(), "Id", "ImagePath", model.Question.QuestionImageId);
             return View("Create", model);
         }
 
