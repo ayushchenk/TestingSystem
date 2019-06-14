@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace TestingSystem.BOL.Model
 {
@@ -11,15 +12,18 @@ namespace TestingSystem.BOL.Model
         public string QuestionString { get; set; }
 
         [StringLength(128)]
+        [DisplayName("Test")]
         public string TestName { get; set; }
 
         [StringLength(256)]
         public string ImagePath { get; set; }
 
         [StringLength(64)]
+        [DisplayName("Specialization")]
         public string SpecializationName { get; set; }
 
         [StringLength(32)]
+        [DisplayName("Subject")]
         public string SubjectName { get; set; }
 
         public int? QuestionImageId { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace TestingSystem.BOL.Model
 
         [Required]
         [StringLength(128)]
+        [DisplayName("Education unit")]
         public string EducationUnitName { get; set; }
     }
 }

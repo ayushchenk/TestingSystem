@@ -75,6 +75,8 @@
     <Compile Include="DbExtensions\TestExt.cs" />
     <Compile Include="DbExtensions\UserExt.cs" />
     <Compile Include="DbInitialize\DbInitialize.cs" />
+    <Compile Include="DbModel\TestingSystemContext.cs" />
+    <Compile Include="DbModel\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DbModel\EducationUnit.cs" />
     <Compile Include="DbModel\Group.cs" />
@@ -85,8 +87,6 @@
     <Compile Include="DbModel\Specialization.cs" />
     <Compile Include="DbModel\Subject.cs" />
     <Compile Include="DbModel\Test.cs" />
-    <Compile Include="DbModel\TestingSystemContext.cs" />
-    <Compile Include="DbModel\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

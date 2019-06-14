@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace TestingSystem.BOL.Model
@@ -9,6 +10,7 @@ namespace TestingSystem.BOL.Model
 
         [Required]
         [StringLength(128)]
+        [DisplayName("Test")]
         public string TestName { get; set; }
 
         public bool IsOpen { get; set; }
@@ -17,9 +19,11 @@ namespace TestingSystem.BOL.Model
         public int QuestionCount { set; get; }
 
         [StringLength(64)]
+        [DisplayName("Specialization")]
         public string SpecializationName { get; set; }
 
         [StringLength(32)]
+        [DisplayName("Subject")]
         public string SubjectName { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]

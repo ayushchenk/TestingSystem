@@ -7,7 +7,6 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -29,10 +28,23 @@
         </div>
     </div>
 
-    <div class="container body-content">
-        <div id="div-info" class="alert-info">
+    <div @*class="container body-content"*@>
+        <div id="div-info" class="alert-info body-content">
         </div>
-        @RenderBody()
+        <div class="col-md-2 col-sm-2 col-2">
+                @Html.ActionLink(linkText: "Roles", actionName: "Index", controllerName: "Role") <br/>
+                @Html.ActionLink(linkText: "Education units", actionName: "Index", controllerName: "EducationUnit")<br />
+                @Html.ActionLink(linkText: "Specializations", actionName: "Index", controllerName: "Specialization")<br />
+                @Html.ActionLink(linkText: "Subjects", actionName: "Index", controllerName: "Subject")<br />
+                @Html.ActionLink(linkText: "Groups", actionName: "Index", controllerName: "Group")<br />
+                @Html.ActionLink(linkText: "Users", actionName: "Index", controllerName: "User")<br />
+                @Html.ActionLink(linkText: "Tests", actionName: "Index", controllerName: "Test")<br />
+                @Html.ActionLink(linkText: "Questions", actionName: "Index", controllerName: "Question")<br />
+                @Html.ActionLink(linkText: "Question images", actionName: "Index", controllerName: "Image")
+        </div>
+        <div class="col-md-10 col-sm-10 col-10">
+            @RenderBody()
+        </div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Testing System Application</p>

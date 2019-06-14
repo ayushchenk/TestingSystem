@@ -20,6 +20,7 @@ namespace TestingSystem.Web.Controllers
     {
         private IEntityService<UserDTO> userService;
         private IEntityService<GroupDTO> groupService;
+        private IEntityService<SubjectDTO> subjectService;
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
 
@@ -39,12 +40,17 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
-        public UserController(IEntityService<UserDTO> userService, IEntityService<GroupDTO> groupService, IEntityService<SpecializationDTO> specService, IEntityService<EducationUnitDTO> unitService)
+        public UserController(IEntityService<UserDTO> userService, 
+                              IEntityService<GroupDTO> groupService,
+                              IEntityService<SubjectDTO> subjectService,
+                              IEntityService<EducationUnitDTO> unitService,
+                              IEntityService<SpecializationDTO> specService)
         {
             this.userService = userService;
-            this.groupService = groupService;
             this.specService = specService;
             this.unitService = unitService;
+            this.groupService = groupService;
+            this.subjectService = subjectService;
         }
 
         public ActionResult Index()
@@ -69,9 +75,12 @@ namespace TestingSystem.Web.Controllers
             var model = new EditUserViewModel();
             model.User = await userService.GetAsync(id) ?? new UserDTO();
             AppUser appUser = await UserManager.FindByEmailAsync(model.User.Email);
-            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", UserManager.GetRoles(appUser.Id).First());
+            model.Role = UserManager.GetRoles(appUser.Id).First();
+            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
             ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
             ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
+            ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
+                (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName}), "Id", "SubjectName");
             return View(model);
         }
 
@@ -90,21 +99,17 @@ namespace TestingSystem.Web.Controllers
                         UserManager.AddToRole(appUser.Id, model.Role);
                         appUser.Email = model.User.Email;
                         appUser.UserName = model.User.Login;
-                        oldUser.Email = appUser.Email;
-                        oldUser.Login = appUser.UserName;
-                        oldUser.FirstName = model.User.FirstName;
-                        oldUser.LastName = model.User.LastName;
-                        oldUser.Patronymic = model.User.Patronymic;
-                        oldUser.GroupId = model.Group;
                         await UserManager.UpdateAsync(appUser);
-                        await userService.AddOrUpdateAsync(oldUser);
+                        await userService.AddOrUpdateAsync(model.User);
                         return RedirectToAction("Index");
                     }
                 }
             }
-            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name");
+            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
             ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
             ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
+            ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
+                (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName", model.User.SubjectId);
             return View(model);
         }
 
@@ -115,7 +120,9 @@ namespace TestingSystem.Web.Controllers
             ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name");
             ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
             ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
-            return View("Edit", model);
+            ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
+                (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName", model.User.SubjectId);
+            return View(model: model);
         }
 
         [HttpPost]
@@ -129,7 +136,6 @@ namespace TestingSystem.Web.Controllers
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, model.Role);
-                    model.User.GroupId = model.Group;
                     await userService.AddOrUpdateAsync(model.User);
                     MailService sender = new MailService();
                     await sender.SendComplexMessageAsync(model.User.Email, "TestingSystem", password);
@@ -143,10 +149,12 @@ namespace TestingSystem.Web.Controllers
                     }
                 }
             }
-            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name");
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnit);
-            ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
-            return View(model);
+            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
+            ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", model.User.GroupId);
+            ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
+                (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName");
+            return View(model: model);
         }
 
         public async Task<ActionResult> Delete(int id = 0)

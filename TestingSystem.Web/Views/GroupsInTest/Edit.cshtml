@@ -5,16 +5,18 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2> @Model.Group.GroupName </h2 >
+<h2> @Model.Group.GroupName </h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Group.Id)
         @Html.HiddenFor(model => model.Group.SpecializationId)
+        @Html.HiddenFor(model => model.Group.GroupName)
+        @Html.HiddenFor(model => model.Group.EducationUnitId)
         @Html.HiddenFor(model => model.GroupInTest.Id)
         @Html.HiddenFor(model => model.GroupInTest.GroupId)
         @Html.HiddenFor(model => model.GroupInTest.TestId)

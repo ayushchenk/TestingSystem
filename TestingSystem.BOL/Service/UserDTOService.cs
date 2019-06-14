@@ -27,6 +27,8 @@ namespace TestingSystem.BOL.Service
                     .ForMember("GroupName", opt => opt.MapFrom(user => user.Group.GroupName))
                     .ForMember("SpecializationId", opt => opt.MapFrom(user => user.Group.Specialization.Id))
                     .ForMember("SpecializationName", opt => opt.MapFrom(user => user.Group.Specialization.SpecializationName))
+                    .ForMember("SubjectId", opt => opt.MapFrom(user => user.Subject.Id))
+                    .ForMember("SubjectName", opt => opt.MapFrom(user => user.Subject.SubjectName))
                     .ForMember("EducationUnitId", opt => opt.MapFrom(user => user.Group.EducationUnit.Id))
                     .ForMember("EducationUnitName", opt => opt.MapFrom(user => user.Group.EducationUnit.EducationUnitName));
                 cfg.CreateMap<UserDTO, User>();

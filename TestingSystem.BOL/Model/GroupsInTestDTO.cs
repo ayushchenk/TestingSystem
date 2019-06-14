@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace TestingSystem.BOL.Model
         [Required]
         [DataType(DataType.Time)]
         [Column(TypeName = "datetime2")]
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:HH\\:mm}", ApplyFormatInEditMode = true)]
         public DateTime? StartTime { get; set; }
 
         [Required]
@@ -28,9 +29,11 @@ namespace TestingSystem.BOL.Model
         public DateTime? StartDate { get; set; }
 
         [StringLength(32)]
+        [DisplayName("Group")]
         public string GroupName { get; set; }
 
         [StringLength(128)]
+        [DisplayName("Test")]
         public string TestName { get; set; }
 
         public int GroupId { get; set; }

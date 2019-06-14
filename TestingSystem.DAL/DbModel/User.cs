@@ -30,5 +30,9 @@ namespace TestingSystem.DAL.DbModel
         public int GroupId { get; set; }
 
         public virtual Group Group { get; set; }
+
+        public int? SubjectId { get; set; }
+
+        public virtual Subject Subject{ get; set; }
     }
 }

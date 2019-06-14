@@ -15,7 +15,6 @@ namespace TestingSystem.Web.Models.ViewModels
             GroupInTest = new GroupsInTestDTO();
         }
 
-        [Required]
         public GroupDTO Group { set; get; }
         public GroupsInTestDTO GroupInTest { set; get; }
         public bool Assign { set; get; }

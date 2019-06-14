@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Images";
+    ViewBag.Title = "Specialization";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -12,16 +12,16 @@
 @section Scripts{
     <script type="text/javascript">
         $(function () {
-            $("#partial-content").load("@Url.Action("PartialIndex", "Image")");
+            $("#partial-content").load("@Url.Action("PartialIndex", "Specialization")");
 
             $("body").on("click", ".btn-delete", function (e) {
                 e.preventDefault();
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("Delete", "Image")",
+                    url: "@Url.Action("Delete", "Specialization")",
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
-                        $("#partial-content").load("@Url.Action("PartialIndex", "Image")");
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Specialization")");
                         $("#div-info").empty();
                         $("#div-info").append(data);
                         setTimeout(function () {
@@ -36,7 +36,7 @@
 
             $("body").on("keypress", "#filter-input", function (e) {
                 if (e.which == 13)
-                    $("#partial-content").load("@Url.Action("PartialIndex", "Image")", { filter : $(this).val()});
+                    $("#partial-content").load("@Url.Action("PartialIndex", "Specialization")", { filter : $(this).val()});
             });
         });
 

@@ -1,11 +1,11 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.EditUserViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
 
 @using (Html.BeginForm())
@@ -59,29 +59,40 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.EducationUnit, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.User.EducationUnitId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("EducationUnit", null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.User.EducationUnitId, (IEnumerable<SelectListItem>)ViewBag.EducationUnits, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.User.EducationUnitId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.Group, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.Role, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("Group", null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Role, (IEnumerable<SelectListItem>)ViewBag.Roles, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
+        <div class="form-group" id="group-cont">
+            @Html.LabelFor(model => model.User.GroupId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("Role", null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.User.GroupId, (IEnumerable<SelectListItem>)ViewBag.Groups, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.User.GroupId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="subject-cont">
+            @Html.LabelFor(model => model.User.SubjectId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.User.SubjectId, (IEnumerable<SelectListItem>)ViewBag.Subjects, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.User.SubjectId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" id="submit" />
             </div>
         </div>
     </div>
@@ -95,15 +106,50 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            $("#EducationUnit").change(function () {
-                alert();
-                groups = $("#Group");
-                $.getJSON(@Html.Action("GetGroupsByUnit"), { id : $(this).val()}, function (response) {
+            $("#User_EducationUnitId").val([]);
+            $("#User_GroupId").val([]);
+            $("#User_SubjectId").val([]);
+            $("#Role").val([]);
+            $("#subject-cont").hide();
+
+            $("#User_EducationUnitId").change(function () {
+                groups = $("#User_GroupId");
+                $.getJSON("@Url.Action("GetGroupsByUnit", "Service")", { id : $(this).val()}, function (response) {
                     groups.empty();
                     $.each(response, function (index, item) {
-                        groups.append($('<option></option>').text(item));
+                        groups.append($('<option></option>').text(item.GroupName).val(item.Id));
                     });
                 });
+            });
+
+            $("#Role").change(function () {
+                $("#User_GroupId").val([]);
+                if($(this).val() == "Student"){
+                    $("#subject-cont").hide();
+                    $("#User_SubjectId").val([]);
+                } else if($(this).val() == "Teacher"){
+                    $("#subject-cont").show();
+                } else {
+                    $("#group-cont").show();
+                    $("#subject-cont").hide();
+                    $("#User_SubjectId").val([]);
+                }
+            });
+
+            $("#submit").click(function(e){
+                role = $("#Role");
+                if(!role.val()) {
+                    alert("Select role");
+                    e.preventDefault();
+                }
+                if(role.val() == "Student" && !$("#User_GroupId").val()){
+                    alert("Select group");
+                    e.preventDefault();
+                }
+                if(role.val() == "Teacher" && !$("#User_SubjectId").val()){
+                    alert("Select subject");
+                    e.preventDefault();
+                }
             });
         });
     </script>

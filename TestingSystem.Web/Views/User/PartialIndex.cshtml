@@ -26,6 +26,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.SpecializationName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectName)
+            </th>
             <th></th>
         </tr>
 
@@ -49,6 +52,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SpecializationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

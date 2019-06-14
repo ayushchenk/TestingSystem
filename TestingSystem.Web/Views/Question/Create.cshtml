@@ -45,16 +45,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Question.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" accept="image/*" name="file" id="file" />
-                <input type="button" value="Discard photo" id="btn-discard" style="margin-left: 20px;" />
+                <input type="file" accept="image/*" name="file" id="file" class="form-control" />
                 @Html.DropDownListFor(model => model.Question.QuestionImageId, (SelectList)ViewBag.Images, null, new { @class = "form-control" })
+                <input type="button" value="Discard photo" id="btn-discard" class="btn btn-default"/>
             </div>
         </div>
 
         <div class="form-group" id="img-container">
             <div class="col-md-6">
                 <img id="output" src="@Model.Question.ImagePath" style="max-height: 250px; max-width: 250px;" />
-                <input type="button" value="Delete photo" id="btn-delete-photo" style="margin-left: 20px;" />
+                <input type="button" value="Delete photo" id="btn-delete-photo" class="btn btn-default" style="margin-left: 20px;" />
             </div>
         </div>
 
@@ -73,7 +73,7 @@
                                 @Html.HiddenFor(model => model.Answers[i].Id)
                                 <td>@Html.TextAreaFor(model => model.Answers[i].AnswerString, rows: 2, columns: 100, htmlAttributes: new { @class = "form-control" })</td>
                                 <td class="text-center">@Html.EditorFor(model => model.Answers[i].IsCorrect)</td>
-                                <td><input type="button" value="Remove" class="btn-remove" /></td>
+                                <td><input type="button" value="Remove" class="btn-remove btn btn-default" /></td>
                             </tr>
                         }
                     </tbody>
@@ -83,7 +83,7 @@
 
         <div class="form-group">
             <div class="col-md-10">
-                <input type="button" class="btn-default" id="add-item" value="Add answer" />
+                <input type="button" class="btn btn-default" id="add-item" value="Add answer" />
             </div>
         </div>
 
@@ -129,7 +129,7 @@
                                 `<td> <textarea id="Answers_${id}__AnswerString" name="Answers[${id}].AnswerString" class="form-control" rows="2" columns="100" maxlength="250"/> </td>` +
                                 `<td class="text-center"> <input type="checkbox" id="Answers_${id}__IsCorrect" name="Answers[${id}].IsCorrect" value="true"/>` +
                                 `<input type="hidden" value="false" name="Answers[${id}].IsCorrect"/></td> ` +
-                                `<td> <input type="button" value="Remove" class="btn-remove"/> </td>` +
+                                `<td> <input type="button" value="Remove" class="btn-remove btn btn-default"/> </td>` +
                            "</tr>";
                     $.ajax({
                         url: this.href,
@@ -149,7 +149,7 @@
                         url: "@Url.Action("DeleteAnswer", "Service")",
                         data :{id : tr.children(`#Answers_${selectedId}__Id`).val()}
                     });
-                    
+
                 }
                 tr.remove();
                 id--;
