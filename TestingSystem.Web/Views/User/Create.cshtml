@@ -120,20 +120,22 @@
                         groups.append($('<option></option>').text(item.GroupName).val(item.Id));
                     });
                 });
+                groups.val([]);
             });
 
             $("#Role").change(function () {
-                $("#User_GroupId").val([]);
-                if($(this).val() == "Student"){
+                if ($(this).val() == "Student") {
                     $("#subject-cont").hide();
                     $("#User_SubjectId").val([]);
-                } else if($(this).val() == "Teacher"){
+                } else if ($(this).val() == "Teacher") {
                     $("#subject-cont").show();
+                    $("#User_GroupId").val([]);
                 } else {
-                    $("#group-cont").show();
+                    $("#User_GroupId").val([]);
                     $("#subject-cont").hide();
-                    $("#User_SubjectId").val([]);
                 }
+                $("#User_SubjectId").val([]);
+                $("#User_GroupId").val([]);
             });
 
             $("#submit").click(function(e){

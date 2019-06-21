@@ -12,17 +12,20 @@ namespace TestingSystem.Web.Controllers
     public class ServiceController : Controller
     {
         private IEntityService<GroupDTO> groupService;
+        private IEntityService<TeacherDTO> teacherService;
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<QuestionAnswerDTO> answerService;
 
-        public ServiceController(IEntityService<GroupDTO> groupService,
+        public ServiceController(IEntityService<TeacherDTO> teacherService,
+                                 IEntityService<GroupDTO> groupService,
                                  IEntityService<SubjectDTO> subjectService,
                                  IEntityService<EducationUnitDTO> unitService,
                                  IEntityService<SpecializationDTO> specService,
                                  IEntityService<QuestionAnswerDTO> answerService)
         {
+            this.teacherService = teacherService;
             this.unitService = unitService;
             this.specService = specService;
             this.groupService = groupService;
@@ -35,6 +38,14 @@ namespace TestingSystem.Web.Controllers
             var spec = specService.Get(id);
             if (spec != null)
                 return Json(subjectService.FindBy(subject => subject.SpecializationId == spec.Id).Select(subject => new { Id = subject.Id, SubjectName = subject.SubjectName }), JsonRequestBehavior.AllowGet);
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetTeachersBySpecialization(int id = 0)
+        {
+            var spec = specService.Get(id);
+            if (spec != null)
+                return Json(teacherService.FindBy(user => user.SpecializationId == spec.Id).Select(user => new { Id = user.Id, FullName = user.FullName }), JsonRequestBehavior.AllowGet);
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
 

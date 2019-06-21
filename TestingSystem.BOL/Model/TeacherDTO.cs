@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestingSystem.BOL.Model
 {
-    public class UserDTO
+    public class TeacherDTO
     {
-        public int Id { get; set; }
+        public int Id { set; get; }
 
         [Required]
         [StringLength(64)]
@@ -16,18 +16,13 @@ namespace TestingSystem.BOL.Model
         [StringLength(64)]
         public string Email { get; set; }
 
+        [Required]
         [StringLength(64)]
         public string FirstName { get; set; }
 
+        [Required]
         [StringLength(64)]
         public string LastName { get; set; }
-
-        [StringLength(64)]
-        public string Patronymic { get; set; }
-
-        [StringLength(32)]
-        [DisplayName("Group")]
-        public string GroupName { get; set; }
 
         [StringLength(64)]
         [DisplayName("Specialization")]
@@ -41,13 +36,17 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Subject")]
         public string SubjectName { get; set; }
 
-        public int? SpecializationId { set; get; }
+        public int SpecializationId { set; get; }
 
-        public int GroupId { get; set; }
-
-        public int? SubjectId { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
+        public int SubjectId { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int EducationUnitId { set; get; }
+
+        public string FullName
+        {
+            get { return $"{LastName} {FirstName} - {SubjectName}"; } 
+        }
     }
 }

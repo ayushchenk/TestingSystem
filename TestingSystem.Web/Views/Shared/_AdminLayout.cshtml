@@ -29,7 +29,8 @@
     </div>
 
     <div @*class="container body-content"*@>
-        <div id="div-info" class="alert-info body-content">
+        <div id="alert-content" class="alert-info body-content">
+
         </div>
         <div class="col-md-2 col-sm-2 col-2">
                 @Html.ActionLink(linkText: "Roles", actionName: "Index", controllerName: "Role") <br/>
@@ -37,7 +38,9 @@
                 @Html.ActionLink(linkText: "Specializations", actionName: "Index", controllerName: "Specialization")<br />
                 @Html.ActionLink(linkText: "Subjects", actionName: "Index", controllerName: "Subject")<br />
                 @Html.ActionLink(linkText: "Groups", actionName: "Index", controllerName: "Group")<br />
-                @Html.ActionLink(linkText: "Users", actionName: "Index", controllerName: "User")<br />
+                @Html.ActionLink(linkText: "Students", actionName: "Index", controllerName: "Student")<br />
+                @Html.ActionLink(linkText: "Teachers", actionName: "Index", controllerName: "Teacher")<br />
+                @Html.ActionLink(linkText: "Admins", actionName: "Index", controllerName: "Admin")<br />
                 @Html.ActionLink(linkText: "Tests", actionName: "Index", controllerName: "Test")<br />
                 @Html.ActionLink(linkText: "Questions", actionName: "Index", controllerName: "Question")<br />
                 @Html.ActionLink(linkText: "Question images", actionName: "Index", controllerName: "Image")

@@ -14,12 +14,12 @@ namespace TestingSystem.Web.Controllers
     public class SpecializationController : Controller
     {
         private IEntityService<TestDTO> testService;
-        private IEntityService<UserDTO> userService;
+        private IEntityService<TeacherDTO> userService;
         private IEntityService<GroupDTO> groupsService;
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<SpecializationDTO> specService;
 
-        public SpecializationController(IEntityService<UserDTO> userService,
+        public SpecializationController(IEntityService<TeacherDTO> userService,
                                         IEntityService<TestDTO> testService, 
                                         IEntityService<GroupDTO> groupsService, 
                                         IEntityService<SubjectDTO> subjectService, 

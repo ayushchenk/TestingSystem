@@ -21,10 +21,10 @@
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "Group")");
-                        $("#div-info").empty();
-                        $("#div-info").append(data);
+                        $("#alert-content").empty();
+                        $("#alert-content").append(data);
                         setTimeout(function () {
-                            $("#div-info").empty();
+                            $("#alert-content").empty();
                         }, 3500);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {

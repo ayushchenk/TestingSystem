@@ -18,8 +18,10 @@ namespace TestingSystem.Web.Controllers
    // [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
-        private IEntityService<UserDTO> userService;
         private IEntityService<GroupDTO> groupService;
+        private IEntityService<AdminDTO> adminService;
+        private IEntityService<TeacherDTO> teacherService;
+        private IEntityService<StudentDTO> studentService;
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
@@ -40,16 +42,20 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
-        public UserController(IEntityService<UserDTO> userService, 
+        public UserController(IEntityService<AdminDTO> adminService,
                               IEntityService<GroupDTO> groupService,
+                              IEntityService<TeacherDTO> teacherService,
+                              IEntityService<StudentDTO> studentService,
                               IEntityService<SubjectDTO> subjectService,
                               IEntityService<EducationUnitDTO> unitService,
                               IEntityService<SpecializationDTO> specService)
         {
-            this.userService = userService;
             this.specService = specService;
             this.unitService = unitService;
             this.groupService = groupService;
+            this.adminService = adminService;
+            this.studentService = studentService;
+            this.teacherService = teacherService;
             this.subjectService = subjectService;
         }
 
@@ -61,120 +67,140 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> PartialIndex(string filter = null)
         {
             if(!string.IsNullOrWhiteSpace(filter))
-                return PartialView(await userService.FindByAsync(user => user.Email.ToLower().Contains(filter.ToLower()) 
+                return PartialView(await teacherService.FindByAsync(user => user.Email.ToLower().Contains(filter.ToLower()) 
                                                                       || user.Login.ToLower().Contains(filter.ToLower())
                                                                       || user.LastName.ToLower().Contains(filter.ToLower())
                                                                       || user.FirstName.ToLower().Contains(filter.ToLower())
-                                                                      || user.Patronymic.ToLower().Contains(filter.ToLower())
                                                                       || user.EducationUnitName.ToLower().Contains(filter.ToLower())));
-            return PartialView(await userService.GetAllAsync());
+            return PartialView(await teacherService.GetAllAsync());
         }
 
-        public async Task<ActionResult> Edit(int id = 0)
+        public ActionResult Create()
         {
-            var model = new EditUserViewModel();
-            model.User = await userService.GetAsync(id) ?? new UserDTO();
-            AppUser appUser = await UserManager.FindByEmailAsync(model.User.Email);
-            model.Role = UserManager.GetRoles(appUser.Id).First();
-            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
-            ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
-            ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
-                (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName}), "Id", "SubjectName");
-            return View(model);
+            return View(viewName: "SelectCreate");
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Edit(EditUserViewModel model)
+        public async Task<ActionResult> CreateStudent()
         {
-            if (ModelState.IsValid)
-            {
-                UserDTO oldUser = await userService.GetAsync(model.User.Id);
-                if (oldUser != null)
-                {
-                    AppUser appUser = await UserManager.FindByEmailAsync(oldUser.Email);
-                    if (appUser != null)
-                    {
-                        await UserManager.RemoveFromRolesAsync(appUser.Id, UserManager.GetRoles(appUser.Id).ToArray());
-                        UserManager.AddToRole(appUser.Id, model.Role);
-                        appUser.Email = model.User.Email;
-                        appUser.UserName = model.User.Login;
-                        await UserManager.UpdateAsync(appUser);
-                        await userService.AddOrUpdateAsync(model.User);
-                        return RedirectToAction("Index");
-                    }
-                }
-            }
-            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
-            ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
-            ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
-                (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName", model.User.SubjectId);
-            return View(model);
-        }
-
-        public async Task<ActionResult> Create()
-        {
-            var model = new EditUserViewModel();
-            model.User = new UserDTO();
-            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name");
+            var model = new StudentDTO();
             ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
             ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
-            ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
-                (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName", model.User.SubjectId);
-            return View(model: model);
+            return View("Edit", model);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Create(EditUserViewModel model)
-        {       
-            if (ModelState.IsValid)
-            {
-                AppUser user = new AppUser { UserName = model.User.Email, Email = model.User.Email };
-                string password = Membership.GeneratePassword(10, 4);
-                IdentityResult result = await UserManager.CreateAsync(user, password);
-                if (result.Succeeded)
-                {
-                    await UserManager.AddToRoleAsync(user.Id, model.Role);
-                    await userService.AddOrUpdateAsync(model.User);
-                    MailService sender = new MailService();
-                    await sender.SendComplexMessageAsync(model.User.Email, "TestingSystem", password);
-                    return RedirectToAction("Index", "User");
-                }
-                else
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
-            }
-            ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
-            ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", model.User.GroupId);
-            ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
-                (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName");
-            return View(model: model);
-        }
-
-        public async Task<ActionResult> Delete(int id = 0)
+        public async Task<ActionResult> EditStudent()
         {
-            UserDTO user = await userService.GetAsync(id);
-            if (user != null)
-            {
-                AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
-                if (appUser != null)
-                {
-                    var res = await UserManager.DeleteAsync(appUser);
-                    if (res.Succeeded)
-                    {
-                        await userService.DeleteAsync(user);
-                        return Json($"Successfully deleted: #{user.Id} - \"{user.Email}\"", JsonRequestBehavior.AllowGet);
-                    }
-                }
-                return Json($"Error occured on deleting identity: Id = {user.Id} - UserName = {user.Email}", JsonRequestBehavior.AllowGet);
-            }
-            return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
+            var model = new StudentDTO();
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
+            ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
+            return View("Edit", model);
         }
+
+        //public async Task<ActionResult> Edit(int id = 0)
+        //{
+        //    var model = new EditUserViewModel();
+        //    model.User = await teacherService.GetAsync(id) ?? new TeacherDTO();
+        //    AppUser appUser = await UserManager.FindByEmailAsync(model.User.Email);
+        //    model.Role = UserManager.GetRoles(appUser.Id).First();
+        //    ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
+        //    ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
+        //    ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
+        //    ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
+        //        (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName}), "Id", "SubjectName");
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //public async Task<ActionResult> Edit(EditUserViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        TeacherDTO oldUser = await teacherService.GetAsync(model.User.Id);
+        //        if (oldUser != null)
+        //        {
+        //            AppUser appUser = await UserManager.FindByEmailAsync(oldUser.Email);
+        //            if (appUser != null)
+        //            {
+        //                await UserManager.RemoveFromRolesAsync(appUser.Id, UserManager.GetRoles(appUser.Id).ToArray());
+        //                UserManager.AddToRole(appUser.Id, model.Role);
+        //                appUser.Email = model.User.Email;
+        //                appUser.UserName = model.User.Login;
+        //                await UserManager.UpdateAsync(appUser);
+        //                await teacherService.AddOrUpdateAsync(model.User);
+        //                return RedirectToAction("Index");
+        //            }
+        //        }
+        //    }
+        //    ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
+        //    ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
+        //    ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.User.EducationUnitId), "Id", "GroupName", model.User.GroupId);
+        //    ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
+        //        (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName", model.User.SubjectId);
+        //    return View(model);
+        //}
+
+        //public async Task<ActionResult> Create()
+        //{
+        //    var model = new EditUserViewModel();
+        //    model.User = new TeacherDTO();
+        //    ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name");
+        //    ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
+        //    ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
+        //    ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
+        //        (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName", model.User.SubjectId);
+        //    return View(model: model);
+        //}
+
+        //[HttpPost]
+        //public async Task<ActionResult> Create(EditUserViewModel model)
+        //{       
+        //    if (ModelState.IsValid)
+        //    {
+        //        AppUser user = new AppUser { UserName = model.User.Email, Email = model.User.Email };
+        //        string password = Membership.GeneratePassword(10, 4);
+        //        IdentityResult result = await UserManager.CreateAsync(user, password);
+        //        if (result.Succeeded)
+        //        {
+        //            await UserManager.AddToRoleAsync(user.Id, model.Role);
+        //            await teacherService.AddOrUpdateAsync(model.User);
+        //            MailService sender = new MailService();
+        //            await sender.SendComplexMessageAsync(model.User.Email, "TestingSystem", password);
+        //            return RedirectToAction("Index", "User");
+        //        }
+        //        else
+        //        {
+        //            foreach (string error in result.Errors)
+        //            {
+        //                ModelState.AddModelError("", error);
+        //            }
+        //        }
+        //    }
+        //    ViewBag.Roles = new SelectList(RoleManager.Roles, "Name", "Name", model.Role);
+        //    ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.User.EducationUnitId);
+        //    ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", model.User.GroupId);
+        //    ViewBag.Subjects = new SelectList(subjectService.GetAll().Select
+        //        (subject => new { Id = subject.Id, SubjectName = subject.SpecializationName + " - " + subject.SubjectName }), "Id", "SubjectName");
+        //    return View(model: model);
+        //}
+
+        //public async Task<ActionResult> Delete(int id = 0)
+        //{
+        //    TeacherDTO user = await teacherService.GetAsync(id);
+        //    if (user != null)
+        //    {
+        //        AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
+        //        if (appUser != null)
+        //        {
+        //            var res = await UserManager.DeleteAsync(appUser);
+        //            if (res.Succeeded)
+        //            {
+        //                await teacherService.DeleteAsync(user);
+        //                return Json($"Successfully deleted: #{user.Id} - \"{user.Email}\"", JsonRequestBehavior.AllowGet);
+        //            }
+        //        }
+        //        return Json($"Error occured on deleting identity: Id = {user.Id} - UserName = {user.Email}", JsonRequestBehavior.AllowGet);
+        //    }
+        //    return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
+        //}
     }
 }

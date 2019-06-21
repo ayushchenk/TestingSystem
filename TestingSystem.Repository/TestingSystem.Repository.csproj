@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AdminRepository.cs" />
     <Compile Include="Repositories\EducationUnitRepository.cs" />
     <Compile Include="Repositories\GroupRepository.cs" />
     <Compile Include="Repositories\GroupsInTestRepository.cs" />
@@ -65,9 +66,12 @@
     <Compile Include="Repositories\QuestionImageRepository.cs" />
     <Compile Include="Repositories\QuestionRepository.cs" />
     <Compile Include="Repositories\SpecializationRepository.cs" />
+    <Compile Include="Repositories\StudentRespository.cs" />
+    <Compile Include="Repositories\StudentTestResultRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
+    <Compile Include="Repositories\TeachersInGroupRepository.cs" />
     <Compile Include="Repositories\TestRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\TeacherRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

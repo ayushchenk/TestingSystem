@@ -9,12 +9,8 @@ namespace TestingSystem.Web.Models.ViewModels
 {
     public class EditUserViewModel
     {
-        public UserDTO User { set; get; }
+        public TeacherDTO User { set; get; }
 
         public string Role { set; get; }
-
-        //public int Group { set; get; }
-
-        //public int EducationUnit { set; get; }
     }
 }

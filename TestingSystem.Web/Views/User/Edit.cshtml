@@ -92,7 +92,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" id="submit"/>
+                <input type="submit" value="Save" class="btn btn-default" id="submit" />
             </div>
         </div>
     </div>
@@ -107,46 +107,48 @@
     <script type="text/javascript">
         $(function () {
             role = "@Model.Role";
-            if(role != "Teacher"){
+            if (role != "Teacher") {
                 $("#subject-cont").hide();
                 $("#subject-cont").val([]);
             }
-            
+
             $("#User_EducationUnitId").change(function () {
                 groups = $("#User_GroupId");
-                $.getJSON("@Url.Action("GetGroupsByUnit", "Service")", { id : $(this).val()}, function (response) {
+                $.getJSON("@Url.Action("GetGroupsByUnit", "Service")", { id: $(this).val() }, function (response) {
                     groups.empty();
                     $.each(response, function (index, item) {
                         groups.append($('<option></option>').text(item.GroupName).val(item.Id));
                     });
                 });
+                groups.val([]);
             });
 
             $("#Role").change(function () {
-                    $("#User_SubjectId").val([]);
-                    $("#User_GroupId").val([]);
                 if ($(this).val() == "Student") {
                     $("#subject-cont").hide();
                     $("#User_SubjectId").val([]);
                 } else if ($(this).val() == "Teacher") {
                     $("#subject-cont").show();
+                    $("#User_GroupId").val([]);
                 } else {
-                    $("#group-cont").show();
+                    $("#User_GroupId").val([]);
                     $("#subject-cont").hide();
                 }
+                $("#User_SubjectId").val([]);
+                $("#User_GroupId").val([]);
             });
 
-            $("#submit").click(function(e){
+            $("#submit").click(function (e) {
                 role = $("#Role");
-                if(!role.val()) {
+                if (!role.val()) {
                     alert("Select role");
                     e.preventDefault();
                 }
-                if(role.val() == "Student" && !$("#User_GroupId").val()){
+                if (role.val() == "Student" && !$("#User_GroupId").val()) {
                     alert("Select group");
                     e.preventDefault();
                 }
-                if(role.val() == "Teacher" && !$("#User_SubjectId").val()){
+                if (role.val() == "Teacher" && !$("#User_SubjectId").val()) {
                     alert("Select subject");
                     e.preventDefault();
                 }

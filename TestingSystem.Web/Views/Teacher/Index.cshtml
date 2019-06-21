@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Teachers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Teacher</h2>
+<input type="text" id="filter-input" class="form-control" />
+<div id="partial-content">
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#partial-content").load("@Url.Action("PartialIndex", "Teacher")");
+
+            $("body").on("click", ".btn-delete", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "Teacher")",
+                    data: { id: $(this).attr("data-id") },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Teacher")");
+                        $("#alert-content").empty();
+                        $("#alert-content").append(data);
+                        setTimeout(function () {
+                            $("#alert-content").empty();
+                        }, 3500);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("An error occured while processing request");
+                    }
+                });
+            });
+
+            $("body").on("keypress", "#filter-input", function (e) {
+                if (e.which == 13)
+                    $("#partial-content").load("@Url.Action("PartialIndex", "Teacher")", { filter : $(this).val()});
+            });
+        });
+
+    </script>
+}
+

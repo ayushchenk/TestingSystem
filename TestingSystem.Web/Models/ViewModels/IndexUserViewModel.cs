@@ -8,7 +8,7 @@ namespace TestingSystem.Web.Models.ViewModels
 {
     public class IndexUserViewModel
     {
-        public UserDTO User { set; get; }
+        public TeacherDTO User { set; get; }
         public string Role { set; get; }
     }
 }

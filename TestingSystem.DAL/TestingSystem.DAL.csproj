@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbExtensions\AdminExt.cs" />
     <Compile Include="DbExtensions\EducationUnitExt.cs" />
     <Compile Include="DbExtensions\GroupExt.cs" />
     <Compile Include="DbExtensions\GroupsInTestExt.cs" />
@@ -71,13 +72,14 @@
     <Compile Include="DbExtensions\QuestionExt.cs" />
     <Compile Include="DbExtensions\QuestionImageExt.cs" />
     <Compile Include="DbExtensions\SpecializationExt.cs" />
+    <Compile Include="DbExtensions\StudentExt.cs" />
+    <Compile Include="DbExtensions\StudentTestResultExt.cs" />
     <Compile Include="DbExtensions\SubjectExt.cs" />
+    <Compile Include="DbExtensions\TeachersInGroupsExt.cs" />
     <Compile Include="DbExtensions\TestExt.cs" />
-    <Compile Include="DbExtensions\UserExt.cs" />
+    <Compile Include="DbExtensions\TeacherExt.cs" />
     <Compile Include="DbInitialize\DbInitialize.cs" />
-    <Compile Include="DbModel\TestingSystemContext.cs" />
-    <Compile Include="DbModel\User.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DbModel\Admin.cs" />
     <Compile Include="DbModel\EducationUnit.cs" />
     <Compile Include="DbModel\Group.cs" />
     <Compile Include="DbModel\GroupsInTest.cs" />
@@ -85,8 +87,14 @@
     <Compile Include="DbModel\QuestionAnswer.cs" />
     <Compile Include="DbModel\QuestionImage.cs" />
     <Compile Include="DbModel\Specialization.cs" />
+    <Compile Include="DbModel\Student.cs" />
+    <Compile Include="DbModel\StudentTestResult.cs" />
     <Compile Include="DbModel\Subject.cs" />
+    <Compile Include="DbModel\Teacher.cs" />
+    <Compile Include="DbModel\TeachersInGroup.cs" />
     <Compile Include="DbModel\Test.cs" />
+    <Compile Include="DbModel\TestingSystemContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

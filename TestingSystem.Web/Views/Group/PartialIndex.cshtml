@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.GroupDTO>
 
 <p>
-    @Html.ActionLink("Create New", "Edit", new { id = 0 })
+    @Html.ActionLink("Create New", "Create")
 </p>
 @if (Model.Count() != 0)
 {
@@ -33,7 +33,8 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Users", "Users", new { id = item.Id }) |
+                    @Html.ActionLink("Students", "Students", new { id = item.Id }) |
+                    @Html.ActionLink("Teachers", "Teachers", new { id = item.Id }) |
                     @Html.ActionLink("Tests", "Tests", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
                 </td>

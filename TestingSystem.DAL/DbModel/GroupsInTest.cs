@@ -8,6 +8,12 @@ namespace TestingSystem.DAL.DbModel
 
     public partial class GroupsInTest
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public GroupsInTest()
+        {
+            StudentTestResults = new HashSet<StudentTestResult>();
+        }
+
         public int Id { get; set; }
 
         [Column(TypeName = "datetime2")]
@@ -25,5 +31,8 @@ namespace TestingSystem.DAL.DbModel
         public virtual Group Group { get; set; }
 
         public virtual Test Test { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StudentTestResult> StudentTestResults { get; set; }
     }
 }

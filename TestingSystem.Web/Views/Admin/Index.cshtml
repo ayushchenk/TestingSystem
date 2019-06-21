@@ -1,37 +1,45 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admins";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="row">
-    @Html.ActionLink(linkText: "Roles", actionName: "Index", controllerName: "Role")
+<h2>Admins</h2>
+<input type="text" id="filter-input" class="form-control" />
+<div id="partial-content">
 </div>
-<div class="row">
-    @Html.ActionLink(linkText: "Education units", actionName: "Index", controllerName: "EducationUnit")
-</div>
-<div class="row">
-    @Html.ActionLink(linkText: "Specializations", actionName: "Index", controllerName: "Specialization")
-</div>
-<div class="row">
-    @Html.ActionLink(linkText: "Subjects", actionName: "Index", controllerName: "Subject")
-</div>
-<div class="row">
-    @Html.ActionLink(linkText: "Groups", actionName: "Index", controllerName: "Group")
-</div>
-<div class="row">
-    @Html.ActionLink(linkText: "Users", actionName: "Index", controllerName: "User")
-</div>
-<div class="row">
-    @Html.ActionLink(linkText: "Tests", actionName: "Index", controllerName: "Test")
-</div>
-<div class="row">
-    @Html.ActionLink(linkText: "Questions", actionName: "Index", controllerName: "Question")
-</div>
-<div class="row">
-    @Html.ActionLink(linkText: "Answers", actionName: "Index", controllerName: "Answer")
-</div>
-<div class="row">
-    @Html.ActionLink(linkText: "Question images", actionName: "Index", controllerName: "QuestionImage")
-</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#partial-content").load("@Url.Action("PartialIndex", "Admin")");
+
+            $("body").on("click", ".btn-delete", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "Admin")",
+                    data: { id: $(this).attr("data-id") },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Admin")");
+                        $("#alert-content").empty();
+                        $("#alert-content").append(data);
+                        setTimeout(function () {
+                            $("#alert-content").empty();
+                        }, 3500);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("An error occured while processing request");
+                    }
+                });
+            });
+
+            $("body").on("keypress", "#filter-input", function (e) {
+                if (e.which == 13)
+                    $("#partial-content").load("@Url.Action("PartialIndex", "Admin")", { filter : $(this).val()});
+            });
+        });
+
+    </script>
+}
 
