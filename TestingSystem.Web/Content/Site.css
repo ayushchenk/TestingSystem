@@ -33,6 +33,12 @@ div.output{
  display: inline-block;
 }
 
+a[disabled] {
+    pointer-events: none;
+    display: inline-block;
+    color: gray;
+}
+
 [tooltip]:before {
     /* needed - do not touch */
     content: attr(tooltip);

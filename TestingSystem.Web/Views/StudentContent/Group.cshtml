@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TestingSystem.BOL.Model.StudentDTO>
+
+@{
+    ViewBag.Title = "Group";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>Group</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecializationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EducationUnitName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Login)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecializationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EducationUnitName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroupName)
+        </td>
+    </tr>
+}
+
+</table>

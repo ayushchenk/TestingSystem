@@ -31,14 +31,6 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
-        private AppRoleManager RoleManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().GetUserManager<AppRoleManager>();
-            }
-        }
-
         public StudentController(IEntityService<GroupDTO> groupService,
                                  IEntityService<StudentDTO> studentService,
                                  IEntityService<SubjectDTO> subjectService,

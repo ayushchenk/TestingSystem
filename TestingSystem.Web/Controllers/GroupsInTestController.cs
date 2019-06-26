@@ -107,7 +107,7 @@ namespace TestingSystem.Web.Controllers
             if (ModelState.IsValid)
             {
                 await groupsInTestService.AddOrUpdateAsync(model.GroupInTest);
-                return RedirectToAction("Groups", model.GroupInTest.TestId);
+                return RedirectToAction("Index", "Test");
             }
             return View(model);
         }

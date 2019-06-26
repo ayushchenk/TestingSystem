@@ -14,6 +14,8 @@ namespace TestingSystem.BOL.Model
 
         public int Result { get; set; }
 
+        public int QuestionCount { get; set; }
+
         [StringLength(32)]
         [DisplayName("Group")]
         public string GroupName { get; set; }
