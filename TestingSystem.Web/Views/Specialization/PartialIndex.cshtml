@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.SpecializationDTO>
 
 <p>
-    @Html.ActionLink("Create New", "Edit", new { id = 0 }, new { })
+    @Html.ActionLink("Create New", "Create")
 </p>
 @if (Model.Count() != 0)
 {
@@ -21,10 +21,18 @@
                     @Html.DisplayFor(modelItem => item.SpecializationName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { }) |
                     @Html.ActionLink("Groups", "Groups", new { id = item.Id }, new { }) |
                     @Html.ActionLink("Subjects", "Subjects", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                    @if ((ViewBag.IsGlobal && ViewBag.EducationUnitId == null)
+                        || (item.EducationUnitId == ViewBag.EducationUnitId))
+                    {
+                        <span>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { }) |
+                        </span>
+                        <span>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                        </span>
+                    }
                 </td>
             </tr>
         }
@@ -37,4 +45,3 @@ else
         No specializations
     </div>
 }
-

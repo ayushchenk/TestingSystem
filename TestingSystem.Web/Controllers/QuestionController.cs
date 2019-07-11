@@ -9,15 +9,29 @@ using System.Linq;
 
 namespace TestingSystem.Web.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     public class QuestionController : Controller
     {
+        private TeacherDTO teacher;
+        private IEntityService<TeacherDTO> teacherService;
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<QuestionImageDTO> imageService;
         private IEntityService<QuestionAnswerDTO> answerService;
 
-        public QuestionController(IEntityService<QuestionDTO> questionService,
+        private TeacherDTO Teacher
+        {
+            get
+            {
+                if (teacher == null)
+                    teacher = teacherService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
+                return teacher;
+            }
+        }
+
+        public QuestionController(IEntityService<TeacherDTO> teacherService,
+                                  IEntityService<QuestionDTO> questionService,
                                   IEntityService<SpecializationDTO> specService,
                                   IEntityService<QuestionImageDTO> imageService,
                                   IEntityService<QuestionAnswerDTO> answerService,
@@ -26,6 +40,7 @@ namespace TestingSystem.Web.Controllers
             this.specService = specService;
             this.imageService = imageService;
             this.answerService = answerService;
+            this.teacherService = teacherService;
             this.subjectService = subjectService;
             this.questionService = questionService;
         }
@@ -37,6 +52,7 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> PartialIndex(string filter = null)
         {
+            ViewBag.EducationUnitId = this?.Teacher.EducationUnitId ?? 0;
             var model = new List<CreateQuestionViewModel>();
             IEnumerable<QuestionDTO> questions;
             if (String.IsNullOrWhiteSpace(filter))
@@ -80,6 +96,7 @@ namespace TestingSystem.Web.Controllers
                     model.Question.QuestionImageId = saved.Id;
                 }
 
+                model.Question.EducationUnitId = this.Teacher.EducationUnitId;
                 model.Question = await questionService.AddOrUpdateAsync(model.Question);
                 foreach (var answer in model.Answers.Where(a => !String.IsNullOrWhiteSpace(a.AnswerString)))
                 {
@@ -98,7 +115,9 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = new CreateQuestionViewModel();
-            model.Question = await questionService.GetAsync(id) ?? new QuestionDTO();
+            model.Question = await questionService.GetAsync(id);
+            if (model.Question == null || model.Question.EducationUnitId != this.Teacher.EducationUnitId)
+                return RedirectToAction("Index");
             model.Answers = answerService.FindBy(answer => answer.QuestionId == model.Question.Id).ToList();
             ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.Question.SpecializationId);
             ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName", model.Question.SubjectId);
@@ -109,7 +128,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await questionService.GetAsync(id);
-            if (item != null)
+            if (item != null && item.EducationUnitId == this.Teacher.EducationUnitId)
             {
                 await questionService.DeleteAsync(item);
                 return Json($"Successfully deleted: #{item.Id} - \"{item.SpecializationName}\"", JsonRequestBehavior.AllowGet);

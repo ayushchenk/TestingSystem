@@ -35,13 +35,10 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Education unit")]
         public string EducationUnitName { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SpecializationId { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int EducationUnitId { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SubjectId { get; set; }
     }
 }

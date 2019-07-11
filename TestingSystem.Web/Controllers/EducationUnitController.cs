@@ -10,16 +10,30 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Education Unit Admin, Global Admin")]
     public class EducationUnitController : Controller
     {
-        private IEntityService<EducationUnitDTO> unitService;
+        private AdminDTO admin;
+        private IEntityService<AdminDTO> adminService;
         private IEntityService<GroupDTO> groupsService;
+        private IEntityService<EducationUnitDTO> unitService;
 
-        public EducationUnitController(IEntityService<EducationUnitDTO> unitService,
-                                       IEntityService<GroupDTO> groupsService)
+        private AdminDTO Admin
+        {
+            get
+            {
+                if (admin == null)
+                    admin = adminService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
+                return admin;
+            }
+        }
+
+        public EducationUnitController(IEntityService<AdminDTO> adminService,
+                                       IEntityService<GroupDTO> groupsService,
+                                       IEntityService<EducationUnitDTO> unitService)
         {
             this.unitService = unitService;
+            this.adminService = adminService;
             this.groupsService = groupsService;
         }
 
@@ -30,14 +44,27 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
+            IEnumerable<EducationUnitDTO> units;
+            if (this.Admin.IsGlobal)
+                units = await unitService.GetAllAsync();
+            else
+                units = await unitService.FindByAsync(unit => unit.Id == this.admin.EducationUnitId);
             if (!String.IsNullOrWhiteSpace(filter))
-                return PartialView(await unitService.FindByAsync(unit => unit.EducationUnitName.ToLower().Contains(filter.ToLower())));
-            return PartialView(await unitService.GetAllAsync());
+                return PartialView(units.Where(unit => unit.EducationUnitName.ToLower().Contains(filter.ToLower())));
+            return PartialView(units);
+        }
+
+        [Authorize(Roles = "Global Admin")]
+        public ActionResult Create()
+        {
+            return View("Edit", new EducationUnitDTO());
         }
 
         public async Task<ActionResult> Edit(int id = 0)
         {
-            var model = await unitService.GetAsync(id) ?? new EducationUnitDTO();
+            var model = await unitService.GetAsync(id);
+            if (model == null || this.Admin == null)
+                return RedirectToAction("Index");
             return View(model);
         }
 
@@ -68,9 +95,9 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await unitService.GetAsync(id);
-            if (item != null)
+            if (item != null && (this.Admin.IsGlobal || item.Id == this.Admin.EducationUnitId))
             {
-                var groups = await groupsService.FindByAsync(group => group.SpecializationId == item.Id);
+                var groups = await groupsService.FindByAsync(group => group.EducationUnitId == item.Id);
                 if (groups.Count() != 0)
                     return Json($"There are groups relying os such unit: Id = {item.Id}, UnitName = {item.EducationUnitName}", JsonRequestBehavior.AllowGet);
                 await unitService.DeleteAsync(item);

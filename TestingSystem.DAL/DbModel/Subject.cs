@@ -24,10 +24,14 @@ namespace TestingSystem.DAL.DbModel
 
         public int SpecializationId { get; set; }
 
+        public int? EducationUnitId { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
 
         public virtual Specialization Specialization { get; set; }
+
+        public virtual EducationUnit EducationUnit { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Teacher> Teachers { get; set; }

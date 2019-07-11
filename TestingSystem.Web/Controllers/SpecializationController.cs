@@ -10,24 +10,38 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Education Unit Admin, Global Admin")]
     public class SpecializationController : Controller
     {
+        private AdminDTO admin;
         private IEntityService<TestDTO> testService;
+        private IEntityService<AdminDTO> adminService;
         private IEntityService<TeacherDTO> userService;
         private IEntityService<GroupDTO> groupsService;
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<SpecializationDTO> specService;
 
+        private AdminDTO Admin
+        {
+            get
+            {
+                if (admin == null)
+                    admin = adminService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
+                return admin;
+            }
+        }
+
         public SpecializationController(IEntityService<TeacherDTO> userService,
-                                        IEntityService<TestDTO> testService, 
-                                        IEntityService<GroupDTO> groupsService, 
-                                        IEntityService<SubjectDTO> subjectService, 
+                                        IEntityService<TestDTO> testService,
+                                        IEntityService<AdminDTO> adminService,
+                                        IEntityService<GroupDTO> groupsService,
+                                        IEntityService<SubjectDTO> subjectService,
                                         IEntityService<SpecializationDTO> specService)
         {
             this.testService = testService;
             this.specService = specService;
             this.userService = userService;
+            this.adminService = adminService;
             this.groupsService = groupsService;
             this.subjectService = subjectService;
         }
@@ -39,14 +53,23 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
+            ViewBag.IsGlobal = this.Admin?.IsGlobal ?? false;
+            ViewBag.EducationUnitId = this.Admin?.EducationUnitId;
             if (!String.IsNullOrWhiteSpace(filter))
                 return PartialView(await specService.FindByAsync(spec => spec.SpecializationName.ToLower().Contains(filter.ToLower())));
             return PartialView(await specService.GetAllAsync());
         }
 
+        public ActionResult Create()
+        {
+            return View(viewName: "Edit", model: new SpecializationDTO());
+        }
+
         public async Task<ActionResult> Edit(int id = 0)
         {
-            var model = await specService.GetAsync(id) ?? new SpecializationDTO();
+            var model = await specService.GetAsync(id);
+            if (this.Admin == null || model == null || ((model.EducationUnitId ?? 0) != (this.Admin.EducationUnitId ?? 0) && !this.Admin.IsGlobal))
+                return RedirectToAction("Index");
             return View(model);
         }
 
@@ -55,6 +78,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                spec.EducationUnitId = this.Admin.EducationUnitId;
                 await specService.AddOrUpdateAsync(spec);
                 return RedirectToAction("Index");
             }
@@ -64,7 +88,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Groups(int id = 0)
         {
             var spec = await specService.GetAsync(id);
-            if (spec == null)
+            if (spec == null || this.Admin == null)
                 return RedirectToAction("Index");
             var model = new SpecGroupsViewModel
             {
@@ -77,11 +101,11 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Subjects(int id = 0)
         {
             var spec = await specService.GetAsync(id);
-            if (spec == null)
+            if (spec == null || this.Admin == null)
                 return RedirectToAction("Index");
             var model = new SpecSubjectsViewModel
             {
-                Subjects = await subjectService.FindByAsync(group => group.SpecializationId == spec.Id),
+                Subjects = await subjectService.FindByAsync(subject => subject.SpecializationId == spec.Id),
                 Specialization = spec
             };
             return View(model);
@@ -90,7 +114,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await specService.GetAsync(id);
-            if (item != null)
+            if (item != null && this.Admin != null && ((item.EducationUnitId ?? 0) == (this.Admin.EducationUnitId ?? 0) || this.Admin.IsGlobal))
             {
                 var tests = await testService.FindByAsync(test => test.SpecializationId == item.Id);
                 var groups = await groupsService.FindByAsync(group => group.SpecializationId == item.Id);

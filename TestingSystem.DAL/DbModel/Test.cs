@@ -26,9 +26,13 @@ namespace TestingSystem.DAL.DbModel
 
         public int SubjectId { get; set; }
 
+        public int TeacherId { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupsInTest> GroupsInTests { get; set; }
 
         public virtual Subject Subject { get; set; }
+
+        public virtual Teacher Teacher { get; set; }
     }
 }

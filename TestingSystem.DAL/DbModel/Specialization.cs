@@ -21,6 +21,10 @@ namespace TestingSystem.DAL.DbModel
         [StringLength(64)]
         public string SpecializationName { get; set; }
 
+        public int? EducationUnitId { get; set; }
+
+        public virtual EducationUnit EducationUnit { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Group> Groups { get; set; }
 

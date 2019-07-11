@@ -2,7 +2,18 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Teacher"))
+    {
+        Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+    }
 }
 
 <h2>Create student</h2>
@@ -16,14 +27,6 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Login, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -46,14 +49,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EducationUnitId, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EducationUnitId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -82,17 +77,6 @@
     <script type="text/javascript">
         $(function () {
             $("#GroupId").val([]);
-            $("#EducationUnitId").val([]);
-            $("#EducationUnitId").change(function () {
-                groups = $("#GroupId");
-                $.getJSON("@Url.Action("GetGroupsByUnit", "Service")", { id: $(this).val() }, function (response) {
-                    groups.empty();
-                    $.each(response, function (index, item) {
-                        groups.append($('<option></option>').text(item.GroupName).val(item.Id));
-                    });
-                });
-                groups.val([]);
-            });
         });
     </script>
 }

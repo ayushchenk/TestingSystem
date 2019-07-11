@@ -2,7 +2,14 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
 }
 
 <h2>Group @Model.Group.GroupName Students</h2>
@@ -13,9 +20,6 @@
 {
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayName("Login")
-        </th>
         <th>
             @Html.DisplayName("Email")
         </th>
@@ -34,9 +38,6 @@
     @foreach (var item in Model.Students)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Login)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>

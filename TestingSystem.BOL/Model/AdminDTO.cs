@@ -13,10 +13,6 @@ namespace TestingSystem.BOL.Model
 
         [Required]
         [StringLength(64)]
-        public string Login { get; set; }
-
-        [Required]
-        [StringLength(64)]
         public string Email { get; set; }
 
         [Required]

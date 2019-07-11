@@ -9,6 +9,7 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
 {
+    [Authorize(Roles = "Teacher, Education Unit Admin, Global Admin")]
     public class ImageController : Controller
     {
         private IEntityService<QuestionDTO> questionService;

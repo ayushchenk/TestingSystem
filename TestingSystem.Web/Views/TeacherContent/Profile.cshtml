@@ -1,0 +1,65 @@
+﻿@model TestingSystem.BOL.Model.TeacherDTO
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>Profile</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SpecializationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpecializationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EducationUnitName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EducationUnitName)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit") |
+    @Html.ActionLink("Change password", "ChangePassword", "Account")
+</p>

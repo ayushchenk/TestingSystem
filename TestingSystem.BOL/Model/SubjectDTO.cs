@@ -23,5 +23,7 @@ namespace TestingSystem.BOL.Model
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SpecializationId { get; set; }
+
+        public int? EducationUnitId { get; set; }
     }
 }

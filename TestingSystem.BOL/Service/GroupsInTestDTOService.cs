@@ -24,6 +24,7 @@ namespace TestingSystem.BOL.Service
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<GroupsInTest, GroupsInTestDTO>()
                     .ForMember("GroupName", opt => opt.MapFrom(git => git.Group.GroupName))
+                    .ForMember("EducationUnitId", opt => opt.MapFrom(git => git.Group.EducationUnitId))
                     .ForMember("TestName", opt => opt.MapFrom(git => git.Test.TestName));
                 cfg.CreateMap<GroupsInTestDTO, GroupsInTest>();
             }).CreateMapper();

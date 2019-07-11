@@ -1,7 +1,18 @@
 ﻿@model TestingSystem.BOL.Model.QuestionImageDTO
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Teacher"))
+    {
+        Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+    }
 }
 
 <h2>Edit</h2>

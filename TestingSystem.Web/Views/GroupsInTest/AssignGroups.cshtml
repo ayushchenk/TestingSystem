@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "AssignGroups";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
 
 <h2>AssignGroups</h2>
@@ -56,9 +56,6 @@
                         @Html.EditorFor(x => x.Groups[i].GroupInTest.Length, new { htmlAttributes = new { @class = $"to-hide length-{Model.Groups[i].Group.Id} form-control" } })
                         <br />
                         @Html.ValidationMessageFor(x => x.Groups[i].GroupInTest.Length, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.ActionLink("Users", "Users", "Group", new { id = Model.Groups[i].Group.Id }, null)
                     </td>
                 </tr>
                 @Html.HiddenFor(x => x.Groups[i].Group.Id)

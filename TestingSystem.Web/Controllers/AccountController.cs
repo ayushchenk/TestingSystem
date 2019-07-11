@@ -90,7 +90,6 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = await UserManager.FindAsync(model.Email, model.Password);
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
                 if (result == SignInStatus.Failure)
                 {
@@ -98,11 +97,14 @@ namespace TestingSystem.Web.Controllers
                 }
                 else
                 {
-                    //SignInManager.SignIn(user, false, false);
-
-                    if (String.IsNullOrEmpty(returnUrl))
-                        return RedirectToAction("Index", "Home");
-                    return Redirect(returnUrl);
+                    AppUser user = await UserManager.FindByEmailAsync(model.Email);
+                    if (UserManager.IsInRole(user.Id, "Teacher"))
+                        return RedirectToAction("Groups", "TeacherContent");
+                    if (UserManager.IsInRole(user.Id, "Student"))
+                        return RedirectToAction("Tests", "StudentContent");
+                    if (UserManager.IsInRole(user.Id, "Global Admin") || UserManager.IsInRole(user.Id, "Education Unit Admin"))
+                        return RedirectToAction("Index", "AdminContent");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             ViewBag.ReturnUrl = returnUrl;

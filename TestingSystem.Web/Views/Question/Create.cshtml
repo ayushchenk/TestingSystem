@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
 
 <h2>Create</h2>
@@ -16,7 +16,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Question.Id)
-        @*@Html.HiddenFor(model => model.Question.QuestionImageId)*@
+        @Html.HiddenFor(model => model.Question.EducationUnitId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Question.QuestionString, htmlAttributes: new { @class = "control-label col-md-2" })

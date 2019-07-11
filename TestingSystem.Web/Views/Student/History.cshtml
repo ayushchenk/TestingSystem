@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TestingSystem.BOL.Model.StudentTestResultDTO>
+
+@{
+    ViewBag.Title = "History";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Teacher"))
+    {
+        Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+    }
+}
+
+<h2>@ViewBag.Student.GroupName @ViewBag.Student.FirstName @ViewBag.Student.LastName - History</h2>
+
+@if (Model.Count() != 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Result)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Result / @item.QuestionCount
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert alert-info">
+        No history
+    </div>
+}

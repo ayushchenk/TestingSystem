@@ -20,9 +20,15 @@ namespace TestingSystem.Web
             );
 
             routes.MapRoute(
+                name: "TeacherContent",
+                url: "TeacherContent/{action}/{id}",
+                defaults: new { controller = "TeacherContent", action = "Groups", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
             );
         }
     }

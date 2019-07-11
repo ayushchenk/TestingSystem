@@ -185,6 +185,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminContentController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\GroupsInTestController.cs" />
@@ -198,9 +199,9 @@
     <Compile Include="Controllers\StudentContentController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
+    <Compile Include="Controllers\TeacherContentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -279,16 +280,13 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Specialization\Index.cshtml" />
     <Content Include="Views\Specialization\Edit.cshtml" />
-    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Shared\_UnitAdminLayout.cshtml" />
     <Content Include="Views\Specialization\PartialIndex.cshtml" />
     <Content Include="Views\Role\PartialIndex.cshtml" />
     <Content Include="Views\Group\PartialIndex.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\Group\Edit.cshtml" />
     <Content Include="Views\Group\Students.cshtml" />
-    <Content Include="Views\User\PartialIndex.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Specialization\Groups.cshtml" />
     <Content Include="Views\Test\PartialIndex.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
@@ -305,7 +303,6 @@
     <Content Include="Views\EducationUnit\Groups.cshtml" />
     <Content Include="Views\EducationUnit\Index.cshtml" />
     <Content Include="Views\EducationUnit\PartialIndex.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Question\Create.cshtml" />
     <Content Include="Views\Subject\PartialIndex.cshtml" />
     <Content Include="Views\Subject\Index.cshtml" />
@@ -314,7 +311,6 @@
     <Content Include="Views\Image\Create.cshtml" />
     <Content Include="Views\Image\PartialIndex.cshtml" />
     <Content Include="Views\Image\Index.cshtml" />
-    <Content Include="Views\User\CreateSelect.cshtml" />
     <Content Include="Views\Student\Create.cshtml" />
     <Content Include="Views\Student\Edit.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
@@ -342,6 +338,16 @@
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\StudentContent\Edit.cshtml" />
+    <Content Include="Views\Shared\_TeacherLayout.cshtml" />
+    <Content Include="Views\TeacherContent\Groups.cshtml" />
+    <Content Include="Views\TeacherContent\Students.cshtml" />
+    <Content Include="Views\Student\History.cshtml" />
+    <Content Include="Views\TeacherContent\Profile.cshtml" />
+    <Content Include="Views\TeacherContent\Edit.cshtml" />
+    <Content Include="Views\Group\Create.cshtml" />
+    <Content Include="Views\Shared\_GlobalAdminLayout.cshtml" />
+    <Content Include="Views\AdminContent\Profile.cshtml" />
+    <Content Include="Views\AdminContent\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

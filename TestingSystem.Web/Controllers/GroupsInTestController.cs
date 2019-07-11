@@ -10,22 +10,48 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
+    [Authorize(Roles = "Teacher")]
     public class GroupsInTestController : Controller
     {
+        private TeacherDTO teacher;
         private IEntityService<TestDTO> testService;
         private IEntityService<GroupDTO> groupService;
         private IEntityService<SpecializationDTO> specService;
+        private IEntityService<TeacherDTO> teacherService;
         private IEntityService<GroupsInTestDTO> groupsInTestService;
+        private IEntityService<TeachersInGroupDTO> teacherInGroupsService;
+
+        private TeacherDTO Teacher
+        {
+            get
+            {
+                if (teacher == null)
+                    teacher = teacherService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
+                return teacher;
+            }
+        }
+
+        private IEnumerable<int> GroupIds
+        {
+            get
+            {
+                return teacherInGroupsService.FindBy(tig => tig.TeacherId == this.Teacher.Id).Select(tig => tig.GroupId);
+            }
+        }
 
         public GroupsInTestController(IEntityService<TestDTO> testService, 
                                       IEntityService<GroupDTO> groupService, 
                                       IEntityService<SpecializationDTO> specService, 
-                                      IEntityService<GroupsInTestDTO> groupsInTestService)
+                                      IEntityService<TeacherDTO> teacherService,
+                                      IEntityService<GroupsInTestDTO> groupsInTestService,
+                                      IEntityService<TeachersInGroupDTO> teacherInGroupsService)
         {
             this.testService = testService;
             this.specService = specService;
             this.groupService = groupService;
+            this.teacherService = teacherService;
             this.groupsInTestService = groupsInTestService;
+            this.teacherInGroupsService = teacherInGroupsService;
         }
 
         public async Task<ActionResult> AssignGroups(int id = 0)
@@ -33,10 +59,10 @@ namespace TestingSystem.Web.Controllers
             var item = await testService.GetAsync(id);
             if (item != null)
             {
-                var alreadyAssigned = groupsInTestService.FindBy(git => git.TestId == id).Select(git => git.GroupId);
+                var alreadyAssigned = groupsInTestService.FindBy(git => git.TestId == id && this.GroupIds.Contains(git.GroupId)).Select(git => git.GroupId);
                 var model = new AssignGroupsViewModel();
                 model.TestId = id;
-                foreach (var group in await groupService.FindByAsync(group => !alreadyAssigned.Contains(group.Id) && group.SpecializationId == item.SpecializationId))
+                foreach (var group in await groupService.FindByAsync(group => !alreadyAssigned.Contains(group.Id) && GroupIds.Contains(group.Id)))
                     model.Groups.Add(new AssignGroupItem
                     {
                         Group = group
@@ -67,7 +93,7 @@ namespace TestingSystem.Web.Controllers
         {
             var groupsInTests = groupsInTestService.FindBy(git => git.TestId == id);
             var ids = groupsInTests.Select(git => git.GroupId);
-            var groups = await groupService.FindByAsync(group => ids.Contains(group.Id));
+            var groups = await groupService.FindByAsync(group => ids.Contains(group.Id) && this.GroupIds.Contains(group.Id));
 
             var model = new AssignGroupsViewModel();
             model.TestId = id;
@@ -84,7 +110,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await groupsInTestService.GetAsync(id);
-            if (item != null)
+            if (item != null && this.GroupIds.Contains(item.GroupId))
                 await groupsInTestService.DeleteAsync(item);
             return RedirectToAction("Groups", item.TestId);
         }
@@ -93,6 +119,8 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit(int id = 0)
         {
             var git = await groupsInTestService.GetAsync(id);
+            if(!this.GroupIds.Contains(git.GroupId))
+                return RedirectToAction("Index", "Test");
             var model = new AssignGroupItem
             {
                 Group = await groupService.GetAsync(git.GroupId),

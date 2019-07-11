@@ -15,13 +15,25 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
 {
+    [Authorize(Roles = "Global Admin, Education Unit Admin")]
     public class AdminController : Controller
     {
+        private AdminDTO admin;
         private IEntityService<GroupDTO> groupService;
         private IEntityService<AdminDTO> adminService;
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
+
+        private AdminDTO Admin
+        {
+            get
+            {
+                if (admin == null)
+                    admin = adminService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
+                return admin;
+            }
+        }
 
         private AppUserManager UserManager
         {
@@ -59,25 +71,31 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> PartialIndex(string filter = null)
         {
+            IEnumerable<AdminDTO> admins;
+            if (this.Admin.IsGlobal)
+                admins = await adminService.GetAllAsync();
+            else
+                admins = await adminService.FindByAsync(adm => adm.EducationUnitId == this.Admin.EducationUnitId);
             if (!string.IsNullOrWhiteSpace(filter))
-                return PartialView(await adminService.FindByAsync(user => user.Email.ToLower().Contains(filter.ToLower())
-                                                                         || user.Login.ToLower().Contains(filter.ToLower())
+                return PartialView(admins.Where(user => user.Email.ToLower().Contains(filter.ToLower())
                                                                          || user.LastName.ToLower().Contains(filter.ToLower())
                                                                          || user.FirstName.ToLower().Contains(filter.ToLower())
                                                                          || user.EducationUnitName.ToLower().Contains(filter.ToLower())));
-            return PartialView(await adminService.GetAllAsync());
+            return PartialView(admins);
         }
 
+        [Authorize(Roles = "Global Admin")]
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await adminService.GetAsync(id);
-            if (model == null)
+            if (model == null || this.Admin == null)
                 return RedirectToAction("Index");
             ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
             return View(model);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Global Admin")]
         public async Task<ActionResult> Edit(AdminDTO model)
         {
             if (ModelState.IsValid)
@@ -89,14 +107,28 @@ namespace TestingSystem.Web.Controllers
                     if (appUser != null)
                     {
                         appUser.Email = model.Email;
-                        appUser.UserName = model.Login;
+                        appUser.UserName = model.Email;
+                        if(oldUser.IsGlobal != model.IsGlobal)
+                        {
+                            if(model.IsGlobal)
+                            {
+                                await UserManager.RemoveFromRoleAsync(appUser.Id, "Education Unit Admin");
+                                await UserManager.AddToRoleAsync(appUser.Id, "Global Admin");
+                                model.EducationUnitId = null;
+                            }
+                            else
+                            {
+                                await UserManager.RemoveFromRoleAsync(appUser.Id, "Global Admin");
+                                await UserManager.AddToRoleAsync(appUser.Id, "Education Unit Admin");
+                            }
+                        }
                         await UserManager.UpdateAsync(appUser);
                         await adminService.AddOrUpdateAsync(model);
                         return RedirectToAction("Index");
                     }
                 }
             }
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);      
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
             return View(model);
         }
 
@@ -112,12 +144,20 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser { UserName = model.Login, Email = model.Email };
+                AppUser user = new AppUser { UserName = model.Email, Email = model.Email };
                 string password = Membership.GeneratePassword(10, 4);
                 IdentityResult result = await UserManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user.Id, "Student");
+                    if (model.IsGlobal)
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, "Global Admin");
+                        //await UserManager.AddToRoleAsync(user.Id, "Education Unit Admin");
+                    }
+                    else
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, "Education Unit Admin");
+                    }
                     await adminService.AddOrUpdateAsync(model);
                     MailService sender = new MailService();
                     await sender.SendComplexMessageAsync(model.Email, "TestingSystem", password);
@@ -138,7 +178,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             AdminDTO user = await adminService.GetAsync(id);
-            if (user != null)
+            if (user != null && (this.Admin.IsGlobal || this.Admin.EducationUnitId == user.EducationUnitId))
             {
                 AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
                 if (appUser != null)

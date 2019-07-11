@@ -11,5 +11,7 @@ namespace TestingSystem.BOL.Model
         [StringLength(64)]
         [DisplayName("Specialization")]
         public string SpecializationName { get; set; }
+
+        public int? EducationUnitId { get; set; }
     }
 }

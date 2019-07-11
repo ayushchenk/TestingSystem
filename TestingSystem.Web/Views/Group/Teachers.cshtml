@@ -2,70 +2,72 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
 }
 
 <h2>Group @Model.Group.GroupName Teachers</h2>
 <hr />
+@Html.ActionLink("Add teacher", "AddTeacher", new { id = Model.Group.Id })
 
 @if (Model.Teachers != null && Model.Teachers.Count() != 0)
 {
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Login")
-        </th>
-        <th>
-            @Html.DisplayName("Email")
-        </th>
-        <th>
-            @Html.DisplayName("FirstName")
-        </th>
-        <th>
-            @Html.DisplayName("LastName")
-        </th>
-        <th>
-            @Html.DisplayName("SpecializationName")
-        </th>
-        <th>
-            @Html.DisplayName("SubjectName")
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Teachers)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Login)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpecializationName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubjectName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", "Teacher", new { id = item.Id }, new { }) |
-                @Html.ActionLink("Delete", "Delete", "Teacher", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
-            </td>
+            <th>
+                @Html.DisplayName("Email")
+            </th>
+            <th>
+                @Html.DisplayName("FirstName")
+            </th>
+            <th>
+                @Html.DisplayName("LastName")
+            </th>
+            <th>
+                @Html.DisplayName("SpecializationName")
+            </th>
+            <th>
+                @Html.DisplayName("SubjectName")
+            </th>
+            <th></th>
         </tr>
-    }
-</table>
+
+        @foreach (var item in Model.Teachers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecializationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Teacher", new { id = item.Id }, new { }) |
+                    @Html.ActionLink("Delete teacher", "DeleteTeacher", "Group", routeValues: new { teacher = item.Id, group = Model.Group.Id }, htmlAttributes: null)
+                </td>
+            </tr>
+        }
+    </table>
 }
 else
 {
     <div class="alert-info">
-        No users
+        No teachers
     </div>
 }
 
@@ -73,21 +75,3 @@ else
     @Html.ActionLink("Edit group", "Edit", new { id = Model.Group.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
-
-@section Scripts{
-    <script type="text/javascript">
-        $(function () {
-            $("body").on("click", ".btn-delete", function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("Delete", "Teacher")",
-                    data: { id: $(this).attr("data-id") },
-                success: function (data) {
-                    window.location.reload(true);
-                }
-            });
-        });
-        });
-    </script>    
-}

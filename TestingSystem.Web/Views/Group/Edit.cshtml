@@ -2,7 +2,14 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
     int count = 0;
 }
 
@@ -18,6 +25,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Group.Id)
+        @Html.HiddenFor(model => model.Group.EducationUnitId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Group.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -35,13 +43,16 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Group.EducationUnitName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Group.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Group.EducationUnitId, "", new { @class = "text-danger" })
+        @if (User.IsInRole("Global Admin"))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Group.EducationUnitName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Group.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Group.EducationUnitId, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
+        }
 
         <div class="form-group" id="teacher-cont-master">
             @Html.LabelFor(m => m.Teachers, new { @class = "col-md-2 control-label" })
@@ -49,7 +60,7 @@
                 @for (int i = 0; i < Model.Teachers.Count; i++)
                 {
                     <div data-id="@i">
-                        @Html.DropDownListFor( model => model.Teachers[i], new SelectList(Model.SpecTeachers, "Id", "FullName", Model.Teachers[i]), null, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Teachers[i], new SelectList(Model.SpecTeachers, "Id", "FullName", Model.Teachers[i]), null, new { @class = "form-control" })
                         <input type="button" value="Delete" class="btn-delete-teacher btn btn-default" />
                     </div>
                 }
@@ -99,7 +110,7 @@
                     cache: false,
                     success: function () {
                         $("#teacher-cont").append(html);
-                //setTimeout(function(){
+                        //setTimeout(function(){
                         select = $(`#Teachers_${id}_`);
                         $.getJSON("@Url.Action("GetTeachersBySpecialization", "Service")", { id: $("#Group_SpecializationId").val() }, function (response) {
                             maxLength = Object.keys(response).length;

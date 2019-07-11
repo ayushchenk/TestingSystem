@@ -38,6 +38,8 @@ namespace TestingSystem.BOL.Model
 
         public int GroupId { get; set; }
 
+        public int EducationUnitId { get; set; }
+
         public int TestId { get; set; }
     }
 }

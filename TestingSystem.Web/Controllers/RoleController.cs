@@ -12,7 +12,7 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
 {
-   // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Global Admin")]
     public class RoleController : Controller
     {
         private AppRoleManager RoleManager

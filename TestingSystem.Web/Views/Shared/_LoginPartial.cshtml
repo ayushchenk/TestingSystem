@@ -3,20 +3,41 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "StudentContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li>@Html.ActionLink("Log out", "Logout", "Account")</li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole("Student"))
+            {
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "StudentContent", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+            }
+            else if (User.IsInRole("Teacher"))
+            {
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "StudentContent", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+            }
+            else if (User.IsInRole("Global Admin"))
+            {
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "GlobalAdmin", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+            }
+            else if (User.IsInRole("Education Unit Admin"))
+            {
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "UnitAdmin", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+            }
+            <li>@Html.ActionLink("Log out", "Logout", "Account")</li>
+        </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

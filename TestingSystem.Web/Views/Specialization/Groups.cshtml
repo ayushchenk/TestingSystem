@@ -2,7 +2,14 @@
 
 @{
     ViewBag.Title = "Groups";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
 }
 
 <h2>Specialization @Model.Specialization.SpecializationName Groups</h2>

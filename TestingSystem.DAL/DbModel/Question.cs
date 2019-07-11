@@ -24,11 +24,15 @@ namespace TestingSystem.DAL.DbModel
 
         public int SubjectId { get; set; }
 
+        public int EducationUnitId { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
 
         public virtual QuestionImage QuestionImage { get; set; }
 
         public virtual Subject Subject { get; set; }
+
+        public virtual EducationUnit EducationUnit{ get; set; }
     }
 }

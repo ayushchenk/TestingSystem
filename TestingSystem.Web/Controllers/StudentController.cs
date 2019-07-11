@@ -15,13 +15,20 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
 {
+    [Authorize(Roles = "Teacher, Education Unit Admin, Global Admin")]
     public class StudentController : Controller
     {
+        private AdminDTO admin;
+        private TeacherDTO teacher;
+        private IEntityService<AdminDTO> adminService;
         private IEntityService<GroupDTO> groupService;
         private IEntityService<StudentDTO> studentService;
+        private IEntityService<TeacherDTO> teacherService;
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
+        private IEntityService<StudentTestResultDTO> resultService;
+        private IEntityService<TeachersInGroupDTO> teacherInGroupsService;
 
         private AppUserManager UserManager
         {
@@ -31,17 +38,53 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
+        private TeacherDTO Teacher
+        {
+            get
+            {
+                if (teacher == null)
+                    teacher = teacherService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
+                return teacher;
+            }
+        }
+
+        private AdminDTO Admin
+        {
+            get
+            {
+                if (admin == null)
+                    admin = adminService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
+                return admin;
+            }
+        }
+
+        private IEnumerable<int> Groups
+        {
+            get
+            {
+                return teacherInGroupsService.FindBy(tig => tig.TeacherId == this.Teacher.Id).Select(tig => tig.GroupId);
+            }
+        }
+
         public StudentController(IEntityService<GroupDTO> groupService,
+                                 IEntityService<AdminDTO> adminService,
                                  IEntityService<StudentDTO> studentService,
                                  IEntityService<SubjectDTO> subjectService,
+                                 IEntityService<TeacherDTO> teacherService,
                                  IEntityService<EducationUnitDTO> unitService,
-                                 IEntityService<SpecializationDTO> specService)
+                                 IEntityService<SpecializationDTO> specService,
+                                 IEntityService<StudentTestResultDTO> resultService,
+                                 IEntityService<TeachersInGroupDTO> teacherInGroupsService)
         {
             this.specService = specService;
             this.unitService = unitService;
+            this.adminService = adminService;
             this.groupService = groupService;
+            this.resultService = resultService;
+            this.teacherService = teacherService;
             this.studentService = studentService;
             this.subjectService = subjectService;
+            this.teacherInGroupsService = teacherInGroupsService;
         }
 
         public ActionResult Index()
@@ -51,23 +94,29 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> PartialIndex(string filter = null)
         {
+            var model = await studentService.FindByAsync(student => this.Groups.Contains(student.GroupId));
             if (!string.IsNullOrWhiteSpace(filter))
-                return PartialView(await studentService.FindByAsync(user => user.Email.ToLower().Contains(filter.ToLower())
-                                                                         || user.Login.ToLower().Contains(filter.ToLower())
+                return PartialView(model.Where(user => user.Email.ToLower().Contains(filter.ToLower())
                                                                          || user.LastName.ToLower().Contains(filter.ToLower())
                                                                          || user.FirstName.ToLower().Contains(filter.ToLower())
                                                                          || user.GroupName.ToLower().Contains(filter.ToLower())
                                                                          || user.EducationUnitName.ToLower().Contains(filter.ToLower())));
-            return PartialView(await studentService.GetAllAsync());
+            return PartialView(model);
         }
 
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await studentService.GetAsync(id);
-            if (model == null)
+            if (model == null /*|| model.EducationUnitId != (this.Teacher?.EducationUnitId ?? 0)*/)
                 return RedirectToAction("Index");
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
-            ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.EducationUnitId), "Id", "GroupName", model.GroupId);
+            if (User.IsInRole("Teacher") && this.Groups.Contains(model.GroupId))
+                ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName", model.GroupId);
+            else if (User.IsInRole("Education Unit Admin") && this.Admin.EducationUnitId == model.EducationUnitId)
+                ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName", model.GroupId);
+            else if (User.IsInRole("Global Admin"))
+                ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", model.GroupId);
+            else
+                return RedirectToAction("Index");
             return View(model);
         }
 
@@ -83,23 +132,33 @@ namespace TestingSystem.Web.Controllers
                     if (appUser != null)
                     {
                         appUser.Email = model.Email;
-                        appUser.UserName = model.Login;
+                        appUser.UserName = model.Email;
                         await UserManager.UpdateAsync(appUser);
                         await studentService.AddOrUpdateAsync(model);
                         return RedirectToAction("Index");
                     }
                 }
             }
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
-            ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => group.EducationUnitId == model.EducationUnitId), "Id", "GroupName", model.GroupId);
+            if(User.IsInRole("Teacher"))
+                ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName");
+            else if (User.IsInRole("Education Unit Admin"))
+                ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName");
+            else if (User.IsInRole("Global Admin"))
+                ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View(model);
         }
 
         public async Task<ActionResult> Create()
         {
+            if (this.Teacher == null)
+                return RedirectToAction("Index");
             var model = new StudentDTO();
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
-            ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
+            if (User.IsInRole("Teacher"))
+                ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName");
+            else if (User.IsInRole("Education Unit Admin"))
+                ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName");
+            else if (User.IsInRole("Global Admin"))
+                ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View(model: model);
         }
 
@@ -108,11 +167,12 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser { UserName = model.Login, Email = model.Email };
+                AppUser user = new AppUser { UserName = model.Email, Email = model.Email };
                 string password = Membership.GeneratePassword(10, 4);
                 IdentityResult result = await UserManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
+                    model.EducationUnitId = this.Teacher.EducationUnitId;
                     await UserManager.AddToRoleAsync(user.Id, "Student");
                     await studentService.AddOrUpdateAsync(model);
                     MailService sender = new MailService();
@@ -127,15 +187,31 @@ namespace TestingSystem.Web.Controllers
                     }
                 }
             }
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
-            ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
+            if(User.IsInRole("Teacher"))
+                ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName");
+            else if (User.IsInRole("Education Unit Admin"))
+                ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName");
+            else if (User.IsInRole("Global Admin"))
+                ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View(model: model);
+        }
+
+        public async Task<ActionResult> History(int id = 0)
+        {
+            StudentDTO student = await studentService.GetAsync(id);
+            if (student == null)
+                return RedirectToAction("Index");
+            ViewBag.Student = student;
+            var model = await resultService.GetAllAsync();
+            return View(model);
         }
 
         public async Task<ActionResult> Delete(int id = 0)
         {
             StudentDTO user = await studentService.GetAsync(id);
-            if (user != null)
+            if (user != null && (User.IsInRole("Teacher") && this.Groups.Contains(user.GroupId)) ||
+               (User.IsInRole("Education Unit Admin") && user.EducationUnitId == this.Admin.EducationUnitId) ||
+               (User.IsInRole("Global Admin")))
             {
                 AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
                 if (appUser != null)

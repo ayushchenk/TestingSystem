@@ -10,10 +10,6 @@ namespace TestingSystem.BOL.Model
 
         [Required]
         [StringLength(64)]
-        public string Login { get; set; }
-
-        [Required]
-        [StringLength(64)]
         public string Email { get; set; }
 
         [Required]
@@ -41,7 +37,6 @@ namespace TestingSystem.BOL.Model
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SubjectId { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int EducationUnitId { set; get; }
 
         public string FullName

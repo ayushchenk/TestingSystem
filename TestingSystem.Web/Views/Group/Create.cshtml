@@ -1,0 +1,145 @@
+﻿@model TestingSystem.Web.Models.ViewModels.CreateGroupViewModel
+
+@{
+    ViewBag.Title = "Create";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
+    int count = 0;
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm("Create", "Group"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Group.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Group.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Group.GroupName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Group.GroupName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Group.SpecializationName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Group.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Group.SpecializationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @if (User.IsInRole("Global Admin"))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Group.EducationUnitName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Group.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Group.EducationUnitId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group" id="teacher-cont-master">
+            @Html.LabelFor(m => m.Teachers, new { @class = "col-md-2 control-label" })
+            <div class="col-md-offset-2 col-md-10" id="teacher-cont">
+                @for (int i = 0; i < Model.Teachers.Count; i++)
+                {
+                    <div data-id="@i">
+                        @Html.DropDownListFor(model => model.Teachers[i], new SelectList(Model.SpecTeachers, "Id", "FullName", Model.Teachers[i]), null, new { @class = "form-control" })
+                        <input type="button" value="Delete" class="btn-delete-teacher btn btn-default" />
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="button" class="btn btn-default" id="add-teacher" value="Add teacher" />
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" id="submit" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            id = @Model.Teachers.Count();
+            if(id == 0)
+                $("#teacher-cont-master").hide();
+
+            maxLength = 0;
+
+            $("#add-teacher").click(function (e) {
+                $("#teacher-cont-master").show();
+                if(maxLength != 0 && $("#teacher-cont").children("div[data-id]").length >= maxLength)
+                {
+                    alert("No more teachers with such specialization");
+                    e.preventDefault();
+                    return;
+                }
+                html = `<div data-id=${id}>` +
+                            `<select class="form-control" id="Teachers_${id}_" name="Teachers[${id}]" style="margin-top: 5px;"></select>` +
+                            `<input type="button" value="Delete" class="btn-delete-teacher btn btn-default"/>` +
+                        `</div>`;
+                $.ajax({
+                    url: this.href,
+                    cache: false,
+                    success: function () {
+                        $("#teacher-cont").append(html);
+                        //setTimeout(function(){
+                        select = $(`#Teachers_${id}_`);
+                        $.getJSON("@Url.Action("GetTeachersBySpecialization", "Service")", { id: $("#Group_SpecializationId").val() }, function (response) {
+                            maxLength = Object.keys(response).length;
+                            select.empty();
+                            $.each(response, function (index, item) {
+                                select.append($('<option></option>').text(item.FullName).val(item.Id));
+                            });
+                        });
+                        select.val([]);
+                        id++;
+                    }
+                });
+                //}, 1000);
+            });
+
+            $("#Group_SpecializationId").change(function () {
+                $("#teacher-cont").children().remove();
+                $("#teacher-cont-master").hide();
+                id = 0;
+            });
+
+            $("body").on("click", ".btn-delete-teacher", function(){
+                selectedId = $(this).closest("div").attr("data-id");
+                for(i = selectedId; i< id; i++){
+                    select = $(`#Teachers_${i}_`).attr("id", `Teachers_${i - 1}_`);
+                    select.attr("name", `Teachers[${i - 1}]`);
+                }
+                $(`div[data-id=${selectedId}]`).remove();
+                if($("#teacher-cont").children("div[data-id]").length == 0)
+                    $("#teacher-cont-master").hide();
+            });
+        });
+    </script>
+}

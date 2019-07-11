@@ -1,8 +1,13 @@
-﻿@model IEnumerable<TestingSystem.BOL.Model.UserDTO>
+﻿@model IEnumerable<TestingSystem.BOL.Model.StudentDTO>
 
-<p>
-    @Html.ActionLink("Create New", "CreateSelect")
-</p>
+@{
+    ViewBag.Title = "Students";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+<h2>@ViewBag.GroupName Students</h2>
+
+@Html.ActionLink("Add student", "Create", "Student")
 
 @if (Model.Count() != 0)
 {
@@ -18,18 +23,9 @@
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EducationUnitName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GroupName)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.SpecializationName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubjectName)
-            </th>
-            <th></th>
+            <th />
         </tr>
 
         @foreach (var item in Model)
@@ -45,20 +41,10 @@
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EducationUnitName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GroupName)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.SpecializationName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SubjectName)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                    @Html.ActionLink("History", "History", controllerName: "Student", routeValues: new { id = item.Id }, htmlAttributes: null)
                 </td>
             </tr>
         }
@@ -67,7 +53,8 @@
 }
 else
 {
-    <div class="alert-info">
-        No users
+    <div class="alert alert-info">
+        No students
     </div>
 }
+@Html.RouteLink("Back", routeName: "TeacherContent")

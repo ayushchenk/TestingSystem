@@ -1,7 +1,18 @@
 ﻿
 @{
     ViewBag.Title = "Students";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    if (User.IsInRole("Education Unit Admin"))
+    {
+        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Global Admin"))
+    {
+        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    }
+    if (User.IsInRole("Teacher"))
+    {
+        Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+    }
 }
 
 <h2>Students</h2>
@@ -36,7 +47,7 @@
 
             $("body").on("keypress", "#filter-input", function (e) {
                 if (e.which == 13)
-                    $("#partial-content").load("@Url.Action("PartialIndex", "Student")", { filter : $(this).val()});
+                    $("#partial-content").load("@Url.Action("PartialIndex", "Student")", { filter: $(this).val() });
             });
         });
 
