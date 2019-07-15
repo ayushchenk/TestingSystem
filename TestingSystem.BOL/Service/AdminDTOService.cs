@@ -26,7 +26,6 @@ namespace TestingSystem.BOL.Service
                 cfg.CreateMap<Admin, AdminDTO>()
                     .ForMember("EducationUnitId", opt => opt.MapFrom(admin => admin.EducationUnit.Id))
                     .ForMember("EducationUnitName", opt => opt.MapFrom(admin => admin.EducationUnit.EducationUnitName));
-                cfg.CreateMap<AdminDTO, Admin>();
             }).CreateMapper();
         }
 

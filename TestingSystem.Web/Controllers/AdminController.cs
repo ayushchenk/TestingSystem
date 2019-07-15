@@ -75,7 +75,7 @@ namespace TestingSystem.Web.Controllers
             if (this.Admin.IsGlobal)
                 admins = await adminService.GetAllAsync();
             else
-                admins = await adminService.FindByAsync(adm => adm.EducationUnitId == this.Admin.EducationUnitId);
+                admins = adminService.GetAll().Where(adm => adm.EducationUnitId == this.Admin.EducationUnitId);
             if (!string.IsNullOrWhiteSpace(filter))
                 return PartialView(admins.Where(user => user.Email.ToLower().Contains(filter.ToLower())
                                                                          || user.LastName.ToLower().Contains(filter.ToLower())
