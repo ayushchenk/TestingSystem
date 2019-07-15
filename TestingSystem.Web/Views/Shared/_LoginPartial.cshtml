@@ -21,13 +21,13 @@
             else if (User.IsInRole("Global Admin"))
             {
                 <li>
-                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "GlobalAdmin", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
             }
             else if (User.IsInRole("Education Unit Admin"))
             {
                 <li>
-                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "UnitAdmin", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
             }
             <li>@Html.ActionLink("Log out", "Logout", "Account")</li>
