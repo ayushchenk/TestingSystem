@@ -94,7 +94,15 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> PartialIndex(string filter = null)
         {
-            var model = await studentService.FindByAsync(student => this.Groups.Contains(student.GroupId));
+            IEnumerable<StudentDTO> model = null;
+            if (User.IsInRole("Teacher") && this.Teacher != null)
+                model = await studentService.FindByAsync(student => this.Groups.Contains(student.GroupId));
+            else if (User.IsInRole("Education Unit Admin") && this.Admin != null && this.Admin.EducationUnitId != null)
+                model = await studentService.FindByAsync(student => student.EducationUnitId == this.Admin.EducationUnitId);
+            else if (User.IsInRole("Global Admin") && this.Admin != null && this.Admin.IsGlobal)
+                model = await studentService.GetAllAsync();
+            else
+                return RedirectToAction("Index", "Group");
             if (!string.IsNullOrWhiteSpace(filter))
                 return PartialView(model.Where(user => user.Email.ToLower().Contains(filter.ToLower())
                                                                          || user.LastName.ToLower().Contains(filter.ToLower())
