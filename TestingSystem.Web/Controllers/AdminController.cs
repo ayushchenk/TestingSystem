@@ -152,7 +152,6 @@ namespace TestingSystem.Web.Controllers
                     if (model.IsGlobal)
                     {
                         await UserManager.AddToRoleAsync(user.Id, "Global Admin");
-                        //await UserManager.AddToRoleAsync(user.Id, "Education Unit Admin");
                     }
                     else
                     {

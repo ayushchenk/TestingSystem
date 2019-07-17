@@ -19,7 +19,9 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<GroupDTO> groupService;
         private IEntityService<TeacherDTO> teacherService;
         private IEntityService<SubjectDTO> subjectService;
+        private IEntityService<QuestionDTO> questionService;
         private IEntityService<SpecializationDTO> specService;
+        private IEntityService<QuestionAnswerDTO> answerService;
         private IEntityService<GroupsInTestDTO> groupsInTestService;
 
         private TeacherDTO Teacher
@@ -36,14 +38,18 @@ namespace TestingSystem.Web.Controllers
                               IEntityService<GroupDTO> groupService,
                               IEntityService<TeacherDTO> teacherService,
                               IEntityService<SubjectDTO> subjectService,
+                              IEntityService<QuestionDTO> questionService,
                               IEntityService<SpecializationDTO> specService, 
+                              IEntityService<QuestionAnswerDTO> answerService,
                               IEntityService<GroupsInTestDTO> groupsInTestService)
         {
             this.testService = testService;
             this.specService = specService;
             this.groupService = groupService;
+            this.answerService = answerService;
             this.teacherService = teacherService;
             this.subjectService = subjectService;
+            this.questionService = questionService;
             this.groupsInTestService = groupsInTestService;
         }
 
@@ -122,6 +128,56 @@ namespace TestingSystem.Web.Controllers
                 return Json($"Successfully set status \"{status}\" for item: #{item.Id} - \"{item.TestName}\"", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> QuickTestSetup()
+        {
+            var model = new QuickTestSetupViewModel()
+            {
+                Specializations = await specService.GetAllAsync(),
+                Subjects = await subjectService.GetAllAsync()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> QuickTestSetup(QuickTestSetupViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var questions = await questionService.FindByAsync(q => q.SubjectId == model.SubjectId);
+                var questionIds = questions.Select(q => q.Id);
+                var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
+                QuickTestCheckViewModel testViewModel = new QuickTestCheckViewModel();
+                Random rnd = new Random();
+                int realCount = Math.Min(model.QuestionCount, questions.Count());
+                for (int i = 0; i < model.QuestionCount; i++)
+                {
+                    int selected = rnd.Next(realCount);
+                    testViewModel.QuestionAnswers.Add(new QuestionAnswer
+                    {
+                        Question = questions.ElementAt(selected),
+                        Answers = answers.Where(ans => ans.QuestionId == questions.ElementAt(selected).Id).ToList()
+                    });
+                }
+
+            }
+            model.Specializations = await specService.GetAllAsync();
+            model.Subjects = await subjectService.GetAllAsync();
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> QuickTestCheck(QuickTestCheckViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+            }
+            return View(model);
         }
     }
 }
