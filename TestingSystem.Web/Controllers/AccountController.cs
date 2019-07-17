@@ -31,8 +31,7 @@ namespace TestingSystem.Web.Controllers
                 var manager = HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
                 if(manager.UserTokenProvider == null)
                 {
-                    var provider = new DpapiDataProtectionProvider("TestingSystem");
-                    manager.UserTokenProvider = new DataProtectorTokenProvider<AppUser, int>(provider.Create("SampleTokenName"));
+                    manager.UserTokenProvider = new DataProtectorTokenProvider<AppUser, int>(Startup.DataProtectionProvider.Create("TestingSystemToken"));
                 }
                 return manager;
             }

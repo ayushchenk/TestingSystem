@@ -158,7 +158,7 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> Create()
         {
-            if (this.Teacher == null)
+            if (this.Teacher == null && this.Admin == null)
                 return RedirectToAction("Index");
             var model = new StudentDTO();
             if (User.IsInRole("Teacher"))
