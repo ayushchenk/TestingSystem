@@ -15,7 +15,7 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
 {
-    [Authorize(Roles = "Teacher, Education Unit Admin, Global Admin")]
+    [Authorize(Roles = "Teacher, Education Unit Admin")]
     public class StudentController : Controller
     {
         private AdminDTO admin;
@@ -99,8 +99,6 @@ namespace TestingSystem.Web.Controllers
                 model = await studentService.FindByAsync(student => this.Groups.Contains(student.GroupId));
             else if (User.IsInRole("Education Unit Admin") && this.Admin != null && this.Admin.EducationUnitId != null)
                 model = await studentService.FindByAsync(student => student.EducationUnitId == this.Admin.EducationUnitId);
-            else if (User.IsInRole("Global Admin") && this.Admin != null && this.Admin.IsGlobal)
-                model = await studentService.GetAllAsync();
             else
                 return RedirectToAction("Index", "Group");
             if (!string.IsNullOrWhiteSpace(filter))
@@ -115,14 +113,12 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await studentService.GetAsync(id);
-            if (model == null /*|| model.EducationUnitId != (this.Teacher?.EducationUnitId ?? 0)*/)
+            if (model == null )
                 return RedirectToAction("Index");
             if (User.IsInRole("Teacher") && this.Groups.Contains(model.GroupId))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName", model.GroupId);
             else if (User.IsInRole("Education Unit Admin") && this.Admin.EducationUnitId == model.EducationUnitId)
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName", model.GroupId);
-            else if (User.IsInRole("Global Admin"))
-                ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName", model.GroupId);
             else
                 return RedirectToAction("Index");
             return View(model);
@@ -151,8 +147,6 @@ namespace TestingSystem.Web.Controllers
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName");
             else if (User.IsInRole("Education Unit Admin"))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName");
-            else if (User.IsInRole("Global Admin"))
-                ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View(model);
         }
 
@@ -165,8 +159,6 @@ namespace TestingSystem.Web.Controllers
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName");
             else if (User.IsInRole("Education Unit Admin"))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName");
-            else if (User.IsInRole("Global Admin"))
-                ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View(model: model);
         }
 
@@ -199,8 +191,6 @@ namespace TestingSystem.Web.Controllers
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName");
             else if (User.IsInRole("Education Unit Admin"))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName");
-            else if (User.IsInRole("Global Admin"))
-                ViewBag.Groups = new SelectList(await groupService.GetAllAsync(), "Id", "GroupName");
             return View(model: model);
         }
 
@@ -217,9 +207,8 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             StudentDTO user = await studentService.GetAsync(id);
-            if (user != null && (User.IsInRole("Teacher") && this.Groups.Contains(user.GroupId)) ||
-               (User.IsInRole("Education Unit Admin") && user.EducationUnitId == this.Admin.EducationUnitId) ||
-               (User.IsInRole("Global Admin")))
+            if ((user != null && this.Teacher != null && this.Groups.Contains(user.GroupId)) ||
+               (this.Admin != null && user.EducationUnitId == this.Admin.EducationUnitId))
             {
                 AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
                 if (appUser != null)
