@@ -41,6 +41,11 @@
             }
         </section>
     </div>
+    <div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new TestingSystem.Web.Models.Identity.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
 </div>
 
 @section Scripts {

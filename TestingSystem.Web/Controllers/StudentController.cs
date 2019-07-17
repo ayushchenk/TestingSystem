@@ -172,7 +172,7 @@ namespace TestingSystem.Web.Controllers
                 IdentityResult result = await UserManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
-                    model.EducationUnitId = this.Teacher.EducationUnitId;
+                    model.EducationUnitId = (this.Teacher == null) ? this.Admin.EducationUnitId.Value : this.Teacher.EducationUnitId;
                     await UserManager.AddToRoleAsync(user.Id, "Student");
                     await studentService.AddOrUpdateAsync(model);
                     MailService sender = new MailService();

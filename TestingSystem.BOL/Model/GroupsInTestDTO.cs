@@ -13,7 +13,7 @@ namespace TestingSystem.BOL.Model
     {
         public int Id { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Input type in minutes greater than 0")]
+        [Range(1, 1440, ErrorMessage = "Value must be bigger than 0 and less than 1440")]
         public int Length { set; get; }
 
         [Required]

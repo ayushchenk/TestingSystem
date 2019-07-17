@@ -12,7 +12,7 @@ namespace AspNetIdentity.Service
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            var role = context.Roles.Add(new AppRole() { Name = "Admin" });
+            //var role = context.Roles.Add(new AppRole() { Name = "Admin" });
 
             base.Seed(context);
         }

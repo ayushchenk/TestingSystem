@@ -3,10 +3,12 @@
 @{
     ViewBag.Title = "Participate";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
+    int secondsRemaining = (int)(Model.EndTime - DateTime.Now).TotalSeconds;
 }
 
 @using (Html.BeginForm())
 {
+    <h3 id="countdown"></h3>
     <div class="container">
         @Html.HiddenFor(model => model.Length)
         @Html.HiddenFor(model => model.SubjectId)
@@ -16,15 +18,17 @@
         @for (int i = 0; i < Model.QuestionCount; i++)
         {
             @Html.HiddenFor(model => model.QuestionAnswers[i].Question.Id)
+            @Html.HiddenFor(model => model.QuestionAnswers[i].Question.QuestionString)
             <div class="row">
                 @Model.QuestionAnswers[i].Question.QuestionString
                 @if (Model.QuestionAnswers[i].QuestionType == TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersManyCorrect)
-                {
-                    for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
                     {
+                        for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
+                        {
                         <div class="row">
                             @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].Id)
                             @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].IsCorrect)
+                            @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].AnswerString)
                             @Html.CheckBoxFor(model => model.PickedAnswers[i].PickedCheckboxes[j].Checked)
                             @Html.HiddenFor(model => model.PickedAnswers[i].PickedCheckboxes[j].AnswerId, new { Value = $"{Model.QuestionAnswers[i].Answers[j].Id}" })
                             <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
@@ -32,22 +36,23 @@
                     }
                 }
                 @if (Model.QuestionAnswers[i].QuestionType == TestingSystem.Web.Models.ViewModels.QuestionType.ManyAsnwersOneCorrect)
-                {
-                    for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
                     {
+                        for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
+                        {
                         <div class="row">
                             @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].Id)
                             @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].IsCorrect)
+                            @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].AnswerString)
                             @Html.RadioButtonFor(model => Model.PickedAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
                             <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
                         </div>
                     }
                 }
                 @if (Model.QuestionAnswers[i].QuestionType == TestingSystem.Web.Models.ViewModels.QuestionType.OneAnswerOneCorrect)
-                {
-                    Html.HiddenFor(model => model.QuestionAnswers[i].Answers[0].Id);
-                    Html.HiddenFor(model => model.QuestionAnswers[i].Answers[0].IsCorrect);
-                    Html.HiddenFor(model => model.QuestionAnswers[i].Answers[0].AnswerString);
+                    {
+                        Html.HiddenFor(model => model.QuestionAnswers[i].Answers[0].Id);
+                        Html.HiddenFor(model => model.QuestionAnswers[i].Answers[0].IsCorrect);
+                        Html.HiddenFor(model => model.QuestionAnswers[i].Answers[0].AnswerString);
                     <div class="row">
                         @Html.EditorFor(model => model.PickedAnswers[i].AnswerString)
                     </div>
@@ -58,4 +63,33 @@
 
         <input type="submit" value="Submit">
     </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.text(minutes + ":" + seconds);
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        $(function () {
+            var seconds = @secondsRemaining;
+            startTimer(seconds,  $('#countdown'));
+            setTimeout(function(){
+                $("form").submit();
+            }, seconds * 1000);
+        });
+    </script>
 }

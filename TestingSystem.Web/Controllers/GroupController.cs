@@ -176,12 +176,40 @@ namespace TestingSystem.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<ActionResult> AddTeacher(int id = 0)
+        {
+            var group = await groupService.GetAsync(id);
+            if (group == null || this.Admin == null || (group.EducationUnitId != (this.Admin.EducationUnitId ?? 0) && !this.Admin.IsGlobal))
+                return RedirectToAction("Index");
+            var model = new AddTeacherViewModel()
+            {
+                Group = group,
+                Teachers = await teacherService.FindByAsync(teacher => teacher.SpecializationId == group.SpecializationId)
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddTeacher(AddTeacherViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await teacherInGroupService.AddOrUpdateAsync(new TeachersInGroupDTO()
+                {
+                    GroupId = model.Group.Id,
+                    TeacherId = model.TeacherId
+                });
+            }
+            model.Teachers = await teacherService.FindByAsync(teacher => teacher.SpecializationId == model.Group.SpecializationId);
+            return RedirectToAction("Teachers", new { id = model.Group.Id });
+        }
+
         public async Task<ActionResult> DeleteTeacher(int teacher = 0, int group = 0)
         {
             var item = teacherInGroupService.FindBy(tig => tig.TeacherId == teacher && tig.GroupId == group).FirstOrDefault();
             if (item != null && this.Admin != null && (item.EducationUnitId == (this.Admin.EducationUnitId) || this.Admin.IsGlobal))
                 await teacherInGroupService.DeleteAsync(item);
-            return RedirectToAction("Index");
+            return RedirectToAction("Teachers", new { id = group });
         }
 
         public async Task<ActionResult> Delete(int id = 0)
