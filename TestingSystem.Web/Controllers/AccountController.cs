@@ -77,15 +77,8 @@ namespace TestingSystem.Web.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (User.IsInRole("Student"))
-                        return RedirectToAction("Tests", "StudentContent");
-                    if (User.IsInRole("Teacher"))
-                        return RedirectToAction("Groups", "TeacherContent");
-                    if (User.IsInRole("Education Unit Admin"))
-                        return RedirectToAction("Index", "Group");
-                    if (User.IsInRole("Global Admin"))
-                        return RedirectToAction("Index", "Role");
-                    break;
+                    return RedirectToAction("Index", "Redirect");
+                   
                 case SignInStatus.Failure:
                 default:
                     // If the user does not have an account, then prompt the user to create an account
@@ -93,7 +86,6 @@ namespace TestingSystem.Web.Controllers
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
-            return RedirectToAction("Login");
         }
 
         //

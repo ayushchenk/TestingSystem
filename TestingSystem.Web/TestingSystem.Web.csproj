@@ -226,6 +226,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\RedirectController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\EducationUnitController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
@@ -392,6 +393,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\Redirect\" />
     <Folder Include="Views\Service\" />
   </ItemGroup>
   <ItemGroup>
