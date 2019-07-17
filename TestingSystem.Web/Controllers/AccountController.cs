@@ -138,7 +138,7 @@ namespace TestingSystem.Web.Controllers
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 MailSender.MailService sender = new MailSender.MailService();
-                sender.SendComplexMessage(model.Email, "Reset Password", $"Please reset your password by here:  {callbackUrl}");
+                await sender.SendMessageAsync(model.Email, "Testing System: Reset Password", $"Please reset your password by here:  {callbackUrl}");
                 //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }

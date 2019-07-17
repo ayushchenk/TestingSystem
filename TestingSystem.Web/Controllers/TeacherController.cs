@@ -154,7 +154,7 @@ namespace TestingSystem.Web.Controllers
                     await UserManager.AddToRoleAsync(user.Id, "Teacher");
                     await teacherService.AddOrUpdateAsync(model);
                     MailService sender = new MailService();
-                    await sender.SendComplexMessageAsync(model.Email, "TestingSystem", password);
+                    await sender.SendMessageAsync(model.Email, "Testing System", "Your password: " + password);
                     return RedirectToAction("Index");
                 }
                 else

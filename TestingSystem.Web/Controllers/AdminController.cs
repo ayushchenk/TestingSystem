@@ -160,7 +160,7 @@ namespace TestingSystem.Web.Controllers
                     }
                     await adminService.AddOrUpdateAsync(model);
                     MailService sender = new MailService();
-                    await sender.SendComplexMessageAsync(model.Email, "TestingSystem", password);
+                    await sender.SendMessageAsync(model.Email, "Testing System", "Your password: " + password);
                     return RedirectToAction("Index");
                 }
                 else
