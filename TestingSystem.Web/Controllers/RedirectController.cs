@@ -19,7 +19,7 @@ namespace TestingSystem.Web.Controllers
                 return RedirectToAction("Index", "Group");
             if (User.IsInRole("Global Admin"))
                 return RedirectToAction("Index", "Role");
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Logout", "Account");
         }
     }
 }

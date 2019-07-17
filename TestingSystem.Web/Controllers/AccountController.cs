@@ -96,7 +96,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Manage");
+                return RedirectToAction("Index", "Redirect");
             }
 
             if (ModelState.IsValid)
@@ -114,14 +114,7 @@ namespace TestingSystem.Web.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    if (await UserManager.IsInRoleAsync(user.Id, "Student"))
-                        return RedirectToAction("Tests", "StudentContent");
-                    if (await UserManager.IsInRoleAsync(user.Id, "Teacher"))
-                        return RedirectToAction("Groups", "TeacherContent");
-                    if (await UserManager.IsInRoleAsync(user.Id, "Education Unit Admin"))
-                        return RedirectToAction("Index", "Group");
-                    if (await UserManager.IsInRoleAsync(user.Id, "Global Admin"))
-                        return RedirectToAction("Index", "Role");
+                    return RedirectToAction("Index", "Redirect");
                 }
 
                 AddErrors(result);
