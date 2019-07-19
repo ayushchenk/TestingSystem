@@ -1,0 +1,90 @@
+﻿@model TestingSystem.Web.Models.ViewModels.ParticipateViewModel
+
+@{
+    ViewBag.Title = "QuickTest";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>Result @Model.Result / @Model.QuestionCount</h2>
+
+<div class="container">
+    @for (int i = 0; i < Model.QuestionCount; i++)
+    {
+        <div class="row">
+            <div class="col-md-7 col-sm-7">
+                @Model.QuestionAnswers[i].Question.QuestionString
+                @for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
+                {
+                    <div class="row">
+                        @switch (Model.QuestionAnswers[i].QuestionType)
+                        {
+                            case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersManyCorrect:
+                                if (Model.QuestionAnswers[i].Answers[j].IsCorrect)
+                                {
+                                    <div class="alert-success">
+                                        @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
+                                    </div>
+                                }
+                                else if (Model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                {
+                                    <div class="alert-danger">
+                                        @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
+                                    </div>
+                                }
+                                else
+                                {
+                                        @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
+                                }
+                                break;
+                            case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAsnwersOneCorrect:
+                                if (Model.QuestionAnswers[i].Answers[j].IsCorrect)
+                                {
+                                    <div class="alert-success">
+                                        @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
+                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
+                                    </div>
+                                }
+                                else if (Model.QuestionAnswers[i].AnswerId == Model.QuestionAnswers[i].Answers[j].Id)
+                                {
+                                    <div class="alert-danger">
+                                        @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
+                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
+                                    </div>
+                                }
+                                else
+                                {
+                                        @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
+                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
+                                }
+                                break;
+                            case TestingSystem.Web.Models.ViewModels.QuestionType.OneAnswerOneCorrect:
+                                if (Model.QuestionAnswers[i].AnswerString?.Trim().ToLower() == Model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
+                                {
+                                    <div class="alert-success">
+                                        @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group"} })
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert-success">
+                                        Right answer: @Html.EditorFor(model => model.QuestionAnswers[i].Answers[0].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group" } })
+                                    </div>
+                                    <div class="alert-danger">
+                                        Your answer: @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group" } })
+                                    </div>
+                                }
+                                break;
+                        }
+                    </div>
+                }
+            </div>
+            <div class="col-md-5 col-sm-5">
+                <img src="@Model.QuestionAnswers[i].Question.ImagePath" style="max-height: 250px; max-width: 250px;" />
+            </div>
+        </div>
+        <hr />
+    }
+</div>

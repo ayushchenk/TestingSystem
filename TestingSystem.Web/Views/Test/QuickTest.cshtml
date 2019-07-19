@@ -1,22 +1,21 @@
-﻿@model TestingSystem.Web.Models.ViewModels.ParticipateViewModel
+﻿@model TestingSystem.Web.Models.ViewModels.QuickTestCheckViewModel
 
 @{
-    ViewBag.Title = "Participate";
-    Layout = "~/Views/Shared/_StudentLayout.cshtml";
-    int secondsRemaining = (int)(Model.EndTime - DateTime.Now).TotalSeconds;
+    ViewBag.Title = "QuickTest";
+    Layout = "~/Views/Shared/_QuickTestLayout.cshtml";
+    int secondsRemaining = Model.QuestionCount * 90;
 }
 
-@using (Html.BeginForm())
+<h2>QuickTest</h2>
+
+@using (Html.BeginForm("QuickTestCheck", "Test"))
 {
     <h3 id="countdown"></h3>
     <div class="container">
-        @Html.HiddenFor(model => model.Length)
-        @Html.HiddenFor(model => model.SubjectId)
-        @Html.HiddenFor(model => model.GroupInTestId)
-        @Html.HiddenFor(model => model.StudentId)
         @Html.HiddenFor(model => model.QuestionCount)
-        @Html.HiddenFor(model => model.EndTime)
-        @Html.HiddenFor(model => model.StartTime)
+        @Html.HiddenFor(model => model.SubjectId)
+        @Html.HiddenFor(model => model.SpecializationId)
+        @Html.HiddenFor(model => model.QuestionCount)
 
         @for (int i = 0; i < Model.QuestionCount; i++)
         {
@@ -56,12 +55,12 @@
             </div>
             <hr />
         }
-
         <input type="submit" value="Submit" id="submit">
     </div>
 }
 
 @section Scripts {
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
     <script type="text/javascript">
         function startTimer(duration, display) {
             var timer = duration, minutes, seconds;

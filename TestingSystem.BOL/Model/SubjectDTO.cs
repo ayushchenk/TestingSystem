@@ -25,5 +25,7 @@ namespace TestingSystem.BOL.Model
         public int SpecializationId { get; set; }
 
         public int? EducationUnitId { get; set; }
+
+        public int Questions { set; get; }
     }
 }

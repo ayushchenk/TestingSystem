@@ -14,21 +14,7 @@ namespace TestingSystem.Web.Models.ViewModels
         public DateTime EndTime { set; get; }
         public DateTime StartTime { set; get; }
         public int QuestionCount { set; get; }
-        public List<QuestionAnswer> QuestionAnswers { set; get; }
-        public List<PickedAnswer> PickedAnswers { set; get; }
-
-        public ParticipateViewModel() { }
-
-        public ParticipateViewModel(int length, int subjectId, int questionCount)
-        {
-            this.Length = length;
-            this.SubjectId = subjectId;
-            this.QuestionCount = questionCount;
-            this.QuestionAnswers = new List<QuestionAnswer>();
-            this.PickedAnswers = new List<PickedAnswer>();
-            PickedAnswers = new List<PickedAnswer>(QuestionCount);
-            for (int i = 0; i < QuestionCount; i++)
-                PickedAnswers.Add(new PickedAnswer());
-        }
+        public int Result { set; get; }
+        public List<QuestionAnswer> QuestionAnswers { set; get; } = new List<QuestionAnswer>();
     }
 }

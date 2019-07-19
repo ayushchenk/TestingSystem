@@ -41,6 +41,14 @@ namespace TestingSystem.Web.Controllers
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetSubjectsBySpecializationForTest(int id = 0)
+        {
+            var spec = specService.Get(id);
+            if (spec != null)
+                return Json(subjectService.FindBy(subject => subject.SpecializationId == spec.Id).Where(subject => subject.Questions != 0).Select(subject => new { Id = subject.Id, SubjectName = subject.SubjectName }), JsonRequestBehavior.AllowGet);
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetTeachersBySpecialization(int id = 0)
         {
             var spec = specService.Get(id);

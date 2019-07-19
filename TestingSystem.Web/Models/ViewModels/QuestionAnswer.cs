@@ -10,6 +10,10 @@ namespace TestingSystem.Web.Models.ViewModels
     {
         public QuestionDTO Question { set; get; }
         public List<QuestionAnswerDTO> Answers { set; get; } = new List<QuestionAnswerDTO>();
+
+        public string AnswerString { set; get; }
+        public int AnswerId { set; get; }
+
         public QuestionType QuestionType
         {
             get
@@ -22,7 +26,6 @@ namespace TestingSystem.Web.Models.ViewModels
                 return QuestionType.Undefined;
             }
         }
-        
     }
 
     public enum QuestionType

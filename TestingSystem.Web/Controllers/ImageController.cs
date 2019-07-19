@@ -64,7 +64,10 @@ namespace TestingSystem.Web.Controllers
             {
                 if (Request.Files[0].ContentLength > 0)
                 {
-                    
+                    if (this.Admin != null && !this.Admin.IsGlobal)
+                        image.EducationUnitId = this.Admin.EducationUnitId;
+                    if (this.Teacher != null)
+                        image.EducationUnitId = this.Teacher.EducationUnitId;
                     var upload = Request.Files[0];
                     string fileName = DateTime.Now.Ticks + System.IO.Path.GetFileName(upload.FileName);
                     upload.SaveAs(Server.MapPath("~/Images/" + fileName));
@@ -79,7 +82,8 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await imageService.GetAsync(id);
-            if (item != null && this.Admin != null && ((item.EducationUnitId ?? 0) == (this.Admin.EducationUnitId ?? 0) || this.Admin.IsGlobal))
+            if (item != null && ((this.Teacher != null && item.EducationUnitId == this.Teacher.EducationUnitId) ||
+                (this.Admin != null && (item.EducationUnitId == this.Admin.EducationUnitId || this.Admin.IsGlobal))))
             {
                 var questions = await questionService.FindByAsync(question => question.QuestionImageId == item.Id);
                 if (questions.Count() != 0)

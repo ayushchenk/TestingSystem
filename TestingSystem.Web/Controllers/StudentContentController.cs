@@ -47,7 +47,7 @@ namespace TestingSystem.Web.Controllers
         {
             get
             {
-                if(student == null)
+                if (student == null)
                     student = studentService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
                 return student;
             }
@@ -93,11 +93,16 @@ namespace TestingSystem.Web.Controllers
                 var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId);
                 var questionIds = questions.Select(q => q.Id);
                 var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
-                ParticipateViewModel model = new ParticipateViewModel(git.Length, test.SubjectId, test.QuestionCount);
-                model.StartTime = git.StartTime.Value;
-                model.EndTime = git.StartTime.Value.AddMinutes(git.Length);
-                model.GroupInTestId = git.Id;
-                model.StudentId = this.Student.Id;
+                ParticipateViewModel model = new ParticipateViewModel()
+                {
+                    StartTime = git.StartTime.Value,
+                    EndTime = git.StartTime.Value.AddMinutes(git.Length),
+                    GroupInTestId = git.Id,
+                    StudentId = this.Student.Id,
+                    Length = git.Length,
+                    QuestionCount = test.QuestionCount,
+                    SubjectId = test.SubjectId
+                };
                 Random rnd = new Random();
                 int realCount = Math.Min(model.QuestionCount, questions.Count());
                 for (int i = 0; i < model.QuestionCount; i++)
@@ -116,49 +121,43 @@ namespace TestingSystem.Web.Controllers
             {
                 return View(Session["ParticipateModel"] as ParticipateViewModel);
             }
-        } 
+        }
 
         [HttpPost]
         public async Task<ActionResult> Participate(ParticipateViewModel model)
         {
-            if (ModelState.IsValid && model.PickedAnswers.Count == model.QuestionCount)
+            StudentTestResultDTO result = new StudentTestResultDTO
             {
-                StudentTestResultDTO result = new StudentTestResultDTO
+                GroupInTestId = model.GroupInTestId,
+                StudentId = model.StudentId
+            };
+            for (int i = 0; i < model.QuestionCount; i++)
+            {
+                switch (model.QuestionAnswers[i].QuestionType)
                 {
-                    GroupInTestId = model.GroupInTestId,
-                    StudentId = model.StudentId
-                };
-                for (int i = 0; i < model.QuestionCount; i++)
-                {
-                    switch (model.QuestionAnswers[i].QuestionType)
-                    {
-                        case QuestionType.OneAnswerOneCorrect:
-                            if (!String.IsNullOrWhiteSpace(model.PickedAnswers[i].AnswerString)
-                                && model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower() == model.PickedAnswers[i].AnswerString.Trim().ToLower())
+                    case QuestionType.OneAnswerOneCorrect:
+                        if (!String.IsNullOrWhiteSpace(model.QuestionAnswers[i].Answers[0].AnswerString)
+                            && model.QuestionAnswers[i].AnswerString.Trim().ToLower() == model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
+                            result.Result++;
+                        break;
+                    case QuestionType.ManyAsnwersOneCorrect:
+                        if (model.QuestionAnswers[i].Answers.Find(answer => answer.IsCorrect).Id == model.QuestionAnswers[i].AnswerId)
+                            result.Result++;
+                        break;
+                    case QuestionType.ManyAnswersManyCorrect:
+                        {
+                            var rightAnswers = model.QuestionAnswers[i].Answers.Where(answer => answer.IsCorrect).Select(answer => answer.Id);
+                            var checkedAnswers = model.QuestionAnswers[i].Answers.Where(ch => ch.PickedCheckbox.Checked).Select(ch => ch.PickedCheckbox.AnswerId);
+                            if (rightAnswers.SequenceEqual(checkedAnswers))
                                 result.Result++;
-                            break;
-                        case QuestionType.ManyAsnwersOneCorrect:
-                            if (model.PickedAnswers[i].AnswerId != 0
-                                && model.QuestionAnswers[i].Answers.Find(answer => answer.IsCorrect).Id == model.PickedAnswers[i].AnswerId)
-                                result.Result++;
-                            break;
-                        case QuestionType.ManyAnswersManyCorrect:
-                            if (model.PickedAnswers[i].PickedCheckboxes != null
-                               && model.PickedAnswers[i].PickedCheckboxes.Count != 0)
-                            {
-                                var rightAnswers = model.QuestionAnswers[i].Answers.Where(answer => answer.IsCorrect).Select(answer => answer.Id);
-                                var checkedAnswers = model.PickedAnswers[i].PickedCheckboxes.Where(ch => ch.Checked).Select(ch => ch.AnswerId);
-                                if (rightAnswers.SequenceEqual(checkedAnswers))
-                                    result.Result++;
-                            }
-                            break;
-                    }
+                        }
+                        break;
                 }
-                Session.Remove("ParticipateModel");
-                await resultService.AddOrUpdateAsync(result);
-                return RedirectToAction("Tests");
             }
-            return View(Session["ParticipateModel"] as ParticipateViewModel);
+            model.Result = result.Result;
+            Session.Remove("ParticipateModel");
+            await resultService.AddOrUpdateAsync(result);
+            return View("ParticipateResult", model);
         }
 
         public async Task<ActionResult> History()

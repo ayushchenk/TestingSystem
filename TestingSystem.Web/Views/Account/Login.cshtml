@@ -46,6 +46,7 @@
             @Html.Partial("_ExternalLoginsListPartial", new TestingSystem.Web.Models.Identity.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
     </div>
+    @Html.ActionLink("Quick test", "QuickTestSetup", "Test")
 </div>
 
 @section Scripts {

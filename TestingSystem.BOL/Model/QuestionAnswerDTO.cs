@@ -13,5 +13,13 @@ namespace TestingSystem.BOL.Model
         public bool IsCorrect { get; set; }
 
         public int QuestionId { get; set; }
+
+        public PickedCheckbox PickedCheckbox { set; get; }
+    }
+
+    public struct PickedCheckbox
+    {
+        public int AnswerId { set; get; }
+        public bool Checked { set; get; }
     }
 }

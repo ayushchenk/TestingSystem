@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
+using System.Reflection;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;

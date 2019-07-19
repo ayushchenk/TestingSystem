@@ -149,8 +149,13 @@ namespace TestingSystem.Web.Controllers
             {
                 var questions = await questionService.FindByAsync(q => q.SubjectId == model.SubjectId);
                 var questionIds = questions.Select(q => q.Id);
-                var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
-                QuickTestCheckViewModel testViewModel = new QuickTestCheckViewModel();
+                var allAnswers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
+                QuickTestCheckViewModel testViewModel = new QuickTestCheckViewModel()
+                {
+                    SubjectId = model.SubjectId,
+                    SpecializationId = model.SpecializationId,
+                    QuestionCount = model.QuestionCount
+                };
                 Random rnd = new Random();
                 int realCount = Math.Min(model.QuestionCount, questions.Count());
                 for (int i = 0; i < model.QuestionCount; i++)
@@ -159,25 +164,21 @@ namespace TestingSystem.Web.Controllers
                     testViewModel.QuestionAnswers.Add(new QuestionAnswer
                     {
                         Question = questions.ElementAt(selected),
-                        Answers = answers.Where(ans => ans.QuestionId == questions.ElementAt(selected).Id).ToList()
+                        Answers = allAnswers.Where(ans => ans.QuestionId == questions.ElementAt(selected).Id).ToList()
                     });
                 }
-
+                model.Specializations = await specService.GetAllAsync();
+                model.Subjects = await subjectService.GetAllAsync();
+                return View("QuickTest", testViewModel);
             }
-            model.Specializations = await specService.GetAllAsync();
-            model.Subjects = await subjectService.GetAllAsync();
             return View(model);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> QuickTestCheck(QuickTestCheckViewModel model)
+        public ActionResult QuickTestCheck(QuickTestCheckViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                
-            }
-            return View(model);
+             return View("QuickTestResult", model);
         }
     }
 }

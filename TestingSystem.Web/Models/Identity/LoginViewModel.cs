@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,5 +28,11 @@ namespace TestingSystem.Web.Models.Identity
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class ManageLoginsViewModel
+    {
+        public IList<UserLoginInfo> CurrentLogins { get; set; }
+        public IList<AuthenticationDescription> OtherLogins { get; set; }
     }
 }
