@@ -102,11 +102,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GenericRepository\GenericRepository.csproj">
-      <Project>{3F508D00-4042-4CB6-A133-4EB437D2C003}</Project>
+      <Project>{3f508d00-4042-4cb6-a133-4eb437d2c003}</Project>
       <Name>GenericRepository</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

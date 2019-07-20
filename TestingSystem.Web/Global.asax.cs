@@ -17,6 +17,7 @@ namespace TestingSystem.Web
         {
             AutofacConfig.ConfigureContainer();
 
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
