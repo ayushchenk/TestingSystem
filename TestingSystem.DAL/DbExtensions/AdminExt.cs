@@ -1,14 +1,9 @@
 ﻿using GenericRepository.Common;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestingSystem.DAL.DbModel
 {
-    public partial class Admin:IEntity<int>
+    public partial class Admin : IEntity<int>
     {
         [NotMapped]
         int IEntity<int>.Id

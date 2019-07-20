@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using TestingSystem.BOL.Model;
+using TestingSystem.BusinessModel.Model;
 using TestingSystem.DAL.DbModel;
 
 namespace TestingSystem.BOL.Service
@@ -25,7 +24,7 @@ namespace TestingSystem.BOL.Service
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<Teacher, TeacherDTO>()
                     .ForMember("SpecializationId", opt => opt.MapFrom(teacher => teacher.Subject.Specialization.Id))
-                    .ForMember("SpecializationName", opt => opt.MapFrom(teacher =>  teacher.Subject.Specialization.SpecializationName ))
+                    .ForMember("SpecializationName", opt => opt.MapFrom(teacher => teacher.Subject.Specialization.SpecializationName))
                     .ForMember("SubjectId", opt => opt.MapFrom(teacher => teacher.Subject.Id))
                     .ForMember("SubjectName", opt => opt.MapFrom(teacher => teacher.Subject.SubjectName))
                     .ForMember("EducationUnitId", opt => opt.MapFrom(teacher => teacher.EducationUnit.Id))

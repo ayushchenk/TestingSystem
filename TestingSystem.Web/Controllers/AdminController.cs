@@ -3,14 +3,13 @@ using AspNetIdentity.Models;
 using MailSender;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using TestingSystem.BOL.Model;
+using TestingSystem.BusinessModel.Model;
 using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
@@ -108,9 +107,9 @@ namespace TestingSystem.Web.Controllers
                     {
                         appUser.Email = model.Email;
                         appUser.UserName = model.Email;
-                        if(oldUser.IsGlobal != model.IsGlobal)
+                        if (oldUser.IsGlobal != model.IsGlobal)
                         {
-                            if(model.IsGlobal)
+                            if (model.IsGlobal)
                             {
                                 await UserManager.RemoveFromRoleAsync(appUser.Id, "Education Unit Admin");
                                 await UserManager.AddToRoleAsync(appUser.Id, "Global Admin");

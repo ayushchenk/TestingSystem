@@ -4,8 +4,6 @@ using Autofac.Integration.WebApi;
 using System.Reflection;
 using System.Web.Http;
 using System.Web.Mvc;
-using TestingSystem.BOL.Model;
-using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Infrastructure.Autofac
 {

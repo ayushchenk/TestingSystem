@@ -5,14 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using TestingSystem.BOL.Model;
+using TestingSystem.BusinessModel.Model;
 using TestingSystem.DAL.DbModel;
 
 namespace TestingSystem.BOL.Service
 {
-    public class StudentTestResultDTOService:IEntityService<StudentTestResultDTO>
+    public class StudentTestResultDTOService : IEntityService<StudentTestResultDTO>
     {
         IGenericRepository<StudentTestResult> repository;
         readonly IMapper mapper;
