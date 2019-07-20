@@ -3,14 +3,13 @@ using AspNetIdentity.Models;
 using MailSender;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using TestingSystem.BOL.Model;
+using TestingSystem.BusinessModel.Model;
 using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
@@ -84,7 +83,7 @@ namespace TestingSystem.Web.Controllers
             if (this.Admin.IsGlobal)
                 teachers = await teacherService.GetAllAsync();
             else
-                teachers = await teacherService.FindByAsync(teacher => teacher.EducationUnitId == this.Admin.EducationUnitId); 
+                teachers = await teacherService.FindByAsync(teacher => teacher.EducationUnitId == this.Admin.EducationUnitId);
             if (!string.IsNullOrWhiteSpace(filter))
                 return PartialView(teachers.Where(user => user.Email.ToLower().Contains(filter.ToLower())
                                                                          || user.LastName.ToLower().Contains(filter.ToLower())
@@ -144,7 +143,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(!this.Admin.IsGlobal)
+                if (!this.Admin.IsGlobal)
                     model.EducationUnitId = this.Admin.EducationUnitId.Value;
                 AppUser user = new AppUser { UserName = model.Email, Email = model.Email };
                 string password = Membership.GeneratePassword(10, 4);
@@ -177,7 +176,7 @@ namespace TestingSystem.Web.Controllers
             if (user != null && (this.Admin.IsGlobal || this.Admin.EducationUnitId == user.EducationUnitId))
             {
                 var groups = await teacherInGroupsService.FindByAsync(tig => tig.TeacherId == user.Id);
-                if(groups.Count() != 0)
+                if (groups.Count() != 0)
                     return Json($"There are groups assigned to this teacher: Id = {user.Id} - UserName = {user.Email}", JsonRequestBehavior.AllowGet);
                 AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
                 if (appUser != null)

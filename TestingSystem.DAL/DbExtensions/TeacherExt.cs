@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestingSystem.DAL.DbModel
 {
-    public partial class Teacher:IEntity<int>
+    public partial class Teacher : IEntity<int>
     {
         [NotMapped]
         int IEntity<int>.Id

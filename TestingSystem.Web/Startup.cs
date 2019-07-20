@@ -1,14 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
-using Owin;
+﻿using AspNetIdentity.Managers;
 using AspNetIdentity.Models;
-using AspNetIdentity.Managers;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataProtection;
-using Microsoft.AspNet.Identity.Owin;
-using System.Security.Principal;
+using Owin;
+using System;
 
 [assembly: OwinStartup(typeof(TestingSystem.Web.Startup))]
 

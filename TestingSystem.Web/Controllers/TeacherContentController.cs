@@ -1,13 +1,11 @@
 ﻿using AspNetIdentity.Managers;
 using AspNetIdentity.Models;
 using Microsoft.AspNet.Identity.Owin;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using TestingSystem.BOL.Model;
+using TestingSystem.BusinessModel.Model;
 using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
@@ -38,7 +36,7 @@ namespace TestingSystem.Web.Controllers
         {
             get
             {
-                if(teacher == null)
+                if (teacher == null)
                     teacher = teacherService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
                 return teacher;
             }

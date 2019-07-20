@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using TestingSystem.BOL.Model;
+﻿using System.Collections.Generic;
 
 namespace TestingSystem.Web.Models.ViewModels
 {

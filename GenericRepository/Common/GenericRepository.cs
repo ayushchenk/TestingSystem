@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Data.Entity.Migrations;
+using System.Linq;
 
 namespace GenericRepository.Common
 {
-    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity<int>,new()
+    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity<int>, new()
     {
         DbContext context;
         IDbSet<T> dbSet;
@@ -19,7 +19,7 @@ namespace GenericRepository.Common
 
         public T AddOrUpdate(T obj)
         {
-            dbSet.AddOrUpdate(x => x.Id, obj);
+            dbSet.AddOrUpdate(obj);
             Save();
             return obj;
         }
