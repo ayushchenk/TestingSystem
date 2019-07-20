@@ -1,7 +1,10 @@
 namespace TestingSystem.DAL.DbModel
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
     public partial class Question
     {
@@ -30,6 +33,6 @@ namespace TestingSystem.DAL.DbModel
 
         public virtual Subject Subject { get; set; }
 
-        public virtual EducationUnit EducationUnit { get; set; }
+        public virtual EducationUnit EducationUnit{ get; set; }
     }
 }

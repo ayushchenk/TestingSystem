@@ -3,13 +3,14 @@ using AspNetIdentity.Models;
 using MailSender;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using TestingSystem.BusinessModel.Model;
+using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
@@ -112,7 +113,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await studentService.GetAsync(id);
-            if (model == null)
+            if (model == null )
                 return RedirectToAction("Index");
             if (User.IsInRole("Teacher") && this.Groups.Contains(model.GroupId))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName", model.GroupId);
@@ -142,7 +143,7 @@ namespace TestingSystem.Web.Controllers
                     }
                 }
             }
-            if (User.IsInRole("Teacher"))
+            if(User.IsInRole("Teacher"))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName");
             else if (User.IsInRole("Education Unit Admin"))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName");
@@ -186,7 +187,7 @@ namespace TestingSystem.Web.Controllers
                     }
                 }
             }
-            if (User.IsInRole("Teacher"))
+            if(User.IsInRole("Teacher"))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Groups.Contains(group.Id)), "Id", "GroupName");
             else if (User.IsInRole("Education Unit Admin"))
                 ViewBag.Groups = new SelectList(await groupService.FindByAsync(group => this.Admin.EducationUnitId == group.EducationUnitId), "Id", "GroupName");

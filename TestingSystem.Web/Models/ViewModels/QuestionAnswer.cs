@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using TestingSystem.BusinessModel.Model;
+using System.Web;
+using TestingSystem.BOL.Model;
 
 namespace TestingSystem.Web.Models.ViewModels
 {

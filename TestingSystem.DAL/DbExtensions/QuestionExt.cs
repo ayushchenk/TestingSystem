@@ -1,9 +1,10 @@
-﻿using GenericRepository.Common;
+﻿using System;
+using GenericRepository.Common;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestingSystem.DAL.DbModel
 {
-    public partial class Question : IEntity<int>
+    public partial class Question:IEntity<int>
     {
         [NotMapped]
         int IEntity<int>.Id

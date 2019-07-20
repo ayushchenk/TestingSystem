@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.ModelBinding;
 using System.Web.Mvc;
-using TestingSystem.BusinessModel.Model;
+using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
 using TestingSystem.Web.Models.ViewModels;
 
@@ -31,12 +34,12 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
-        public TestController(IEntityService<TestDTO> testService,
+        public TestController(IEntityService<TestDTO> testService, 
                               IEntityService<GroupDTO> groupService,
                               IEntityService<TeacherDTO> teacherService,
                               IEntityService<SubjectDTO> subjectService,
                               IEntityService<QuestionDTO> questionService,
-                              IEntityService<SpecializationDTO> specService,
+                              IEntityService<SpecializationDTO> specService, 
                               IEntityService<QuestionAnswerDTO> answerService,
                               IEntityService<GroupsInTestDTO> groupsInTestService)
         {
@@ -175,7 +178,7 @@ namespace TestingSystem.Web.Controllers
         [AllowAnonymous]
         public ActionResult QuickTestCheck(QuickTestCheckViewModel model)
         {
-            return View("QuickTestResult", model);
+             return View("QuickTestResult", model);
         }
     }
 }

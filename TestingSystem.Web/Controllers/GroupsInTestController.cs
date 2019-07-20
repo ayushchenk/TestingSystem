@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
-using TestingSystem.BusinessModel.Model;
+using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
 using TestingSystem.Web.Models.ViewModels;
 
@@ -37,9 +39,9 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
-        public GroupsInTestController(IEntityService<TestDTO> testService,
-                                      IEntityService<GroupDTO> groupService,
-                                      IEntityService<SpecializationDTO> specService,
+        public GroupsInTestController(IEntityService<TestDTO> testService, 
+                                      IEntityService<GroupDTO> groupService, 
+                                      IEntityService<SpecializationDTO> specService, 
                                       IEntityService<TeacherDTO> teacherService,
                                       IEntityService<GroupsInTestDTO> groupsInTestService,
                                       IEntityService<TeachersInGroupDTO> teacherInGroupsService)
@@ -117,7 +119,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit(int id = 0)
         {
             var git = await groupsInTestService.GetAsync(id);
-            if (!this.GroupIds.Contains(git.GroupId))
+            if(!this.GroupIds.Contains(git.GroupId))
                 return RedirectToAction("Index", "Test");
             var model = new AssignGroupItem
             {

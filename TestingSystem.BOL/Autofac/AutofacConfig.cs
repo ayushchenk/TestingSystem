@@ -1,14 +1,19 @@
 ﻿using Autofac;
 using GenericRepository.Common;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
-using TestingSystem.BusinessModel.Model;
 using TestingSystem.DAL.DbModel;
 using TestingSystem.Repository.Repositories;
 
 namespace TestingSystem.BOL.Autofac
 {
-    public class AutofacConfig : Module
+    public class AutofacConfig:Module
     {
         protected override void Load(ContainerBuilder builder)
         {

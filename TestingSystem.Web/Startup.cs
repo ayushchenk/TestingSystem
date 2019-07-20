@@ -1,12 +1,14 @@
-﻿using AspNetIdentity.Managers;
-using AspNetIdentity.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Owin;
+using Owin;
+using AspNetIdentity.Models;
+using AspNetIdentity.Managers;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataProtection;
-using Owin;
-using System;
+using Microsoft.AspNet.Identity.Owin;
+using System.Security.Principal;
 
 [assembly: OwinStartup(typeof(TestingSystem.Web.Startup))]
 

@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace GenericRepository.Common
 {
-    public interface IGenericRepository<T> where T : class, IEntity<int>, new()
+    public interface IGenericRepository<T> where T : class, IEntity<int>, new ()
     {
         IEnumerable<T> GetAll();
         IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
