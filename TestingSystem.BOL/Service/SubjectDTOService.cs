@@ -25,7 +25,8 @@ namespace TestingSystem.BOL.Service
                 cfg.CreateMap<Subject, SubjectDTO>()
                     .ForMember("SpecializationName", opt => opt.MapFrom(subject => subject.Specialization.SpecializationName))
                     .ForMember("Questions", opt => opt.MapFrom(subject => subject.Questions.Count));
-                cfg.CreateMap<SubjectDTO, Subject>();
+                cfg.CreateMap<SubjectDTO, Subject>()
+                    .ForMember("Questions", opt => opt.MapFrom(subject => new HashSet<Question>()));
             }).CreateMapper();
         }
 
