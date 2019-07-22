@@ -1,9 +1,23 @@
 ﻿@model TestingSystem.Web.Models.Identity.LoginViewModel
-
 @{
     Layout = null;
     ViewBag.Title = "Login";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="~/Design/loginForm/images/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/css/main.css">
+</head>
 <body>
     <section id="loginForm">
         <div class="limiter">
@@ -48,14 +62,14 @@
                     </div>
 
                     @*<a href="#" class="btn-face m-b-10">
-                        <i class="fa fa-facebook-official"></i>
-                        Facebook
-                    </a>
+                            <i class="fa fa-facebook-official"></i>
+                            Facebook
+                        </a>
 
-                    <a href="#" class="btn-google m-b-10">
-                        <img src="~/Design/loginForm/images/icons/icon-google.png" alt="GOOGLE">
-                        Google
-                    </a>*@
+                        <a href="#" class="btn-google m-b-10">
+                            <img src="~/Design/loginForm/images/icons/icon-google.png" alt="GOOGLE">
+                            Google
+                        </a>*@
 
                     <section id="socialLoginForm">
                         @Html.Partial("_ExternalLoginsListPartial", new TestingSystem.Web.Models.Identity.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
@@ -71,21 +85,8 @@
             </div>
         </div>
     </section>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="icon" type="image/png" href="~/Design/loginForm/images/icons/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/vendor/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/vendor/css-hamburgers/hamburgers.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/vendor/select2/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/css/util.css">
-    <link rel="stylesheet" type="text/css" href="~/Design/loginForm/css/main.css">
 </body>
-
+</html>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Design/loginForm/vendor/jquery/jquery-3.2.1.min.js"></script>
