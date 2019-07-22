@@ -33,20 +33,20 @@
 
                         <div class="wrap-input100 validate-input m-b-16" data-validate="Valid email is required: user@abc.xyz">
                             @Html.TextBoxFor(m => m.Email, new { @class = "input100", @type = "email", @placeholder = "Email" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <span class="lnr lnr-envelope"></span>
                             </span>
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
                             @Html.PasswordFor(m => m.Password, new { @class = "input100", @placeholder = "Password" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <span class="lnr lnr-lock"></span>
                             </span>
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="container-login100-form-btn p-t-25">
@@ -60,16 +60,6 @@
                             Or login with
                         </span>
                     </div>
-
-                    @*<a href="#" class="btn-face m-b-10">
-                            <i class="fa fa-facebook-official"></i>
-                            Facebook
-                        </a>
-
-                        <a href="#" class="btn-google m-b-10">
-                            <img src="~/Design/loginForm/images/icons/icon-google.png" alt="GOOGLE">
-                            Google
-                        </a>*@
 
                     <section id="socialLoginForm">
                         @Html.Partial("_ExternalLoginsListPartial", new TestingSystem.Web.Models.Identity.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
@@ -87,6 +77,7 @@
     </section>
 </body>
 </html>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Design/loginForm/vendor/jquery/jquery-3.2.1.min.js"></script>

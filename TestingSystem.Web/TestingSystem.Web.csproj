@@ -291,10 +291,9 @@
     <Content Include="Design\loginForm\fonts\Linearicons-Free-v1.0.0\WebFont\Linearicons-Free.svg" />
     <Content Include="Design\loginForm\fonts\montserrat\OFL.txt" />
     <Content Include="Design\loginForm\fonts\raleway\OFL.txt" />
-    <Content Include="Design\loginForm\images\bg\bg-min.jpg" />
+    <Content Include="Design\loginForm\images\bg\bg.jpg" />
     <Content Include="Design\loginForm\images\icons\favicon.ico" />
     <Content Include="Design\loginForm\images\icons\icon-google.png" />
-    <Content Include="Design\loginForm\index.html" />
     <Content Include="Design\loginForm\js\main.js" />
     <Content Include="Design\loginForm\vendor\animate\animate.css" />
     <Content Include="Design\loginForm\vendor\bootstrap\css\bootstrap-grid.css" />
