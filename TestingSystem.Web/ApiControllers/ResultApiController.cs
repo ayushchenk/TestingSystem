@@ -12,26 +12,33 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.ApiControllers
 {
-    public class StudentApiController : ApiController
+    public class ResultApiController : ApiController
     {
         private IEntityService<StudentDTO> studentService;
+        private IEntityService<StudentTestResultDTO> resultService;
 
-        public StudentApiController(IEntityService<StudentDTO> studentService)
+        public ResultApiController(IEntityService<StudentDTO> studentService,
+                                    IEntityService<StudentTestResultDTO> resultService)
         {
+            this.resultService = resultService;
             this.studentService = studentService;
         }
 
         // GET: api/SubjectApi
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await studentService.GetAllAsync());
+            return Ok(await resultService.GetAllAsync());
         }
 
         // GET: api/SubjectApi/5
         public async Task<IHttpActionResult> Get(string email)
         {
             email = HttpUtility.UrlDecode(email);
-            return Ok((await studentService.FindByAsync(student => student.Email == email)).FirstOrDefault());
+            var student = (await studentService.FindByAsync(st => st.Email == email)).FirstOrDefault();
+            if (student != null)
+                return Ok(await resultService.FindByAsync(result => result.StudentId == student.Id));
+            else
+                return BadRequest();
         }
 
         // POST: api/SubjectApi

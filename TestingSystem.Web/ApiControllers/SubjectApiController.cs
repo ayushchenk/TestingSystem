@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using TestingSystem.BOL.Model;
@@ -20,9 +21,9 @@ namespace TestingSystem.Web.ApiControllers
         }
 
         // GET: api/SubjectApi
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            return Ok(subjectService.GetAll());
+            return Ok(await subjectService.GetAllAsync());
         }
 
         // GET: api/SubjectApi/5
