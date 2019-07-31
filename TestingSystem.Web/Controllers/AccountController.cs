@@ -233,7 +233,7 @@ namespace TestingSystem.Web.Controllers
                 var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
                 if (result == SignInStatus.Failure)
                 {
-                    ModelState.AddModelError("", "Wrong credentials.");
+                    ModelState.AddModelError("", "Wrong credentials");
                 }
                 else
                 {
