@@ -9,10 +9,13 @@ namespace TestingSystem.Web
     {
         public static void Register(HttpConfiguration config)
         {
-            // Конфигурация и службы веб-API
-
-            // Маршруты веб-API
             config.MapHttpAttributeRoutes();
+
+            config.Routes.MapHttpRoute(
+                name: "StudentGetEmail",
+                routeTemplate: "api/{controller}/{email}",
+                defaults: new {/* email = String.Empty*/}
+            );
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

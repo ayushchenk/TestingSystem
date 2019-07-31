@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
 using TestingSystem.BOL.Model;
@@ -26,9 +27,10 @@ namespace TestingSystem.Web.ApiControllers
         }
 
         // GET: api/SubjectApi/5
-        public string Get(int id)
+        public IHttpActionResult Get(string email)
         {
-            return "value";
+            email = HttpUtility.UrlDecode(email);
+            return Ok(studentService.FindBy(student => student.Email == email).FirstOrDefault());
         }
 
         // POST: api/SubjectApi
