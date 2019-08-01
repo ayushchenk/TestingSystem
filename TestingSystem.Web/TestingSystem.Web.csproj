@@ -222,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\ResultApiController.cs" />
+    <Compile Include="ApiControllers\StudyingMaterialsApiController.cs" />
     <Compile Include="ApiControllers\StudentApiController.cs" />
     <Compile Include="ApiControllers\LoginApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
