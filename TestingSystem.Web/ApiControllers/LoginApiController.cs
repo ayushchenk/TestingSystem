@@ -37,7 +37,7 @@ namespace TestingSystem.Web.ApiControllers
         public async Task<IHttpActionResult> Post([FromBody] LoginViewModel model)
         {
             if (!ModelState.IsValid || model == null)
-                return BadRequest(ModelState);
+                return BadRequest("All fields required");
             var user = await UserManager.FindAsync(model.Email, model.Password);
             if(user == null)
                 return BadRequest("Wrong credentials");
