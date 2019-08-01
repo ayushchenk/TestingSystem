@@ -28,25 +28,9 @@ namespace TestingSystem.Web.ApiControllers
         }
 
         // GET: api/SubjectApi/5
-        public async Task<IHttpActionResult> Get(string email)
+        public async Task<IHttpActionResult> Get(int id)
         {
-            email = HttpUtility.UrlDecode(email);
-            return Ok((await studentService.FindByAsync(student => student.Email == email)).FirstOrDefault());
-        }
-
-        // POST: api/SubjectApi
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/SubjectApi/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/SubjectApi/5
-        public void Delete(int id)
-        {
+            return Ok(await studentService.GetAsync(id));
         }
     }
 }

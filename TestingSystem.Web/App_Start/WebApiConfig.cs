@@ -12,12 +12,6 @@ namespace TestingSystem.Web
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "StudentGetEmail",
-                routeTemplate: "api/{controller}/{email}",
-                defaults: new {/* email = String.Empty*/}
-            );
-
-            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

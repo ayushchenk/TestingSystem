@@ -42,18 +42,10 @@ namespace TestingSystem.Web.ApiControllers
         }
 
         // POST: api/SubjectApi
-        public void Post([FromBody]string value)
+        public async Task Post([FromBody]StudentTestResultDTO model)
         {
-        }
 
-        // PUT: api/SubjectApi/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/SubjectApi/5
-        public void Delete(int id)
-        {
+            await resultService.AddOrUpdateAsync(model);
         }
     }
 }
