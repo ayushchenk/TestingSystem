@@ -68,6 +68,7 @@
     <Compile Include="Repositories\SpecializationRepository.cs" />
     <Compile Include="Repositories\StudentRespository.cs" />
     <Compile Include="Repositories\StudentTestResultRepository.cs" />
+    <Compile Include="Repositories\StudyingMaterialRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Repositories\TeachersInGroupRepository.cs" />
     <Compile Include="Repositories\TestRepository.cs" />

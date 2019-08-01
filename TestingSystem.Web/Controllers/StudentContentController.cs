@@ -26,6 +26,7 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<QuestionAnswerDTO> answerService;
         private IEntityService<StudentTestResultDTO> resultService;
+        private IEntityService<StudyingMaterialDTO> materialService;
 
         private AppUserManager UserManager
         {
@@ -59,14 +60,16 @@ namespace TestingSystem.Web.Controllers
                                         IEntityService<GroupsInTestDTO> gitService,
                                         IEntityService<QuestionDTO> questionService,
                                         IEntityService<QuestionAnswerDTO> answerService,
-                                        IEntityService<StudentTestResultDTO> resultService)
+                                        IEntityService<StudentTestResultDTO> resultService,
+                                        IEntityService<StudyingMaterialDTO> materialService)
         {
             this.gitService = gitService;
             this.testService = testService;
             this.groupService = groupService;
             this.answerService = answerService;
-            this.studentService = studentService;
             this.resultService = resultService;
+            this.studentService = studentService;
+            this.materialService = materialService;
             this.questionService = questionService;
         }
 
@@ -173,6 +176,14 @@ namespace TestingSystem.Web.Controllers
             if (this.GroupId == 0)
                 return RedirectToAction("Test");
             var model = await studentService.FindByAsync(student => student.GroupId == this.GroupId);
+            return View(model);
+        }
+
+        public async Task<ActionResult> StudyingMaterials()
+        {
+            if (this.Student == null)
+                return RedirectToAction("Test");
+            var model = await materialService.FindByAsync(material => material.SpecializationId == this.Student.SpecializationId);
             return View(model);
         }
 

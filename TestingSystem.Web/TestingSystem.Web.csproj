@@ -246,6 +246,7 @@
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\TeacherContentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="Controllers\StudyingMaterialController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -754,6 +755,10 @@
     <Content Include="Views\Shared\_StudentLayout.cshtml" />
     <Content Include="Views\Test\QuickTestResult.cshtml" />
     <Content Include="Views\StudentContent\ParticipateResult.cshtml" />
+    <Content Include="Views\StudyingMaterial\Edit.cshtml" />
+    <Content Include="Views\StudyingMaterial\Index.cshtml" />
+    <Content Include="Views\StudyingMaterial\PartialIndex.cshtml" />
+    <Content Include="Views\StudentContent\StudyingMaterials.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

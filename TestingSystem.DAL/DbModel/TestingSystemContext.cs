@@ -26,6 +26,7 @@ namespace TestingSystem.DAL.DbModel
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<TeachersInGroup> TeachersInGroups { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
+        public virtual DbSet<StudyingMaterial> StudyingMaterials { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -92,6 +93,11 @@ namespace TestingSystem.DAL.DbModel
 
             modelBuilder.Entity<Teacher>()
                 .HasMany(e => e.TeachersInGroups)
+                .WithRequired(e => e.Teacher)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Teacher>()
+                .HasMany(e => e.StudyingMaterials)
                 .WithRequired(e => e.Teacher)
                 .WillCascadeOnDelete(false);
 
