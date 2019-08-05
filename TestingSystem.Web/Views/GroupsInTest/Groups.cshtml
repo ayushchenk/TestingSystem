@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
 
-@if (Model.Groups.Count() != 0)
+@if (Model != null && Model.Groups.Count() != 0)
 {
     <table class="table">
         <tr>

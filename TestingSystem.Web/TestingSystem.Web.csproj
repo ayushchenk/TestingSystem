@@ -221,6 +221,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\ParticipateApiController.cs" />
     <Compile Include="ApiControllers\ResultApiController.cs" />
     <Compile Include="ApiControllers\StudyingMaterialsApiController.cs" />
     <Compile Include="ApiControllers\StudentApiController.cs" />

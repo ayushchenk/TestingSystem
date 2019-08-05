@@ -92,6 +92,8 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Groups(int id = 0)
         {
             var groupsInTests = groupsInTestService.FindBy(git => git.TestId == id);
+            if (groupsInTests.Count() == 0)
+                return View(model: null);
             var ids = groupsInTests.Select(git => git.GroupId);
             var groups = await groupService.FindByAsync(group => ids.Contains(group.Id) && this.GroupIds.Contains(group.Id));
 
@@ -100,7 +102,7 @@ namespace TestingSystem.Web.Controllers
             foreach (var git in groupsInTests)
                 model.Groups.Add(new AssignGroupItem
                 {
-                    Group = groups.Where(group => group.Id == git.GroupId).First(),
+                    Group = groups.Where(group => group.Id == git.GroupId).FirstOrDefault(),
                     GroupInTest = git
                 });
 

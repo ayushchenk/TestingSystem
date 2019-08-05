@@ -44,7 +44,6 @@ namespace TestingSystem.Web.ApiControllers
         // POST: api/SubjectApi
         public async Task Post([FromBody]StudentTestResultDTO model)
         {
-
             await resultService.AddOrUpdateAsync(model);
         }
     }
