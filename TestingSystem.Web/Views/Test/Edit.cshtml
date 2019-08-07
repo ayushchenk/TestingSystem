@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SpecializationName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SpecializationId, (IEnumerable<SelectListItem>)ViewBag.Specializations, null, new { @class = "form-control" })
+                @Html.Label(ViewBag.Specialization as string, new { htmlAttributes = new { @class = "form-control", disabled="disabled" } })
                 @Html.ValidationMessageFor(model => model.SpecializationId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -33,7 +33,7 @@
         <div class="form-group" id="subject-cont">
             @Html.LabelFor(m => m.SubjectName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SubjectId, (IEnumerable<SelectListItem>)ViewBag.Subjects, null, new { @class = "form-control" })
+                @Html.Label(ViewBag.Subject as string, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                 @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -72,15 +72,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            specId = @Model.SpecializationId;
-            subId = @Model.SubjectId;
-
-            if(specId == 0)
-                $("#SpecializationId").val([]);
-            if(subId == 0)
-                $("#subject-cont").hide();
-
-
             $("#SpecializationId").change(function () {
                 subjects = $("#SubjectId");
                 $("#subject-cont").show();

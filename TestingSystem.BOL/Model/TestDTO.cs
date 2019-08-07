@@ -26,10 +26,8 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Subject")]
         public string SubjectName { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SpecializationId { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SubjectId { get; set; }
 
         public int EducationUnitId { get; set; }

@@ -72,18 +72,18 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Create()
         {
             var model = new TestDTO();
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName");
-            ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
+            ViewBag.Specialization = this.Teacher.SpecializationName;
+            ViewBag.Subject = this.Teacher.SubjectName;
             return View("Edit", model);
         }
 
         public async Task<ActionResult> Edit(int id = 0)
         {
             var model = await testService.GetAsync(id);
-            if (model == null || model.EducationUnitId != this.Teacher.EducationUnitId)
+            if (model == null || model.TeacherId != this.Teacher.Id)
                 return RedirectToAction("Index");
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
-            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => subject.SpecializationId == model.SpecializationId), "Id", "SubjectName", model.SubjectId);
+            ViewBag.Specialization = this.Teacher.SpecializationName;
+            ViewBag.Subject = this.Teacher.SubjectName;
             return View(model);
         }
 
@@ -93,18 +93,21 @@ namespace TestingSystem.Web.Controllers
             if (ModelState.IsValid)
             {
                 model.TeacherId = this.Teacher.Id;
+                model.SubjectId = this.Teacher.SubjectId;
+                model.SpecializationId = this.Teacher.SpecializationId;
+                model.EducationUnitId = this.Teacher.EducationUnitId;
                 await testService.AddOrUpdateAsync(model);
                 return RedirectToAction("Index");
             }
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
-            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => subject.SpecializationId == model.SpecializationId), "Id", "SubjectName", model.SubjectId);
+            ViewBag.Specialization = this.Teacher.SpecializationName;
+            ViewBag.Subject = this.Teacher.SubjectName;
             return View(model);
         }
 
         public async Task<JsonResult> Delete(int id = 0)
         {
             var item = await testService.GetAsync(id);
-            if (item != null && item.EducationUnitId == this.Teacher.EducationUnitId)
+            if (item != null && item.TeacherId == this.Teacher.Id)
             {
                 var groups = await groupsInTestService.FindByAsync(git => git.TestId == item.Id);
                 if (groups.Count() != 0)
@@ -119,7 +122,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<JsonResult> SetStatus(bool status, int id = 0)
         {
             var item = await testService.GetAsync(id);
-            if (item != null && item.EducationUnitId == this.Teacher.EducationUnitId)
+            if (item != null && item.TeacherId == this.Teacher.Id)
             {
                 if (item.IsOpen == status)
                     return Json($"Item: #{item.Id} - \"{item.TestName}\" already has such status", JsonRequestBehavior.AllowGet);
