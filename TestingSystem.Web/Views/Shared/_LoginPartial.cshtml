@@ -14,7 +14,6 @@
             }
             else if (User.IsInRole("Teacher"))
             {
-                //TEACHER NAME SECTION IN TEACHER LAYOUT
                 <li>
                     @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Profile", "StudentContent", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
