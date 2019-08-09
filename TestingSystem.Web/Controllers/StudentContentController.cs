@@ -143,7 +143,7 @@ namespace TestingSystem.Web.Controllers
                             && model.QuestionAnswers[i].AnswerString.Trim().ToLower() == model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
                             result.Result++;
                         break;
-                    case QuestionType.ManyAsnwersOneCorrect:
+                    case QuestionType.ManyAnswersOneCorrect:
                         if (model.QuestionAnswers[i].Answers.Find(answer => answer.IsCorrect).Id == model.QuestionAnswers[i].AnswerId)
                             result.Result++;
                         break;

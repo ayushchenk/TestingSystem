@@ -38,7 +38,7 @@
                                     @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.AnswerId, new { Value = $"{Model.QuestionAnswers[i].Answers[j].Id}" })
                                     <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
                                     break;
-                                case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAsnwersOneCorrect:
+                                case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersOneCorrect:
                                     @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
                                     <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
                                     break;
