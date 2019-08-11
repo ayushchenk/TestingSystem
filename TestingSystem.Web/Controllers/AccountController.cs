@@ -239,11 +239,14 @@ namespace TestingSystem.Web.Controllers
                 {
                     AppUser user = await UserManager.FindByEmailAsync(model.Email);
                     if (UserManager.IsInRole(user.Id, "Teacher"))
-                        return RedirectToAction("Groups", "TeacherContent");
+                        return RedirectToAction("Welcome", "TeacherContent");
+
                     if (UserManager.IsInRole(user.Id, "Student"))
                         return RedirectToAction("Tests", "StudentContent");
+
                     if (UserManager.IsInRole(user.Id, "Global Admin") || UserManager.IsInRole(user.Id, "Education Unit Admin"))
                         return RedirectToAction("Index", "AdminContent");
+
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -354,7 +357,6 @@ namespace TestingSystem.Web.Controllers
             AddErrors(result);
             return View(model);
         }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

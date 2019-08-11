@@ -22,7 +22,7 @@ namespace TestingSystem.Web
             routes.MapRoute(
                 name: "TeacherContent",
                 url: "TeacherContent/{action}/{id}",
-                defaults: new { controller = "TeacherContent", action = "Groups", id = UrlParameter.Optional }
+                defaults: new { controller = "TeacherContent", action = "Welcome", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

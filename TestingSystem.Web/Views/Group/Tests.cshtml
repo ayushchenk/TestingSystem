@@ -16,46 +16,46 @@
 
 @if (Model.Tests.Count > 0)
 {
-<table class="table">
-    <tr>
-        <th>
-            @Html.Label("Start date", new { @class = "from-group" })
-        </th>
-        <th>
-            @Html.Label("Start time", new { @class="from-group"})
-        </th>
-        <th>
-            @Html.Label("Length", new { @class = "from-group" })
-        </th>
-        <th>
-            @Html.Label("Test name", new { @class = "from-group" })
-        </th>
-        <th></th>
-    </tr>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Start date", new { @class = "from-group" })
+            </th>
+            <th>
+                @Html.Label("Start time", new { @class = "from-group" })
+            </th>
+            <th>
+                @Html.Label("Length", new { @class = "from-group" })
+            </th>
+            <th>
+                @Html.Label("Test name", new { @class = "from-group" })
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model.Tests)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Length)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TestName)
-        </td>
-        <td>
-            @Html.ActionLink("Cancel", "Cancel", new { id = item.Id })
-            @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.Id }, null)
-        </td>
-    </tr>
-}
+        @foreach (var item in Model.Tests)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Length)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestName)
+                </td>
+                <td>
+                    @Html.ActionLink("Cancel", "Cancel", new { id = item.Id })
+                    @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
 
-</table>
+    </table>
 }
 else
 {
@@ -64,4 +64,3 @@ else
     </div>
 }
 @Html.ActionLink("Back to list", "Index")
-

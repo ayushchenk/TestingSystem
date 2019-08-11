@@ -18,45 +18,45 @@
 
 @if (Model.Students != null && Model.Students.Count() != 0)
 {
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Email")
-        </th>
-        <th>
-            @Html.DisplayName("FirstName")
-        </th>
-        <th>
-            @Html.DisplayName("LastName")
-        </th>
-        <th>
-            @Html.DisplayName("SpecializationName")
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Students)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpecializationName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", "Student", new { id = item.Id }, new { }) |
-                @Html.ActionLink("Delete", "Delete", "Student", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
-            </td>
+            <th>
+                @Html.DisplayName("Email")
+            </th>
+            <th>
+                @Html.DisplayName("FirstName")
+            </th>
+            <th>
+                @Html.DisplayName("LastName")
+            </th>
+            <th>
+                @Html.DisplayName("SpecializationName")
+            </th>
+            <th></th>
         </tr>
-    }
-</table>
+
+        @foreach (var item in Model.Students)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecializationName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Student", new { id = item.Id }, new { }) |
+                    @Html.ActionLink("Delete", "Delete", "Student", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
 }
 else
 {
@@ -85,5 +85,5 @@ else
             });
         });
         });
-    </script>    
+    </script>
 }

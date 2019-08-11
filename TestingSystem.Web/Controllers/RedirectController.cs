@@ -14,7 +14,7 @@ namespace TestingSystem.Web.Controllers
             if (User.IsInRole("Student"))
                 return RedirectToAction("Tests", "StudentContent");
             if (User.IsInRole("Teacher"))
-                return RedirectToAction("Groups", "TeacherContent");
+                return RedirectToAction("Welcome", "TeacherContent");
             if (User.IsInRole("Education Unit Admin"))
                 return RedirectToAction("Index", "Group");
             if (User.IsInRole("Global Admin"))

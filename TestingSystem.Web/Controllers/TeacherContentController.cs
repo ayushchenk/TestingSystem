@@ -65,6 +65,11 @@ namespace TestingSystem.Web.Controllers
             this.teachersInGroupsService = teachersInGroupsService;
         }
 
+        public ActionResult Welcome()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> Groups()
         {
             var groups = teachersInGroupsService.FindBy(tig => tig.TeacherId == this.Teacher.Id).Select(tig => tig.GroupId);
