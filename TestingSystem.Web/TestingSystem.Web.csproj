@@ -442,7 +442,8 @@
     <Content Include="Design\loginForm\vendor\select2\select2.js" />
     <Content Include="Design\loginForm\vendor\select2\select2.min.css" />
     <Content Include="Design\loginForm\vendor\select2\select2.min.js" />
-    <Content Include="Design\ProfilePage\profile.css" />
+    <Content Include="Design\ProfilePage\css\profile.css" />
+    <Content Include="Design\ProfilePage\img\teacherLogo.jpg" />
     <Content Include="Design\WelcomePageTeachers\.gitignore" />
     <Content Include="Design\WelcomePageTeachers\css\creative.css" />
     <Content Include="Design\WelcomePageTeachers\css\creative.min.css" />
