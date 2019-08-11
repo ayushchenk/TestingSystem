@@ -21,7 +21,7 @@ namespace TestingSystem.Web.Models.ViewModels
                 int allCount = Answers.Count();
                 int correctCount = Answers.Count(answer => answer.IsCorrect);
                 if (allCount > 1 && correctCount > 1) return QuestionType.ManyAnswersManyCorrect;
-                if (allCount > 1 && correctCount == 1) return QuestionType.ManyAsnwersOneCorrect;
+                if (allCount > 1 && correctCount == 1) return QuestionType.ManyAnswersOneCorrect;
                 if (allCount == 1 && correctCount == 1) return QuestionType.OneAnswerOneCorrect;
                 return QuestionType.Undefined;
             }
@@ -30,7 +30,7 @@ namespace TestingSystem.Web.Models.ViewModels
 
     public enum QuestionType
     {
-        ManyAsnwersOneCorrect,
+        ManyAnswersOneCorrect,
         ManyAnswersManyCorrect,
         OneAnswerOneCorrect,
         Undefined

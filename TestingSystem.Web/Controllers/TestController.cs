@@ -69,12 +69,11 @@ namespace TestingSystem.Web.Controllers
             return PartialView(model);
         }
 
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
-            var model = new TestDTO();
             ViewBag.Specialization = this.Teacher.SpecializationName;
             ViewBag.Subject = this.Teacher.SubjectName;
-            return View("Edit", model);
+            return View("Edit", new TestDTO());
         }
 
         public async Task<ActionResult> Edit(int id = 0)
