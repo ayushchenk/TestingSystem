@@ -12,12 +12,12 @@
         <div class="row">
             <div class="col-md-4">
                 @*<div class="profile-img">
-                <img src="https://cdn.dribbble.com/users/924235/screenshots/3145293/education-system-logo_dribbble.png" alt="" />
-                <div class="file btn btn-lg btn-primary">
-                    Change Photo
-                    <input type="file" name="file" />
-                </div>
-            </div> CHOOSE PHOTO SOURCE*@
+                        <img src="https://cdn.dribbble.com/users/924235/screenshots/3145293/education-system-logo_dribbble.png" alt="" />
+                        <div class="file btn btn-lg btn-primary">
+                            Change Photo
+                            <input type="file" name="file" />
+                        </div>
+                    </div> CHOOSE PHOTO SOURCE*@
                 <div class="profile-img">
                     <img src="https://cdn.dribbble.com/users/924235/screenshots/3145293/education-system-logo_dribbble.png" alt="" />
                     <div class="file btn btn-lg btn-primary">
@@ -49,10 +49,10 @@
                 </div>
             </div>
             @*<div class="col-md-2">
-            <input type="button" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("Edit","TeacherContent")';" />
-            <input type="button" class="profile-edit-btn" name="btnCngPswd" value="Сhange Password" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("ChangePassword","Account")';" />
-            <input type="button" class="profile-edit-btn" name="btnExtLogins" value="External Logins" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("ManageLogins","Account")';" />
-        </div*@
+                    <input type="button" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("Edit","TeacherContent")';" />
+                    <input type="button" class="profile-edit-btn" name="btnCngPswd" value="Сhange Password" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("ChangePassword","Account")';" />
+                    <input type="button" class="profile-edit-btn" name="btnExtLogins" value="External Logins" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("ManageLogins","Account")';" />
+                </div*@
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="#manageAcc" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #4272D7; color: white;">
                     Manage Account
@@ -180,39 +180,39 @@
                         </div>
                     </div>
                     @*<div class="tab-pane fade" id="manage" role="tabpanel" aria-labelledby="manage-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Name</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="firstAndLastName" value="@Html.DisplayFor(nameFirst => nameFirst.FirstName) @Html.DisplayFor(secondName => secondName.LastName)" />
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <input type="text" name="firstAndLastName" value="@Html.DisplayFor(nameFirst => nameFirst.FirstName) @Html.DisplayFor(secondName => secondName.LastName)" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="firstAndLastName" value="@Html.DisplayFor(emailInput => emailInput.Email)" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Email</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Specialization</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="firstAndLastName" value="@Html.DisplayFor(specializationInput => specializationInput.SpecializationName)" />
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <input type="text" name="firstAndLastName" value="@Html.DisplayFor(emailInput => emailInput.Email)" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Subject</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="firstAndLastName" value="@Html.DisplayFor(subjectInput => subjectInput.SubjectName)" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Specialization</label>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="text" name="firstAndLastName" value="@Html.DisplayFor(specializationInput => specializationInput.SpecializationName)" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Subject</label>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="text" name="firstAndLastName" value="@Html.DisplayFor(subjectInput => subjectInput.SubjectName)" />
-                            </div>
-                        </div>
-                    </div>*@
+                        </div>*@
                 </div>
             </div>
         </div>
