@@ -318,6 +318,7 @@
     <Content Include="Design\adminForm\fonts\poppins\poppins-v5-latin-regular.svg" />
     <Content Include="Design\adminForm\images\bg-title-01.jpg" />
     <Content Include="Design\adminForm\images\bg-title-02.jpg" />
+    <Content Include="Design\adminForm\images\icon\education-system-logo_dribbble.png" />
     <Content Include="Design\adminForm\images\icon\LogoIESNuevo4.png" />
     <Content Include="Design\adminForm\js\main.js" />
     <Content Include="Design\adminForm\vendor\animsition\animsition.min.css" />
