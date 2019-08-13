@@ -44,8 +44,15 @@
                     @Html.DisplayFor(modelItem => item.GroupInTest.Length)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.GroupInTest.Id}, null) |
-                    @Html.ActionLink("Delete", "Delete", "GroupsInTest", new { id = item.GroupInTest.Id }, null)
+                    @if (item.GroupInTest.StartTime > DateTime.Now)
+                    {
+                        <div>
+                            @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.GroupInTest.Id }, null) |
+                        </div>
+                        <div>
+                            @Html.ActionLink("Delete", "Delete", "GroupsInTest", new { id = item.GroupInTest.Id }, null)
+                        </div>
+                    }
                 </td>
             </tr>
         }
