@@ -34,9 +34,11 @@
                 @item.Question.SpecializationName
             </div>
             <div class="col-md-3 col-sm-3 col-3">
-                @Html.ActionLink("Edit", "Edit", new { id = item.Question.Id })
                 @if (item.Question.EducationUnitId == ViewBag.EducationUnitId)
                 {
+                    <div>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Question.Id })
+                    </div>
                     <div>
                         @Html.ActionLink("Delete", "Delete", new { id = item.Question.Id }, new { @class = "btn-delete", data_id = item.Question.Id })
                     </div>
