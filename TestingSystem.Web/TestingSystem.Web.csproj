@@ -221,8 +221,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\QuickTestApiController.cs" />
     <Compile Include="ApiControllers\ParticipateApiController.cs" />
     <Compile Include="ApiControllers\ResultApiController.cs" />
+    <Compile Include="ApiControllers\SpecializationApiController.cs" />
     <Compile Include="ApiControllers\SubjectApiController.cs" />
     <Compile Include="ApiControllers\TestApiController.cs" />
     <Compile Include="ApiControllers\StudyingMaterialsApiController.cs" />

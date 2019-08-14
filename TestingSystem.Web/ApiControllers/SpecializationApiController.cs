@@ -12,25 +12,25 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.ApiControllers
 {
-    public class SubjectApiController : ApiController
+    public class SpecializationApiController : ApiController
     {
-        private IEntityService<SubjectDTO> subjectService;
+        private IEntityService<SpecializationDTO> specializationService;
 
-        public SubjectApiController(IEntityService<SubjectDTO> subjectService)
+        public SpecializationApiController(IEntityService<SpecializationDTO> specializationService)
         {
-            this.subjectService = subjectService;
+            this.specializationService = specializationService;
         }
 
         // GET: api/SubjectApi
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await subjectService.GetAllAsync());
+            return Ok(await specializationService.GetAllAsync());
         }
 
         // GET: api/SubjectApi/5
         public async Task<IHttpActionResult> Get(int id)
         {
-            return Ok(await subjectService.GetAsync(id));
+            return Ok(await specializationService.GetAsync(id));
         }
     }
 }

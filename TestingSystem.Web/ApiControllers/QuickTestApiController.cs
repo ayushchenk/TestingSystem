@@ -11,44 +11,26 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.ApiControllers
 {
-    public class ParticipateApiController : ApiController
+    public class QuickTestApiController : ApiController
     {
-        private IEntityService<TestDTO> testService;
-        private IEntityService<GroupsInTestDTO> gitService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<QuestionAnswerDTO> answerService;
 
-        public ParticipateApiController(IEntityService<TestDTO> testService,
-                                        IEntityService<GroupsInTestDTO> gitService,
-                                        IEntityService<QuestionDTO> questionService,
-                                        IEntityService<QuestionAnswerDTO> answerService)
+        public QuickTestApiController(IEntityService<QuestionDTO> questionService, IEntityService<QuestionAnswerDTO> answerService)
         {
-            this.gitService = gitService;
-            this.testService = testService;
             this.answerService = answerService;
             this.questionService = questionService;
         }
 
-        // GET: api/ParticipateApi/6
-        public async Task<IHttpActionResult> Get(int id)
+        public async Task<IHttpActionResult> Post([FromBody] QuickTestApiModel apiModel)
         {
-            var git = await gitService.GetAsync(id);
-            if (git == null)
-                return BadRequest("Git");
-            var test = await testService.GetAsync(git.TestId);
-            if (test == null)
-                return BadRequest("Test");
-            var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId);
+            var questions = await questionService.FindByAsync(q => q.SubjectId == apiModel.SubjectId);
             var questionIds = questions.Select(q => q.Id);
             var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
             ParticipateViewModel model = new ParticipateViewModel()
             {
-                StartTime = git.StartTime.Value,
-                EndTime = git.StartTime.Value.AddMinutes(git.Length),
-                GroupInTestId = git.Id,
-                Length = git.Length,
-                QuestionCount = test.QuestionCount,
-                SubjectId = test.SubjectId
+                QuestionCount = apiModel.QuestionCount,
+                Length = (int)(apiModel.QuestionCount * 1.5),
             };
             Random rnd = new Random();
             int realCount = Math.Min(model.QuestionCount, questions.Count());
@@ -63,5 +45,11 @@ namespace TestingSystem.Web.ApiControllers
             }
             return Ok(model);
         }
+    }
+
+    public class QuickTestApiModel
+    {
+        public int SubjectId { set; get; }
+        public int QuestionCount { set; get; }
     }
 }
