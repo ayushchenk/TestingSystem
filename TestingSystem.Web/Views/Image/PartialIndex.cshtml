@@ -12,8 +12,7 @@
                 <img src="@item.ImagePath" style="max-height: 250px; max-width: 250px;" /> <br />
                 @item.FileName<br />
                 Id: @item.Id
-                @if ((ViewBag.IsGlobal && ViewBag.EducationUnitId == null)
-                        || (item.EducationUnitId == ViewBag.EducationUnitId))
+                @if (item.TeacherId == ViewBag.TeacherId)
                 {
                     <span>
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })

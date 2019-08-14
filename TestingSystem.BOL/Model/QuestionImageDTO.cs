@@ -10,7 +10,7 @@ namespace TestingSystem.BOL.Model
         [StringLength(256)]
         public string ImagePath { get; set; }
 
-        public int? EducationUnitId { set; get; }
+        public int TeacherId { set; get; }
 
         public string FileName
         {

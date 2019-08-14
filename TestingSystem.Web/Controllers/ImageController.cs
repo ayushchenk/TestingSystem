@@ -9,21 +9,12 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.Controllers
 {
-    [Authorize(Roles = "Teacher, Education Unit Admin, Global Admin")]
+    [Authorize(Roles = "Teacher")]
     public class ImageController : Controller
     {
-        private IEntityService<AdminDTO> adminService;
         private IEntityService<TeacherDTO> teacherService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<QuestionImageDTO> imageService;
-
-        private AdminDTO Admin
-        {
-            get
-            {
-                return adminService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
-            }
-        }
 
         private TeacherDTO Teacher
         {
@@ -34,11 +25,9 @@ namespace TestingSystem.Web.Controllers
         }
 
         public ImageController(IEntityService<QuestionDTO> questionService,
-                               IEntityService<AdminDTO> adminService,
                                IEntityService<TeacherDTO> teacherService,
                                IEntityService<QuestionImageDTO> imageService)
         {
-            this.adminService = adminService;
             this.imageService = imageService;
             this.teacherService = teacherService;
             this.questionService = questionService;
@@ -48,8 +37,7 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
-            ViewBag.IsGlobal = this.Admin?.IsGlobal ?? false;
-            ViewBag.EducationUnitId = this.Admin?.EducationUnitId;
+            ViewBag.TeacherId = this.Teacher.Id; ;
             if (!String.IsNullOrWhiteSpace(filter))
                 return PartialView(await imageService.FindByAsync(image => image.ImagePath.ToLower().Contains(filter.ToLower())));
             return PartialView(await imageService.GetAllAsync());
@@ -64,10 +52,8 @@ namespace TestingSystem.Web.Controllers
             {
                 if (Request.Files[0].ContentLength > 0)
                 {
-                    if (this.Admin != null && !this.Admin.IsGlobal)
-                        image.EducationUnitId = this.Admin.EducationUnitId;
                     if (this.Teacher != null)
-                        image.EducationUnitId = this.Teacher.EducationUnitId;
+                        image.TeacherId = this.Teacher.Id;
                     var upload = Request.Files[0];
                     string fileName = DateTime.Now.Ticks + System.IO.Path.GetFileName(upload.FileName);
                     upload.SaveAs(Server.MapPath("~/Images/" + fileName));
@@ -82,8 +68,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await imageService.GetAsync(id);
-            if (item != null && ((this.Teacher != null && item.EducationUnitId == this.Teacher.EducationUnitId) ||
-                (this.Admin != null && (item.EducationUnitId == this.Admin.EducationUnitId || this.Admin.IsGlobal))))
+            if (item != null && this.Teacher != null && item.TeacherId == this.Teacher.Id)
             {
                 var questions = await questionService.FindByAsync(question => question.QuestionImageId == item.Id);
                 if (questions.Count() != 0)
