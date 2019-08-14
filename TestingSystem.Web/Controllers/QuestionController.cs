@@ -92,6 +92,7 @@ namespace TestingSystem.Web.Controllers
                     var saved = await imageService.AddOrUpdateAsync(new QuestionImageDTO
                     {
                         ImagePath = model.Question.ImagePath,
+                        TeacherId = this.Teacher.Id
                     });
                     model.Question.QuestionImageId = saved.Id;
                 }
