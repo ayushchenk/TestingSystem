@@ -24,7 +24,7 @@ namespace TestingSystem.Web.ApiControllers
         // GET: api/SubjectApi
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await subjectService.GetAllAsync());
+            return Ok(await subjectService.FindByAsync(s => s.Questions > 0));
         }
 
         // GET: api/SubjectApi/5
