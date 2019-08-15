@@ -7,7 +7,7 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [StringLength(256)]
+        [StringLength(512)]
         public string AnswerString { get; set; }
 
         public bool IsCorrect { get; set; }
