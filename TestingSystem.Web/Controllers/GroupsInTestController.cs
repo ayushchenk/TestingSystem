@@ -59,10 +59,10 @@ namespace TestingSystem.Web.Controllers
             var item = await testService.GetAsync(id);
             if (item != null)
             {
-                var alreadyAssigned = groupsInTestService.FindBy(git => git.TestId == id && this.GroupIds.Contains(git.GroupId)).Select(git => git.GroupId);
+                //var alreadyAssigned = groupsInTestService.FindBy(git => git.TestId == id && this.GroupIds.Contains(git.GroupId)).Select(git => git.GroupId);
                 var model = new AssignGroupsViewModel();
                 model.TestId = id;
-                foreach (var group in await groupService.FindByAsync(group => !alreadyAssigned.Contains(group.Id) && GroupIds.Contains(group.Id)))
+                foreach (var group in await groupService.FindByAsync(group => /*!alreadyAssigned.Contains(group.Id) &&*/ GroupIds.Contains(group.Id)))
                     model.Groups.Add(new AssignGroupItem
                     {
                         Group = group
