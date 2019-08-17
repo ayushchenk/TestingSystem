@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Images";
     if (User.IsInRole("Teacher"))
     {
@@ -13,9 +12,7 @@
     {
         Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
     }
-}
-
-<h2>Images</h2>
+}<br /><br /><br /><br />
 <input type="text" id="filter-input" class="form-control" />
 <div id="partial-content">
 </div>
@@ -25,7 +22,7 @@
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "Image")");
 
-            $("body").on("click", ".btn-delete", function (e) {
+            $("body").on("click", ".btndel", function (e) {
                 e.preventDefault();
                 $.ajax({
                     type: "POST",

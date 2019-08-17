@@ -1,31 +1,44 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.QuestionImageDTO>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@if (Model.Count() != 0)
-{
-    <ul id="image-list">
-        @foreach (var item in Model)
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="@Url.Content("~/Design/adminForm/ImageBoxes/css/bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Design/adminForm/ImageBoxes/css/ui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Design/adminForm/ImageBoxes/css/responsive.css")" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+</head>
+<body>
+    <div class="row-sm">
+        @if (Model.Count() != 0)
         {
-            <li>
-                <img src="@item.ImagePath" style="max-height: 250px; max-width: 250px;" /> <br />
-                @item.FileName<br />
-                Id: @item.Id
-                @if (item.TeacherId == ViewBag.TeacherId)
-                {
-                    <span>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
-                    </span>
-                }
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <div class="alert-info">
-        No images
-    </div>
-}
+            foreach (var item in Model)
+            {
 
+                <div class="col-md-3 col-sm-6">
+                    <figure class="card card-product">
+                        <div class="img-wrap"> <img src="@item.ImagePath"></div>
+                        <figcaption class="info-wrap">
+                            <a href="#" class="title">@item.FileName</a>
+                            <br />
+                            ID: @item.Id
+                            @if (item.TeacherId == ViewBag.TeacherId)
+                            {
+                                <br /><br />
+                                <div class="price-wrap">
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btndel", data_id = item.Id })
+                                </div>
+                            }
+                        </figcaption>
+                    </figure>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert-info">
+                No images
+            </div>
+        }
+    </div>
+</body>

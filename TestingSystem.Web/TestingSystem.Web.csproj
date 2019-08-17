@@ -319,6 +319,9 @@
     <Content Include="Design\adminForm\fonts\poppins\poppins-v5-latin-900italic.svg" />
     <Content Include="Design\adminForm\fonts\poppins\poppins-v5-latin-italic.svg" />
     <Content Include="Design\adminForm\fonts\poppins\poppins-v5-latin-regular.svg" />
+    <Content Include="Design\adminForm\ImageBoxes\css\bootstrap.css" />
+    <Content Include="Design\adminForm\ImageBoxes\css\responsive.css" />
+    <Content Include="Design\adminForm\ImageBoxes\css\ui.css" />
     <Content Include="Design\adminForm\images\bg-title-01.jpg" />
     <Content Include="Design\adminForm\images\bg-title-02.jpg" />
     <Content Include="Design\adminForm\images\icon\education-system-logo_dribbble.png" />
