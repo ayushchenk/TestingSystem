@@ -324,6 +324,7 @@
     <Content Include="Design\adminForm\images\icon\education-system-logo_dribbble.png" />
     <Content Include="Design\adminForm\images\icon\LogoIESNuevo4.png" />
     <Content Include="Design\adminForm\js\main.js" />
+    <Content Include="Design\adminForm\vendor\8aa3165203.js" />
     <Content Include="Design\adminForm\vendor\animsition\animsition.min.css" />
     <Content Include="Design\adminForm\vendor\animsition\animsition.min.js" />
     <Content Include="Design\adminForm\vendor\bootstrap-4.1\bootstrap.min.css" />
