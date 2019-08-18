@@ -1,190 +1,75 @@
 ﻿@model TestingSystem.BOL.Model.TeacherDTO
-
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
-<link href="@Url.Content("~/Design/ProfilePage/css/profile.css")" rel="stylesheet" />
-<script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
-<div class="container emp-profile">
-    <hr /><br />
-    <form method="post">
-        <div class="row">
-            <div class="col-md-4">
-                @*<div class="profile-img">
+<head>
+    <link href="@Url.Content("~/Design/ProfilePage/css/profile.css")" rel="stylesheet" />
+</head>
+<body>
+    <div class="container emp-profile">
+        <hr /><br />
+        <form method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img">
                         <img src="@Url.Content("~/Design/adminForm/images/icon/education-system-logo_dribbble.png")" alt="" />
                         <div class="file btn btn-lg btn-primary">
-                            Change Photo
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <input type="file" name="file" />
                         </div>
-                    </div> CHOOSE PHOTO SOURCE*@
-                <div class="profile-img">
-                    <img src="@Url.Content("~/Design/adminForm/images/icon/education-system-logo_dribbble.png")" alt="" />
-                    <div class="file btn btn-lg btn-primary">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <input type="file" name="file" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h5>
+                            @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+                        </h5>
+                        <h6>
+                            Teacher in @Html.DisplayFor(model => model.EducationUnitName)
+                        </h6>
+                        <br />
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="additional-tab" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="false">Additional Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="changePass-tab" data-toggle="tab" href="#changePass" role="tab" aria-controls="changePass" aria-selected="false">Change Password</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="extLogins-tab" data-toggle="tab" href="@Url.Action("ManageLogins","Account")" role="tab" aria-controls="extLogins" aria-selected="false">External Logins</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="manage-tab" data-toggle="tab" href="@Url.Action("Edit","TeacherContent")" role="tab" aria-controls="manage" aria-selected="false">Manage my account</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="profile-head">
-                    <h5>
-                        @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
-                    </h5>
-                    <h6>
-                        Teacher in @Html.DisplayFor(model => model.EducationUnitName)
-                    </h6>
-                    <br />
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="additional-tab" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="false">Additional Info</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="manage-tab" data-toggle="tab" href="@Url.Action("Edit","TeacherContent")" role="tab" aria-controls="manage" aria-selected="false">Manage my account</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            @*<div class="col-md-2">
-                    <input type="button" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("Edit","TeacherContent")';" />
-                    <input type="button" class="profile-edit-btn" name="btnCngPswd" value="Сhange Password" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("ChangePassword","Account")';" />
-                    <input type="button" class="profile-edit-btn" name="btnExtLogins" value="External Logins" style="background-color: #4272D7; color: white;" onclick="window.location='@Url.Action("ManageLogins","Account")';" />
-                </div*@
-            <div class="dropdown show">
-                <a class="btn btn-secondary dropdown-toggle" href="#manageAcc" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #4272D7; color: white;">
-                    Manage Account
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="@Url.Action("Edit","TeacherContent")">Edit Profile</a>
-                    <a class="dropdown-item" href="@Url.Action("ChangePassword","Account")">Сhange Password</a>
-                    <a class="dropdown-item" href="@Url.Action("ManageLogins","Account")">External Logins</a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="profile-work">
-                    <p>WORK LINK</p>
-                    <a href="https://docs.microsoft.com/ru-ru/dotnet/csharp/">Microsoft MSDN .NET</a><br />
-                    <a href="https://developers.facebook.com">Facebook for Developers</a>
-                    <a href="https://developers.google.com">Google Developers</a>
-                    <p>SKILLS</p>
-                    <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SpecializationName)</a><br />
-                    <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SubjectName)</a>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="tab-content profile-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Name</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(nameFirst => nameFirst.FirstName) @Html.DisplayFor(secondName => secondName.LastName)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Email</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(email => email.Email)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Specialization</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(specialization => specialization.SpecializationName)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Subject</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(subject => subject.SubjectName)</p>
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-work">
+                        <p>WORK LINK</p>
+                        <a href="https://docs.microsoft.com/ru-ru/dotnet/csharp/">Microsoft MSDN .NET</a><br />
+                        <a href="https://developers.facebook.com">Facebook for Developers</a>
+                        <a href="https://developers.google.com">Google Developers</a>
+                        <p>SKILLS</p>
+                        <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SpecializationName)</a><br />
+                        <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SubjectName)</a>
                     </div>
-                    <div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Teacher Name</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(name => name.FirstName) @Html.DisplayFor(name => name.LastName)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>User Id</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(userId => userId.Id)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Education Unit</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(educationUnit => educationUnit.EducationUnitName)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Education ID</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(educationID => educationID.EducationUnitId)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Specialization</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(specializationName => specializationName.SpecializationName)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Specialization ID</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(spezializationId => spezializationId.SpecializationId)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Subject</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(subjectName => subjectName.SubjectName)</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Subject ID</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>@Html.DisplayFor(subjectId => subjectId.SubjectId)</p>
-                            </div>
-                        </div>
-                    </div>
-                    @*<div class="tab-pane fade" id="manage" role="tabpanel" aria-labelledby="manage-tab">
+                </div>
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Name</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="firstAndLastName" value="@Html.DisplayFor(nameFirst => nameFirst.FirstName) @Html.DisplayFor(secondName => secondName.LastName)" />
+                                    <p>@Html.DisplayFor(nameFirst => nameFirst.FirstName) @Html.DisplayFor(secondName => secondName.LastName)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -192,7 +77,7 @@
                                     <label>Email</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="firstAndLastName" value="@Html.DisplayFor(emailInput => emailInput.Email)" />
+                                    <p>@Html.DisplayFor(email => email.Email)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -200,7 +85,7 @@
                                     <label>Specialization</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="firstAndLastName" value="@Html.DisplayFor(specializationInput => specializationInput.SpecializationName)" />
+                                    <p>@Html.DisplayFor(specialization => specialization.SpecializationName)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -208,13 +93,90 @@
                                     <label>Subject</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="firstAndLastName" value="@Html.DisplayFor(subjectInput => subjectInput.SubjectName)" />
+                                    <p>@Html.DisplayFor(subject => subject.SubjectName)</p>
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
+                        <div class="tab-pane fade" id="additional" role="tabpanel" aria-labelledby="additional-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Teacher Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(name => name.FirstName) @Html.DisplayFor(name => name.LastName)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>User Id</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(userId => userId.Id)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Education Unit</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(educationUnit => educationUnit.EducationUnitName)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Education ID</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(educationID => educationID.EducationUnitId)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Specialization</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(specializationName => specializationName.SpecializationName)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Specialization ID</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(spezializationId => spezializationId.SpecializationId)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Subject</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(subjectName => subjectName.SubjectName)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Subject ID</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(subjectId => subjectId.SubjectId)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade changePass" id="changePass" role="tabpanel" aria-labelledby="changePass-tab">
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
-    <hr />
-</div>
+        </form>
+        <hr />
+    </div>
+    <script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
+</body>
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#changePass").load("@Url.Action("ChangePassword", "Account")");
+        });
+    </script>
+}
