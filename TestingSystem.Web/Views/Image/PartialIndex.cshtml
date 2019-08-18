@@ -26,9 +26,15 @@
                             {
                                 <br /><br />
                                 <div class="price-wrap">
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btndel", data_id = item.Id })
-                                </div>
-                            }
+                                    @Html.ActionLink("Remove", "Delete",
+                               new { id = item.Id },
+                               new
+                                        {
+                                            @class = "btn btn-danger btndel",
+                                   data_id = item.Id
+                                        })
+                            </div>
+                        }
                         </figcaption>
                     </figure>
                 </div>

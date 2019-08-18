@@ -237,6 +237,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminContentController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\GroupsInTestController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
@@ -289,6 +290,15 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Design\404Page\css\404.css" />
+    <Content Include="Design\404Page\svgs\404.svg" />
+    <Content Include="Design\404Page\svgs\astronaut.svg" />
+    <Content Include="Design\404Page\svgs\bg_purple.png" />
+    <Content Include="Design\404Page\svgs\earth.svg" />
+    <Content Include="Design\404Page\svgs\iesLogo.png" />
+    <Content Include="Design\404Page\svgs\moon.svg" />
+    <Content Include="Design\404Page\svgs\overlay_stars.svg" />
+    <Content Include="Design\404Page\svgs\rocket.svg" />
     <Content Include="Design\adminForm\BoxPage\css\reset.css" />
     <Content Include="Design\adminForm\BoxPage\css\style.css" />
     <Content Include="Design\adminForm\BoxPage\img\cd-arrow-back.svg" />
@@ -841,6 +851,7 @@
     <Content Include="Views\StudyingMaterial\PartialIndex.cshtml" />
     <Content Include="Views\StudentContent\StudyingMaterials.cshtml" />
     <Content Include="Views\TeacherContent\Welcome.cshtml" />
+    <Content Include="Views\Error\_404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

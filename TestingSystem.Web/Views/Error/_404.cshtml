@@ -1,0 +1,65 @@
+﻿﻿@{
+    Layout = null;
+}
+<link href="@Url.Content("~/Design/404Page/css/404.css")" rel="stylesheet" />
+<body class="bg-purple">
+    <div class="stars">
+        <div class="custom-navbar">
+            <div class="brand-logo">
+                <img src="@Url.Content("~/Design/404Page/svgs/iesLogo.png")" width="50px">
+            </div>
+            <div class="navbar-links">
+                @if (User.IsInRole("Teacher"))
+                {
+                    <ul>
+                        <li><a href="@Url.Action("Groups","TeacherContent")" class="btn-request" target="_blank">GO TO HOME</a></li>
+                    </ul>
+                }
+                @if (User.IsInRole("Education Unit Admin"))
+                {
+                    <ul>
+                        <li><a href="@Url.Action("Index","Role")" class="btn-request" target="_blank">GO TO HOME</a></li>
+                    </ul>
+                }
+                @if (User.IsInRole("Global Admin"))
+                {
+                    <ul>
+                        <li><a href="@Url.Action("Index","Role")" class="btn-request" target="_blank">GO TO HOME</a></li>
+                    </ul>
+                }
+            </div>
+        </div>
+        <div class="central-body">
+            <img class="image-404" src="@Url.Content("~/Design/404Page/svgs/404.svg")" width="300px">
+            @if (User.IsInRole("Teacher"))
+            {
+                <a href="@Url.Action("Groups","TeacherContent")" class="btn-go-home" target="_blank">GO BACK HOME</a>
+            }
+            @if (User.IsInRole("Education Unit Admin"))
+            {
+                <a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>
+            }
+            @if (User.IsInRole("Global Admin"))
+            {
+                <a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>
+            }
+        </div>
+        <div class="objects">
+            <img class="object_rocket" src="@Url.Content("~/Design/404Page/svgs/rocket.svg")" width="40px">
+            <div class="earth-moon">
+                <img class="object_earth" src="@Url.Content("~/Design/404Page/svgs/earth.svg")" width="100px">
+                <img class="object_moon" src="@Url.Content("~/Design/404Page/svgs/moon.svg")" width="80px">
+            </div>
+            <div class="box_astronaut">
+                <img class="object_astronaut" src="@Url.Content("~/Design/404Page/svgs/astronaut.svg")" width="140px">
+            </div>
+        </div>
+        <div class="glowing_stars">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        </div>
+    </div>
+</body>
