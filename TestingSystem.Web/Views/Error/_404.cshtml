@@ -15,16 +15,22 @@
                         <li><a href="@Url.Action("Groups","TeacherContent")" class="btn-request" target="_blank">GO TO HOME</a></li>
                     </ul>
                 }
-                @if (User.IsInRole("Education Unit Admin"))
+                else if (User.IsInRole("Education Unit Admin"))
                 {
                     <ul>
                         <li><a href="@Url.Action("Index","Role")" class="btn-request" target="_blank">GO TO HOME</a></li>
                     </ul>
                 }
-                @if (User.IsInRole("Global Admin"))
+                else if (User.IsInRole("Global Admin"))
                 {
                     <ul>
                         <li><a href="@Url.Action("Index","Role")" class="btn-request" target="_blank">GO TO HOME</a></li>
+                    </ul>
+                }
+                else
+                {
+                    <ul>
+                        <li><a href="@Url.Action("Login","Account")" class="btn-request" target="_blank">GO TO HOME</a></li>
                     </ul>
                 }
             </div>
@@ -35,13 +41,17 @@
             {
                 <a href="@Url.Action("Groups","TeacherContent")" class="btn-go-home" target="_blank">GO BACK HOME</a>
             }
-            @if (User.IsInRole("Education Unit Admin"))
+            else if (User.IsInRole("Education Unit Admin"))
             {
                 <a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>
             }
-            @if (User.IsInRole("Global Admin"))
+            else if (User.IsInRole("Global Admin"))
             {
                 <a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Login","Account")" class="btn-go-home" target="_blank">GO BACK HOME</a>
             }
         </div>
         <div class="objects">
