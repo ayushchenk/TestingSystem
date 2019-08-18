@@ -8,6 +8,11 @@ namespace TestingSystem.Web.Controllers
 {
     public class ErrorController : Controller
     {
+        public ActionResult _500()
+        {
+            return View();
+        }
+
         public ActionResult _404()
         {
             return View();

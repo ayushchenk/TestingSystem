@@ -299,6 +299,8 @@
     <Content Include="Design\404Page\svgs\moon.svg" />
     <Content Include="Design\404Page\svgs\overlay_stars.svg" />
     <Content Include="Design\404Page\svgs\rocket.svg" />
+    <Content Include="Design\500Page\css\500.css" />
+    <Content Include="Design\500Page\js\500.js" />
     <Content Include="Design\adminForm\BoxPage\css\reset.css" />
     <Content Include="Design\adminForm\BoxPage\css\style.css" />
     <Content Include="Design\adminForm\BoxPage\img\cd-arrow-back.svg" />
@@ -852,6 +854,7 @@
     <Content Include="Views\StudentContent\StudyingMaterials.cshtml" />
     <Content Include="Views\TeacherContent\Welcome.cshtml" />
     <Content Include="Views\Error\_404.cshtml" />
+    <Content Include="Views\Error\_500.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
