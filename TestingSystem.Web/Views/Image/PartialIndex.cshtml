@@ -25,15 +25,15 @@
                             @if (item.TeacherId == ViewBag.TeacherId)
                             {
                                 <br /><br />
-                                <div class="price-wrap">
-                                    @Html.ActionLink("Remove", "Delete",
-                               new { id = item.Id },
-                               new
-                                        {
-                                            @class = "btn btn-danger btndel",
-                                   data_id = item.Id
-                                        })
-                            </div>
+                                      <div class="price-wrap">
+                                          @Html.ActionLink("Remove", "Delete",
+                                     new { id = item.Id },
+                                     new
+                                              {
+                                                  @class = "btn-delete",
+                                         data_id = item.Id
+                                              })
+                                      </div>
                         }
                         </figcaption>
                     </figure>

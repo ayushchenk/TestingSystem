@@ -254,7 +254,9 @@
             <!-- END BREADCRUMB-->
             <div id="alert-content" class="alert-info">
             </div>
-            @RenderBody()
+            <div id="renderbody-content" style="margin-top:75px;">
+                @RenderBody()
+            </div>
             <section>
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
@@ -474,6 +476,7 @@
     <script src="@Url.Content("~/Design/adminForm/js/main.js")"></script>
     <script src="@Url.Content("~/Design/adminForm/vendor/8aa3165203.js")"></script>
     <script src="@Url.Content("~/Design/adminForm/js/2qes926509.js")"></script>
+    @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 </body>
 </html>

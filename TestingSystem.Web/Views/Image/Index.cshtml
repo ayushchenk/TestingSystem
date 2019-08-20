@@ -12,19 +12,19 @@
     {
         Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
     }
-}<br /><br /><br /><br />
+}
+<h2>Images</h2>
 <input type="text" id="filter-input" class="form-control" />
-<div id="alert-content">
-</div>
 <div id="partial-content" style="background-color: #FFFFFF;">
 </div>
 
+@Scripts.Render("~/bundles/jquery")
 @section Scripts{
     <script type="text/javascript">
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "Image")");
 
-            $("body").on("click", ".btndel", function (e) {
+            $("html").on("click", "btn-delete", function (e) {
                 e.preventDefault();
                 $.ajax({
                     type: "POST",
