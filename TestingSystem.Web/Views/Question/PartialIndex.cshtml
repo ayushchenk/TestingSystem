@@ -7,7 +7,7 @@
 {
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-sm-3 col-3">
+            <div class="col-md-2 col-sm-2 col-2">
                 Question Id
             </div>
             <div class="col-md-3 col-sm-3 col-3">
@@ -16,15 +16,18 @@
             <div class="col-md-3 col-sm-3 col-3">
                 Specialization Name
             </div>
-            <div class="col-md-3 col-sm-3 col-3">
+            <div class="col-md-2 col-sm-2 col-2">
                 Action
+            </div>
+            <div class="col-md-2 col-sm-2 col-2">
+                Has image
             </div>
         </div>
     </div>
     foreach (var item in Model)
     {
         <div class="row">
-            <div class="col-md-3 col-sm-3 col-3">
+            <div class="col-md-2 col-sm-2 col-2">
                 @item.Question.Id
             </div>
             <div class="col-md-3 col-sm-3 col-3">
@@ -33,7 +36,7 @@
             <div class="col-md-3 col-sm-3 col-3">
                 @item.Question.SpecializationName
             </div>
-            <div class="col-md-3 col-sm-3 col-3">
+            <div class="col-md-2 col-sm-2 col-2">
                 @if (item.Question.EducationUnitId == ViewBag.EducationUnitId)
                 {
                     <div>
@@ -42,6 +45,16 @@
                     <div>
                         @Html.ActionLink("Delete", "Delete", new { id = item.Question.Id }, new { @class = "btn-delete", data_id = item.Question.Id })
                     </div>
+                }
+            </div>
+            <div class="col-md-2 col-sm-2 col-2">
+                @if(!String.IsNullOrWhiteSpace(item.Question.ImagePath))
+                {
+                    <span>True</span>
+                }
+                else
+                {
+                    <span>False</span>
                 }
             </div>
         </div>
