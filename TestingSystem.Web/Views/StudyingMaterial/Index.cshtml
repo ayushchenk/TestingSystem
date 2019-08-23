@@ -1,18 +1,12 @@
-﻿@{
-    ViewBag.Title = "Materials";
-    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
-}
-
+﻿@{ ViewBag.Title = "Materials"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
 <h2>Materials</h2>
 <input type="text" id="filter-input" class="form-control" />
 <div id="partial-content">
 </div>
-
 @section Scripts{
     <script type="text/javascript">
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "StudyingMaterial")");
-
             $("body").on("click", ".btn-delete", function (e) {
                 e.preventDefault();
                 $.ajax({
@@ -32,13 +26,10 @@
                     }
                 });
             });
-
             $("body").on("keypress", "#filter-input", function (e) {
                 if (e.which == 13)
                     $("#partial-content").load("@Url.Action("PartialIndex", "StudyingMaterial")", { filter : $(this).val()});
             });
         });
-
     </script>
 }
-

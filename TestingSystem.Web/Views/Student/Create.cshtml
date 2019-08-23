@@ -1,5 +1,4 @@
 ﻿@model TestingSystem.BOL.Model.StudentDTO
-
 @{
     ViewBag.Title = "Edit";
     if (User.IsInRole("Education Unit Admin"))
@@ -15,10 +14,7 @@
         Layout = "~/Views/Shared/_TeacherLayout.cshtml";
     }
 }
-
 <h2>Create student</h2>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -62,21 +58,29 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" id="submit" />
+                <input type="submit" value="Save" class="btn btn-success" id="submit" onclick="submitLimit()" />
             </div>
         </div>
     </div>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
             $("#GroupId").val([]);
         });
+        function submitLimit() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
     </script>
 }

@@ -47,7 +47,7 @@
             <div class="col-md-10">
                 <input type="file" accept="image/*" name="file" id="file" class="form-control" />
                 @Html.DropDownListFor(model => model.Question.QuestionImageId, (SelectList)ViewBag.Images, null, new { @class = "form-control" })
-                <input type="button" value="Discard photo" id="btn-discard" class="btn btn-default"/>
+                <input type="button" value="Discard photo" id="btn-discard" class="btn btn-default" />
             </div>
         </div>
 
@@ -89,7 +89,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" id="submit" />
+                <input type="submit" value="Save" class="btn btn-success" id="submit" onclick="submitLimit()" />
             </div>
         </div>
     </div>
@@ -233,5 +233,16 @@
                 $("#output").attr("src", $("select#Question_QuestionImageId option:selected").text());
             });
         });
+
+        function submitLimit() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
     </script>
 }

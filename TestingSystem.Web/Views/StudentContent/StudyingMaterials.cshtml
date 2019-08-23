@@ -1,12 +1,6 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.StudyingMaterialDTO>
-
-@{
-    ViewBag.Title = "StudyingMaterials";
-    Layout = "~/Views/Shared/_StudentLayout.cshtml";
-}
-
+@{ ViewBag.Title = "StudyingMaterials"; Layout = "~/Views/Shared/_StudentLayout.cshtml"; }
 <h2>Studying Materials</h2>
-
 <table class="table">
     <tr>
         <th>
@@ -19,7 +13,6 @@
             @Html.DisplayNameFor(model => model.Link)
         </th>
     </tr>
-
 @foreach (var item in Model) {
     <tr>
         <td>
@@ -33,5 +26,4 @@
         </td>
     </tr>
 }
-
 </table>

@@ -85,7 +85,7 @@
                         </div><br />
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Save" class="profile-edit-btn" style="background-color: #4272D7; color: white;" />
+                                <input type="submit" value="Save" class="profile-edit-btn" id="submit" onclick="submitLimit()" style="background-color: #4272D7; color: white;" />
                             </div>
                         </div>
                     </div>
@@ -95,3 +95,18 @@
     }
     <hr />
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function submitLimit() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
+    </script>
+}

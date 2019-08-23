@@ -1,5 +1,4 @@
 ﻿@model TestingSystem.BOL.Model.TeacherDTO
-
 @{
     ViewBag.Title = "Edit";
     if (User.IsInRole("Global Admin"))
@@ -11,10 +10,7 @@
         Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
     }
 }
-
 <h2>Edit teacher</h2>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
