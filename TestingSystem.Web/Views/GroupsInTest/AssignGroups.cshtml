@@ -1,12 +1,6 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.AssignGroupsViewModel
-
-@{
-    ViewBag.Title = "AssignGroups";
-    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
-}
-
+@{ ViewBag.Title = "AssignGroups"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
 <h2>AssignGroups</h2>
-
 @if (Model.Groups != null && Model.Groups.Count != 0)
 {
     using (Html.BeginForm())
@@ -64,7 +58,7 @@
             }
 
         </table>
-        <input type="submit" value="Save" class="btn btn-default" />
+        <input type="submit" value="Save" class="btn btn-success" id="submit" onclick="submitLimit()" />
     }
 }
 else
@@ -73,7 +67,6 @@ else
         No groups
     </div>
 }
-
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
@@ -92,5 +85,15 @@ else
                 }
             });
         });
+        function submitLimit() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
     </script>
 }
