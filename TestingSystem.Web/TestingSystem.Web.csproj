@@ -250,6 +250,7 @@
     <Compile Include="Controllers\StudentContentController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
+    <Compile Include="Controllers\SystemsController.cs" />
     <Compile Include="Controllers\TeacherContentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\StudyingMaterialController.cs" />
@@ -731,6 +732,7 @@
     <Content Include="Design\adminForm\BoxPage\partials\_variables.scss" />
     <Content Include="Design\adminForm\BoxPage\scss\style.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="IES\Employment.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\countdown.min.js" />
@@ -749,6 +751,48 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="IES\assets\animatecss\animate.min.css" />
+    <Content Include="IES\assets\bootstrapcarouselswipe\bootstrap-carousel-swipe.js" />
+    <Content Include="IES\assets\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="IES\assets\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="IES\assets\bootstrap\css\bootstrap.min.css" />
+    <Content Include="IES\assets\bootstrap\js\bootstrap.min.js" />
+    <Content Include="IES\assets\dropdown\css\style.css" />
+    <Content Include="IES\assets\dropdown\js\nav-dropdown.js" />
+    <Content Include="IES\assets\dropdown\js\navbar-dropdown.js" />
+    <Content Include="IES\assets\formoid\formoid.min.js" />
+    <Content Include="IES\assets\images\1.png" />
+    <Content Include="IES\assets\images\2.png" />
+    <Content Include="IES\assets\images\3.png" />
+    <Content Include="IES\assets\images\4.png" />
+    <Content Include="IES\assets\images\5.png" />
+    <Content Include="IES\assets\images\background4.jpg" />
+    <Content Include="IES\assets\images\background6.jpg" />
+    <Content Include="IES\assets\images\ieslogo-182x93.png" />
+    <Content Include="IES\assets\images\logo-ies-354x354.jpg" />
+    <Content Include="IES\assets\mbr-clients-slider\mbr-clients-slider.js" />
+    <Content Include="IES\assets\mobirise\css\mbr-additional.css" />
+    <Content Include="IES\assets\parallax\jarallax.min.js" />
+    <Content Include="IES\assets\popper\popper.min.js" />
+    <Content Include="IES\assets\smoothscroll\smooth-scroll.js" />
+    <Content Include="IES\assets\socicon\css\styles.css" />
+    <Content Include="IES\assets\socicon\fonts\socicon.svg" />
+    <Content Include="IES\assets\tether\tether.min.css" />
+    <Content Include="IES\assets\tether\tether.min.js" />
+    <Content Include="IES\assets\theme\css\style.css" />
+    <Content Include="IES\assets\theme\js\script.js" />
+    <Content Include="IES\assets\touchswipe\jquery.touch-swipe.min.js" />
+    <Content Include="IES\assets\viewportchecker\jquery.viewportchecker.js" />
+    <Content Include="IES\assets\vimeoplayer\jquery.mb.vimeo_player.js" />
+    <Content Include="IES\assets\web\assets\jquery\jquery.min.js" />
+    <Content Include="IES\assets\web\assets\mobirise-icons-bold\mobirise-icons-bold.css" />
+    <Content Include="IES\assets\web\assets\mobirise-icons-bold\mobirise-icons-bold.svg" />
+    <Content Include="IES\assets\web\assets\mobirise-icons2\mobirise2.css" />
+    <Content Include="IES\assets\web\assets\mobirise-icons2\mobirise2.svg" />
+    <Content Include="IES\assets\web\assets\mobirise-icons\mobirise-icons.css" />
+    <Content Include="IES\assets\web\assets\mobirise-icons\mobirise-icons.svg" />
+    <Content Include="IES\assets\ytplayer\jquery.mb.ytplayer.min.js" />
+    <Content Include="IES\Home.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -855,6 +899,19 @@
     <Content Include="Views\TeacherContent\Welcome.cshtml" />
     <Content Include="Views\Error\_404.cshtml" />
     <Content Include="Views\Error\_500.cshtml" />
+    <Content Include="IES\assets\images\hashes.json" />
+    <Content Include="IES\assets\socicon\fonts\socicon.eot" />
+    <Content Include="IES\assets\socicon\fonts\socicon.ttf" />
+    <Content Include="IES\assets\socicon\fonts\socicon.woff" />
+    <Content Include="IES\assets\web\assets\mobirise-icons-bold\mobirise-icons-bold.eot" />
+    <Content Include="IES\assets\web\assets\mobirise-icons-bold\mobirise-icons-bold.ttf" />
+    <Content Include="IES\assets\web\assets\mobirise-icons-bold\mobirise-icons-bold.woff" />
+    <Content Include="IES\assets\web\assets\mobirise-icons2\mobirise2.eot" />
+    <Content Include="IES\assets\web\assets\mobirise-icons2\mobirise2.ttf" />
+    <Content Include="IES\assets\web\assets\mobirise-icons2\mobirise2.woff" />
+    <Content Include="IES\assets\web\assets\mobirise-icons\mobirise-icons.eot" />
+    <Content Include="IES\assets\web\assets\mobirise-icons\mobirise-icons.ttf" />
+    <Content Include="IES\assets\web\assets\mobirise-icons\mobirise-icons.woff" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -862,6 +919,7 @@
     <Folder Include="Views\Redirect\" />
     <Folder Include="Views\Service\" />
     <Folder Include="Views\SubjectApi\" />
+    <Folder Include="Views\Systems\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
