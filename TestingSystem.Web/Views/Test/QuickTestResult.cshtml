@@ -1,12 +1,9 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.QuickTestCheckViewModel
-
 @{
     ViewBag.Title = "QuickTest";
     Layout = "~/Views/Shared/_QuickTestLayout.cshtml";
 }
-
 <h2>QuickTest</h2>
-
 <div class="container">
     @for (int i = 0; i < Model.QuestionCount; i++)
     {
@@ -35,8 +32,8 @@
                                 }
                                 else
                                 {
-                                        @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
-                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
+                                    @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                    <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
                                 }
                                 break;
                             case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersOneCorrect:
@@ -56,15 +53,15 @@
                                 }
                                 else
                                 {
-                                        @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
-                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
+                                    @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
+                                    <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
                                 }
                                 break;
                             case TestingSystem.Web.Models.ViewModels.QuestionType.OneAnswerOneCorrect:
                                 if (Model.QuestionAnswers[i].AnswerString?.Trim().ToLower() == Model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
                                 {
                                     <div class="alert-success">
-                                        @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group"} })
+                                        @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group" } })
                                     </div>
                                 }
                                 else

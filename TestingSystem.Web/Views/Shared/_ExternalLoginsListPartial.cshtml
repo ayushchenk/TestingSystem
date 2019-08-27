@@ -1,6 +1,5 @@
 ﻿@model TestingSystem.Web.Models.Identity.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
-
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() != 0)

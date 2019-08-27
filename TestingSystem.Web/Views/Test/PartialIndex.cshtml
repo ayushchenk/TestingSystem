@@ -6,59 +6,58 @@
 
 @if (Model.Count() != 0)
 {
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TestName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SubjectName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SpecializationName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsOpen)
-        </th>
-        <th></th>
-    </tr>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TestName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecializationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsOpen)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TestName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubjectName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SpecializationName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsOpen)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @if(item.IsOpen)
-            {
-                @Html.ActionLink("Close | ", "SetStatus", new { id = item.Id }, new { @class = "btn-set-status", data_id = item.Id, data_status = !item.IsOpen }) 
-            }
-            else
-            {
-                @Html.ActionLink("Open | ", "SetStatus", new { id = item.Id },  new { @class = "btn-set-status", data_id = item.Id, data_status = !item.IsOpen }) 
-            }
-            @Html.ActionLink("Delete | ", "Delete", new { id = item.Id } , new { @class = "btn-delete", data_id = item.Id }) 
-            @if (item.IsOpen)
-            {
-                @Html.ActionLink("Assign groups", "AssignGroups", "GroupsInTest", new { id = item.Id }, null)
-            }
-            @Html.ActionLink("Groups", "Groups", "GroupsInTest", new { id = item.Id }, null)
-        </td>
-    </tr>
-}
-
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TestName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecializationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsOpen)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @if (item.IsOpen)
+                    {
+                        @Html.ActionLink("Close | ", "SetStatus", new { id = item.Id }, new { @class = "btn-set-status", data_id = item.Id, data_status = !item.IsOpen })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Open | ", "SetStatus", new { id = item.Id }, new { @class = "btn-set-status", data_id = item.Id, data_status = !item.IsOpen })
+                    }
+                    @Html.ActionLink("Delete | ", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                    @if (item.IsOpen)
+                    {
+                        @Html.ActionLink("Assign groups", "AssignGroups", "GroupsInTest", new { id = item.Id }, null)
+                    }
+                    @Html.ActionLink("Groups", "Groups", "GroupsInTest", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
 }
 else
 {

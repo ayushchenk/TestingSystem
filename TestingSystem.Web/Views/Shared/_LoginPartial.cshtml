@@ -5,36 +5,36 @@
     {
         @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        @if (User.IsInRole("Student"))
-        {
-            <li>
-                @Html.ActionLink(User.Identity.GetUserName(), "Profile", "StudentContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
-        }
-        else if (User.IsInRole("Teacher"))
-        {
-            <li>
-                @Html.ActionLink(User.Identity.GetUserName(), "Profile", "TeacherContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-        }
-        else if (User.IsInRole("Global Admin"))
-        {
-            <li>
-                @Html.ActionLink(User.Identity.GetUserName(), "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
-        }
-        else if (User.IsInRole("Education Unit Admin"))
-        {
-            <li>
-                @Html.ActionLink(User.Identity.GetUserName(), "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
-        }
-        @*<li>@Html.ActionLink("Sign out", "Logout", "Account")</li>*@
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole("Student"))
+            {
+                <li>
+                    @Html.ActionLink(User.Identity.GetUserName(), "Profile", "StudentContent", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
+            }
+            else if (User.IsInRole("Teacher"))
+            {
+                <li>
+                    @Html.ActionLink(User.Identity.GetUserName(), "Profile", "TeacherContent", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+            }
+            else if (User.IsInRole("Global Admin"))
+            {
+                <li>
+                    @Html.ActionLink(User.Identity.GetUserName(), "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
+            }
+            else if (User.IsInRole("Education Unit Admin"))
+            {
+                <li>
+                    @Html.ActionLink(User.Identity.GetUserName(), "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
+            }
+            @*<li>@Html.ActionLink("Sign out", "Logout", "Account")</li>*@
+        </ul>
     }
 }
 else

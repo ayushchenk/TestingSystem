@@ -1,10 +1,8 @@
 ﻿@model TestingSystem.BOL.Model.TestDTO
-
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
-
 @using (Html.BeginForm("Edit", "test"))
 {
     @Html.AntiForgeryToken()
@@ -25,7 +23,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SpecializationName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.Label(ViewBag.Specialization as string, new { htmlAttributes = new { @class = "form-control", disabled="disabled" } })
+                @Html.Label(ViewBag.Specialization as string, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                 @Html.ValidationMessageFor(model => model.SpecializationId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -63,11 +61,9 @@
         </div>
     </div>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">

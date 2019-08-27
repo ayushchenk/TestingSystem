@@ -1,13 +1,10 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.QuickTestCheckViewModel
-
 @{
     ViewBag.Title = "QuickTest";
     Layout = "~/Views/Shared/_QuickTestLayout.cshtml";
     int secondsRemaining = Model.QuestionCount * 90;
 }
-
 <h2>QuickTest</h2>
-
 @using (Html.BeginForm("QuickTestCheck", "Test"))
 {
     <h3 id="countdown"></h3>
@@ -58,7 +55,6 @@
         <input type="submit" value="Submit" id="submit">
     </div>
 }
-
 @section Scripts {
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
     <script type="text/javascript">
@@ -78,7 +74,6 @@
                 }
             }, 1000);
         }
-
         $(function () {
             var seconds = @secondsRemaining;
             startTimer(seconds,  $('#countdown'));

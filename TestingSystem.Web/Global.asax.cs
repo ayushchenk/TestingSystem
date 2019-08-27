@@ -8,7 +8,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using TestingSystem.Web.Infrastructure.Autofac;
 using TestingSystem.Web.Models.ViewModels;
-
 namespace TestingSystem.Web
 {
     public class MvcApplication : System.Web.HttpApplication
