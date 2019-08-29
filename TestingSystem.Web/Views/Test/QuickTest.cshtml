@@ -52,7 +52,7 @@
             </div>
             <hr />
         }
-        <input type="submit" value="Submit" id="submit">
+        <input type="submit" value="Submit" id="submit" class="btn btn-success" onclick="submitLimit()">
     </div>
 }
 @section Scripts {
@@ -86,5 +86,16 @@
                     e.preventDefault();
             });
         });
+
+        function submitLimit() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
     </script>
 }
