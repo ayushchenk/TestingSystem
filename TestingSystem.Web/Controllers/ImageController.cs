@@ -37,7 +37,7 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
-            ViewBag.TeacherId = this.Teacher.Id; ;
+            ViewBag.TeacherId = this.Teacher?.Id ?? 0;
             if (!String.IsNullOrWhiteSpace(filter))
                 return PartialView(await imageService.FindByAsync(image => image.ImagePath.ToLower().Contains(filter.ToLower())));
             return PartialView(await imageService.GetAllAsync());

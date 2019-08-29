@@ -39,9 +39,9 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
-        public GroupsInTestController(IEntityService<TestDTO> testService, 
-                                      IEntityService<GroupDTO> groupService, 
-                                      IEntityService<SpecializationDTO> specService, 
+        public GroupsInTestController(IEntityService<TestDTO> testService,
+                                      IEntityService<GroupDTO> groupService,
+                                      IEntityService<SpecializationDTO> specService,
                                       IEntityService<TeacherDTO> teacherService,
                                       IEntityService<GroupsInTestDTO> groupsInTestService,
                                       IEntityService<TeachersInGroupDTO> teacherInGroupsService)
@@ -99,12 +99,13 @@ namespace TestingSystem.Web.Controllers
 
             var model = new AssignGroupsViewModel();
             model.TestId = id;
-            foreach (var git in groupsInTests)
+            foreach (var git in groupsInTests.Where(g => g.StartTime > DateTime.Now))
                 model.Groups.Add(new AssignGroupItem
                 {
                     Group = groups.Where(group => group.Id == git.GroupId).FirstOrDefault(),
                     GroupInTest = git
                 });
+            model.History = groupsInTests.Where(g => g.StartTime < DateTime.Now);
 
             return View(model);
         }
@@ -121,7 +122,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit(int id = 0)
         {
             var git = await groupsInTestService.GetAsync(id);
-            if(!this.GroupIds.Contains(git.GroupId))
+            if (!this.GroupIds.Contains(git.GroupId))
                 return RedirectToAction("Index", "Test");
             var model = new AssignGroupItem
             {

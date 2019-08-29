@@ -21,7 +21,7 @@
     <link href="@Url.Content("~/Design/adminForm/vendor/vector-map/jqvmap.min.css")" rel="stylesheet" media="all">
     <link href="@Url.Content("~/Design/adminForm/css/theme.css")" rel="stylesheet" media="all">
 </head>
-<body class="animsition">
+<body>
     <div class="page-wrapper">
         <aside class="menu-sidebar2">
             <div class="logo" style="background-color: #4272D7;">
@@ -252,10 +252,12 @@
             </aside>
             <!-- END HEADER DESKTOP-->
             <!-- END BREADCRUMB-->
-            <div id="alert-content" class="alert-info">
-            </div>
             <div id="renderbody-content" style="margin-top:75px;">
+                <div id="alert-content" class="alert-info" style="position:fixed;">
+
+                </div>
                 @RenderBody()
+                <div class="modal-loader"></div>
             </div>
             <section>
                 <div class="section__content section__content--p30">
@@ -457,8 +459,8 @@
         <!-- END PAGE CONTAINER-->
     </div>
     <script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
-    <script src="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/popper.min.js")"></script>
     <script src="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/popper.min.js")"></script>
     <script src="@Url.Content("~/Design/adminForm/vendor/slick/slick.min.js")"></script>
     <script src="@Url.Content("~/Design/adminForm/vendor/wow/wow.min.js")"></script>
     <script src="@Url.Content("~/Design/adminForm/vendor/animsition/animsition.min.js")"></script>
@@ -478,5 +480,14 @@
     <script src="@Url.Content("~/Design/adminForm/js/2qes926509.js")"></script>
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function() { $body.addClass("loading");    },
+             ajaxStop: function() { $body.removeClass("loading"); }    
+        });
+    </script>
+
 </body>
 </html>

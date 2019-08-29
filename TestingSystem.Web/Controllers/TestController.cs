@@ -117,21 +117,6 @@ namespace TestingSystem.Web.Controllers
             return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public async Task<JsonResult> SetStatus(bool status, int id = 0)
-        {
-            var item = await testService.GetAsync(id);
-            if (item != null && item.TeacherId == this.Teacher.Id)
-            {
-                if (item.IsOpen == status)
-                    return Json($"Item: #{item.Id} - \"{item.TestName}\" already has such status", JsonRequestBehavior.AllowGet);
-                item.IsOpen = status;
-                await testService.AddOrUpdateAsync(item);
-                return Json($"Successfully set status \"{status}\" for item: #{item.Id} - \"{item.TestName}\"", JsonRequestBehavior.AllowGet);
-            }
-            return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
-        }
-
         [AllowAnonymous]
         public async Task<ActionResult> QuickTestSetup()
         {

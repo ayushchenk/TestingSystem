@@ -13,8 +13,6 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Test")]
         public string TestName { get; set; }
 
-        public bool IsOpen { get; set; }
-
         [Range(1, 100, ErrorMessage = "Please enter number between 1 and 100")]
         public int QuestionCount { set; get; }
 

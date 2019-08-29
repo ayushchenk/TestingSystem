@@ -24,7 +24,7 @@ namespace TestingSystem.DAL.DbModel
 
         public int SubjectId { get; set; }
 
-        public int EducationUnitId { get; set; }
+        public int TeacherId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
@@ -33,6 +33,6 @@ namespace TestingSystem.DAL.DbModel
 
         public virtual Subject Subject { get; set; }
 
-        public virtual EducationUnit EducationUnit{ get; set; }
+        public virtual Teacher Teacher { get; set; }
     }
 }

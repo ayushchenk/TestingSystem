@@ -52,14 +52,13 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> PartialIndex(string filter = null)
         {
-            ViewBag.EducationUnitId = this?.Teacher.EducationUnitId ?? 0;
             var model = new List<CreateQuestionViewModel>();
-            IEnumerable<QuestionDTO> questions;
-            if (String.IsNullOrWhiteSpace(filter))
-                questions = await questionService.GetAllAsync();
-            else
-                questions = await questionService.FindByAsync(question => question.SubjectName.ToLower().Contains(filter.ToLower())
-                                                                       || question.SpecializationName.ToLower().Contains(filter.ToLower()));
+            if (this.Teacher == null)
+                return RedirectToAction("Welcome", "TeacherContent");
+            var questions = await questionService.FindByAsync(question=> question.TeacherId == this.Teacher.Id);
+            if (!String.IsNullOrWhiteSpace(filter))
+                questions = questions.Where(question => question.SubjectName.ToLower().Contains(filter.ToLower())
+                                                     || question.SpecializationName.ToLower().Contains(filter.ToLower()));
             foreach (var q in questions)
                 model.Add(new CreateQuestionViewModel
                 {
@@ -97,7 +96,7 @@ namespace TestingSystem.Web.Controllers
                     model.Question.QuestionImageId = saved.Id;
                 }
 
-                model.Question.EducationUnitId = this.Teacher.EducationUnitId;
+                model.Question.TeacherId = this.Teacher.Id;
                 model.Question = await questionService.AddOrUpdateAsync(model.Question);
                 foreach (var answer in model.Answers.Where(a => !String.IsNullOrWhiteSpace(a.AnswerString)))
                 {
@@ -117,7 +116,7 @@ namespace TestingSystem.Web.Controllers
         {
             var model = new CreateQuestionViewModel();
             model.Question = await questionService.GetAsync(id);
-            if (model.Question == null || model.Question.EducationUnitId != this.Teacher.EducationUnitId)
+            if (model.Question == null || model.Question.TeacherId != this.Teacher.Id)
                 return RedirectToAction("Index");
             model.Answers = answerService.FindBy(answer => answer.QuestionId == model.Question.Id).ToList();
             ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.Question.SpecializationId);
@@ -129,7 +128,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Delete(int id = 0)
         {
             var item = await questionService.GetAsync(id);
-            if (item != null && item.EducationUnitId == this.Teacher.EducationUnitId)
+            if (item != null && item.TeacherId == this.Teacher.Id)
             {
                 await questionService.DeleteAsync(item);
                 return Json($"Successfully deleted: #{item.Id} - \"{item.SpecializationName}\"", JsonRequestBehavior.AllowGet);

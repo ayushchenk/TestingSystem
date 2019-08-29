@@ -101,6 +101,16 @@ namespace TestingSystem.DAL.DbModel
                 .WithRequired(e => e.Teacher)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Teacher>()
+                .HasMany(e => e.TeachersInGroups)
+                .WithRequired(e => e.Teacher)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Teacher>()
+                .HasMany(e => e.Questions)
+                .WithRequired(e => e.Teacher)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Test>()
                 .HasMany(e => e.GroupsInTests)
                 .WithRequired(e => e.Test)

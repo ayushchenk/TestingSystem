@@ -17,9 +17,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.SpecializationName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsOpen)
-            </th>
             <th></th>
         </tr>
 
@@ -36,24 +33,10 @@
                     @Html.DisplayFor(modelItem => item.SpecializationName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsOpen)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @if (item.IsOpen)
-                    {
-                        @Html.ActionLink("Close | ", "SetStatus", new { id = item.Id }, new { @class = "btn-set-status", data_id = item.Id, data_status = !item.IsOpen })
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Open | ", "SetStatus", new { id = item.Id }, new { @class = "btn-set-status", data_id = item.Id, data_status = !item.IsOpen })
-                    }
-                    @Html.ActionLink("Delete | ", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
-                    @if (item.IsOpen)
-                    {
-                        @Html.ActionLink("Assign groups", "AssignGroups", "GroupsInTest", new { id = item.Id }, null)
-                    }
-                    @Html.ActionLink("Groups", "Groups", "GroupsInTest", new { id = item.Id }, null)
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class="btn btn-default btn-sm"})
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete btn btn-default btn-sm", data_id = item.Id })
+                    @Html.ActionLink("Assign groups", "AssignGroups", "GroupsInTest", new { id = item.Id }, new { @class="btn btn-default btn-sm"})
+                    @Html.ActionLink("Groups", "Groups", "GroupsInTest", new { id = item.Id }, new { @class="btn btn-default btn-sm"})
                 </td>
             </tr>
         }

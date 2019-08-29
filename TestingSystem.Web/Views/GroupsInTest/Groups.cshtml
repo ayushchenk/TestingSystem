@@ -3,65 +3,128 @@
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
 
-@if (Model != null && Model.Groups.Count() != 0)
-{
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayName("Group")
-            </th>
-            <th>
-                @Html.DisplayName("Specialization")
-            </th>
-            <th>
-                @Html.DisplayName("Start date")
-            </th>
-            <th>
-                @Html.DisplayName("Start time")
-            </th>
-            <th>
-                @Html.DisplayName("Length")
-            </th>
-            <th></th>
-        </tr>
+<script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
+<link href="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/bootstrap.min.css")" rel="stylesheet" media="all">
+<script src="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/bootstrap.min.js")"></script>
 
-        @foreach (var item in Model.Groups)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Group.GroupName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Group.SpecializationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GroupInTest.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GroupInTest.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GroupInTest.Length)
-                </td>
-                <td>
-                    @if (item.GroupInTest.StartTime > DateTime.Now)
+
+<div class="container">
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a id="upcoming-tab" class="nav-link active" role="tab" data-toggle="tab" href="#upcoming" aria-controls="upcoming" aria-selected="true">Upcoming tests</a></li>
+        <li class="nav-item"><a id="history-tab" class="nav-link" role="tab" data-toggle="tab" href="#history" aria-controls="history" aria-selected="false">History</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="upcoming" class="tab-pane fade in show active" role="tabpanel" aria-labelledby="upcoming-tab">
+            @if (Model != null && Model.Groups.Count() != 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayName("Group")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Specialization")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Start date")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Start time")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Length")
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model.Groups)
                     {
-                        <div>
-                            @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.GroupInTest.Id }, null) |
-                        </div>
-                        <div>
-                            @Html.ActionLink("Delete", "Delete", "GroupsInTest", new { id = item.GroupInTest.Id }, null)
-                        </div>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Group.GroupName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Group.SpecializationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GroupInTest.StartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GroupInTest.StartTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GroupInTest.Length)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.GroupInTest.Id }, null) |
+                                @Html.ActionLink("Delete", "Delete", "GroupsInTest", new { id = item.GroupInTest.Id }, null)
+                            </td>
+                        </tr>
                     }
-                </td>
-            </tr>
-        }
 
-    </table>
-}
-else
-{
-    <div class="alert-info">
-        No groups
+                </table>
+            }
+            else
+            {
+                <div class="alert-info">
+                    No groups
+                </div>
+            }
+        </div>
+        <div id="history" class="tab-pane fade" role="tabpanel" aria-labelledby="history-tab">
+            @if (Model != null && Model.History.Count() != 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayName("Group")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Test")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Start date")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Start time")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Length")
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.History)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GroupName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TestName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Length)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <div class="alert-info">
+                    No groups
+                </div>
+            }
+        </div>
     </div>
-}
+    @Html.ActionLink("Back to list", "Index", "Test")
+</div>

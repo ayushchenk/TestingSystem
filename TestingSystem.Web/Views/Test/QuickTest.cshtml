@@ -21,7 +21,7 @@
                 @Html.HiddenFor(model => model.QuestionAnswers[i].Question.QuestionString)
                 @Html.HiddenFor(model => model.QuestionAnswers[i].Question.ImagePath)
                 <div class="col-md-7 col-sm-7">
-                    @Model.QuestionAnswers[i].Question.QuestionString
+                    <pre>@Model.QuestionAnswers[i].Question.QuestionString</pre>
                     @for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
                     {
                         <div class="row">

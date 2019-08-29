@@ -30,7 +30,7 @@ namespace TestingSystem.BOL.Model
 
         public int SpecializationId { get; set; }
 
-        public int EducationUnitId { get; set; }
+        public int TeacherId { get; set; }
 
         public int SubjectId { get; set; }
     }

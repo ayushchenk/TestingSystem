@@ -7,47 +7,41 @@
 {
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-2 col-2">
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 Question Id
             </div>
-            <div class="col-md-3 col-sm-3 col-3">
+            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
                 Subject Name
             </div>
-            <div class="col-md-3 col-sm-3 col-3">
+            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
                 Specialization Name
             </div>
-            <div class="col-md-2 col-sm-2 col-2">
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 Action
             </div>
-            <div class="col-md-2 col-sm-2 col-2">
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 Has image
             </div>
         </div>
     </div>
+    <hr/>
     foreach (var item in Model)
     {
         <div class="row">
-            <div class="col-md-2 col-sm-2 col-2">
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 @item.Question.Id
             </div>
-            <div class="col-md-3 col-sm-3 col-3">
+            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
                 @item.Question.SubjectName
             </div>
-            <div class="col-md-3 col-sm-3 col-3">
+            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
                 @item.Question.SpecializationName
             </div>
-            <div class="col-md-2 col-sm-2 col-2">
-                @if (item.Question.EducationUnitId == ViewBag.EducationUnitId)
-                {
-                    <div>
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                         @Html.ActionLink("Edit", "Edit", new { id = item.Question.Id })
-                    </div>
-                    <div>
                         @Html.ActionLink("Delete", "Delete", new { id = item.Question.Id }, new { @class = "btn-delete", data_id = item.Question.Id })
-                    </div>
-                }
             </div>
-            <div class="col-md-2 col-sm-2 col-2">
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 @if(!String.IsNullOrWhiteSpace(item.Question.ImagePath))
                 {
                     <span>True</span>
@@ -59,8 +53,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-12">
+            <div class="col-md-10 col-sm-10 col-10">
                 @item.Question.QuestionString
+            </div>
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+                Is Correct
             </div>
         </div>
         for (int i = 1; i <= item.Answers.Count(); i++)
@@ -69,7 +66,7 @@
                 <div class="col-md-10 col-sm-10 col-10">
                     @i. @item.Answers.ElementAt(i - 1).AnswerString
                 </div>
-                <div class="col-md-2 col-sm-2 col-2">
+                <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                     @item.Answers.ElementAt(i - 1).IsCorrect
                 </div>
             </div>

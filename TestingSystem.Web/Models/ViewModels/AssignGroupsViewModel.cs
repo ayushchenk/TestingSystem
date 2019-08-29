@@ -14,8 +14,11 @@ namespace TestingSystem.Web.Models.ViewModels
             Groups = new List<AssignGroupItem>();
         }
 
+        public IEnumerable<GroupsInTestDTO> History { set; get; }
+
         [Required]
         public IList<AssignGroupItem> Groups { set; get; }
+
         [Required]
         public int TestId { set; get; }
     }
