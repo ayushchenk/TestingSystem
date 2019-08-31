@@ -455,6 +455,7 @@
     <Content Include="Design\StartPages\assets\images\background4.jpg" />
     <Content Include="Design\StartPages\assets\images\background6.jpg" />
     <Content Include="Design\StartPages\assets\images\dependency-injection-in-asp.net-mvc.png-1500x1000.jpg" />
+    <Content Include="Design\StartPages\assets\images\facebook-comments.jpg" />
     <Content Include="Design\StartPages\assets\images\ieslogo-182x93.png" />
     <Content Include="Design\StartPages\assets\images\logo-ies-354x354.jpg" />
     <Content Include="Design\StartPages\assets\mbr-clients-slider\mbr-clients-slider.js" />
