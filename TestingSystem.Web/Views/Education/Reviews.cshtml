@@ -4,13 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="generator" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <link rel="shortcut icon" href="~/Design/StartPages/assets/images/ieslogo-182x93.png" type="image/x-icon">
-    <meta name="description" content="Tests">
-    <title>Tests</title>
+    <meta name="generator" content="Mobirise v4.10.7, mobirise.com">
+    <link rel="shortcut icon" href="@Url.Content("~/Design/StartPages/assets/images/favicons-16x16.png")" type="image/x-icon">
+    <meta name="description" content="Web Builder Description">
+    <title>Reviews</title>
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/web/assets/mobirise-icons2/mobirise2.css")">
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/web/assets/mobirise-icons-bold/mobirise-icons-bold.css")">
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/web/assets/mobirise-icons/mobirise-icons.css")">
@@ -18,13 +17,15 @@
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/bootstrap/css/bootstrap.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/bootstrap/css/bootstrap-grid.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/bootstrap/css/bootstrap-reboot.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/facebook-plugin/style.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/socicon/css/styles.css")">
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/dropdown/css/style.css")">
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/animatecss/animate.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/theme/css/style.css")">
     <link rel="stylesheet" href="@Url.Content("~/Design/StartPages/assets/mobirise/css/mbr-additional.css")" type="text/css">
 </head>
 <body>
-    <section class="menu cid-qTkzRZLJNu" once="menu" id="menu1-5">
+    <section class="menu cid-qTkzRZLJNu" once="menu" id="menu1-3">
         <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm bg-color transparent">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <div class="hamburger">
@@ -37,8 +38,8 @@
             <div class="menu-logo">
                 <div class="navbar-brand">
                     <span class="navbar-logo">
-                        <a href="@Url.Action("Tests","Education")#header10-8">
-                            <img src="@Url.Content("~/Design/StartPages/assets/images/ieslogo-182x93.png")" alt="" title="" style="height: 3.8rem;">
+                        <a href="@Url.Action("Reviews","Education")#top">
+                            <img src="@Url.Content("~/Design/StartPages/assets/images/ieslogo-182x93.png")" alt="Mobirise" title="" style="height: 3.8rem;">
                         </a>
                     </span>
                 </div>
@@ -46,7 +47,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
                     <li class="nav-item">
-                        <a class="nav-link link text-white display-4" href="http://testingsystemapplication.azurewebsites.net/">
+                        <a class="nav-link link text-white display-4" href="">
                         </a>
                     </li>
                     <li class="nav-item"><a class="nav-link link text-white display-4" href="@Url.Action("Home","Education")#header2-1"><span class="mbri-browse mbr-iconfont mbr-iconfont-btn"></span>Main</a></li>
@@ -55,10 +56,10 @@
                     <li class="nav-item"><a class="nav-link link text-white display-4" href="@Url.Action("Employment","Education")#header6-9"><span class="mbri-briefcase mbr-iconfont mbr-iconfont-btn"></span>Employment</a></li>
                     <li class="nav-item"><a class="nav-link link text-white display-4" href="@Url.Action("Home","Education")#counters2-6"><span class="mobi-mbri mobi-mbri-briefcase mbr-iconfont mbr-iconfont-btn"></span>&nbsp;About&nbsp;</a></li>
                     <li class="nav-item"><a class="nav-link link text-white display-4" href="@Url.Action("Home","Education")#footer2-5"><span class="mbrib-contact-form mbr-iconfont mbr-iconfont-btn"></span>Contacts</a></li>
-                    <li class="nav-item"><a class="nav-link link text-white display-4" href="@Url.Action("Reviews","Education")"><span class="mbrib-preview mbr-iconfont mbr-iconfont-btn"></span>Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link link text-white display-4" href="#top"><span class="mbrib-preview mbr-iconfont mbr-iconfont-btn"></span>Reviews</a></li>
                 </ul>
                 <div class="navbar-buttons mbr-section-btn">
-                    <a class="btn btn-sm btn-primary display-4" href="http://testingsystemapplication.azurewebsites.net/">
+                    <a class="btn btn-sm btn-primary display-4" href="@Url.Action("Login","Account")">
                         <span class="mbrib-login mbr-iconfont mbr-iconfont-btn"></span>
                         Login
                     </a>
@@ -66,16 +67,14 @@
             </div>
         </nav>
     </section>
-    <section class="header10 cid-rAo44N3vd4 mbr-fullscreen mbr-parallax-background" id="header10-8">
-        <div class="container">
-            <div class="media-container-column mbr-white p-5 align-left col-lg-8 col-md-10">
-                <h1 class="mbr-section-title mbr-bold pb-3 mbr-fonts-style display-1">
-                    DEVELOPER TESTS
-                </h1>
-                <p class="mbr-text pb-3 mbr-fonts-style display-5">
-                    Whether or not you are an independently registered student on IES resources, you can take a test for developers in different areas and find out your level and what you need to know for further work in the IT field.
-                </p>
-                <div class="mbr-section-btn"><a class="btn btn-md btn-primary display-4" href="@Url.Action("QuickTestSetup","Test")">START THE TEST</a></div>
+    <section class="header11 cid-rAytjV25km" data-bg-video="https://www.youtube.com/watch?v=WTE7ZTaL4Ok" id="header11-8">
+        <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(35, 35, 35);">
+        </div>
+        <div class="container align-left">
+            <div class="media-container-column mbr-white col-md-12">
+                <h3 class="mbr-section-subtitle py-3 mbr-fonts-style display-5">&nbsp;</h3>
+                <h1 class="mbr-section-title py-3 mbr-fonts-style display-1">Your reviews make our service better, leave your review, treat it with respect and report everything for obvious reasons.</h1>
+                <div class="mbr-section-btn py-4"><a class="btn btn-md btn-success display-4" href="page3.html#facebook-comments-block-9">I WANT TO LEAVE A REVIEW</a></div>
             </div>
         </div>
         <div class="mbr-arrow hidden-sm-down" aria-hidden="true">
@@ -84,17 +83,41 @@
             </a>
         </div>
     </section>
-    <section class="mbr-section info2 cid-rAo5qBJQk0" id="info2-e">
-        <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(35, 35, 35);">
-        </div>
+    <section class="cid-rAywBzlg1n" id="social-buttons3-c">
         <div class="container">
-            <div class="row main justify-content-center">
-                <div class="media-container-column col-12 col-lg-3 col-md-4">
-                    <div class="mbr-section-btn align-left py-4"><a class="btn btn-primary display-4" href="@Url.Action("Employment","Education")">APPLY NOW</a></div>
+            <div class="media-container-row">
+                <div class="col-md-8 align-center">
+                    <h2 class="pb-3 mbr-section-title mbr-fonts-style display-2">
+                        REVIEWS PAGE
+                    </h2>
+                    <div class="modal-loader"></div>
+                    <div>
+                        <div class="mbr-social-likes">
+                        </div>
+                    </div>
                 </div>
-                <div class="media-container-column title col-12 col-lg-7 col-md-6">
-                    <h2 class="align-right mbr-bold mbr-white pb-3 mbr-fonts-style display-2">We need you</h2>
-                    <h3 class="mbr-section-subtitle align-right mbr-light mbr-white mbr-fonts-style display-5">Join the professional team of IES developers!</h3>
+            </div>
+        </div>
+    </section>
+    <section class="mbr-section mbr-section__comments" id="facebook-comments-block-9" data-rv-view="41" style="background-color: rgb(255, 255, 255); padding-top: 0rem; padding-bottom: 0rem;">
+        <div class="mbr-section__container mbr-section__container--isolated addons-container">
+            <div class="addons-row">
+                <div class="addons-container-inner">
+                    <div class="facebookPlaceholder" data-numposts="5">
+                        <h2>WEB-SITE IS OFFLINE</h2>
+                        <img src="@Url.Content("~/Design/StartPages/assets/images/facebook-comments.jpg")">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section once="footers" class="cid-rAyyS1w9OM" id="footer6-d">
+        <div class="container">
+            <div class="media-container-row align-center mbr-white">
+                <div class="col-12">
+                    <p class="mbr-text mb-0 mbr-fonts-style display-7">
+                        © Copyright @DateTime.Now.Year IES - All Rights Reserved
+                    </p>
                 </div>
             </div>
         </div>
@@ -103,14 +126,26 @@
     <script src="@Url.Content("~/Design/StartPages/assets/tether/tether.min.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/popper/popper.min.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/bootstrap/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5")"></script>
+    <script src="@Url.Content("https://apis.google.com/js/plusone.js")"></script>
+    <script src="@Url.Content("~/Design/StartPages/assets/facebook-plugin/facebook-script.js")"></script>
+    <script src="@Url.Content("~/Design/StartPages/assets/vimeoplayer/jquery.mb.vimeo_player.js")"></script>
+    <script src="@Url.Content("~/Design/StartPages/assets/viewportchecker/jquery.viewportchecker.js")"></script>
+    <script src="@Url.Content("~/Design/StartPages/assets/ytplayer/jquery.mb.ytplayer.min.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/smoothscroll/smooth-scroll.js")"></script>
+    <script src="@Url.Content("~/Design/StartPages/assets/sociallikes/social-likes.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/dropdown/js/nav-dropdown.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/dropdown/js/navbar-dropdown.js")"></script>
-    <script src="@Url.Content("~/Design/StartPages/assets/viewportchecker/jquery.viewportchecker.js")"></script>
-    <script src="@Url.Content("~/Design/StartPages/assets/parallax/jarallax.min.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/touchswipe/jquery.touch-swipe.min.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/theme/js/script.js")"></script>
-    <input name="animation" type="hidden">
+    <script type="text/javascript">
+        $section = $("#social-buttons3-c");
+         $(document).on({
+            ajaxStart: function() { $section.addClass("loading");    },
+             ajaxStop: function() { $section.removeClass("loading"); }    
+        });
+    </script>
     <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
+    <input name="animation" type="hidden">
 </body>
 </html>
