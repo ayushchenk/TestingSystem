@@ -443,6 +443,8 @@
     <Content Include="Design\StartPages\assets\dropdown\css\style.css" />
     <Content Include="Design\StartPages\assets\dropdown\js\nav-dropdown.js" />
     <Content Include="Design\StartPages\assets\dropdown\js\navbar-dropdown.js" />
+    <Content Include="Design\StartPages\assets\facebook-plugin\facebook-script.js" />
+    <Content Include="Design\StartPages\assets\facebook-plugin\style.css" />
     <Content Include="Design\StartPages\assets\formoid\formoid.min.js" />
     <Content Include="Design\StartPages\assets\images\1.png" />
     <Content Include="Design\StartPages\assets\images\2.png" />
@@ -460,6 +462,7 @@
     <Content Include="Design\StartPages\assets\parallax\jarallax.min.js" />
     <Content Include="Design\StartPages\assets\popper\popper.min.js" />
     <Content Include="Design\StartPages\assets\smoothscroll\smooth-scroll.js" />
+    <Content Include="Design\StartPages\assets\sociallikes\social-likes.js" />
     <Content Include="Design\StartPages\assets\socicon\css\styles.css" />
     <Content Include="Design\StartPages\assets\socicon\fonts\socicon.svg" />
     <Content Include="Design\StartPages\assets\tether\tether.min.css" />
@@ -890,6 +893,7 @@
     <Content Include="Views\Education\Home.cshtml" />
     <Content Include="Views\Education\Employment.cshtml" />
     <Content Include="Views\Education\Tests.cshtml" />
+    <Content Include="Views\Education\Reviews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

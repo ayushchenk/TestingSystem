@@ -22,5 +22,10 @@ namespace TestingSystem.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Reviews()
+        {
+            return View();
+        }
     }
 }
