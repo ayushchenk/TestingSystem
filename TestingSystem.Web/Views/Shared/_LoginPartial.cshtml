@@ -4,16 +4,12 @@
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
-
+        if (User.IsInRole("Student"))
+        {
+            @User.Identity.GetUserName()
+        }
         <ul class="nav navbar-nav navbar-right">
-            @if (User.IsInRole("Student"))
-            {
-                <li>
-                    @Html.ActionLink(User.Identity.GetUserName(), "Profile", "StudentContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-                <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
-            }
-            else if (User.IsInRole("Teacher"))
+            @if (User.IsInRole("Teacher"))
             {
                 <li>
                     @Html.ActionLink(User.Identity.GetUserName(), "Profile", "TeacherContent", routeValues: null, htmlAttributes: new { title = "Manage" })
