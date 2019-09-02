@@ -19,7 +19,9 @@
         Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
     }
 }
-    <br /><br /><br />
+<br />
+<br />
+<br />
 <h2>@ViewBag.Title.</h2>
 <p class="text-success">@ViewBag.StatusMessage</p>
 @{
@@ -76,7 +78,15 @@
                     <p>
                         @foreach (AuthenticationDescription p in Model.OtherLogins)
                         {
-                            <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                            if (User.IsInRole("Student"))
+                            {
+                                <button type="submit" class="btn btn-success" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+
+                            }
                         }
                     </p>
                 </div>
@@ -85,19 +95,19 @@
         if (User.IsInRole("Student"))
         {
             <span>
-                @Html.ActionLink("Back", "Profile", "StudentContent")
+                <a href="@Url.Action("Profile","StudentContent")" class="btn btn-primary">Back</a>
             </span>
         }
         if (User.IsInRole("Teacher"))
         {
             <span>
-                @Html.ActionLink("Back", "Profile", "TeacherContent")
+                <a href="@Url.Action("Profile","TeacherContent")" class="btn btn-primary">Back</a>
             </span>
         }
         if (User.IsInRole("Education Unit Admin") || User.IsInRole("Global Admin"))
         {
             <span>
-                @Html.ActionLink("Back", "Profile", "AdminContent")
+                <a href="@Url.Action("Profile","AdminContent")" class="btn btn-primary">Back</a>
             </span>
         }
     }
