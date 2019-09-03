@@ -1,13 +1,6 @@
 ﻿@model TestingSystem.BOL.Model.StudentDTO
-
-@{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_StudentLayout.cshtml";
-}
-
+@{ ViewBag.Title = "Edit"; Layout = "~/Views/Shared/_StudentLayout.cshtml"; }
 <h2>Edit</h2>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
