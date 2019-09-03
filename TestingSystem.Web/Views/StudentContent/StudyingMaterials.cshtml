@@ -1,29 +1,34 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.StudyingMaterialDTO>
 @{ ViewBag.Title = "StudyingMaterials"; Layout = "~/Views/Shared/_StudentLayout.cshtml"; }
-<h2>Studying Materials</h2>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.SubjectName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StudyingMaterialName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Link)
-        </th>
-    </tr>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubjectName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StudyingMaterialName)
-        </td>
-        <td>
-            <a href="@Html.DisplayFor(modelItem => item.Link)">Link to resource </a>
-        </td>
-    </tr>
-}
-</table>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain table-plain-bg">
+                    <div class="card-header">
+                        <h4 class="card-title">STUDYING MATERIALS</h4>
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <th>@Html.DisplayNameFor(model => model.SubjectName)</th>
+                            <th>@Html.DisplayNameFor(model => model.StudyingMaterialName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Link)</th>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.SubjectName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.StudyingMaterialName)</td>
+                                        <td><a href="@Html.DisplayFor(modelItem => item.Link)" class="btn btn-primary">LINK</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
