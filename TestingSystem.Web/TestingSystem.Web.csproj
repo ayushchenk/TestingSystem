@@ -271,6 +271,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Design\404Page\css\404.css" />
+    <Content Include="Design\404Page\forStudents\css\font-awesome.min.css" />
+    <Content Include="Design\404Page\forStudents\css\style.css" />
+    <Content Include="Design\404Page\forStudents\fonts\fontawesome-webfont.svg" />
+    <Content Include="Design\404Page\forStudents\img\bg.jpg" />
     <Content Include="Design\404Page\svgs\404.svg" />
     <Content Include="Design\404Page\svgs\astronaut.svg" />
     <Content Include="Design\404Page\svgs\bg_purple.png" />
@@ -842,6 +846,11 @@
     <Content Include="Design\studentRSS\assets\sass\lbd\_typography.scss" />
     <Content Include="Design\studentRSS\assets\sass\lbd\_variables.scss" />
     <Content Include="Design\studentRSS\assets\sass\light-bootstrap-dashboard.scss" />
+    <Content Include="Design\404Page\forStudents\fonts\fontawesome-webfont.eot" />
+    <Content Include="Design\404Page\forStudents\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Design\404Page\forStudents\fonts\fontawesome-webfont.woff" />
+    <Content Include="Design\404Page\forStudents\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Design\404Page\forStudents\fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

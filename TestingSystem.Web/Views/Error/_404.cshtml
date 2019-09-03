@@ -1,75 +1,61 @@
-﻿﻿@{
-    Layout = null;
+﻿﻿@{Layout = null;}@if (User.IsInRole("Student"))
+{
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="@Url.Content("https://fonts.googleapis.com/css?family=Montserrat:700,900")" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/Design/404Page/forStudents/css/font-awesome.min.css")" />
+        <link type="text/css" rel="stylesheet" href="@Url.Content("~/Design/404Page/forStudents/css/style.css")" />
+        <script src="@Url.Content("https://fonts.googleapis.com/css?family=Montserrat:700,900")"></script>
+        <script src="@Url.Content("https://oss.maxcdn.com/respond/1.4.2/respond.min.js")"></script>
+    </head>
+    <body>
+        <div id="notfound">
+            <div class="notfound-bg"></div><div class="notfound">
+                <div class="notfound-404"> <h1>404</h1> </div><h2>we are sorry, but the page you requested was not found</h2> @if (User.IsInRole("Teacher"))
+                {<a href="@Url.Action("Groups","TeacherContent")" class="home-btn" target="_blank">GO BACK HOME</a>}
+                else if (User.IsInRole("Student"))
+                {<a href="@Url.Action("Group","StudentContent")" class="home-btn" target="_blank">GO BACK HOME</a>}
+                else if (User.IsInRole("Education Unit Admin"))
+                {<a href="@Url.Action("Index","Role")" class="home-btn" target="_blank">GO BACK HOME</a>}
+                else if (User.IsInRole("Global Admin"))
+                {<a href="@Url.Action("Index","Role")" class="home-btn" target="_blank">GO BACK HOME</a>}
+                else
+                {<a href="@Url.Action("Home","Education")" class="home-btn" target="_blank">GO BACK HOME</a>}
+            </div>
+        </div>
+    </body>
+</html>
 }
+else
+{
 <link href="@Url.Content("~/Design/404Page/css/404.css")" rel="stylesheet" />
 <body class="bg-purple">
     <div class="stars">
         <div class="custom-navbar">
-            <div class="brand-logo">
-                <img src="@Url.Content("~/Design/404Page/svgs/iesLogo.png")" width="50px">
-            </div>
-            <div class="navbar-links">
+            <div class="brand-logo"> <img src="@Url.Content("~/Design/404Page/svgs/iesLogo.png")" width="50px"> </div><div class="navbar-links">
                 @if (User.IsInRole("Teacher"))
-                {
-                    <ul>
-                        <li><a href="@Url.Action("Groups","TeacherContent")" class="btn-request" target="_blank">GO TO HOME</a></li>
-                    </ul>
-                }
+                {<ul> <li><a href="@Url.Action("Groups","TeacherContent")" class="btn-request" target="_blank">GO TO HOME</a></li></ul>}
                 else if (User.IsInRole("Education Unit Admin"))
-                {
-                    <ul>
-                        <li><a href="@Url.Action("Index","Role")" class="btn-request" target="_blank">GO TO HOME</a></li>
-                    </ul>
-                }
+                {<ul> <li><a href="@Url.Action("Index","Role")" class="btn-request" target="_blank">GO TO HOME</a></li></ul>}
                 else if (User.IsInRole("Global Admin"))
-                {
-                    <ul>
-                        <li><a href="@Url.Action("Index","Role")" class="btn-request" target="_blank">GO TO HOME</a></li>
-                    </ul>
-                }
+                {<ul> <li><a href="@Url.Action("Index","Role")" class="btn-request" target="_blank">GO TO HOME</a></li></ul>}
                 else
-                {
-                    <ul>
-                        <li><a href="@Url.Action("Home","Education")" class="btn-request" target="_blank">GO TO HOME</a></li>
-                    </ul>
-                }
+                {<ul> <li><a href="@Url.Action("Home","Education")" class="btn-request" target="_blank">GO TO HOME</a></li></ul>}
             </div>
-        </div>
-        <div class="central-body">
-            <img class="image-404" src="@Url.Content("~/Design/404Page/svgs/404.svg")" width="300px">
-            @if (User.IsInRole("Teacher"))
-            {
-                <a href="@Url.Action("Groups","TeacherContent")" class="btn-go-home" target="_blank">GO BACK HOME</a>
-            }
+        </div><div class="central-body">
+            <img class="image-404" src="@Url.Content("~/Design/404Page/svgs/404.svg")" width="300px"> @if (User.IsInRole("Teacher"))
+            {<a href="@Url.Action("Groups","TeacherContent")" class="btn-go-home" target="_blank">GO BACK HOME</a>}
             else if (User.IsInRole("Education Unit Admin"))
-            {
-                <a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>
-            }
+            {<a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>}
             else if (User.IsInRole("Global Admin"))
-            {
-                <a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>
-            }
+            {<a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>}
             else
-            {
-                <a href="@Url.Action("Home","Education")" class="btn-go-home" target="_blank">GO BACK HOME</a>
-            }
-        </div>
-        <div class="objects">
-            <img class="object_rocket" src="@Url.Content("~/Design/404Page/svgs/rocket.svg")" width="40px">
-            <div class="earth-moon">
-                <img class="object_earth" src="@Url.Content("~/Design/404Page/svgs/earth.svg")" width="100px">
-                <img class="object_moon" src="@Url.Content("~/Design/404Page/svgs/moon.svg")" width="80px">
-            </div>
-            <div class="box_astronaut">
-                <img class="object_astronaut" src="@Url.Content("~/Design/404Page/svgs/astronaut.svg")" width="140px">
-            </div>
-        </div>
-        <div class="glowing_stars">
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-        </div>
+            {<a href="@Url.Action("Home","Education")" class="btn-go-home" target="_blank">GO BACK HOME</a>}
+        </div><div class="objects"> <img class="object_rocket" src="@Url.Content("~/Design/404Page/svgs/rocket.svg")" width="40px"> <div class="earth-moon"> <img class="object_earth" src="@Url.Content("~/Design/404Page/svgs/earth.svg")" width="100px"> <img class="object_moon" src="@Url.Content("~/Design/404Page/svgs/moon.svg")" width="80px"> </div><div class="box_astronaut"> <img class="object_astronaut" src="@Url.Content("~/Design/404Page/svgs/astronaut.svg")" width="140px"> </div></div><div class="glowing_stars"> <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
     </div>
 </body>
+}
