@@ -8,29 +8,20 @@
         {
             @User.Identity.GetUserName()
         }
-        <ul class="nav navbar-nav navbar-right">
-            @if (User.IsInRole("Teacher"))
-            {
-                <li>
-                    @Html.ActionLink(User.Identity.GetUserName(), "Profile", "TeacherContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-            }
-            else if (User.IsInRole("Global Admin"))
-            {
-                <li>
-                    @Html.ActionLink(User.Identity.GetUserName(), "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-                <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
-            }
-            else if (User.IsInRole("Education Unit Admin"))
-            {
-                <li>
-                    @Html.ActionLink(User.Identity.GetUserName(), "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-                <li>@Html.ActionLink("Sign out", "Logout", "Account")</li>
-            }
-            @*<li>@Html.ActionLink("Sign out", "Logout", "Account")</li>*@
-        </ul>
+        else if (User.IsInRole("Global Admin"))
+        {
+            <label>@User.Identity.GetUserName()</label>
+        }
+        else if (User.IsInRole("Teacher"))
+        {
+            @Html.ActionLink(User.Identity.GetUserName(), "Profile", "TeacherContent", routeValues: null, htmlAttributes: new { title = "Manage" })
+        }
+        else if (User.IsInRole("Education Unit Admin"))
+        {
+            @Html.ActionLink(User.Identity.GetUserName(), "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink("Sign out", "Logout", "Account")
+        }
+        @*<li>@Html.ActionLink("Sign out", "Logout", "Account")</li>*@
     }
 }
 else
