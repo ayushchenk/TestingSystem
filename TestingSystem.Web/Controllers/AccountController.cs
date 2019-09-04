@@ -257,7 +257,7 @@ namespace TestingSystem.Web.Controllers
         public ActionResult Logout()
         {
             SignInManager.AuthenticationManager.SignOut();
-            return RedirectToAction("Login");
+            return RedirectToAction("Home", "Education");
         }
 
         [AllowAnonymous]
