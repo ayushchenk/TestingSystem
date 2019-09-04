@@ -11,6 +11,7 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.ApiControllers
 {
+    [Authorize]
     public class ParticipateApiController : ApiController
     {
         private IEntityService<TestDTO> testService;

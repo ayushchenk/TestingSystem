@@ -214,6 +214,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Content\Resources\ApiInfo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApiInfo.resx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminContentController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -239,6 +244,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AuthorizationHeaderHandler.cs" />
     <Compile Include="Infrastructure\Autofac\AutofacConfig.cs" />
     <Compile Include="Infrastructure\ModelBinders\Binder.cs" />
     <Compile Include="Models\Identity\ChangePasswordViewModel.cs" />
@@ -1004,6 +1010,12 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Resources\ApiInfo.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApiInfo.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

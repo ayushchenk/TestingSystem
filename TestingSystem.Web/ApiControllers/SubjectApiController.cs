@@ -12,6 +12,7 @@ using TestingSystem.BOL.Service;
 
 namespace TestingSystem.Web.ApiControllers
 {
+    [Authorize]
     public class SubjectApiController : ApiController
     {
         private IEntityService<SubjectDTO> subjectService;
