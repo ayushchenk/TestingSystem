@@ -1,44 +1,39 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.StudentTestResultDTO>
-
-@{
-    ViewBag.Title = "History";
-    Layout = "~/Views/Shared/_StudentLayout.cshtml";
-}
-
-<h2>History</h2>
-
+@{ ViewBag.Title = "History"; Layout = "~/Views/Shared/_StudentLayout.cshtml"; }
 @if (Model.Count() != 0)
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Result)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TestName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubjectName)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Result / @item.QuestionCount
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TestName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SubjectName)
-                </td>
-            </tr>
-        }
-
-    </table>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-plain table-plain-bg">
+                        <div class="card-header">
+                            <h4 class="card-title">H I S T O R Y</h4>
+                        </div>
+                        <div class="card-body table-full-width table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <th>@Html.DisplayNameFor(model => model.Result)</th>
+                                <th>@Html.DisplayNameFor(model => model.TestName)</th>
+                                <th>@Html.DisplayNameFor(model => model.SubjectName)</th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Result / @item.QuestionCount</td>
+                                            <td>@Html.DisplayFor(modelItem => item.TestName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.SubjectName)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 else
 {

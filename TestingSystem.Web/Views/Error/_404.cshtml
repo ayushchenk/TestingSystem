@@ -47,7 +47,8 @@ else
                 {<ul> <li><a href="@Url.Action("Home","Education")" class="btn-request" target="_blank">GO TO HOME</a></li></ul>}
             </div>
         </div><div class="central-body">
-            <img class="image-404" src="@Url.Content("~/Design/404Page/svgs/404.svg")" width="300px"> @if (User.IsInRole("Teacher"))
+            <img class="image-404" src="@Url.Content("~/Design/404Page/svgs/404.svg")" width="300px">
+            @if (User.IsInRole("Teacher"))
             {<a href="@Url.Action("Groups","TeacherContent")" class="btn-go-home" target="_blank">GO BACK HOME</a>}
             else if (User.IsInRole("Education Unit Admin"))
             {<a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank">GO BACK HOME</a>}
