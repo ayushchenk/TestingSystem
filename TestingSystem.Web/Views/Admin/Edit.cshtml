@@ -70,7 +70,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" id="submit" />
+                <input type="submit" value="Save" class="btn btn-success" id="submit" onclick="submitLimit()" />
             </div>
         </div>
     </div>
@@ -98,5 +98,16 @@
                 }
             });
         });
+
+        function submitLimit() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
     </script>
 }
