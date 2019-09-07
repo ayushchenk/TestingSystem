@@ -1,6 +1,4 @@
-﻿@{
-    ViewBag.Title = "IES | Global Admin";
-}
+﻿@{ ViewBag.Title = "IES | Global Admin"; }
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,9 +12,7 @@
     <link href="@Url.Content("~/Design/adminRSS/css/sb-admin-2.min.css")" rel="stylesheet">
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" media="all">
 </head>
-
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -58,6 +54,12 @@
                 <a class="nav-link" href="@Url.Action("Index","Subject")">
                     <i class="fas fa-user-graduate"></i>
                     <span>Subjects</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Group")">
+                    <i class="fas fa-users"></i>
+                    <span>Groups</span>
                 </a>
             </li>
             <li class="nav-item">
