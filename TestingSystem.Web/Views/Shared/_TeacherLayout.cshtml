@@ -20,6 +20,8 @@
     <link href="@Url.Content("~/Design/adminForm/vendor/perfect-scrollbar/perfect-scrollbar.css")" rel="stylesheet" media="all">
     <link href="@Url.Content("~/Design/adminForm/vendor/vector-map/jqvmap.min.css")" rel="stylesheet" media="all">
     <link href="@Url.Content("~/Design/adminForm/css/theme.css")" rel="stylesheet" media="all">
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" media="all">
+
 </head>
 <body>
     <div class="page-wrapper">
@@ -49,27 +51,27 @@
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="@Url.Action("Groups","TeacherContent")">
-                                        <i class="fa fa-users" aria-hidden="true"></i>Groups Dashboard
+                                        <i class="fa fa-users" aria-hidden="true"></i>Groups
                                     </a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index","Student")">
-                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>Students Management
+                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>Students
                                     </a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index","StudyingMaterial")">
-                                        <i class="fa fa-address-book" aria-hidden="true"></i>Materials for Students
+                                        <i class="fa fa-address-book" aria-hidden="true"></i>Study Materials
                                     </a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index","Test")">
-                                        <i class="fas fa-list-alt"></i>Tests Assignment
+                                        <i class="fas fa-list-alt"></i>Tests
                                     </a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Index","Question")">
-                                        <i class="fas fa-question"></i>Questions Management
+                                        <i class="fas fa-question"></i>Questions
                                     </a>
                                 </li>
                             </ul>
@@ -84,7 +86,7 @@
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
                                     <a href="@Url.Action("Index","Image")">
-                                        <i class="fas fa-images"></i>Images Storage
+                                        <i class="fas fa-images"></i>Image Storage
                                     </a>
                                 </li>
                             </ul>
@@ -484,8 +486,8 @@
         $body = $("body");
 
         $(document).on({
-            ajaxStart: function() { $body.addClass("loading");    },
-             ajaxStop: function() { $body.removeClass("loading"); }    
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
         });
     </script>
 

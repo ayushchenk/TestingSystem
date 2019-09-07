@@ -6,14 +6,16 @@
             <div class="col-md-12">
                 <div class="card card-plain table-plain-bg">
                     <div class="card-header">
-                        <h4 class="card-title">G R O U P</h4>
+                        <h4 class="card-title">Group</h4>
                     </div>
                     <div class="card-body table-full-width table-responsive">
                         <table class="table table-hover">
                             <thead>
-                            <th>@Html.DisplayNameFor(model => model.Email)</th>
-                            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                            <th>@Html.DisplayNameFor(model => model.LastName)</th>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                                    <th>@Html.DisplayNameFor(model => model.LastName)</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)

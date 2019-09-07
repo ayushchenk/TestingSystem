@@ -8,15 +8,17 @@
                 <div class="col-md-12">
                     <div class="card card-plain table-plain-bg">
                         <div class="card-header">
-                            <h4 class="card-title">T E S T S</h4>
+                            <h4 class="card-title">Tests</h4>
                         </div>
                         <div class="card-body table-full-width table-responsive">
                             <table class="table table-hover">
                                 <thead>
-                                <th>@Html.DisplayNameFor(model => model.TestName)</th>
-                                <th>@Html.DisplayNameFor(model => model.StartTime)</th>
-                                <th>@Html.DisplayNameFor(model => model.StartDate)</th>
-                                <th>@Html.DisplayNameFor(model => model.Length)</th>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.TestName)</th>
+                                        <th>@Html.DisplayNameFor(model => model.StartTime)</th>
+                                        <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+                                        <th>@Html.DisplayNameFor(model => model.Length)</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
@@ -40,7 +42,7 @@
 }
 else
 {
-    <h4 class="card-title">T E S T S</h4>
+    <h4 class="card-title">Tests</h4>
     <div class="alert alert-info">
         No tests
     </div>

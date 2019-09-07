@@ -4,7 +4,10 @@
 <div id="partial-content">
 </div>
 @section Scripts{
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
+
     <script type="text/javascript">
+
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "StudyingMaterial")");
             $("body").on("click", ".btn-delete", function (e) {
@@ -15,14 +18,23 @@
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "StudyingMaterial")");
-                        $("#alert-content").empty();
-                        $("#alert-content").append(data);
-                        setTimeout(function () {
-                            $("#alert-content").empty();
-                        }, 3500);
+                        //$("#alert-content").empty();
+                        //$("#alert-content").append(data);
+                        //setTimeout(function () {
+                        //    $("#alert-content").empty();
+                        //}, 3500);
+                        $.notify({
+	                        message: data
+                        },{
+	                        type: 'success'
+                        });
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        alert("An error occured while processing request");
+                        $.notify({
+	                        message: "An error occured while processing your request"
+                        },{
+	                        type: 'danger'
+                        });
                     }
                 });
             });

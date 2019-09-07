@@ -30,7 +30,6 @@
             <th>
                 @Html.Label("Test name", new { @class = "from-group" })
             </th>
-            <th></th>
         </tr>
 
         @foreach (var item in Model.Tests)
@@ -47,10 +46,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TestName)
-                </td>
-                <td>
-                    @Html.ActionLink("Cancel", "Cancel", new { id = item.Id })
-                    @Html.ActionLink("Edit", "Edit", "GroupsInTest", new { id = item.Id }, null)
                 </td>
             </tr>
         }

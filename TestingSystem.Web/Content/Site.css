@@ -1,7 +1,7 @@
-﻿body {
+﻿/*body {
     padding-top: 50px;
     padding-bottom: 20px;
-}
+}*/
 
 /* Set padding to keep content from hitting the edges */
 /*.body-content {
@@ -12,12 +12,12 @@
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-.dl-horizontal dt {
+/*.dl-horizontal dt {
     white-space: normal;
-}
+}*/
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
@@ -37,15 +37,14 @@ a[disabled] {
     pointer-events: none;
     display: inline-block;
     color: gray;
-}
+}*/
 
-[tooltip]:before {
-    /* needed - do not touch */
+/*[tooltip]:before {
     content: attr(tooltip);
     position: absolute;
     opacity: 0;
     
-    /* customizable */
+
     transition: all 0.15s ease;
     padding: 10px;
     color: #333;
@@ -54,10 +53,8 @@ a[disabled] {
 }
 
 [tooltip]:hover:before {
-    /* needed - do not touch */
     opacity: 1;
-    
-    /* customizable */
+
     background: yellow;
     margin-top: -50px;
     margin-left: 20px;    
@@ -65,4 +62,27 @@ a[disabled] {
 
 [tooltip]:not([tooltip-persistent]):before {
     pointer-events: none;
+}*/
+
+.modal-loader {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, 0 ) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading .modal-loader {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal-loader {
+    display: block;
 }

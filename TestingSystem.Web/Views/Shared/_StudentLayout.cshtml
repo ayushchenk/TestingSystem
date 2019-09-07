@@ -12,6 +12,7 @@
     <link href="@Url.Content("~/Design/studentRSS/assets/css/bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Design/studentRSS/assets/css/light-bootstrap-dashboard.css?v=2.0.0")" rel="stylesheet" />
     <link href="@Url.Content("~/Design/studentRSS/assets/css/demo.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" media="all">
 </head>
 <body>
     <div class="wrapper">
@@ -104,6 +105,7 @@
                 <div class="container-fluid">
                     <div class="section">
                         @RenderBody()
+                        <div class="modal-loader"></div>
                     </div>
                 </div>
             </div>
@@ -184,5 +186,14 @@
     <script src="@Url.Content("~/Design/studentRSS/assets/js/light-bootstrap-dashboard.js?v=2.0.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/Design/studentRSS/assets/js/demo.js")"></script>
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+    </script>
 </body>
 </html>

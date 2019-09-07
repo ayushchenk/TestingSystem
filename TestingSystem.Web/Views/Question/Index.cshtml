@@ -10,7 +10,11 @@
 </div>
 
 @section Scripts{
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
+
     <script type="text/javascript">
+
+
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "Question")", { id: $("#filter-input").val() });
 
@@ -22,14 +26,23 @@
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "Question")");
-                        $("#alert-content").empty();
-                        $("#alert-content").append(data);
-                        setTimeout(function () {
-                            $("#alert-content").empty();
-                        }, 3500);
+                        //$("#alert-content").empty();
+                        //$("#alert-content").append(data);
+                        //setTimeout(function () {
+                        //    $("#alert-content").empty();
+                        //}, 3500);
+                        $.notify({
+	                        message: data
+                        },{
+	                        type: 'success'
+                        });
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        alert("An error occured while processing request");
+                        $.notify({
+	                        message: "An error occured while processing your request"
+                        },{
+	                        type: 'danger'
+                        });
                     }
                 });
             });

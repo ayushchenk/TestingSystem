@@ -2412,6 +2412,8 @@
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.eot" />
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.ttf" />
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.woff" />
+    <Content Include="Scripts\bootstrap-notify.js" />
+    <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\countdown.min.js" />
@@ -2754,9 +2756,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
-    <Folder Include="Views\Redirect\" />
-    <Folder Include="Views\Service\" />
-    <Folder Include="Views\SubjectApi\" />
     <Folder Include="Views\Systems\" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,7 @@
     <link href="@Url.Content("~/Design/adminRSS/vendor/fontawesome-free/css/all.min.css")" rel="stylesheet" type="text/css">
     <link href="@Url.Content("https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i")" rel="stylesheet">
     <link href="@Url.Content("~/Design/adminRSS/css/sb-admin-2.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" media="all">
 </head>
 
 <body id="page-top">
@@ -38,7 +39,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                EDUCATION MANAGEMENT FIRST
+                EDUCATION MANAGEMENT
             </div>
 
             <li class="nav-item">
@@ -65,30 +66,42 @@
                     <span>Education Units</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Admin")">
+                    <i class="fas fa-user-secret"></i>
+                    <span>Admins</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Teacher")">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Teachers</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <div class="sidebar-heading">
-                EDUCATION MANAGEMENT SECOND
-            </div>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Opportunities</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Opportunities & Rights</h6>
-                        <a class="collapse-item" href="@Url.Action("Index","Admin")">Admins</a>
-                        <a class="collapse-item" href="@Url.Action("Index","Teacher")">Teachers</a>
-                    </div>
+            @*<div class="sidebar-heading">
+                    EDUCATION MANAGEMENT SECOND
                 </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Opportunities</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Opportunities & Rights</h6>
+                            <a class="collapse-item" href="@Url.Action("Index","Admin")">Admins</a>
+                            <a class="collapse-item" href="@Url.Action("Index","Teacher")">Teachers</a>
+                        </div>
+                    </div>
+                </li>*@
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            @*<hr class="sidebar-divider">*@
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -188,6 +201,7 @@
                 <div class="container-fluid">
                     @*RENDER BODY SECTION*@
                     @RenderBody()
+                    <div class="modal-loader"></div>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -235,6 +249,16 @@
     <script src="@Url.Content("~/Design/adminRSS/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
     <script src="@Url.Content("~/Design/adminRSS/vendor/jquery-easing/jquery.easing.min.js")"></script>
     <script src="@Url.Content("~/Design/adminRSS/js/sb-admin-2.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+    </script>
 </body>
 </html>
