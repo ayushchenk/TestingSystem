@@ -4,10 +4,6 @@
     ViewBag.Title = "History";
     if (User.IsInRole("Education Unit Admin"))
     {
-        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
-    }
-    if (User.IsInRole("Global Admin"))
-    {
         Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
     }
     if (User.IsInRole("Teacher"))

@@ -38,12 +38,15 @@
                 EDUCATION MANAGEMENT
             </div>
 
-            <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("Index","Role")">
-                    <i class="fas fa-user-tag"></i>
-                    <span>Roles</span>
-                </a>
-            </li>
+            @if (User.IsInRole("Global Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Role")">
+                        <i class="fas fa-user-tag"></i>
+                        <span>Roles</span>
+                    </a>
+                </li>
+            }
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("Index","Specialization")">
                     <i class="fas fa-chalkboard-teacher"></i>

@@ -1,13 +1,13 @@
 ﻿@{
     ViewBag.Title = "Teachers";
-    if (User.IsInRole("Global Admin"))
-    {
-        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
-    }
-    if (User.IsInRole("Education Unit Admin"))
-    {
-        Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
-    }
+    Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
+    //if (User.IsInRole("Global Admin"))
+    //{
+    //}
+    //if (User.IsInRole("Education Unit Admin"))
+    //{
+    //    Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
+    //}
 }
 <h2>Teacher</h2>
 <input type="text" id="filter-input" class="form-control" />
