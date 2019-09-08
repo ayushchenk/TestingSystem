@@ -18,8 +18,7 @@
         }
         else if (User.IsInRole("Education Unit Admin"))
         {
-            @Html.ActionLink(User.Identity.GetUserName(), "Profile", "AdminContent", routeValues: null, htmlAttributes: new { title = "Manage" })
-            @Html.ActionLink("Sign out", "Logout", "Account")
+            <label>@User.Identity.GetUserName()</label>
         }
         @*<li>@Html.ActionLink("Sign out", "Logout", "Account")</li>*@
     }

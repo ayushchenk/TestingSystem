@@ -297,9 +297,15 @@ namespace TestingSystem.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public async Task<ActionResult> ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            int id = int.Parse(Request.Params["userId"]);
+            var user = await UserManager.FindByIdAsync(id);
+            return code == null ? View("Error") : View(new ResetPasswordViewModel()
+            {
+                Code = code,
+                Email = user?.Email
+            });
         }
 
         [HttpPost]
