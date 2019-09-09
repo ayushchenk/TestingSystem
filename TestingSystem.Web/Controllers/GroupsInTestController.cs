@@ -16,7 +16,6 @@ namespace TestingSystem.Web.Controllers
         private TeacherDTO teacher;
         private IEntityService<TestDTO> testService;
         private IEntityService<GroupDTO> groupService;
-        private IEntityService<SpecializationDTO> specService;
         private IEntityService<TeacherDTO> teacherService;
         private IEntityService<GroupsInTestDTO> groupsInTestService;
         private IEntityService<TeachersInGroupDTO> teacherInGroupsService;
@@ -31,6 +30,14 @@ namespace TestingSystem.Web.Controllers
             }
         }
 
+        private IEnumerable<TeachersInGroupDTO> TeacherInGroups
+        {
+            get
+            {
+                return teacherInGroupsService.FindBy(tig => tig.TeacherId == this.Teacher.Id);
+            }
+        }
+
         private IEnumerable<int> GroupIds
         {
             get
@@ -41,13 +48,11 @@ namespace TestingSystem.Web.Controllers
 
         public GroupsInTestController(IEntityService<TestDTO> testService,
                                       IEntityService<GroupDTO> groupService,
-                                      IEntityService<SpecializationDTO> specService,
                                       IEntityService<TeacherDTO> teacherService,
                                       IEntityService<GroupsInTestDTO> groupsInTestService,
                                       IEntityService<TeachersInGroupDTO> teacherInGroupsService)
         {
             this.testService = testService;
-            this.specService = specService;
             this.groupService = groupService;
             this.teacherService = teacherService;
             this.groupsInTestService = groupsInTestService;
@@ -59,14 +64,11 @@ namespace TestingSystem.Web.Controllers
             var item = await testService.GetAsync(id);
             if (item != null)
             {
-                //var alreadyAssigned = groupsInTestService.FindBy(git => git.TestId == id && this.GroupIds.Contains(git.GroupId)).Select(git => git.GroupId);
+                var filteredGroups = this.TeacherInGroups.Where(tig => tig.SubjectId == item.SubjectId).Select(gr => gr.GroupId);
                 var model = new AssignGroupsViewModel();
                 model.TestId = id;
-                foreach (var group in await groupService.FindByAsync(group => /*!alreadyAssigned.Contains(group.Id) &&*/ GroupIds.Contains(group.Id)))
-                    model.Groups.Add(new AssignGroupItem
-                    {
-                        Group = group
-                    });
+                foreach (var group in await groupService.FindByAsync(group => filteredGroups.Contains(group.Id)))
+                    model.Groups.Add(new AssignGroupItem { GroupInTest = new GroupsInTestDTO { GroupId = group.Id, GroupName = group.GroupName } });
                 return View(model);
             }
             return RedirectToAction("Index", "Test");
@@ -80,7 +82,6 @@ namespace TestingSystem.Web.Controllers
                 model.Groups = model.Groups.Where(item => item.Assign == true).ToList();
                 foreach (var item in model.Groups)
                 {
-                    item.GroupInTest.GroupId = item.Group.Id;
                     item.GroupInTest.TestId = model.TestId;
                     await groupsInTestService.AddOrUpdateAsync(item.GroupInTest);
                 }
@@ -100,11 +101,7 @@ namespace TestingSystem.Web.Controllers
             var model = new AssignGroupsViewModel();
             model.TestId = id;
             foreach (var git in groupsInTests.Where(g => g.StartTime > DateTime.Now))
-                model.Groups.Add(new AssignGroupItem
-                {
-                    Group = groups.Where(group => group.Id == git.GroupId).FirstOrDefault(),
-                    GroupInTest = git
-                });
+                model.Groups.Add(new AssignGroupItem { GroupInTest = git });
             model.History = groupsInTests.Where(g => g.StartTime < DateTime.Now);
 
             return View(model);
@@ -124,11 +121,7 @@ namespace TestingSystem.Web.Controllers
             var git = await groupsInTestService.GetAsync(id);
             if (!this.GroupIds.Contains(git.GroupId))
                 return RedirectToAction("Index", "Test");
-            var model = new AssignGroupItem
-            {
-                Group = await groupService.GetAsync(git.GroupId),
-                GroupInTest = git
-            };
+            var model = new AssignGroupItem { GroupInTest = git };
             return View(model);
         }
 

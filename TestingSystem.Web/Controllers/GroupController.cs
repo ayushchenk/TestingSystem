@@ -18,12 +18,14 @@ namespace TestingSystem.Web.Controllers
         private AdminDTO admin;
         private IEntityService<AdminDTO> adminService;
         private IEntityService<GroupDTO> groupService;
+        private IEntityService<SubjectDTO> subjectService;
         private IEntityService<TeacherDTO> teacherService;
         private IEntityService<StudentDTO> studentService;
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<GroupsInTestDTO> groupInTestService;
         private IEntityService<TeachersInGroupDTO> teacherInGroupService;
+        private IEntityService<TeachersInSubjectDTO> teacherInSubjectsService;
 
         private AdminDTO Admin
         {
@@ -38,20 +40,24 @@ namespace TestingSystem.Web.Controllers
         public GroupController(IEntityService<GroupDTO> groupService,
                                IEntityService<AdminDTO> adminService,
                                IEntityService<StudentDTO> studentService,
+                               IEntityService<SubjectDTO> subjectService,
                                IEntityService<TeacherDTO> teacherService,
                                IEntityService<EducationUnitDTO> unitService,
                                IEntityService<SpecializationDTO> specService,
                                IEntityService<GroupsInTestDTO> groupInTestService,
-                               IEntityService<TeachersInGroupDTO> teacherInGroupService)
+                               IEntityService<TeachersInGroupDTO> teacherInGroupService,
+                               IEntityService<TeachersInSubjectDTO> teacherInSubjectsService)
         {
             this.specService = specService;
             this.unitService = unitService;
             this.adminService = adminService;
             this.groupService = groupService;
             this.teacherService = teacherService;
+            this.subjectService = subjectService;
             this.studentService = studentService;
             this.groupInTestService = groupInTestService;
             this.teacherInGroupService = teacherInGroupService;
+            this.teacherInSubjectsService = teacherInSubjectsService;
         }
 
         public ActionResult Index()
@@ -89,10 +95,9 @@ namespace TestingSystem.Web.Controllers
             var group = await groupService.GetAsync(id);
             if (group == null)
                 return RedirectToAction("Index");
-            var ids = teacherInGroupService.FindBy(tig => tig.GroupId == group.Id).Select(x => x.TeacherId);
             var model = new GroupDetailsViewModel
             {
-                Teachers = await teacherService.FindByAsync(teacher => ids.Contains(teacher.Id)),
+                Teachers = (await teacherInGroupService.FindByAsync(tig => tig.GroupId == group.Id)).ToList(),
                 Group = group
             };
             return View(model);
@@ -130,7 +135,7 @@ namespace TestingSystem.Web.Controllers
                 model.Group = await groupService.AddOrUpdateAsync(model.Group);
 
                 foreach (var id in model.Teachers.Distinct())
-                    teacherInGroupService.AddOrUpdate(new TeachersInGroupDTO() { TeacherId = id, GroupId = model.Group.Id });
+                    teacherInGroupService.AddOrUpdate(new TeachersInGroupDTO() { TeacherInSubjectId = id, GroupId = model.Group.Id });
                 return RedirectToAction("Index");
             }
             ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.Group.SpecializationId);
@@ -140,28 +145,24 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> Edit(int id = 0)
         {
-            var model = new CreateGroupViewModel();
-            model.Group = await groupService.GetAsync(id);
-            if (model.Group == null || this.Admin == null || (model.Group.EducationUnitId != (this.Admin.EducationUnitId ?? 0) && !this.Admin.IsGlobal))
+            var model = await groupService.GetAsync(id);
+            if (model == null || this.Admin == null || (model.EducationUnitId != (this.Admin.EducationUnitId ?? 0) && !this.Admin.IsGlobal))
                 return RedirectToAction("Index");
-            model.Teachers = teacherInGroupService.FindBy(tig => tig.GroupId == model.Group.Id).Select(tig => tig.TeacherId).ToList();
-            model.SpecTeachers = await teacherService.FindByAsync(teacher => teacher.SpecializationId == model.Group.SpecializationId);
-            ViewBag.EducationUnits = new SelectList(this.Admin.IsGlobal ? await unitService.GetAllAsync() : await unitService.FindByAsync(unit => unit.Id == this.Admin.EducationUnitId), "Id", "EducationUnitName", model.Group.EducationUnitId);
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.Group.SpecializationId);
+            ViewBag.EducationUnits = new SelectList(this.Admin.IsGlobal ? await unitService.GetAllAsync() : await unitService.FindByAsync(unit => unit.Id == this.Admin.EducationUnitId), "Id", "EducationUnitName", model.EducationUnitId);
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(CreateGroupViewModel model)
+        public async Task<ActionResult> Edit(GroupDTO model)
         {
             if (ModelState.IsValid)
             {
-                foreach (var id in model.Teachers.Distinct())
-                    teacherInGroupService.AddOrUpdate(new TeachersInGroupDTO() { TeacherId = id, GroupId = model.Group.Id });
+                await groupService.AddOrUpdateAsync(model);
                 return RedirectToAction("Index");
             }
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.Group.SpecializationId);
-            ViewBag.EducationUnits = new SelectList(this.Admin.IsGlobal ? await unitService.GetAllAsync() : await unitService.FindByAsync(unit => unit.Id == this.Admin.EducationUnitId), "Id", "EducationUnitName", model.Group.EducationUnitId);
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            ViewBag.EducationUnits = new SelectList(this.Admin.IsGlobal ? await unitService.GetAllAsync() : await unitService.FindByAsync(unit => unit.Id == this.Admin.EducationUnitId), "Id", "EducationUnitName", model.EducationUnitId);
             return View(model);
         }
 
@@ -181,10 +182,11 @@ namespace TestingSystem.Web.Controllers
             var group = await groupService.GetAsync(id);
             if (group == null || this.Admin == null || (group.EducationUnitId != (this.Admin.EducationUnitId ?? 0) && !this.Admin.IsGlobal))
                 return RedirectToAction("Index");
+            var alreadyAssigned = teacherInGroupService.FindBy(tig => tig.GroupId == group.Id).Select(tig => tig.TeacherInSubjectId);
             var model = new AddTeacherViewModel()
             {
                 Group = group,
-                Teachers = await teacherService.FindByAsync(teacher => teacher.SpecializationId == group.SpecializationId)
+                Teachers = await teacherInSubjectsService.FindByAsync(teacher => teacher.SpecializationId == group.SpecializationId && !alreadyAssigned.Contains(teacher.Id) && !teacher.IsDeleted)
             };
             return View(model);
         }
@@ -197,19 +199,20 @@ namespace TestingSystem.Web.Controllers
                 await teacherInGroupService.AddOrUpdateAsync(new TeachersInGroupDTO()
                 {
                     GroupId = model.Group.Id,
-                    TeacherId = model.TeacherId
+                    TeacherInSubjectId = model.TeacherId
                 });
             }
-            model.Teachers = await teacherService.FindByAsync(teacher => teacher.SpecializationId == model.Group.SpecializationId);
+            var alreadyAssigned = teacherInGroupService.FindBy(tig => tig.GroupId == model.Group.Id).Select(tig => tig.TeacherInSubjectId);
+            model.Teachers = await teacherInSubjectsService.FindByAsync(teacher => teacher.SpecializationId == model.Group.SpecializationId && !alreadyAssigned.Contains(teacher.Id) && !teacher.IsDeleted);
             return RedirectToAction("Teachers", new { id = model.Group.Id });
         }
 
-        public async Task<ActionResult> DeleteTeacher(int teacher = 0, int group = 0)
+        public async Task<ActionResult> DeleteTeacher(int id = 0)
         {
-            var item = teacherInGroupService.FindBy(tig => tig.TeacherId == teacher && tig.GroupId == group).FirstOrDefault();
+            var item = await teacherInGroupService.GetAsync(id);
             if (item != null && this.Admin != null && (item.EducationUnitId == (this.Admin.EducationUnitId) || this.Admin.IsGlobal))
                 await teacherInGroupService.DeleteAsync(item);
-            return RedirectToAction("Teachers", new { id = group });
+            return RedirectToAction("Teachers", new { id = item.GroupId });
         }
 
         public async Task<ActionResult> Delete(int id = 0)

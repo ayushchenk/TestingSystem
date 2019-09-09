@@ -23,9 +23,8 @@ namespace TestingSystem.BOL.Service
             {
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<StudyingMaterial, StudyingMaterialDTO>()
-                    .ForMember("SpecializationId", opt => opt.MapFrom(group => group.Teacher.Subject.SpecializationId))
-                    .ForMember("SubjectName", opt => opt.MapFrom(group => group.Teacher.Subject.SubjectName))
-                    .ForMember("SubjectId", opt => opt.MapFrom(group => group.Teacher.SubjectId));
+                    .ForMember("SpecializationId", opt => opt.MapFrom(group => group.Subject.SpecializationId))
+                    .ForMember("SubjectName", opt => opt.MapFrom(group => group.Subject.SubjectName));
                 cfg.CreateMap<StudyingMaterialDTO, StudyingMaterial>();
             }).CreateMapper();
         }

@@ -20,11 +20,11 @@ namespace TestingSystem.DAL.DbModel
         [StringLength(256)]
         public string ImagePath { get; set; }
 
-        public int TeacherId { set; get; }
-
-        public virtual Teacher Teacher { set; get; }
+        public int TeacherId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
+
+        public virtual Teacher Teacher { get; set; }
     }
 }

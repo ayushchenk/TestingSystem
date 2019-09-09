@@ -62,6 +62,7 @@
     <Compile Include="DbExtensions\StudentTestResultExt.cs" />
     <Compile Include="DbExtensions\StudyingMaterialExt.cs" />
     <Compile Include="DbExtensions\SubjectExt.cs" />
+    <Compile Include="DbExtensions\TeachersInSubjectsExt.cs" />
     <Compile Include="DbExtensions\TeachersInGroupsExt.cs" />
     <Compile Include="DbExtensions\TestExt.cs" />
     <Compile Include="DbExtensions\TeacherExt.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="DbModel\Subject.cs" />
     <Compile Include="DbModel\Teacher.cs" />
     <Compile Include="DbModel\TeachersInGroup.cs" />
+    <Compile Include="DbModel\TeachersInSubject.cs" />
     <Compile Include="DbModel\Test.cs" />
     <Compile Include="DbModel\TestingSystemContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +96,7 @@
       <Name>GenericRepository</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

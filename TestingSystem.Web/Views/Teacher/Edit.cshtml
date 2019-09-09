@@ -1,4 +1,6 @@
 ﻿@model TestingSystem.BOL.Model.TeacherDTO
+@using System.Text;
+@using TestingSystem.Web.Content.Resources
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
@@ -9,6 +11,8 @@
     //{
     //    Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
     //}
+    string authInfo = ApiInfo.USERNAME_VALUE + ":" + ApiInfo.PASSWORD_VALUE;
+    authInfo = Convert.ToBase64String(Encoding.UTF8.GetBytes(authInfo));
 }
 <h2>Edit teacher</h2>
 @using (Html.BeginForm())
@@ -19,12 +23,18 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.IsDeleted)
+        @Html.HiddenFor(model => model.LastName)
+        @Html.HiddenFor(model => model.Email)
+        @Html.HiddenFor(model => model.SubjectId)
+        @Html.HiddenFor(model => model.FirstName)
         @Html.HiddenFor(model => model.EducationUnitId)
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -64,13 +74,30 @@
             </div>
         </div>
 
-        <div class="form-group" id="subject-cont">
-            @Html.LabelFor(model => model.SubjectId, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SubjectId, (SelectList)ViewBag.Subjects, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+        <div class="form-group" id="subject-container">
+            @Html.Label("Subjects", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10 col-sm-10" id="subjects">
+                @for (int i = 0; i < Model.Subjects.Count; i++)
+                {
+                    <div data-id="@i" data-subject-id="@Model.Subjects[i].Id">
+                        @Html.HiddenFor(model => model.Subjects[i].Id)
+                        @Html.HiddenFor(model => model.Subjects[i].SubjectName)
+                        @Html.HiddenFor(model => model.Subjects[i].SpecializationId)
+                        @Html.HiddenFor(model => model.Subjects[i].EducationUnitId)
+                        @Html.EditorFor(model => model.Subjects[i].SubjectName, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                        <input type="button" value="Delete" class="btn-delete-subject btn btn-default" />
+                    </div>
+                }
             </div>
         </div>
+
+        @*<div class="form-group" id="subject-cont">
+                @Html.LabelFor(model => model.SubjectId, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubjectId, (SelectList)ViewBag.Subjects, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
 
         <div class="form-group">
@@ -89,16 +116,68 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            $("#SpecializationId").change(function () {
-                subjects = $("#SubjectId");
-                $("#SubjectId").prop("disabled", false);
+            count = @Model.Subjects.Count
+
+            //$("#SpecializationId").change(function () {
+            $("body").on("change", "#SpecializationId", function () {
+                subjects = $("#subject-container");
+                @*$("#SubjectId").prop("disabled", false);
                 $.getJSON("@Url.Action("GetSubjectsBySpecialization", "Service")", { id: $(this).val() }, function (response) {
                     subjects.empty();
                     $.each(response, function (index, item) {
                         subjects.append($('<option></option>').text(item.SubjectName).val(item.Id));
                     });
                 });
-                subjects.val([]);
+                subjects.val([]);*@
+                $("#subjects").children("div").each(function (index) {
+                    $.ajax({
+                        url: "/api/TeacherInSubjectsApi/post",
+                        data: JSON.stringify({
+                            TeacherId:@Model.Id,
+                            subjectId: $(this).attr("data-subject-id")
+                        }),
+                        headers: {
+                            'Authorization': 'Basic @authInfo',
+                            '@ApiInfo.API_KEY_HEADER': '@ApiInfo.API_KEY_VALUE',
+                            'Content-Type': 'application/json'
+                        },
+                        type: "POST",
+                    });
+                });
+
+                subjects.remove();
+            });
+
+            $(".btn-delete-subject").click(function () {
+                if (count > 1 && confirm("Are you sure?")) {
+                    subjectId = $(this).closest("div").attr("data-subject-id");
+                        selectedId = $(this).closest("div").attr("data-id");
+                        for (i = selectedId; i < count; i++) {
+                            hiddenId = $(`#Subjects_${i}__Id`).attr("id", `Subjects_${i - 1}__Id`);
+                            hiddenId.attr("name", `Subjects[${i - 1}].Id`);
+                            hiddenSubjectName = $(`#Subjects_${i}__SubjectName`).attr("id", `Subjects_${i - 1}__SubjectName`);
+                            hiddenSubjectName.attr("name", `Subjects[${i - 1}].SubjectName`);
+                            hiddenSpecId = $(`#Subjects_${i}__SpecializationId`).attr("id", `Subjects_${i - 1}__SpecializationId`);
+                            hiddenSpecId.attr("name", `Subjects[${i - 1}].SpecializationId`);
+                            hiddenUnitId = $(`#Subjects_${i}__EducationUnitId`).attr("id", `Subjects_${i - 1}__EducationUnitId`);
+                            hiddenUnitId.attr("name", `Subjects[${i - 1}].EducationUnitId`);
+                        }
+                        $(this).closest("div").remove();
+                        count--;
+                        $.ajax({
+                            url: "/api/TeacherInSubjectsApi/post",
+                            data: JSON.stringify({
+                                TeacherId:@Model.Id,
+                                subjectId: subjectId
+                            }),
+                            headers: {
+                                'Authorization': 'Basic @authInfo',
+                                '@ApiInfo.API_KEY_HEADER': '@ApiInfo.API_KEY_VALUE',
+                                'Content-Type': 'application/json'
+                            },
+                            type: "POST",
+                        });
+                }
             });
         });
     </script>

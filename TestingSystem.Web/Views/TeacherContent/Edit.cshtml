@@ -8,7 +8,6 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.SubjectId)
         @Html.HiddenFor(model => model.EducationUnitId)
         @Html.HiddenFor(model => model.SpecializationId)
         <div class="row">
@@ -50,7 +49,6 @@
                     <a href="https://developers.google.com">Google Developers</a>
                     <p>SKILLS</p>
                     <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SpecializationName)</a><br />
-                    <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SubjectName)</a>
                 </div>
             </div>
             <div class="col-md-8">

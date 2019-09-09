@@ -24,12 +24,12 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Subject")]
         public string SubjectName { get; set; }
 
-        public int SpecializationId { get; set; }
+        public int TeacherId { set; get; }
 
         public int SubjectId { get; set; }
 
-        public int EducationUnitId { get; set; }
+        public int SpecializationId { get; set; }
 
-        public int TeacherId { set; get; }
+        public int EducationUnitId { get; set; }
     }
 }

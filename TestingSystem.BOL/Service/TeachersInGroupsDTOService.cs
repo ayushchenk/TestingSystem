@@ -26,11 +26,16 @@ namespace TestingSystem.BOL.Service
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<TeachersInGroup, TeachersInGroupDTO>()
                     .ForMember("GroupName", opt => opt.MapFrom(tig => tig.Group.GroupName))
+                    .ForMember("SubjectName", opt => opt.MapFrom(tig => tig.TeachersInSubject.Subject.SubjectName))
+                    .ForMember("SubjectId", opt => opt.MapFrom(tig => tig.TeachersInSubject.Subject.Id))
+                    .ForMember("FirstName", opt => opt.MapFrom(tig => tig.TeachersInSubject.Teacher.FirstName))
+                    .ForMember("Email", opt => opt.MapFrom(tig => tig.TeachersInSubject.Teacher.Email))
+                    .ForMember("LastName", opt => opt.MapFrom(tig => tig.TeachersInSubject.Teacher.LastName))
+                    .ForMember("TeacherId", opt => opt.MapFrom(tig => tig.TeachersInSubject.Teacher.Id))
                     .ForMember("SpecializationName", opt => opt.MapFrom(tig => tig.Group.Specialization.SpecializationName))
                     .ForMember("EducationUnitName", opt => opt.MapFrom(tig => tig.Group.EducationUnit.EducationUnitName))
                     .ForMember("SpecializationId", opt => opt.MapFrom(tig => tig.Group.Specialization.Id))
-                    .ForMember("EducationUnitId", opt => opt.MapFrom(tig => tig.Group.EducationUnit.Id))
-                    .ForMember("SubjectId", opt => opt.MapFrom(tig => tig.Teacher.Subject.Id));
+                    .ForMember("EducationUnitId", opt => opt.MapFrom(tig => tig.Group.EducationUnit.Id));
                 cfg.CreateMap<TeachersInGroupDTO, TeachersInGroup>();
             }).CreateMapper();
         }

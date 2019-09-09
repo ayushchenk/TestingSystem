@@ -58,7 +58,6 @@
                         <a href="https://developers.google.com">Google Developers</a>
                         <p>SKILLS</p>
                         <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SpecializationName)</a><br />
-                        <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SubjectName)</a>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -86,14 +85,6 @@
                                 </div>
                                 <div class="col-md-6">
                                     <p>@Html.DisplayFor(specialization => specialization.SpecializationName)</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Subject</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>@Html.DisplayFor(subject => subject.SubjectName)</p>
                                 </div>
                             </div>
                         </div>
@@ -144,22 +135,6 @@
                                 </div>
                                 <div class="col-md-6">
                                     <p>@Html.DisplayFor(spezializationId => spezializationId.SpecializationId)</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Subject</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>@Html.DisplayFor(subjectName => subjectName.SubjectName)</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Subject ID</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>@Html.DisplayFor(subjectId => subjectId.SubjectId)</p>
                                 </div>
                             </div>
                         </div>

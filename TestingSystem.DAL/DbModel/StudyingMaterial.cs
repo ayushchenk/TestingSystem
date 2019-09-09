@@ -1,26 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace TestingSystem.DAL.DbModel
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
     public partial class StudyingMaterial
     {
-        public int Id { set; get; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(64)]
-        public string StudyingMaterialName { set; get; }
+        public string StudyingMaterialName { get; set; }
 
         [Required]
         [StringLength(384)]
-        public string Link { set; get; }
+        public string Link { get; set; }
 
-        public int TeacherId { set; get; }
+        public int TeacherId { get; set; }
 
-        public virtual Teacher Teacher { set; get; }
+        public int SubjectId { get; set; }
+
+        public virtual Teacher Teacher { get; set; }
+
+        public virtual Subject Subject { get; set; }
     }
 }

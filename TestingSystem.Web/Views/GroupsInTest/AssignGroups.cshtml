@@ -31,30 +31,28 @@
             {
                 <tr>
                     <td>
-                        @Html.CheckBoxFor(x => x.Groups[i].Assign, new { @class = "assign-chbox form-control", data_id = Model.Groups[i].Group.Id })
+                        @Html.CheckBoxFor(x => x.Groups[i].Assign, new { @class = "assign-chbox form-control", data_id = Model.Groups[i].GroupInTest.GroupId })
                     </td>
                     <td>
-                        @Html.Label(Model.Groups[i].Group.GroupName)
+                        @Html.Label(Model.Groups[i].GroupInTest.GroupName)
                     </td>
                     <td>
-                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartDate, new { @type = "date", htmlAttributes = new { @class = $"to-hide start-date-{Model.Groups[i].Group.Id} form-control" } })
+                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartDate, new { @type = "date", htmlAttributes = new { @class = $"to-hide start-date-{Model.Groups[i].GroupInTest.GroupId} form-control" } })
                         <br />
                         @Html.ValidationMessageFor(x => x.Groups[i].GroupInTest.StartDate, "", new { @class = "text-danger" })
                     </td>
                     <td>
-                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartTime, new { @type = "time", htmlAttributes = new { @class = $"to-hide start-time-{Model.Groups[i].Group.Id} form-control" } })
+                        @Html.EditorFor(x => x.Groups[i].GroupInTest.StartTime, new { @type = "time", htmlAttributes = new { @class = $"to-hide start-time-{Model.Groups[i].GroupInTest.GroupId} form-control" } })
                         <br />
                         @Html.ValidationMessageFor(x => x.Groups[i].GroupInTest.StartTime, "", new { @class = "text-danger" })
                     </td>
                     <td>
-                        @Html.EditorFor(x => x.Groups[i].GroupInTest.Length, new { htmlAttributes = new { @class = $"to-hide length-{Model.Groups[i].Group.Id} form-control" } })
+                        @Html.EditorFor(x => x.Groups[i].GroupInTest.Length, new { htmlAttributes = new { @class = $"to-hide length-{Model.Groups[i].GroupInTest.GroupId} form-control" } })
                         <br />
                         @Html.ValidationMessageFor(x => x.Groups[i].GroupInTest.Length, "", new { @class = "text-danger" })
                     </td>
                 </tr>
-                @Html.HiddenFor(x => x.Groups[i].Group.Id)
-                @Html.HiddenFor(x => x.Groups[i].Group.GroupName)
-                @Html.HiddenFor(x => x.Groups[i].Group.SpecializationId)
+                @Html.HiddenFor(x => x.Groups[i].GroupInTest.GroupId)
             }
 
         </table>
@@ -93,7 +91,7 @@ else
 
             setTimeout(function () {
                 btn.removeAttribute('disabled');
-            }, 10000);
+            }, 4000);
         }
     </script>
 }

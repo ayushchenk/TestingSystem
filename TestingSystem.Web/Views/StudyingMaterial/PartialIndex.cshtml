@@ -10,6 +10,9 @@
                 @Html.DisplayNameFor(model => model.StudyingMaterialName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.SubjectName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Link)
             </th>
             <th></th>
@@ -20,6 +23,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.StudyingMaterialName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
                 </td>
                 <td>
                     <a href="@Html.DisplayFor(modelItem => item.Link)"> Link to resource </a>

@@ -22,7 +22,7 @@ namespace TestingSystem.Web.Content.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ApiInfo {
+    public class ApiInfo {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace TestingSystem.Web.Content.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TestingSystem.Web.Content.Resources.ApiInfo", typeof(ApiInfo).Assembly);
@@ -51,7 +51,7 @@ namespace TestingSystem.Web.Content.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace TestingSystem.Web.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to X-ApiKey.
         /// </summary>
-        internal static string API_KEY_HEADER {
+        public static string API_KEY_HEADER {
             get {
                 return ResourceManager.GetString("API_KEY_HEADER", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace TestingSystem.Web.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to ApiKeyValue.
         /// </summary>
-        internal static string API_KEY_VALUE {
+        public static string API_KEY_VALUE {
             get {
                 return ResourceManager.GetString("API_KEY_VALUE", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace TestingSystem.Web.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to application/json.
         /// </summary>
-        internal static string JSON_CONTENT_TYPE {
+        public static string JSON_CONTENT_TYPE {
             get {
                 return ResourceManager.GetString("JSON_CONTENT_TYPE", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace TestingSystem.Web.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to PasswordForWebApi.
         /// </summary>
-        internal static string PASSWORD_VALUE {
+        public static string PASSWORD_VALUE {
             get {
                 return ResourceManager.GetString("PASSWORD_VALUE", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace TestingSystem.Web.Content.Resources {
         /// <summary>
         ///   Looks up a localized string similar to AuthorizedApiUser.
         /// </summary>
-        internal static string USERNAME_VALUE {
+        public static string USERNAME_VALUE {
             get {
                 return ResourceManager.GetString("USERNAME_VALUE", resourceCulture);
             }

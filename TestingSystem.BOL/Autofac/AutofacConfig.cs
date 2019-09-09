@@ -33,6 +33,7 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<SubjectRepository>().As<IGenericRepository<Subject>>().InstancePerRequest();
             builder.RegisterType<StudentTestResultRepository>().As<IGenericRepository<StudentTestResult>>().InstancePerRequest();
             builder.RegisterType<TeachersInGroupRepository>().As<IGenericRepository<TeachersInGroup>>().InstancePerRequest();
+            builder.RegisterType<TeachersInSubjectRepository>().As<IGenericRepository<TeachersInSubject>>().InstancePerRequest();
             builder.RegisterType<StudyingMaterialRepository>().As<IGenericRepository<StudyingMaterial>>().InstancePerRequest();
 
             builder.RegisterType<GroupDTOService>().As<IEntityService<GroupDTO>>().InstancePerRequest();
@@ -49,6 +50,7 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<SubjectDTOService>().As<IEntityService<SubjectDTO>>().InstancePerRequest();
             builder.RegisterType<StudentTestResultDTOService>().As<IEntityService<StudentTestResultDTO>>().InstancePerRequest();
             builder.RegisterType<TeachersInGroupsDTOService>().As<IEntityService<TeachersInGroupDTO>>().InstancePerRequest();
+            builder.RegisterType<TeachersInSubjectDTOService>().As<IEntityService<TeachersInSubjectDTO>>().InstancePerRequest();
             builder.RegisterType<StudyingMaterialDTOService>().As<IEntityService<StudyingMaterialDTO>>().InstancePerRequest();
         }
     }

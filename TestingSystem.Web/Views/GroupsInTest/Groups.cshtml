@@ -25,9 +25,6 @@
                             @Html.DisplayName("Group")
                         </th>
                         <th>
-                            @Html.DisplayName("Specialization")
-                        </th>
-                        <th>
                             @Html.DisplayName("Start date")
                         </th>
                         <th>
@@ -43,10 +40,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Group.GroupName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Group.SpecializationName)
+                                @Html.DisplayFor(modelItem => item.GroupInTest.GroupName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.GroupInTest.StartDate)

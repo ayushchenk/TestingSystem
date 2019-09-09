@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,20 +29,15 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Education unit")]
         public string EducationUnitName { get; set; }
 
-        [StringLength(32)]
-        [DisplayName("Subject")]
-        public string SubjectName { get; set; }
-
         public int SpecializationId { set; get; }
+
+        public bool IsDeleted { set; get; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SubjectId { get; set; }
 
         public int EducationUnitId { set; get; }
 
-        public string FullName
-        {
-            get { return $"{LastName} {FirstName} - {SubjectName}"; } 
-        }
+        public List<SubjectDTO> Subjects { set; get; }
     }
 }

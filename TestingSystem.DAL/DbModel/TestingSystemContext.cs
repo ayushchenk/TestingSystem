@@ -22,11 +22,12 @@ namespace TestingSystem.DAL.DbModel
         public virtual DbSet<Specialization> Specializations { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<StudentTestResult> StudentTestResults { get; set; }
+        public virtual DbSet<StudyingMaterial> StudyingMaterials { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<TeachersInGroup> TeachersInGroups { get; set; }
+        public virtual DbSet<TeachersInSubject> TeachersInSubjects { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
-        public virtual DbSet<StudyingMaterial> StudyingMaterials { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -50,11 +51,6 @@ namespace TestingSystem.DAL.DbModel
                 .WithRequired(e => e.Group)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Group>()
-                .HasMany(e => e.TeachersInGroups)
-                .WithRequired(e => e.Group)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<GroupsInTest>()
                 .HasMany(e => e.StudentTestResults)
                 .WithRequired(e => e.GroupsInTest)
@@ -71,9 +67,9 @@ namespace TestingSystem.DAL.DbModel
                 .WithRequired(e => e.Specialization)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Student>()
-                .HasMany(e => e.StudentTestResults)
-                .WithRequired(e => e.Student)
+            modelBuilder.Entity<Specialization>()
+                .HasMany(e => e.Teachers)
+                .WithRequired(e => e.Specialization)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Subject>()
@@ -82,7 +78,12 @@ namespace TestingSystem.DAL.DbModel
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Subject>()
-                .HasMany(e => e.Teachers)
+                .HasMany(e => e.StudyingMaterials)
+                .WithRequired(e => e.Subject)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Subject>()
+                .HasMany(e => e.TeachersInSubjects)
                 .WithRequired(e => e.Subject)
                 .WillCascadeOnDelete(false);
 
@@ -92,7 +93,12 @@ namespace TestingSystem.DAL.DbModel
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Teacher>()
-                .HasMany(e => e.TeachersInGroups)
+                .HasMany(e => e.QuestionImages)
+                .WithRequired(e => e.Teacher)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Teacher>()
+                .HasMany(e => e.Questions)
                 .WithRequired(e => e.Teacher)
                 .WillCascadeOnDelete(false);
 
@@ -102,13 +108,19 @@ namespace TestingSystem.DAL.DbModel
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Teacher>()
-                .HasMany(e => e.TeachersInGroups)
+                .HasMany(e => e.TeachersInSubjects)
                 .WithRequired(e => e.Teacher)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Teacher>()
-                .HasMany(e => e.Questions)
+                .HasMany(e => e.Tests)
                 .WithRequired(e => e.Teacher)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TeachersInSubject>()
+                .HasMany(e => e.TeachersInGroups)
+                .WithRequired(e => e.TeachersInSubject)
+                .HasForeignKey(e => e.TeacherInSubjectId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Test>()

@@ -26,18 +26,10 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Question.SpecializationName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Question.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Question.SpecializationId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         <div class="form-group" id="subject-container">
             @Html.LabelFor(m => m.Question.SubjectName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Question.SubjectId, ((SelectList)ViewBag.Subjects), null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Question.SubjectId, (SelectList)ViewBag.Subjects, null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Question.SubjectId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -105,10 +97,10 @@
         $(function () {
             specId = @Model.Question.SpecializationId;
             subId = @Model.Question.SubjectId;
-            if(specId == 0)
-                $("#Question_SpecializationId").val([]);
-            if(subId == 0)
-                $("#subject-container").hide();
+            //if(specId == 0)
+            //    $("#Question_SpecializationId").val([]);
+            //if(subId == 0)
+            //    $("#subject-container").hide();
 
             id = @Model.Answers.Count();
             if(!$("#output").attr("src"))

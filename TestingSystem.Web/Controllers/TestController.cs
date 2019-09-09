@@ -17,12 +17,14 @@ namespace TestingSystem.Web.Controllers
         private TeacherDTO teacher;
         private IEntityService<TestDTO> testService;
         private IEntityService<GroupDTO> groupService;
-        private IEntityService<TeacherDTO> teacherService;
         private IEntityService<SubjectDTO> subjectService;
+        private IEntityService<TeacherDTO> teacherService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<QuestionAnswerDTO> answerService;
         private IEntityService<GroupsInTestDTO> groupsInTestService;
+        private IEntityService<TeachersInGroupDTO> teachersInGroupsService;
+        private IEntityService<TeachersInSubjectDTO> teachersInSubjectsService;
 
         private TeacherDTO Teacher
         {
@@ -41,7 +43,9 @@ namespace TestingSystem.Web.Controllers
                               IEntityService<QuestionDTO> questionService,
                               IEntityService<SpecializationDTO> specService, 
                               IEntityService<QuestionAnswerDTO> answerService,
-                              IEntityService<GroupsInTestDTO> groupsInTestService)
+                              IEntityService<GroupsInTestDTO> groupsInTestService,
+                              IEntityService<TeachersInGroupDTO> teachersInGroupsService,
+                              IEntityService<TeachersInSubjectDTO> teachersInSubjectsService)
         {
             this.testService = testService;
             this.specService = specService;
@@ -51,6 +55,8 @@ namespace TestingSystem.Web.Controllers
             this.subjectService = subjectService;
             this.questionService = questionService;
             this.groupsInTestService = groupsInTestService;
+            this.teachersInGroupsService = teachersInGroupsService;
+            this.teachersInSubjectsService = teachersInSubjectsService;
         }
 
         public ActionResult Index()
@@ -69,11 +75,11 @@ namespace TestingSystem.Web.Controllers
             return PartialView(model);
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.Specialization = this.Teacher.SpecializationName;
-            ViewBag.Subject = this.Teacher.SubjectName;
-            return View("Edit", new TestDTO());
+            var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
+            return View("Edit", new TestDTO() { TeacherId = this.Teacher.Id});
         }
 
         public async Task<ActionResult> Edit(int id = 0)
@@ -81,8 +87,8 @@ namespace TestingSystem.Web.Controllers
             var model = await testService.GetAsync(id);
             if (model == null || model.TeacherId != this.Teacher.Id)
                 return RedirectToAction("Index");
-            ViewBag.Specialization = this.Teacher.SpecializationName;
-            ViewBag.Subject = this.Teacher.SubjectName;
+            var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
             return View(model);
         }
 
@@ -91,15 +97,11 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.TeacherId = this.Teacher.Id;
-                model.SubjectId = this.Teacher.SubjectId;
-                model.SpecializationId = this.Teacher.SpecializationId;
-                model.EducationUnitId = this.Teacher.EducationUnitId;
                 await testService.AddOrUpdateAsync(model);
                 return RedirectToAction("Index");
             }
-            ViewBag.Specialization = this.Teacher.SpecializationName;
-            ViewBag.Subject = this.Teacher.SubjectName;
+            var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
             return View(model);
         }
 

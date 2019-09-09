@@ -85,6 +85,7 @@
     <Compile Include="Model\StudyingMaterialDTO.cs" />
     <Compile Include="Model\SubjectDTO.cs" />
     <Compile Include="Model\TeachersInGroupDTO.cs" />
+    <Compile Include="Model\TeachersInSubjectDTO.cs" />
     <Compile Include="Model\TestDTO.cs" />
     <Compile Include="Model\TeacherDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Service\StudentDTOService.cs" />
     <Compile Include="Service\StudentTestResultDTOService.cs" />
     <Compile Include="Service\SubjectDTOService.cs" />
+    <Compile Include="Service\TeachersInSubjectDTOService.cs" />
     <Compile Include="Service\TeachersInGroupsDTOService.cs" />
     <Compile Include="Service\TestDTOService.cs" />
     <Compile Include="Service\TeacherDTOService.cs" />

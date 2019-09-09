@@ -25,6 +25,7 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<QuestionAnswerDTO> answerService;
         private IEntityService<StudentTestResultDTO> resultService;
         private IEntityService<TeachersInGroupDTO> teachersInGroupsService;
+        private IEntityService<TeachersInSubjectDTO> teachersInSubejctsService;
 
         private AppUserManager UserManager
         {
@@ -52,7 +53,8 @@ namespace TestingSystem.Web.Controllers
                                         IEntityService<QuestionDTO> questionService,
                                         IEntityService<QuestionAnswerDTO> answerService,
                                         IEntityService<StudentTestResultDTO> resultService,
-                                        IEntityService<TeachersInGroupDTO> teachersInGroupsService)
+                                        IEntityService<TeachersInGroupDTO> teachersInGroupsService,
+                                        IEntityService<TeachersInSubjectDTO> teachersInSubejctsService)
         {
             this.gitService = gitService;
             this.testService = testService;
@@ -63,6 +65,7 @@ namespace TestingSystem.Web.Controllers
             this.studentService = studentService;
             this.questionService = questionService;
             this.teachersInGroupsService = teachersInGroupsService;
+            this.teachersInSubejctsService = teachersInSubejctsService;
         }
 
         public ActionResult Welcome()

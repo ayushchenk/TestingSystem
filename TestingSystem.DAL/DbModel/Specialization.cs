@@ -13,6 +13,7 @@ namespace TestingSystem.DAL.DbModel
         {
             Groups = new HashSet<Group>();
             Subjects = new HashSet<Subject>();
+            Teachers = new HashSet<Teacher>();
         }
 
         public int Id { get; set; }
@@ -30,5 +31,8 @@ namespace TestingSystem.DAL.DbModel
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subject> Subjects { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Teacher> Teachers { get; set; }
     }
 }

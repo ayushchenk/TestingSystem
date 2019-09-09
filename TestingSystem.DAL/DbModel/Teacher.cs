@@ -11,9 +11,11 @@ namespace TestingSystem.DAL.DbModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Teacher()
         {
-            TeachersInGroups = new HashSet<TeachersInGroup>();
-            StudyingMaterials = new HashSet<StudyingMaterial>();
+            QuestionImages = new HashSet<QuestionImage>();
             Questions = new HashSet<Question>();
+            StudyingMaterials = new HashSet<StudyingMaterial>();
+            TeachersInSubjects = new HashSet<TeachersInSubject>();
+            Tests = new HashSet<Test>();
         }
 
         public int Id { get; set; }
@@ -32,19 +34,27 @@ namespace TestingSystem.DAL.DbModel
 
         public int EducationUnitId { get; set; }
 
-        public int SubjectId { get; set; }
+        public int SpecializationId { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public virtual EducationUnit EducationUnit { get; set; }
 
-        public virtual Subject Subject { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuestionImage> QuestionImages { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeachersInGroup> TeachersInGroups { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
+
+        public virtual Specialization Specialization { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StudyingMaterial> StudyingMaterials { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<TeachersInSubject> TeachersInSubjects { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Test> Tests { get; set; }
     }
 }

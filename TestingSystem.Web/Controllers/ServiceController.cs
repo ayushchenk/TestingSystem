@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
+using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
@@ -17,13 +18,15 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<EducationUnitDTO> unitService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<QuestionAnswerDTO> answerService;
+        private IEntityService<TeachersInSubjectDTO> teacherInSubjectService;
 
         public ServiceController(IEntityService<TeacherDTO> teacherService,
                                  IEntityService<GroupDTO> groupService,
                                  IEntityService<SubjectDTO> subjectService,
                                  IEntityService<EducationUnitDTO> unitService,
                                  IEntityService<SpecializationDTO> specService,
-                                 IEntityService<QuestionAnswerDTO> answerService)
+                                 IEntityService<QuestionAnswerDTO> answerService,
+                                 IEntityService<TeachersInSubjectDTO> teacherInSubjectService)
         {
             this.teacherService = teacherService;
             this.unitService = unitService;
@@ -31,6 +34,7 @@ namespace TestingSystem.Web.Controllers
             this.groupService = groupService;
             this.answerService = answerService;
             this.subjectService = subjectService;
+            this.teacherInSubjectService = teacherInSubjectService;
         }
 
         public JsonResult GetSubjectsBySpecialization(int id = 0)
@@ -53,7 +57,21 @@ namespace TestingSystem.Web.Controllers
         {
             var spec = specService.Get(id);
             if (spec != null)
-                return Json(teacherService.FindBy(user => user.SpecializationId == spec.Id).Select(user => new { Id = user.Id, FullName = user.FullName }), JsonRequestBehavior.AllowGet);
+            {
+                var teachers = teacherService.FindBy(teacher => teacher.SpecializationId == spec.Id && !teacher.IsDeleted);
+                if(teachers == null || teachers.Count() == 0)
+                    return Json(string.Empty, JsonRequestBehavior.AllowGet);
+                var teacherSubjects = new List<TeacherSubject>();
+                foreach(var teacher in teachers)
+                {
+                    var teachersInSubjects = teacherInSubjectService.FindBy(tis => tis.TeacherId == teacher.Id);
+                    var subjectIds = teachersInSubjects.Select(tis => tis.SubjectId); 
+                    var subjects = subjectService.FindBy(subject => subjectIds.Contains(subject.Id) && subject.SpecializationId == spec.Id);
+                    foreach (var subject in subjects)
+                        teacherSubjects.Add(new TeacherSubject() { Teacher = teacher, Subject = subject, TeacherInSubjectId = teachersInSubjects.FirstOrDefault(t=> t.TeacherId== teacher.Id && t.SubjectId == subject.Id)?.Id ?? 0});
+                }
+                return Json(teacherSubjects.Select(user => new { Id = user.TeacherInSubjectId, FullName = user.Teacher.FirstName + " " + user.Teacher.LastName + " - " + user.Subject.SubjectName}), JsonRequestBehavior.AllowGet);
+            }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
 

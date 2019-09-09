@@ -14,7 +14,7 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
-        public int TeacherId { get; set; }
+        public int TeacherInSubjectId { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int GroupId { get; set; }
@@ -35,10 +35,21 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Education unit")]
         public string EducationUnitName { get; set; }
 
+        [StringLength(64)]
+        public string Email { get; set; }
+
+        [StringLength(64)]
+        public string FirstName { get; set; }
+
+        [StringLength(64)]
+        public string LastName { get; set; }
+
+        public int SubjectId { set; get; }
+
+        public int TeacherId { set; get; }
+
         public int SpecializationId { get; set; }
 
         public int EducationUnitId { get; set; }
-
-        public int SubjectId { get; set; }
     }
 }

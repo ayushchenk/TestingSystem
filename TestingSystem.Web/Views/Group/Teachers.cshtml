@@ -33,7 +33,7 @@
                 @Html.DisplayName("SpecializationName")
             </th>
             <th>
-                @Html.DisplayName("SubjectName")
+                @Html.DisplayName("Subject")
             </th>
             <th></th>
         </tr>
@@ -54,11 +54,11 @@
                     @Html.DisplayFor(modelItem => item.SpecializationName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SubjectName)
+                   @Html.DisplayFor(modelItem => item.SubjectName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "Teacher", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Delete teacher", "DeleteTeacher", "Group", routeValues: new { teacher = item.Id, group = Model.Group.Id }, htmlAttributes: null)
+                    @Html.ActionLink("Edit teacher", "Edit", "Teacher", new { id = item.TeacherId }, new { }) |
+                    @Html.ActionLink("Delete teacher", "DeleteTeacher", "Group", routeValues: new { id = item.Id }, htmlAttributes: null)
                 </td>
             </tr>
         }

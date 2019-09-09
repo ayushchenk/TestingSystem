@@ -19,6 +19,7 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<QuestionImageDTO> imageService;
         private IEntityService<QuestionAnswerDTO> answerService;
+        private IEntityService<TeachersInSubjectDTO> teachersInSubjectsService;
 
         private TeacherDTO Teacher
         {
@@ -31,11 +32,12 @@ namespace TestingSystem.Web.Controllers
         }
 
         public QuestionController(IEntityService<TeacherDTO> teacherService,
+                                  IEntityService<SubjectDTO> subjectService,
                                   IEntityService<QuestionDTO> questionService,
                                   IEntityService<SpecializationDTO> specService,
                                   IEntityService<QuestionImageDTO> imageService,
                                   IEntityService<QuestionAnswerDTO> answerService,
-                                  IEntityService<SubjectDTO> subjectService)
+                                  IEntityService<TeachersInSubjectDTO> teachersInSubjectsService)
         {
             this.specService = specService;
             this.imageService = imageService;
@@ -43,6 +45,7 @@ namespace TestingSystem.Web.Controllers
             this.teacherService = teacherService;
             this.subjectService = subjectService;
             this.questionService = questionService;
+            this.teachersInSubjectsService = teachersInSubjectsService;
         }
 
         public ActionResult Index()
@@ -71,8 +74,8 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Create()
         {
             var model = new CreateQuestionViewModel();
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName");
-            ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
+            var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
             ViewBag.Images = new SelectList(await imageService.GetAllAsync(), "Id", "ImagePath");
             return View(model);
         }

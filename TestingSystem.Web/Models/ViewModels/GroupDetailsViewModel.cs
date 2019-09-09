@@ -10,6 +10,6 @@ namespace TestingSystem.Web.Models.ViewModels
     {
         public GroupDTO Group { set; get; }
         public IEnumerable<StudentDTO> Students { set; get; }
-        public IEnumerable<TeacherDTO> Teachers{ set; get; }
+        public List<TeachersInGroupDTO> Teachers { set; get; }
     }
 }

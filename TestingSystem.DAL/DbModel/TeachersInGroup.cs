@@ -12,10 +12,10 @@ namespace TestingSystem.DAL.DbModel
 
         public int GroupId { get; set; }
 
-        public int TeacherId { get; set; }
+        public int TeacherInSubjectId { get; set; }
 
         public virtual Group Group { get; set; }
 
-        public virtual Teacher Teacher { get; set; }
+        public virtual TeachersInSubject TeachersInSubject { get; set; }
     }
 }
