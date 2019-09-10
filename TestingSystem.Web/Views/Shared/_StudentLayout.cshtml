@@ -93,7 +93,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Logout", "Account")">
+                                <a class="nav-link" href="@Url.Action("Logout", "Account")" id="&*p*st1*sl&g&$n" onclick="btnLimiter()">
                                     <span class="no-icon">Log out</span>
                                 </a>
                             </li>
@@ -115,7 +115,7 @@
                         <p class="copyright text-center">
                             ©
                             @DateTime.Now.Year
-                            <a href="#">IES Systems</a>, we make your knowledge better, make the world a better place.
+                            <a href="javascript:void(0)">IES Systems</a>, we make your knowledge better, make the world a better place.
                         </p>
                     </nav>
                 </div>
@@ -124,7 +124,7 @@
     </div>
     <div class="fixed-plugin">
         <div class="dropdown show-dropdown">
-            <a href="#" data-toggle="dropdown">
+            <a href="javascript:void(0)" data-toggle="dropdown">
                 <i class="fa fa-cog fa-2x"> </i>
             </a>
             <ul class="dropdown-menu">
@@ -194,6 +194,17 @@
             ajaxStart: function () { $body.addClass("loading"); },
             ajaxStop: function () { $body.removeClass("loading"); }
         });
+
+        function btnLimiter() {
+            var btn = document.getElementById('&*p*st1*sl&g&$n')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
     </script>
 </body>
 </html>

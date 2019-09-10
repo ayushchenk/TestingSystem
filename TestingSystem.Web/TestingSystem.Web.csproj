@@ -2115,6 +2115,7 @@
     <Content Include="Design\studentRSS\assets\img\loading-bubbles.svg" />
     <Content Include="Design\studentRSS\assets\img\mask.png" />
     <Content Include="Design\studentRSS\assets\img\new_logo.png" />
+    <Content Include="Design\studentRSS\assets\img\profileImage-min.jpg" />
     <Content Include="Design\studentRSS\assets\img\sidebar-1.jpg" />
     <Content Include="Design\studentRSS\assets\img\sidebar-2.jpg" />
     <Content Include="Design\studentRSS\assets\img\sidebar-3.jpg" />

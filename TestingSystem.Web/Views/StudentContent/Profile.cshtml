@@ -70,12 +70,13 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>About Me</label>
-                                        <textarea rows="4" cols="80" disabled="disabled" class="form-control" placeholder="Here can be your description" value="Mike">
+                                        <textarea rows="4" cols="80" disabled="disabled" class="form-control" placeholder="Description of this Profile" value="">
 @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName), i am student of @Html.DisplayFor(model => model.EducationUnitName), listener @Html.DisplayFor(model => model.GroupName), my direction @Html.DisplayFor(model => model.SpecializationName) in Academy Branch @Html.DisplayFor(model => model.EducationUnitName).</textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
+                            <a href="@Url.Action("Edit","StudentContent")" class="btn btn-warning btn-fill pull-right" id="edit_profile_btn" onclick="btnLimiter()">Edit Profile</a>
                         </form>
                     </div>
                 </div>
@@ -83,12 +84,12 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="card-image">
-                        <img src="@Url.Content("https://www.teknologisk.dk/_/media/72175&w=1460&h=808&r=cover&_filename=72175_Virtuelle-kurser.jpg")" alt="...">
+                        <img src="@Url.Content("~/Design/studentRSS/assets/img/profileImage-min.jpg")" alt=" ">
                     </div>
                     <div class="card-body">
                         <div class="author">
                             <a href="#">
-                                <img class="avatar border-gray" src="~/Design/ProfilePage/img/teacherLogo.jpg" alt="...">
+                                <img class="avatar border-gray" src="@Url.Content("~/Design/ProfilePage/img/teacherLogo.jpg")" alt=" ">
                                 <h5 class="title">@Html.DisplayFor(model => model.FirstName).ToString().ToUpper() @Html.DisplayFor(model => model.LastName).ToString().ToUpper()</h5>
                             </a>
                             <p class="description">
@@ -120,3 +121,14 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function btnLimiter() {
+        var btn = document.getElementById('edit_profile_btn')
+        setTimeout(function () {
+            btn.setAttribute('disabled', 'disabled');
+        }, 1);
+        setTimeout(function () {
+            btn.removeAttribute('disabled');
+        }, 10000);
+    }
+</script>

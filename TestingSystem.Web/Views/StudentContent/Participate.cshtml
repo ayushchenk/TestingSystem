@@ -1,11 +1,9 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.ParticipateViewModel
-
 @{
     ViewBag.Title = "Participate";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
     int secondsRemaining = (int)(Model.EndTime - DateTime.Now).TotalSeconds;
 }
-
 @using (Html.BeginForm())
 {
     <h3 id="countdown"></h3>
@@ -56,11 +54,9 @@
             </div>
             <hr />
         }
-
-        <input type="submit" value="Submit" id="submit">
+        <input type="submit" value="Submit" id="submit" onclick="btnLimiter()">
     </div>
 }
-
 @section Scripts {
     <script type="text/javascript">
         function startTimer(duration, display) {
@@ -92,5 +88,11 @@
                     e.preventDefault();
             });
         });
+           function btnLimiter() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+        }
     </script>
 }

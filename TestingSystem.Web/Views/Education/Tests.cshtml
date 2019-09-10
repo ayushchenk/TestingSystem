@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="generator" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
@@ -149,6 +149,16 @@
     <script src="@Url.Content("~/Design/StartPages/assets/parallax/jarallax.min.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/touchswipe/jquery.touch-swipe.min.js")"></script>
     <script src="@Url.Content("~/Design/StartPages/assets/theme/js/script.js")"></script>
+    <script type="text/javascript">
+        $('a').click(function () {
+            $(this).attr('disabled', 'disabled');
+            setTimeout(enableButton, 5000);
+            return true;
+        });
+        var enableButton = function () {
+            $('a').removeAttr('disabled');
+        }
+    </script>
     <input name="animation" type="hidden">
     <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
 </body>

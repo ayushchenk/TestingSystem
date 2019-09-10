@@ -37,7 +37,7 @@
                         <img src="~/Design/ProfilePage/img/teacherLogo.jpg" alt="" />
                     </div>
                     <h4 class="name">@Html.Partial("_LoginPartial")</h4>
-                    <a href="@Url.Action("Logout", "Account")">Sign out</a>
+                    <a href="@Url.Action("Logout", "Account")" id="&*p*st1*sl&g&$n" onclick="btnLimiter()">Sign out</a>
                 </div>
                 <nav class="navbar-sidebar2">
                     <ul class="list-unstyled navbar__list">
@@ -489,6 +489,17 @@
             ajaxStart: function () { $body.addClass("loading"); },
             ajaxStop: function () { $body.removeClass("loading"); }
         });
+
+        function btnLimiter() {
+            var btn = document.getElementById('&*p*st1*sl&g&$n')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
     </script>
 
 </body>

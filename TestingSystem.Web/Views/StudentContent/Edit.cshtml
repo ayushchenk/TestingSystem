@@ -86,7 +86,7 @@
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
-                                <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                                <button type="submit" class="btn btn-info btn-fill pull-right" id="submit" onclick="submitLimit()">Update Profile</button>
                             </form>
                         </div>
                     </div>
@@ -94,12 +94,12 @@
                 <div class="col-md-4">
                     <div class="card card-user">
                         <div class="card-image">
-                            <img src="@Url.Content("https://www.teknologisk.dk/_/media/72175&w=1460&h=808&r=cover&_filename=72175_Virtuelle-kurser.jpg")" alt="...">
+                            <img src="@Url.Content("~/Design/studentRSS/assets/img/profileImage-min.jpg")" alt=" ">
                         </div>
                         <div class="card-body">
                             <div class="author">
                                 <a href="#">
-                                    <img class="avatar border-gray" src="~/Design/ProfilePage/img/teacherLogo.jpg" alt="...">
+                                    <img class="avatar border-gray" src="@Url.Content("~/Design/ProfilePage/img/teacherLogo.jpg")" alt="...">
                                     <h5 class="title">@Html.DisplayFor(model => model.FirstName).ToString().ToUpper() @Html.DisplayFor(model => model.LastName).ToString().ToUpper()</h5>
                                 </a>
                                 <p class="description">
@@ -137,4 +137,16 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+         function submitLimit() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
+    </script>
 }

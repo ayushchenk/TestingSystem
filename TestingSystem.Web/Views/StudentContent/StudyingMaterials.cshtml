@@ -23,7 +23,10 @@
                                         <tr>
                                             <td>@Html.DisplayFor(modelItem => item.SubjectName)</td>
                                             <td>@Html.DisplayFor(modelItem => item.StudyingMaterialName)</td>
-                                            <td><a href="@Html.DisplayFor(modelItem => item.Link)" class="btn btn-primary">LINK</a></td>
+                                            <td>
+                                                <a href="@Html.DisplayFor(modelItem => item.Link)" class="btn btn-primary"
+                                                   id="&*p*st1*sl&g&$n" onclick="btnLimiter()">LINK</a>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -41,3 +44,15 @@ else
         No materials
     </div>
 }
+<script type="text/javascript">
+    function btnLimiter() {
+        var btn = document.getElementById('&*p*st1*sl&g&$n')
+        setTimeout(function () {
+            btn.setAttribute('disabled', 'disabled');
+        }, 1);
+
+        setTimeout(function () {
+            btn.removeAttribute('disabled');
+        }, 5000);
+    }
+</script>
