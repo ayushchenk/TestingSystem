@@ -1,9 +1,5 @@
-﻿@{
-    Layout = null;
-}
-    <head>
-        <link href="@Url.Content("~/Design/500Page/css/500.css")" rel="stylesheet" />
-    </head>
+﻿@{ Layout = null; }
+<head> <link href="@Url.Content("~/Design/500Page/css/500.css")" rel="stylesheet" /> </head>
 <body>
     <div class="container">
         <div class="error">
@@ -12,19 +8,19 @@
             <p>
                 @if (User.IsInRole("Teacher"))
                 {
-                    <a href="@Url.Action("Groups","TeacherContent")" class="btn-go-home" target="_blank"><b>GO BACK</b></a>
+                    <a href="@Url.Action("Groups","TeacherContent")" class="btn-go-home"><b>GO BACK</b></a>
                 }
                 else if (User.IsInRole("Education Unit Admin"))
                 {
-                    <a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank"><b><b>GO BACK</b></b></a>
+                    <a href="@Url.Action("Index","Role")" class="btn-go-home"><b><b>GO BACK</b></b></a>
                 }
                 else if (User.IsInRole("Global Admin"))
                 {
-                    <a href="@Url.Action("Index","Role")" class="btn-go-home" target="_blank"><b>GO BACK</b></a>
+                    <a href="@Url.Action("Index","Role")" class="btn-go-home"><b>GO BACK</b></a>
                 }
                 else
                 {
-                    <a href="@Url.Action("Home","Education")" class="btn-go-home" target="_blank"><b>GO BACK</b></a>
+                    <a href="@Url.Action("Home","Education")" class="btn-go-home"><b>GO BACK</b></a>
                 }
             </p>
         </div>
