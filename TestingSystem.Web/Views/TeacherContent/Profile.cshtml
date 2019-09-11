@@ -37,13 +37,13 @@
                                 <a class="nav-link" id="additional-tab" data-toggle="tab" href="#additional" role="tab" aria-controls="additional" aria-selected="false">Additional Info</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="changePass-tab" data-toggle="tab" href="#changePass" role="tab" aria-controls="changePass" aria-selected="false">Change Password</a>
+                                <a class="nav-link" id="changePass-tab" href="@Url.Action("ChangePassword","Account")" role="tab" aria-controls="changePass" aria-selected="false">Change Password</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="extLogins-tab" data-toggle="tab" href="@Url.Action("ManageLogins","Account")" role="tab" aria-controls="extLogins" aria-selected="false">External Logins</a>
+                                <a class="nav-link" id="extLogins-tab" href="@Url.Action("ManageLogins","Account")" role="tab" aria-controls="extLogins" aria-selected="false">External Logins</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="manage-tab" data-toggle="tab" href="@Url.Action("Edit","TeacherContent")" role="tab" aria-controls="manage" aria-selected="false">Manage my account</a>
+                                <a class="nav-link" id="manage-tab" href="@Url.Action("Edit","TeacherContent")" role="tab" aria-controls="manage" aria-selected="false">Manage my account</a>
                             </li>
                         </ul>
                     </div>
@@ -149,9 +149,5 @@
     <script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
 </body>
 @section Scripts{
-    <script type="text/javascript">
-        $(function () {
-            $("#changePass").load("@Url.Action("ChangePassword", "Account")");
-        });
-    </script>
+    
 }
