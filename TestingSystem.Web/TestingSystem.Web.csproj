@@ -2132,6 +2132,9 @@
     <Content Include="Design\studentRSS\assets\js\plugins\bootstrap-switch.js" />
     <Content Include="Design\studentRSS\assets\js\plugins\chartist.min.js" />
     <Content Include="Design\studentRSS\assets\js\plugins\nouislider.min.js" />
+    <Content Include="Design\studentRSS\studyRSS\img\cSharpLogo.png" />
+    <Content Include="Design\studentRSS\studyRSS\img\javaLogo.png" />
+    <Content Include="Design\studentRSS\studyRSS\img\pythonLogo.png" />
     <Content Include="Design\WelcomePageTeachers\.gitignore" />
     <Content Include="Design\WelcomePageTeachers\css\creative.css" />
     <Content Include="Design\WelcomePageTeachers\css\creative.min.css" />

@@ -17,11 +17,15 @@
                             <div class="img-wrap">
                                 @if (item.SubjectName == "C#")
                                 {
-                                    <img src="@Url.Content("https://www.fixedbuffer.com/wp-content/uploads/2019/06/reflexion.png")">
+                                    <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/cSharpLogo.png")">
                                 }
-                                else
+                                else if (item.SubjectName == "Java")
                                 {
-                                    <img src="@Url.Content("http://www.sclance.com/pngs/java-logo-png/java_logo_png_728145.png")">
+                                    <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/javaLogo.png")">
+                                }
+                                else if (item.SubjectName == "Python")
+                                {
+                                    <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/pythonLogo.png")">
                                 }
                             </div>
                             <figcaption class="info-wrap">
