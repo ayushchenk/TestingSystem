@@ -15,23 +15,25 @@
                     <div class="col-md-3 col-sm-6">
                         <figure class="card card-product">
                             <div class="img-wrap">
-                                @if (item.SubjectName == "C#")
-                                {
-                                    <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/cSharpLogo.png")">
-                                }
-                                else if (item.SubjectName == "Java")
-                                {
-                                    <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/javaLogo.png")">
-                                }
-                                else if (item.SubjectName == "Python")
-                                {
-                                    <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/pythonLogo.png")">
-                                }
+                                <a href="@Html.DisplayFor(modelItem => item.Link)">
+                                    @if (item.SubjectName == "C#")
+                                    {
+                                        <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/cSharpLogo.png")">
+                                    }
+                                    else if (item.SubjectName == "Java")
+                                    {
+                                        <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/javaLogo.png")">
+                                    }
+                                    else if (item.SubjectName == "Python")
+                                    {
+                                        <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/pythonLogo.png")">
+                                    }
+                                </a>
                             </div>
                             <figcaption class="info-wrap">
                                 <a href="@Html.DisplayFor(modelItem => item.Link)" class="text-center">@item.StudyingMaterialName.ToUpper()</a>
                                 <br /><br />
-                                <a href="@Html.DisplayFor(modelItem => item.Link)" class="btn btn-primary">LINK TO RESOURCE</a>
+                                <a href="@Html.DisplayFor(modelItem => item.Link)" class="btn btn-primary" target="_blank">LINK TO RESOURCE</a>
                             </figcaption>
                         </figure>
                     </div>
