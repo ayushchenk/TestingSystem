@@ -101,28 +101,47 @@ namespace TestingSystem.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                // Get the information about the user from the external login provider
-                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    return View("ExternalLoginFailure");
-                }
                 var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null)
                     return View(model);
+
+                var verification = new ExternalLoginVerificationViewModel()
+                {
+                    Email = model.Email,
+                    VerificationCode = new Random().Next(100000, 1000000),
+                };
+                MailSender.MailService sender = new MailSender.MailService();
+                await sender.SendMessageAsync(model.Email, "Confirmation code", "Your external login verification code: " + verification.VerificationCode);
+                return View("ExternalLoginVerification", verification);
+            }
+
+            ViewBag.ReturnUrl = returnUrl;
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ExternalLoginVerification(ExternalLoginVerificationViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                    return View("ExternalLoginFailure");
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 var result = await UserManager.AddLoginAsync(user.Id, info.Login);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     return RedirectToAction("Index", "Redirect");
                 }
-
-                AddErrors(result);
+                else
+                    return View("ExternalLoginFailure");
             }
-
-            ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
+
 
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
