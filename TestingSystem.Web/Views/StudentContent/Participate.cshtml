@@ -54,7 +54,7 @@
             </div>
             <hr />
         }
-        <input type="submit" value="Submit" id="submit" onclick="btnLimiter()">
+        <input type="submit" value="Submit" id="btn-submit" onclick="btnLimiter()">
     </div>
 }
 @section Scripts {
@@ -83,16 +83,24 @@
                 $("form").submit();
             }, seconds * 1000);
 
-            $("#submit").click(function(e){
+
+            $("#btn-submit").click(function(e){
                 if(!confirm("Are tou sure want to end?"))
                     e.preventDefault();
+                else
+
             });
         });
-           function btnLimiter() {
-            var btn = document.getElementById('submit')
+
+        function btnLimiter() {
+            var btn = document.getElementById('btn-submit')
             setTimeout(function () {
                 btn.setAttribute('disabled', 'disabled');
             }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
         }
     </script>
 }

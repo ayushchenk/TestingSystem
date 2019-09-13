@@ -1,7 +1,7 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.QuickTestCheckViewModel
 @{
     ViewBag.Title = "QuickTest";
-    Layout = "~/Views/Shared/_QuickTestLayout.cshtml";
+    //Layout = "~/Views/Shared/_QuickTestLayout.cshtml";
     int secondsRemaining = Model.QuestionCount * 90;
 }
 <h2>QuickTest</h2>
@@ -52,7 +52,7 @@
             </div>
             <hr />
         }
-        <input type="submit" value="Submit" id="submit" class="btn btn-success" onclick="submitLimit()">
+        <input type="submit" value="Submit" class="btn btn-success" id="btn-submit" onclick="submitLimit()">
     </div>
 }
 @section Scripts {
@@ -81,14 +81,14 @@
                 $("form").submit();
             }, seconds * 1000);
 
-            $("#submit").click(function(e){
+            $("#btn-submit").click(function(e){
                 if(!confirm("Are tou sure want to end?"))
                     e.preventDefault();
             });
         });
 
         function submitLimit() {
-            var btn = document.getElementById('submit')
+            var btn = document.getElementById('btn-submit')
             setTimeout(function () {
                 btn.setAttribute('disabled', 'disabled');
             }, 1);
