@@ -68,17 +68,19 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
-            var model = await testService.FindByAsync(test => test.TeacherId == this.Teacher.Id);
+            var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
+            var model = await testService.FindByAsync(test => test.TeacherId == this.Teacher.Id && ids.Contains(test.SubjectId) && !test.IsDeleted);
             if (!String.IsNullOrWhiteSpace(filter))
                 return PartialView(model.Where(test => test.TestName.ToLower().Contains(filter.ToLower())
                                                                       || test.SpecializationName.ToLower().Contains(filter.ToLower())));
+            ViewBag.DeletedTests = await testService.FindByAsync(test => test.TeacherId == this.Teacher.Id && ids.Contains(test.SubjectId) && test.IsDeleted);
             return PartialView(model);
         }
 
         public async Task<ActionResult> Create()
         {
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
-            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id) && subject.Questions > 0), "Id", "SubjectName");
             return View("Edit", new TestDTO() { TeacherId = this.Teacher.Id});
         }
 
@@ -88,7 +90,7 @@ namespace TestingSystem.Web.Controllers
             if (model == null || model.TeacherId != this.Teacher.Id)
                 return RedirectToAction("Index");
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
-            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id) && subject.Questions > 0), "Id", "SubjectName");
             return View(model);
         }
 
@@ -105,14 +107,35 @@ namespace TestingSystem.Web.Controllers
             return View(model);
         }
 
+        public async Task<JsonResult> Restore(int id = 0)
+        {
+            var item = await testService.GetAsync(id);
+            if (item != null)
+            {
+                item.IsDeleted = false;
+                await testService.AddOrUpdateAsync(item);
+                return Json($"Successfully restored item: #{item.Id} - \"{item.TestName}\"", JsonRequestBehavior.AllowGet);
+            }
+            return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<JsonResult> Delete(int id = 0)
         {
             var item = await testService.GetAsync(id);
             if (item != null && item.TeacherId == this.Teacher.Id)
             {
-                var groups = await groupsInTestService.FindByAsync(git => git.TestId == item.Id);
-                if (groups.Count() != 0)
-                    return Json($"This test is currently in use: Id = {item.Id} - TestName = {item.TestName}", JsonRequestBehavior.AllowGet);
+                item.IsDeleted = true;
+                await testService.AddOrUpdateAsync(item);
+                return Json($"Successfully archived item: #{item.Id} - \"{item.TestName}\"", JsonRequestBehavior.AllowGet);
+            }
+            return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> DeleteForever(int id = 0)
+        {
+            var item = await testService.GetAsync(id);
+            if (item != null && item.TeacherId == this.Teacher.Id && item.IsDeleted)
+            {
                 await testService.DeleteAsync(item);
                 return Json($"Successfully deleted item: #{item.Id} - \"{item.TestName}\"", JsonRequestBehavior.AllowGet);
             }

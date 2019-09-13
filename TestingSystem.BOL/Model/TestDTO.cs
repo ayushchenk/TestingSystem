@@ -28,6 +28,8 @@ namespace TestingSystem.BOL.Model
 
         public int SubjectId { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public int SpecializationId { get; set; }
 
         public int EducationUnitId { get; set; }

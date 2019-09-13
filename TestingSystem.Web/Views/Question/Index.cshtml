@@ -9,14 +9,13 @@
 <div id="partial-content">
 </div>
 
+@Scripts.Render("~/bundles/jquery")
 @section Scripts{
     <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
 
     <script type="text/javascript">
-
-
         $(function () {
-            $("#partial-content").load("@Url.Action("PartialIndex", "Question")", { id: $("#filter-input").val() });
+            $("#partial-content").load("@Url.Action("PartialIndex", "Question")", { filter: $("#filter-input").val() });
 
             $("body").on("click", ".btn-delete", function (e) {
                 e.preventDefault();
@@ -26,11 +25,6 @@
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "Question")");
-                        //$("#alert-content").empty();
-                        //$("#alert-content").append(data);
-                        //setTimeout(function () {
-                        //    $("#alert-content").empty();
-                        //}, 3500);
                         $.notify({
 	                        message: data
                         },{
@@ -49,7 +43,7 @@
 
             $("body").on("keypress", "#filter-input", function (e) {
                 if (e.which == 13)
-                    $("#partial-content").load("@Url.Action("PartialIndex", "Question")", { id: $(this).val() });
+                    $("#partial-content").load("@Url.Action("PartialIndex", "Question")", { filter: $("#filter-input").val() });
             });
         });
 

@@ -4,14 +4,6 @@
     {
         Layout = "~/Views/Shared/_TeacherLayout.cshtml";
     }
-    //if (User.IsInRole("Education Unit Admin"))
-    //{
-    //    Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
-    //}
-    //if (User.IsInRole("Global Admin"))
-    //{
-    //    Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
-    //}
 }
 <h2>Images</h2>
 <input type="text" id="filter-input" class="form-control" />
@@ -32,11 +24,6 @@
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "Image")");
-                        //$("#alert-content").empty();
-                        //$("#alert-content").append(data);
-                        //setTimeout(function () {
-                        //    $("#alert-content").empty();
-                        //}, 3500);
                         $.notify({
 	                        message: data
                         },{

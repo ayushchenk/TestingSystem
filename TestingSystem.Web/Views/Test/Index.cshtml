@@ -6,9 +6,13 @@
 <input type="text" id="filter-input" class="form-control" />
 <div id="partial-content">
 </div>
-@section Scripts{
-    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+@section Scripts{
+    <script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.js")"></script>
     <script type="text/javascript">
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "Test")");
@@ -21,11 +25,6 @@
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "Test")");
-                        //$("#alert-content").empty();
-                        //$("#alert-content").append(data);
-                        //setTimeout(function () {
-                        //    $("#alert-content").empty();
-                        //}, 3500);
                         $.notify({
 	                        message: data
                         },{
@@ -42,16 +41,52 @@
                 });
             });
 
-            $("body").on("click", ".btn-set-status", function (e) {
+            $("body").on("click", ".btn-delete-forever", function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure? You will lose all history about this test and students")) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteForever", "Test")",
+                        data: { id: $(this).attr("data-id") },
+                        success: function (data) {
+                            $("#partial-content").load("@Url.Action("PartialIndex", "Test")");
+                            $.notify({
+                                message: data
+                            }, {
+                                    type: 'success'
+                                });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $.notify({
+                                message: "An error occured while processing your request"
+                            }, {
+                                    type: 'danger'
+                                });
+                        }
+                    });
+                }
+            });
+
+            $("body").on("click", ".btn-restore", function (e) {
                 e.preventDefault();
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("SetStatus", "Test")",
-                    data: { id: $(this).attr("data-id"), status: $(this).attr("data-status") },
+                    url: "@Url.Action("Restore", "Test")",
+                    data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "Test")");
-                        $("#div-info").empty();
-                        $("#div-info").append(data);
+                        $.notify({
+	                        message: data
+                        },{
+	                        type: 'success'
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.notify({
+	                        message: "An error occured while processing your request"
+                        },{
+	                        type: 'danger'
+                        });
                     }
                 });
             });

@@ -1,19 +1,16 @@
 ﻿@{
     ViewBag.Title = "Teachers";
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
-    //if (User.IsInRole("Global Admin"))
-    //{
-    //}
-    //if (User.IsInRole("Education Unit Admin"))
-    //{
-    //    Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
-    //}
 }
+
 <h2>Teachers</h2>
 <input type="text" id="filter-input" class="form-control" />
 <div id="partial-content">
 </div>
+
 @section Scripts{
+    <script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
     <script type="text/javascript">
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "Teacher")");
@@ -26,11 +23,6 @@
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "Teacher")");
-                        //$("#alert-content").empty();
-                        //$("#alert-content").append(data);
-                        //setTimeout(function () {
-                        //    $("#alert-content").empty();
-                        //}, 3500);
                         $.notify({
 	                        message: data
                         },{
@@ -45,6 +37,56 @@
                         });
                     }
                 });
+            });
+
+            $("body").on("click", ".btn-restore", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Restore", "Teacher")",
+                    data: { id: $(this).attr("data-id") },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "Teacher")");
+                        $.notify({
+	                        message: data
+                        },{
+	                        type: 'success'
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.notify({
+	                        message: "An error occured while processing your request"
+                        },{
+	                        type: 'danger'
+                        });
+                    }
+                });
+            });
+
+            $("body").on("click", ".btn-delete-forever", function (e) {
+                e.preventDefault();
+                if (confirm("Are you sure?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteForever", "Teacher")",
+                        data: { id: $(this).attr("data-id") },
+                        success: function (data) {
+                            $("#partial-content").load("@Url.Action("PartialIndex", "Teacher")");
+                            $.notify({
+                                message: data
+                            }, {
+                                    type: 'success'
+                                });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $.notify({
+                                message: "An error occured while processing your request"
+                            }, {
+                                    type: 'danger'
+                                });
+                        }
+                    });
+                }
             });
 
             $("body").on("keypress", "#filter-input", function (e) {

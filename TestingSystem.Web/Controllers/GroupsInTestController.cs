@@ -62,7 +62,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> AssignGroups(int id = 0)
         {
             var item = await testService.GetAsync(id);
-            if (item != null)
+            if (item != null && !item.IsDeleted)
             {
                 var filteredGroups = this.TeacherInGroups.Where(tig => tig.SubjectId == item.SubjectId).Select(gr => gr.GroupId);
                 var model = new AssignGroupsViewModel();

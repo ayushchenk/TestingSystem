@@ -1,13 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Subjects";
-    //if (User.IsInRole("Education Unit Admin"))
-    //{
-    //    Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
-    //}
-    //if (User.IsInRole("Global Admin"))
-    //{
-    //}
+
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
 }
 
@@ -16,6 +10,7 @@
 <div id="partial-content">
 </div>
 
+@Scripts.Render("~/bundles/jquery")
 @section Scripts{
     <script type="text/javascript">
         $(function () {
@@ -29,11 +24,6 @@
                     data: { id: $(this).attr("data-id") },
                     success: function (data) {
                         $("#partial-content").load("@Url.Action("PartialIndex", "Subject")");
-                        //$("#alert-content").empty();
-                        //$("#alert-content").append(data);
-                        //setTimeout(function () {
-                        //    $("#alert-content").empty();
-                        //}, 3500);
                         $.notify({
 	                        message: data
                         },{

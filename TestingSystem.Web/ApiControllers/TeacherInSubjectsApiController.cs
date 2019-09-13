@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -23,15 +22,17 @@ namespace TestingSystem.Web.ApiControllers
             this.teacherInSubjects = teacherInSubjects;
         }
 
-        [AcceptVerbs("POST")]
-        public async Task Post([FromBody] DeleteTeacherInSubject model)
+        [HttpPost]
+        public async Task<string> Post([FromBody] DeleteTeacherInSubject model)
         {
             if(model != null)
             {
                 var item = await teacherInSubjects.FindByAsync(tis=> tis.TeacherId == model.TeacherId && tis.SubjectId == model.SubjectId);
                 if (item.FirstOrDefault() != null)
                     await teacherInSubjects.DeleteAsync(item.FirstOrDefault());
+                return item.FirstOrDefault().SubjectName;
             }
+            return null;
         }
     }
 }

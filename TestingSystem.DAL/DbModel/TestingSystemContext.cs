@@ -55,7 +55,7 @@ namespace TestingSystem.DAL.DbModel
                 .HasMany(e => e.StudentTestResults)
                 .WithRequired(e => e.GroupsInTest)
                 .HasForeignKey(e => e.GroupInTestId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Specialization>()
                 .HasMany(e => e.Groups)
@@ -105,12 +105,12 @@ namespace TestingSystem.DAL.DbModel
             modelBuilder.Entity<Teacher>()
                 .HasMany(e => e.StudyingMaterials)
                 .WithRequired(e => e.Teacher)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Teacher>()
                 .HasMany(e => e.TeachersInSubjects)
                 .WithRequired(e => e.Teacher)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Teacher>()
                 .HasMany(e => e.Tests)
@@ -121,12 +121,12 @@ namespace TestingSystem.DAL.DbModel
                 .HasMany(e => e.TeachersInGroups)
                 .WithRequired(e => e.TeachersInSubject)
                 .HasForeignKey(e => e.TeacherInSubjectId)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Test>()
                 .HasMany(e => e.GroupsInTests)
                 .WithRequired(e => e.Test)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
         }
     }
 }

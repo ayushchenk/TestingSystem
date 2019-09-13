@@ -85,9 +85,9 @@ namespace TestingSystem.Web.Controllers
         {
             IEnumerable<TeacherDTO> teachers;
             if (this.Admin.IsGlobal)
-                teachers = teacherService.FindBy(teacher => !teacher.IsDeleted).ToList();
+                teachers = teacherService.GetAll().ToList();
             else
-                teachers = teacherService.FindBy(teacher => teacher.EducationUnitId == this.Admin.EducationUnitId && !teacher.IsDeleted).ToList();
+                teachers = teacherService.FindBy(teacher => teacher.EducationUnitId == this.Admin.EducationUnitId).ToList();
             foreach (var teacher in teachers)
             {
                 teacher.Subjects = new List<SubjectDTO>();
@@ -95,13 +95,15 @@ namespace TestingSystem.Web.Controllers
                 foreach (var s in subjectService.FindBy(subject => subjectIds.Contains(subject.Id)).ToList())
                     teacher.Subjects.Add(s);
             }
+            ViewBag.DeletedTeachers = teachers.Where(teacher => teacher.IsDeleted);
+            teachers = teachers.Where(teacher => !teacher.IsDeleted);
             if (!string.IsNullOrWhiteSpace(filter))
-                return PartialView(teachers.Where(user => user.Email.ToLower().Contains(filter.ToLower())
+                teachers = teachers.Where(user => user.Email.ToLower().Contains(filter.ToLower())
                                                                          || user.LastName.ToLower().Contains(filter.ToLower())
                                                                          || user.FirstName.ToLower().Contains(filter.ToLower())
                                                                          || user.Subjects.Select(subject => subject.SubjectName.ToLower()).Contains(filter.ToLower())
                                                                          || user.SpecializationName.ToLower().Contains(filter.ToLower())
-                                                                         || user.EducationUnitName.ToLower().Contains(filter.ToLower())));
+                                                                         || user.EducationUnitName.ToLower().Contains(filter.ToLower()));
             return PartialView(teachers);
         }
 
@@ -125,9 +127,6 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                //if (model.Subjects != null)
-                //    foreach (var subject in model.Subjects)
-                //        await teacherInSubjectsService.AddOrUpdateAsync(new TeachersInSubjectDTO { SubjectId = subject.Id, TeacherId = model.Id });
                 await teacherService.AddOrUpdateAsync(model);
                 return RedirectToAction("Index");
             }
@@ -205,22 +204,42 @@ namespace TestingSystem.Web.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> Restore(int id = 0)
+        {
+            var item = await teacherService.GetAsync(id);
+            if (item != null)
+            {
+                item.IsDeleted = false;
+                await teacherService.AddOrUpdateAsync(item);
+                return Json($"Successfully restored teacher: #{item.Id} - \"{item.Email}\"", JsonRequestBehavior.AllowGet);
+            }
+            return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> Delete(int id = 0)
+        {
+            var item = await teacherService.GetAsync(id);
+            if (item != null)
+            {
+                item.IsDeleted = true;
+                await teacherService.AddOrUpdateAsync(item);
+                return Json($"Successfully archived teacher: #{item.Id} - \"{item.Email}\"", JsonRequestBehavior.AllowGet);
+            }
+            return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> DeleteForever(int id = 0)
         {
             TeacherDTO user = await teacherService.GetAsync(id);
             if (user != null && (this.Admin.IsGlobal || this.Admin.EducationUnitId == user.EducationUnitId))
             {
-                var groups = await teacherInGroupsService.FindByAsync(tig => tig.TeacherId == user.Id);
-                if (groups.Count() != 0)
-                    return Json($"There are groups assigned to this teacher: Id = {user.Id} - UserName = {user.Email}", JsonRequestBehavior.AllowGet);
                 AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
                 if (appUser != null)
                 {
                     var res = await UserManager.DeleteAsync(appUser);
                     if (res.Succeeded)
                     {
-                        user.IsDeleted = true;
-                        await teacherService.AddOrUpdateAsync(user);
+                        await teacherService.DeleteAsync(user);
                         return Json($"Successfully deleted: #{user.Id} - \"{user.Email}\"", JsonRequestBehavior.AllowGet);
                     }
                 }

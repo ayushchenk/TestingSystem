@@ -91,15 +91,6 @@
             </div>
         </div>
 
-        @*<div class="form-group" id="subject-cont">
-                @Html.LabelFor(model => model.SubjectId, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.SubjectId, (SelectList)ViewBag.Subjects, null, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" id="submit" />
@@ -114,26 +105,19 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
     <script type="text/javascript">
         $(function () {
             count = @Model.Subjects.Count
 
-            //$("#SpecializationId").change(function () {
             $("body").on("change", "#SpecializationId", function () {
                 subjects = $("#subject-container");
-                @*$("#SubjectId").prop("disabled", false);
-                $.getJSON("@Url.Action("GetSubjectsBySpecialization", "Service")", { id: $(this).val() }, function (response) {
-                    subjects.empty();
-                    $.each(response, function (index, item) {
-                        subjects.append($('<option></option>').text(item.SubjectName).val(item.Id));
-                    });
-                });
-                subjects.val([]);*@
+
                 $("#subjects").children("div").each(function (index) {
                     $.ajax({
-                        url: "/api/TeacherInSubjectsApi/post",
+                        url: "/api/TeacherInSubjectsApi/post/",
                         data: JSON.stringify({
-                            TeacherId:@Model.Id,
+                            TeacherId: @Model.Id,
                             subjectId: $(this).attr("data-subject-id")
                         }),
                         headers: {
@@ -142,6 +126,20 @@
                             'Content-Type': 'application/json'
                         },
                         type: "POST",
+                        success: function (data) {
+                            $.notify({
+	                        message: "Successfully deleted " + data
+                            },{
+	                            type: 'success'
+                            });
+                        },
+                        error: function (data) {
+                            $.notify({
+                                message: "There are groups or tests relying on such subject " + data
+                            },{
+	                            type: 'danger'
+                            });
+                        }
                     });
                 });
 
@@ -150,24 +148,11 @@
 
             $(".btn-delete-subject").click(function () {
                 if (count > 1 && confirm("Are you sure?")) {
-                    subjectId = $(this).closest("div").attr("data-subject-id");
-                        selectedId = $(this).closest("div").attr("data-id");
-                        for (i = selectedId; i < count; i++) {
-                            hiddenId = $(`#Subjects_${i}__Id`).attr("id", `Subjects_${i - 1}__Id`);
-                            hiddenId.attr("name", `Subjects[${i - 1}].Id`);
-                            hiddenSubjectName = $(`#Subjects_${i}__SubjectName`).attr("id", `Subjects_${i - 1}__SubjectName`);
-                            hiddenSubjectName.attr("name", `Subjects[${i - 1}].SubjectName`);
-                            hiddenSpecId = $(`#Subjects_${i}__SpecializationId`).attr("id", `Subjects_${i - 1}__SpecializationId`);
-                            hiddenSpecId.attr("name", `Subjects[${i - 1}].SpecializationId`);
-                            hiddenUnitId = $(`#Subjects_${i}__EducationUnitId`).attr("id", `Subjects_${i - 1}__EducationUnitId`);
-                            hiddenUnitId.attr("name", `Subjects[${i - 1}].EducationUnitId`);
-                        }
-                        $(this).closest("div").remove();
-                        count--;
+                     subjectId = $(this).closest("div").attr("data-subject-id");  
                         $.ajax({
                             url: "/api/TeacherInSubjectsApi/post",
                             data: JSON.stringify({
-                                TeacherId:@Model.Id,
+                                TeacherId: @Model.Id,
                                 subjectId: subjectId
                             }),
                             headers: {
@@ -176,6 +161,35 @@
                                 'Content-Type': 'application/json'
                             },
                             type: "POST",
+                            success: function (data) {
+
+                                selectedId = $(this).closest("div").attr("data-id");
+                                for (i = selectedId; i < count; i++) {
+                                    hiddenId = $(`#Subjects_${i}__Id`).attr("id", `Subjects_${i - 1}__Id`);
+                                    hiddenId.attr("name", `Subjects[${i - 1}].Id`);
+                                    hiddenSubjectName = $(`#Subjects_${i}__SubjectName`).attr("id", `Subjects_${i - 1}__SubjectName`);
+                                    hiddenSubjectName.attr("name", `Subjects[${i - 1}].SubjectName`);
+                                    hiddenSpecId = $(`#Subjects_${i}__SpecializationId`).attr("id", `Subjects_${i - 1}__SpecializationId`);
+                                    hiddenSpecId.attr("name", `Subjects[${i - 1}].SpecializationId`);
+                                    hiddenUnitId = $(`#Subjects_${i}__EducationUnitId`).attr("id", `Subjects_${i - 1}__EducationUnitId`);
+                                    hiddenUnitId.attr("name", `Subjects[${i - 1}].EducationUnitId`);
+                                }
+                                $(this).closest("div").remove();
+                                count--;
+
+                                $.notify({
+	                                message: "Successfully deleted " + data
+                                },{
+	                                type: 'success'
+                                });
+                            },
+                            error: function (data) {
+                                $.notify({
+                                    message: "There are groups or test relying on such subject " + data
+                                },{
+	                                type: 'danger'
+                                });
+                            }
                         });
                 }
             });
