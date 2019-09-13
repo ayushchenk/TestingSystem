@@ -157,7 +157,7 @@ namespace TestingSystem.Web.Controllers
                     });
                 }
                 model.Specializations = await specService.GetAllAsync();
-                model.Subjects = await subjectService.GetAllAsync();
+                model.Subjects = null;
                 return View("QuickTest", testViewModel);
             }
             return View(model);

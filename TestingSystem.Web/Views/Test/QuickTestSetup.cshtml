@@ -40,11 +40,12 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#SpecializationId").val([]);
-            $("#SubjectId").val([]);
+            //$("#SubjectId").val([]);
+            $('#SubjectId').find('option').remove()
 
             $("#SpecializationId").change(function () {
                 subjects = $("#SubjectId");
