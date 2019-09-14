@@ -12,7 +12,7 @@
 }
 <h2>Group @Model.Group.GroupName Students</h2>
 <hr />
-@Html.ActionLink("Create new", "Create", "Student", new { @class = "btn btn-primary" })
+@Html.ActionLink("Create new", "Create", "Student", null, new { @class = "btn btn-primary" })
 @if (Model.Students != null && Model.Students.Count() != 0)
 {
     <div class="row">
@@ -53,8 +53,16 @@
                                     @Html.DisplayFor(modelItem => item.SpecializationName)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", "Student", new { id = item.Id }, new { }) |
-                                    @Html.ActionLink("Delete", "Delete", "Student", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                                    @if (User.IsInRole("Education Unit Admin") || User.IsInRole("Teacher"))
+                                    {
+                                        @Html.ActionLink("Edit", "Edit", "Student", new { id = item.Id }, new { })
+                                        <label> | </label>
+                                        @Html.ActionLink("Delete", "Delete", "Student", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                                    }
+                                    else
+                                    {
+
+                                    }
                                 </td>
                             </tr>
                         }
