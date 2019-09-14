@@ -1,12 +1,13 @@
-﻿@model IEnumerable<TestingSystem.BOL.Model.GroupDTO>
+﻿@model IEnumerable<TestingSystem.Web.Models.ViewModels.TeacherGroupSubjects>
 @{ ViewBag.Title = "Groups"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
 @if (Model.Count() != 0)
 {
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">@Html.DisplayNameFor(model => model.GroupName)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.SpecializationName)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Group.GroupName)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Group.SpecializationName)</th>
+            <th scope="col">Subjects</th>
             <th scope="col">Students List</th>
         </tr>
     </thead>
@@ -14,9 +15,15 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.GroupName)</td>
-                <td>@Html.DisplayFor(modelItem => item.SpecializationName)</td>
-                <td>@Html.ActionLink("Students", "Students", new { id = item.Id }, new { @class = "btn btn-primary" })</td>
+                <td>@Html.DisplayFor(modelItem => item.Group.GroupName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Group.SpecializationName)</td>
+                <td>
+                    @foreach(var subject in item.Subjects)
+                    {
+                        <span style="margin:3px">@subject.SubjectName</span>
+                    }
+                </td>
+                <td>@Html.ActionLink("Students", "Students", new { id = item.Group.Id }, new { @class = "btn btn-primary" })</td>
             </tr>
         }
     </tbody>

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
+using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
@@ -75,8 +76,15 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> Groups()
         {
-            var groups = teachersInGroupsService.FindBy(tig => tig.TeacherId == this.Teacher.Id).Select(tig => tig.GroupId);
-            var model = await groupService.FindByAsync(group => groups.Contains(group.Id));
+            List<TeacherGroupSubjects> model = new List<TeacherGroupSubjects>();
+            var groups = teachersInGroupsService.FindBy(tig => tig.TeacherId == this.Teacher.Id);
+            var groupIds = groups.Select(tig => tig.GroupId);
+            foreach (var group in await groupService.FindByAsync(group => groupIds.Contains(group.Id)))
+                model.Add(new TeacherGroupSubjects
+                {
+                    Group = group,
+                    Subjects = groups.Where(tig=> tig.TeacherId == this.Teacher.Id && tig.GroupId == group.Id)
+                });
             return View(model);
         }
 
