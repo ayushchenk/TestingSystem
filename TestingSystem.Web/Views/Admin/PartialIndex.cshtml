@@ -12,12 +12,7 @@
                             <th>@Html.DisplayNameFor(model => model.Email)</th>
                             <th>@Html.DisplayNameFor(model => model.FirstName)</th>
                             <th>@Html.DisplayNameFor(model => model.LastName)</th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.EducationUnitName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.IsGlobal)
-                            </th>
+                            <th>@Html.DisplayNameFor(model => model.EducationUnitName)</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -36,9 +31,6 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.EducationUnitName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsGlobal)
                                 </td>
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
