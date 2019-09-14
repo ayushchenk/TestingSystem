@@ -1,5 +1,4 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.AddTeacherViewModel
-
 @{
     ViewBag.Title = "AddTeacher";
     //if (User.IsInRole("Education Unit Admin"))
@@ -11,14 +10,10 @@
     //}
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
 }
-
 <h2>Add teacher</h2>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <hr />
         @Html.HiddenFor(model => model.Group.Id)
@@ -31,7 +26,6 @@
                 @Html.EditorFor(model => model.Group.GroupName, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.TeacherId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -39,19 +33,28 @@
                 @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-success" id="btn_submit" onclick="submitLimit()" />
             </div>
         </div>
     </div>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+       function submitLimit() {
+            var btn = document.getElementById('btn_submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
+    </script>
 }

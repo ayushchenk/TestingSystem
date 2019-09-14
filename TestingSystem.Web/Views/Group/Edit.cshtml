@@ -1,5 +1,4 @@
 ﻿@model TestingSystem.BOL.Model.GroupDTO
-
 @{
     ViewBag.Title = "Edit";
     //if (User.IsInRole("Education Unit Admin"))
@@ -11,10 +10,7 @@
     //}
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
 }
-
 <h2>Edit</h2>
-
-
 @using (Html.BeginForm("Edit", "Group"))
 {
     @Html.AntiForgeryToken()
@@ -24,7 +20,6 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.EducationUnitId)
-
         <div class="form-group">
             @Html.LabelFor(model => model.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -32,7 +27,6 @@
                 @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(m => m.SpecializationName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -40,7 +34,6 @@
                 @Html.ValidationMessageFor(model => model.SpecializationId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         @if (User.IsInRole("Global Admin"))
         {
             <div class="form-group">
@@ -51,7 +44,6 @@
                 </div>
             </div>
         }
-
         @*<div class="form-group" id="teacher-cont-master">
             @Html.LabelFor(m => m.Teachers, new { @class = "col-md-2 control-label" })
             <div class="col-md-offset-2 col-md-10" id="teacher-cont">
@@ -69,19 +61,28 @@
         <div class="form-group">
             <input type="button" class="btn btn-default" id="add-teacher" value="Add teacher" />
         </div>*@
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" id="submit" />
+                <input type="submit" value="Save" class="btn btn-success" id="btn_submit" onclick="submitLimit()" />
             </div>
         </div>
     </div>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+<script type="text/javascript">
+       function submitLimit() {
+            var btn = document.getElementById('btn_submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
 
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 10000);
+        }
+</script>
 @*@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">

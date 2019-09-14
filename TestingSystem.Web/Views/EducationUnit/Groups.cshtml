@@ -1,5 +1,4 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.EducationUnitGroupsViewModel
-
 @{
     ViewBag.Title = "Users";
     //if (User.IsInRole("Education Unit Admin"))
@@ -11,24 +10,15 @@
     //}
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
 }
-
 <h2>@Model.EducationUnit.EducationUnitName Groups</h2>
 <hr />
-
 <div id="partial-content">
 </div>
-
-<p>
-    @Html.ActionLink("Edit education unit", "Edit", new { id = Model.EducationUnit.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
-
+<p> @Html.ActionLink("Edit education unit", "Edit", new { id = Model.EducationUnit.Id }) | @Html.ActionLink("Back to List", "Index") </p>
 @section Scripts{
     <script type="text/javascript">
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "Group", new { filter = Model.EducationUnit.EducationUnitName})");
-
             $("body").on("click", ".btn-delete", function (e) {
                 e.preventDefault();
                 $.ajax({
@@ -45,12 +35,10 @@
                     }
                 });
             });
-
             $("body").on("keypress", "#filter-input", function (e) {
                 if (e.which == 13)
                     $("#partial-content").load("@Url.Action("PartialIndex", "Group")", { filter : $(this).val()});
             });
         });
-
     </script>
 }

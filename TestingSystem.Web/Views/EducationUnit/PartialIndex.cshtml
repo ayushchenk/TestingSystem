@@ -1,37 +1,42 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.EducationUnitDTO>
-
-@if(User.IsInRole("Global Admin"))
+@if (User.IsInRole("Global Admin"))
 {
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    <br />
+    <p> @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" }) </p>
 }
 @if (Model.Count() != 0)
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EducationUnitName)
-            </th>
-            <th></th>
-        </tr>
-
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EducationUnitName)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Groups", "Groups", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
-                </td>
-            </tr>
-        }
-
-    </table>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-body table-full-width table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EducationUnitName)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EducationUnitName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { }) |
+                                    @Html.ActionLink("Groups", "Groups", new { id = item.Id }, new { }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
 else
 {
@@ -39,4 +44,3 @@ else
         No education units
     </div>
 }
-

@@ -1,5 +1,4 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.GroupDetailsViewModel
-
 @{
     ViewBag.Title = "Details";
     //if (User.IsInRole("Education Unit Admin"))
@@ -11,52 +10,59 @@
     //}
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
 }
-
 <h2>Group @Model.Group.GroupName Students</h2>
 <hr />
-@Html.ActionLink("Create new", "Create", "Student", new { })
-
+@Html.ActionLink("Create new", "Create", "Student", new { @class = "btn btn-primary" })
 @if (Model.Students != null && Model.Students.Count() != 0)
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayName("Email")
-            </th>
-            <th>
-                @Html.DisplayName("FirstName")
-            </th>
-            <th>
-                @Html.DisplayName("LastName")
-            </th>
-            <th>
-                @Html.DisplayName("SpecializationName")
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model.Students)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SpecializationName)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "Student", new { id = item.Id }, new { }) |
-                    @Html.ActionLink("Delete", "Delete", "Student", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
-                </td>
-            </tr>
-        }
-    </table>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-body table-full-width table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Email")
+                            </th>
+                            <th>
+                                @Html.DisplayName("FirstName")
+                            </th>
+                            <th>
+                                @Html.DisplayName("LastName")
+                            </th>
+                            <th>
+                                @Html.DisplayName("SpecializationName")
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Students)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SpecializationName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", "Student", new { id = item.Id }, new { }) |
+                                    @Html.ActionLink("Delete", "Delete", "Student", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
 else
 {
@@ -64,12 +70,10 @@ else
         No users
     </div>
 }
-
 <p>
     @Html.ActionLink("Edit group", "Edit", new { id = Model.Group.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
-
 @section Scripts{
     <script type="text/javascript">
         $(function () {
