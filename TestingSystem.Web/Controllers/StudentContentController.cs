@@ -87,7 +87,9 @@ namespace TestingSystem.Web.Controllers
             {
                 if (this.Student == null)
                     return RedirectToAction("Tests");
-                var git = await gitService.GetAsync(id);
+                var history = (await resultService.FindByAsync(result => result.GroupId == this.Student.GroupId)).Select(result => result.GroupInTestId);
+                var groupInTests = await gitService.FindByAsync(g => g.GroupId == this.Student.GroupId && !history.Contains(g.Id));
+                var git = groupInTests.FirstOrDefault(g => g.Id == id);
                 if (git == null)
                     return RedirectToAction("Tests");
                 var test = await testService.GetAsync(git.TestId);
