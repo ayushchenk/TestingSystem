@@ -1,36 +1,29 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.StudentDTO>
 @{ ViewBag.Title = "Group"; Layout = "~/Views/Shared/_StudentLayout.cshtml"; }
-<div class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-plain table-plain-bg">
-                    <div class="card-header">
-                        <h4 class="card-title">Group</h4>
+<link href="@Url.Content("~/Design/studentRSS/moduleGridRSS/module.css")" rel="stylesheet" />
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="@Url.Content("https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="@Url.Content("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")">
+</head>
+<body>
+    <section class="team">
+        <div class="container">
+            <h1>G R O U P</h1>
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3 profile text-center">
+                        <div class="img-box">
+                            <img src="@Url.Content("~/Design/studentRSS/moduleGridRSS/imgStd/studentRSSImg.png")" class="img-responsive">
+                            <h2>@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)</h2>
+                            <h3>@Html.DisplayFor(modelItem => item.GroupName)</h3>
+                        </div>
+                        <p><a href="mailto:@item.Email"><i class="fa fa-envelope" aria-hidden="true" style="color: black;"></i></a></p>
                     </div>
-                    <div class="card-body table-full-width table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>@Html.DisplayNameFor(model => model.Email)</th>
-                                    <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-                                    <th>@Html.DisplayNameFor(model => model.LastName)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                        <td> @Html.DisplayFor(modelItem => item.FirstName)</td>
-                                        <td> @Html.DisplayFor(modelItem => item.LastName)</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                }
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</body>
