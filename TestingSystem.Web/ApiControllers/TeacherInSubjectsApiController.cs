@@ -30,7 +30,7 @@ namespace TestingSystem.Web.ApiControllers
                 var item = await teacherInSubjects.FindByAsync(tis=> tis.TeacherId == model.TeacherId && tis.SubjectId == model.SubjectId);
                 if (item.FirstOrDefault() != null)
                     await teacherInSubjects.DeleteAsync(item.FirstOrDefault());
-                return item.FirstOrDefault().SubjectName;
+                return item.FirstOrDefault().SubjectName.ToString();
             }
             return null;
         }

@@ -209,9 +209,18 @@ namespace TestingSystem.Web.Controllers
             var item = await teacherService.GetAsync(id);
             if (item != null)
             {
-                item.IsDeleted = false;
-                await teacherService.AddOrUpdateAsync(item);
-                return Json($"Successfully restored teacher: #{item.Id} - \"{item.Email}\"", JsonRequestBehavior.AllowGet);
+                AppUser appUser = new AppUser() { UserName = item.Email, Email = item.Email };
+                string password = Membership.GeneratePassword(10, 4);
+                IdentityResult result = await UserManager.CreateAsync(appUser, password);
+                if (result.Succeeded)
+                {
+                    item.IsDeleted = false;
+                    await teacherService.AddOrUpdateAsync(item);
+                    await UserManager.AddToRoleAsync(appUser.Id, "Teacher");
+                    return Json($"Successfully restored teacher: #{item.Id} - \"{item.Email}\"", JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(result.Errors.FirstOrDefault(), JsonRequestBehavior.AllowGet);
             }
             return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
         }
@@ -221,9 +230,19 @@ namespace TestingSystem.Web.Controllers
             var item = await teacherService.GetAsync(id);
             if (item != null)
             {
-                item.IsDeleted = true;
-                await teacherService.AddOrUpdateAsync(item);
-                return Json($"Successfully archived teacher: #{item.Id} - \"{item.Email}\"", JsonRequestBehavior.AllowGet);
+                AppUser appUser = await UserManager.FindByEmailAsync(item.Email);
+                if (appUser != null)
+                {
+                    var result = await UserManager.DeleteAsync(appUser);
+                    if (result.Succeeded)
+                    {
+                        item.IsDeleted = true;
+                        await teacherService.AddOrUpdateAsync(item);
+                        return Json($"Successfully archived teacher: #{item.Id} - \"{item.Email}\"", JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                        return Json(result.Errors.FirstOrDefault(), JsonRequestBehavior.AllowGet);
+                }
             }
             return Json($"No item with such id: {id}", JsonRequestBehavior.AllowGet);
         }
@@ -233,17 +252,8 @@ namespace TestingSystem.Web.Controllers
             TeacherDTO user = await teacherService.GetAsync(id);
             if (user != null && (this.Admin.IsGlobal || this.Admin.EducationUnitId == user.EducationUnitId))
             {
-                AppUser appUser = await UserManager.FindByEmailAsync(user.Email);
-                if (appUser != null)
-                {
-                    var res = await UserManager.DeleteAsync(appUser);
-                    if (res.Succeeded)
-                    {
-                        await teacherService.DeleteAsync(user);
-                        return Json($"Successfully deleted: #{user.Id} - \"{user.Email}\"", JsonRequestBehavior.AllowGet);
-                    }
-                }
-                return Json($"Error occured on deleting identity: Id = {user.Id} - UserName = {user.Email}", JsonRequestBehavior.AllowGet);
+                await teacherService.DeleteAsync(user);
+                return Json($"Successfully deleted: #{user.Id} - \"{user.Email}\"", JsonRequestBehavior.AllowGet);
             }
             return Json($"No item found by such id: {id}", JsonRequestBehavior.AllowGet);
         }
