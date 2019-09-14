@@ -140,7 +140,7 @@ namespace TestingSystem.Web.Controllers
                 {
                     case QuestionType.OneAnswerOneCorrect:
                         if (!String.IsNullOrWhiteSpace(model.QuestionAnswers[i].Answers[0].AnswerString)
-                            && model.QuestionAnswers[i].AnswerString.Trim().ToLower() == model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
+                            && (model.QuestionAnswers[i].AnswerString?.Trim().ToLower() ?? String.Empty) == model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
                             result.Result++;
                         break;
                     case QuestionType.ManyAnswersOneCorrect:

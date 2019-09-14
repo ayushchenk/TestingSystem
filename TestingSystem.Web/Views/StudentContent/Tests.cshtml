@@ -28,7 +28,7 @@
                                             <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
                                             <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Length)</td>
-                                            <td>@Html.ActionLink("Participate", "Participate", null, new { @class = "btn btn-primary", id = item.Id })</td>
+                                            <td>@Html.ActionLink("Participate", "Participate", new { id = item.Id }, new { @class = "btn btn-primary" })</td>
                                         </tr>
                                     }
                                 </tbody>
