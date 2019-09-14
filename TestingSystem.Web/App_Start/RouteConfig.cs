@@ -15,7 +15,7 @@ namespace TestingSystem.Web
             routes.MapRoute(
                 name: "StudentContent",
                 url: "StudentContent/{action}/{id}",
-                defaults: new { controller = "StudentContent", action = "Group", id = UrlParameter.Optional }
+                defaults: new { controller = "StudentContent", action = "Tests", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
