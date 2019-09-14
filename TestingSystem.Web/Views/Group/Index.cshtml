@@ -2,16 +2,13 @@
     ViewBag.Title = "Groups";
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
 }
-
 <h2>Groups</h2>
 <input type="text" id="filter-input" class="form-control" />
 <div id="partial-content">
 </div>
-
 @Scripts.Render("~/bundles/jquery")
 @section Scripts{
     <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
-
     <script type="text/javascript">
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "Group")");
@@ -39,12 +36,10 @@
                     }
                 });
             });
-
             $("body").on("keypress", "#filter-input", function (e) {
                 if (e.which == 13)
                     $("#partial-content").load("@Url.Action("PartialIndex", "Group")", { filter : $(this).val()});
             });
         });
-
     </script>
 }

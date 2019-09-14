@@ -1,5 +1,4 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.GroupTestsViewModel
-
 @{
     ViewBag.Title = "Tests";
     //if (User.IsInRole("Education Unit Admin"))
@@ -11,46 +10,52 @@
     //}
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
 }
-
 <h2>Group @Model.Group.GroupName Tests</h2>
-
 @if (Model.Tests.Count > 0)
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.Label("Start date", new { @class = "from-group" })
-            </th>
-            <th>
-                @Html.Label("Start time", new { @class = "from-group" })
-            </th>
-            <th>
-                @Html.Label("Length", new { @class = "from-group" })
-            </th>
-            <th>
-                @Html.Label("Test name", new { @class = "from-group" })
-            </th>
-        </tr>
-
-        @foreach (var item in Model.Tests)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Length)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TestName)
-                </td>
-            </tr>
-        }
-
-    </table>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-body table-full-width table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.Label("Start date", new { @class = "from-group" })
+                            </th>
+                            <th>
+                                @Html.Label("Start time", new { @class = "from-group" })
+                            </th>
+                            <th>
+                                @Html.Label("Length", new { @class = "from-group" })
+                            </th>
+                            <th>
+                                @Html.Label("Test name", new { @class = "from-group" })
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Tests)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Length)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TestName)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
 else
 {
