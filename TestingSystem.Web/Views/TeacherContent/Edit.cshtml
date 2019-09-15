@@ -1,4 +1,4 @@
-﻿@model TestingSystem.BOL.Model.TeacherDTO
+﻿@model TestingSystem.Web.Models.ViewModels.EditTeacherViewModel
 @{ ViewBag.Title = "Edit"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
 <link href="@Url.Content("~/Design/ProfilePage/css/profile.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
@@ -7,9 +7,10 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.EducationUnitId)
-        @Html.HiddenFor(model => model.SpecializationId)
+        @Html.HiddenFor(model => model.Teacher.Id)
+        @Html.HiddenFor(model => model.Teacher.EducationUnitId)
+        @Html.HiddenFor(model => model.Teacher.SpecializationId)
+        @Html.HiddenFor(model => model.Teacher.SubjectId)
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
@@ -23,10 +24,10 @@
             <div class="col-md-6">
                 <div class="profile-head">
                     <h5>
-                        @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+                        @Html.DisplayFor(model => model.Teacher.FirstName) @Html.DisplayFor(model => model.Teacher.LastName)
                     </h5>
                     <h6>
-                        Teacher in @Html.DisplayFor(model => model.EducationUnitName)
+                        Teacher in @Html.DisplayFor(model => model.Teacher.EducationUnitName)
                     </h6>
                     <br />
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -48,7 +49,7 @@
                     <a href="https://developers.facebook.com">Facebook for Developers</a>
                     <a href="https://developers.google.com">Google Developers</a>
                     <p>SKILLS</p>
-                    <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SpecializationName)</a><br />
+                    <a style="pointer-events: none;">@Html.DisplayFor(model => model.Teacher.SpecializationName)</a><br />
                 </div>
             </div>
             <div class="col-md-8">
@@ -58,27 +59,36 @@
                             <div class="col-md-6">
                                 <label>Email</label>
                             </div>
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.Teacher.Email, "", new { @class = "text-danger" })
                             <div class="col-md-6">
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @type = "text", @name = "email" } })
+                                @Html.EditorFor(model => model.Teacher.Email, new { htmlAttributes = new { @class = "form-control", @type = "text", @name = "email" } })
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>First Name</label>
                             </div>
-                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.Teacher.FirstName, "", new { @class = "text-danger" })
                             <div class="col-md-6">
-                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @type = "text", @name = "firstName" } })
+                                @Html.EditorFor(model => model.Teacher.FirstName, new { htmlAttributes = new { @class = "form-control", @type = "text", @name = "firstName" } })
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Last Name</label>
                             </div>
-                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.Teacher.LastName, "", new { @class = "text-danger" })
                             <div class="col-md-6">
-                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @type = "text", @name = "lastName" } })
+                                @Html.EditorFor(model => model.Teacher.LastName, new { htmlAttributes = new { @class = "form-control", @type = "text", @name = "lastName" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Two factor email authentication</label>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.IsTwoFactorEnabled, "", new { @class = "text-danger" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.IsTwoFactorEnabled, new { htmlAttributes = new { @class = "form-control", @type = "checkbox", @name = "twoFactor" } })
                             </div>
                         </div><br />
                         <div class="form-group">

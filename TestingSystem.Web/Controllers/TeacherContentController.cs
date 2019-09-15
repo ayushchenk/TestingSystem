@@ -40,7 +40,7 @@ namespace TestingSystem.Web.Controllers
         {
             get
             {
-                if(teacher == null)
+                if (teacher == null)
                     teacher = teacherService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
                 return teacher;
             }
@@ -83,7 +83,7 @@ namespace TestingSystem.Web.Controllers
                 model.Add(new TeacherGroupSubjects
                 {
                     Group = group,
-                    Subjects = groups.Where(tig=> tig.TeacherId == this.Teacher.Id && tig.GroupId == group.Id)
+                    Subjects = groups.Where(tig => tig.TeacherId == this.Teacher.Id && tig.GroupId == group.Id)
                 });
             return View(model);
         }
@@ -98,38 +98,52 @@ namespace TestingSystem.Web.Controllers
             return View(model);
         }
 
-        public new ActionResult Profile()
+        public new async Task<ActionResult> Profile()
         {
             if (this.Teacher == null)
                 return RedirectToAction("Groups");
-            return View(this.Teacher);
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Groups");
+            var model = new EditTeacherViewModel
+            {
+                Teacher = this.Teacher,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
         }
 
-        public ActionResult Edit()
+        public async Task<ActionResult> Edit()
         {
             if (this.Teacher == null)
                 return RedirectToAction("Groups");
-            return View(this.Teacher);
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Groups");
+            var model = new EditTeacherViewModel
+            {
+                Teacher = this.Teacher,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            model.Teacher.SubjectId = int.MaxValue;
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(TeacherDTO model)
+        public async Task<ActionResult> Edit(EditTeacherViewModel model)
         {
             if (ModelState.IsValid)
             {
-                TeacherDTO oldUser = this.Teacher;
-                if (oldUser != null)
+                AppUser appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+                if (appUser != null)
                 {
-                    AppUser appUser = await UserManager.FindByEmailAsync(oldUser.Email);
-                    if (appUser != null)
-                    {
-                        appUser.Email = model.Email;
-                        appUser.UserName = model.Email;
-                        await UserManager.UpdateAsync(appUser);
-                        await teacherService.AddOrUpdateAsync(model);
-                        return RedirectToAction("Profile");
-                    }
+                    appUser.Email = model.Teacher.Email;
+                    appUser.UserName = model.Teacher.Email;
+                    appUser.TwoFactorEnabled = model.IsTwoFactorEnabled;
+                    await UserManager.UpdateAsync(appUser);
+                    await teacherService.AddOrUpdateAsync(model.Teacher);
                 }
+                return RedirectToAction("Profile");
             }
             return View(model);
         }

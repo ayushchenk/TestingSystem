@@ -1,4 +1,4 @@
-﻿@model TestingSystem.BOL.Model.TeacherDTO
+﻿@model TestingSystem.Web.Models.ViewModels.EditTeacherViewModel
 @{
     ViewBag.Title = "Profile";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
@@ -23,10 +23,10 @@
                 <div class="col-md-6">
                     <div class="profile-head">
                         <h5>
-                            @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+                            @Html.DisplayFor(model => model.Teacher.FirstName) @Html.DisplayFor(model => model.Teacher.LastName)
                         </h5>
                         <h6>
-                            Teacher in @Html.DisplayFor(model => model.EducationUnitName)
+                            Teacher in @Html.DisplayFor(model => model.Teacher.EducationUnitName)
                         </h6>
                         <br />
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -57,7 +57,7 @@
                         <a href="https://developers.facebook.com">Facebook for Developers</a>
                         <a href="https://developers.google.com">Google Developers</a>
                         <p>SKILLS</p>
-                        <a style="pointer-events: none;">@Html.DisplayFor(skill => skill.SpecializationName)</a><br />
+                        <a style="pointer-events: none;">@Html.DisplayFor(model => model.Teacher.SpecializationName)</a><br />
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -68,7 +68,7 @@
                                     <label>Name</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(nameFirst => nameFirst.FirstName) @Html.DisplayFor(secondName => secondName.LastName)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.FirstName) @Html.DisplayFor(model => model.Teacher.LastName)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -76,7 +76,7 @@
                                     <label>Email</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(email => email.Email)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.Email)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -84,7 +84,15 @@
                                     <label>Specialization</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(specialization => specialization.SpecializationName)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.SpecializationName)</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Two factor email authentication</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>@Html.DisplayFor(model => model.IsTwoFactorEnabled)</p>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +102,7 @@
                                     <label>Teacher Name</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(name => name.FirstName) @Html.DisplayFor(name => name.LastName)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.FirstName) @Html.DisplayFor(model => model.Teacher.LastName)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -102,7 +110,7 @@
                                     <label>User Id</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(userId => userId.Id)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.Id)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -110,7 +118,7 @@
                                     <label>Education Unit</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(educationUnit => educationUnit.EducationUnitName)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.EducationUnitName)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -118,7 +126,7 @@
                                     <label>Education ID</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(educationID => educationID.EducationUnitId)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.EducationUnitId)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -126,7 +134,7 @@
                                     <label>Specialization</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(specializationName => specializationName.SpecializationName)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.SpecializationName)</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -134,7 +142,7 @@
                                     <label>Specialization ID</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>@Html.DisplayFor(spezializationId => spezializationId.SpecializationId)</p>
+                                    <p>@Html.DisplayFor(model => model.Teacher.SpecializationId)</p>
                                 </div>
                             </div>
                         </div>

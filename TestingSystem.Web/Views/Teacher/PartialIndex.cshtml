@@ -2,6 +2,8 @@
 @*<script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
     <link href="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/bootstrap.min.css")" rel="stylesheet" media="all">
     <script src="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/bootstrap.min.js")"></script>*@
+
+
 <br />
 <p> @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" }) </p>
 <ul class="nav nav-tabs" role="tablist">
@@ -60,7 +62,7 @@
                                         </td>
                                         <td>
                                             @foreach (var subject in item.Subjects)
-                                            { <span style="margin:3px;">@subject.SubjectName</span> }
+                                            {<span style="margin:3px;">@subject.SubjectName</span>}
                                         </td>
                                         <td>
                                             @Html.ActionLink("Add subject", "AddSubject", new { id = item.Id }) |
@@ -88,7 +90,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card-body table-full-width table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true">
                             <thead>
                                 <tr>
                                     <th>
@@ -100,7 +102,7 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.LastName)
                                     </th>
-                                    <th>
+                                    <th> 
                                         @Html.DisplayNameFor(model => model.EducationUnitName)
                                     </th>
                                     <th>

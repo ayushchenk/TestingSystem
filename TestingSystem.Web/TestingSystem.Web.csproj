@@ -251,6 +251,7 @@
     <Compile Include="Models\Identity\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Identity\ExternalLoginVerificationViewModel.cs" />
     <Compile Include="Models\Identity\ForgotPasswordViewModel.cs" />
+    <Compile Include="Models\Identity\LoginTwoFactorViewModel.cs" />
     <Compile Include="Models\Identity\LoginViewModel.cs" />
     <Compile Include="Models\Identity\RegisterViewModel.cs" />
     <Compile Include="Models\Identity\ResetPasswordViewModel.cs" />
@@ -261,6 +262,9 @@
     <Compile Include="Models\ViewModels\CreateGroupViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateQuestionViewModel.cs" />
     <Compile Include="Models\ViewModels\DeleteTeacherInSubject.cs" />
+    <Compile Include="Models\ViewModels\EditTeacherViewModel.cs" />
+    <Compile Include="Models\ViewModels\EditStudentViewModel.cs" />
+    <Compile Include="Models\ViewModels\EditAdminViewModel.cs" />
     <Compile Include="Models\ViewModels\EditUserViewModel.cs" />
     <Compile Include="Models\ViewModels\EducationUnitGroupsViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupDetailsViewModel.cs" />
@@ -2766,6 +2770,7 @@
     <Content Include="Views\Education\Reviews.cshtml" />
     <Content Include="Views\Teacher\AddSubject.cshtml" />
     <Content Include="Views\Account\ExternalLoginVerification.cshtml" />
+    <Content Include="Views\Account\LoginTwoFactor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
+using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
@@ -49,38 +50,51 @@ namespace TestingSystem.Web.Controllers
                 return RedirectToAction("Index", "Group");
         }
 
-        public new ActionResult Profile()
+        public new async Task<ActionResult> Profile()
         {
             if (this.Admin == null)
                 return RedirectToAction("Index");
-            return View(this.Admin);
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Index");
+            var model = new EditAdminViewModel
+            {
+                Admin = this.Admin,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
         }
 
-        public ActionResult Edit()
+        public async Task<ActionResult> Edit()
         {
             if (this.Admin == null)
                 return RedirectToAction("Index");
-            return View(this.Admin);
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Index");
+            var model = new EditAdminViewModel
+            {
+                Admin = this.Admin,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(AdminDTO model)
+        public async Task<ActionResult> Edit(EditAdminViewModel model)
         {
-            if (ModelState.IsValid && this.Admin != null)
+            if (ModelState.IsValid)
             {
-                AdminDTO oldUser = this.Admin;
-                if (oldUser != null)
+                AppUser appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+                if (appUser != null)
                 {
-                    AppUser appUser = await UserManager.FindByEmailAsync(oldUser.Email);
-                    if (appUser != null)
-                    {
-                        appUser.Email = model.Email;
-                        appUser.UserName = model.Email;
-                        await UserManager.UpdateAsync(appUser);
-                        await adminService.AddOrUpdateAsync(model);
-                        return RedirectToAction("Profile");
-                    }
+                    appUser.Email = model.Admin.Email;
+                    appUser.UserName = model.Admin.Email;
+                    appUser.TwoFactorEnabled = model.IsTwoFactorEnabled;
+                    await UserManager.UpdateAsync(appUser);
+                    await adminService.AddOrUpdateAsync(model.Admin);
                 }
+                return RedirectToAction("Profile");
             }
             return View(model);
         }

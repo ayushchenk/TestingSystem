@@ -58,7 +58,7 @@ namespace TestingSystem.Web.Controllers
             var model = new List<CreateQuestionViewModel>();
             if (this.Teacher == null)
                 return RedirectToAction("Welcome", "TeacherContent");
-            var questions = await questionService.FindByAsync(question=> question.TeacherId == this.Teacher.Id);
+            var questions = await questionService.FindByAsync(question => question.TeacherId == this.Teacher.Id);
             if (!String.IsNullOrWhiteSpace(filter))
                 questions = questions.Where(question => question.SubjectName.ToLower().Contains(filter.ToLower())
                                                      || question.SpecializationName.ToLower().Contains(filter.ToLower()));

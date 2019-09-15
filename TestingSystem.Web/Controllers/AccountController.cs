@@ -205,36 +205,6 @@ namespace TestingSystem.Web.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
-        //public ActionResult Register()
-        //{
-        //    ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<ActionResult> Register(RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        AppUser user = new AppUser { UserName = model.Email, Email = model.Email };
-        //        IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-        //        if (result.Succeeded)
-        //        {
-        //            await UserManager.AddToRoleAsync(user.Id, model.Role);
-        //            return RedirectToAction("Login", "Account");
-        //        }
-        //        else
-        //        {
-        //            foreach (string error in result.Errors)
-        //            {
-        //                ModelState.AddModelError("", error);
-        //            }
-        //        }
-        //    }
-        //    ViewBag.Role = new SelectList(RoleManager.Roles, "Name", "Name");
-        //    return View(model);
-        //}
-
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -249,14 +219,61 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
-                if (result == SignInStatus.Failure)
+                AppUser user = await UserManager.FindByEmailAsync(model.Email);
+                if (user.TwoFactorEnabled)
                 {
-                    ModelState.AddModelError("", "Wrong credentials");
+                    var twoFactorModel = new LoginTwoFactorViewModel()
+                    {
+                        Login = model,
+                        VerificationCode = new Random().Next(100000, 1000000),
+                    };
+                    MailSender.MailService sender = new MailSender.MailService();
+                    await sender.SendMessageAsync(model.Email, "Confirmation code", "Your two factor login verification code: " + twoFactorModel.VerificationCode);
+                    return View("LoginTwoFactor", twoFactorModel);
                 }
                 else
                 {
-                    AppUser user = await UserManager.FindByEmailAsync(model.Email);
+                    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
+                    if (result == SignInStatus.Failure)
+                    {
+                        ModelState.AddModelError("", "Wrong credentials");
+                    }
+                    else
+                    {
+                        if (UserManager.IsInRole(user.Id, "Teacher"))
+                            return RedirectToAction("Welcome", "TeacherContent");
+
+                        if (UserManager.IsInRole(user.Id, "Student"))
+                            return RedirectToAction("Tests", "StudentContent");
+
+                        if (UserManager.IsInRole(user.Id, "Global Admin") || UserManager.IsInRole(user.Id, "Education Unit Admin"))
+                            return RedirectToAction("Index", "AdminContent");
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+            ViewBag.ReturnUrl = returnUrl;
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> LoginTwoFactor(LoginTwoFactorViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                AppUser user = await UserManager.FindByEmailAsync(model.Login.Email);
+                if (user == null)
+                    return RedirectToAction("Login");
+                var result = await SignInManager.PasswordSignInAsync(model.Login.Email, model.Login.Password, false, shouldLockout: false);
+                if (result == SignInStatus.Failure)
+                {
+                    return RedirectToAction("Login");
+                }
+                else
+                {
                     if (UserManager.IsInRole(user.Id, "Teacher"))
                         return RedirectToAction("Welcome", "TeacherContent");
 
@@ -269,7 +286,6 @@ namespace TestingSystem.Web.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
 

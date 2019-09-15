@@ -189,38 +189,51 @@ namespace TestingSystem.Web.Controllers
             return View(model);
         }
 
-        public new ActionResult Profile()
+        public new async Task<ActionResult> Profile()
         {
             if (this.Student == null)
-                return RedirectToAction("Test");
-            return View(this.Student);
+                return RedirectToAction("Tests");
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Tests");
+            var model = new EditStudentViewModel
+            {
+                Student = this.Student,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
         }
 
-        public ActionResult Edit()
+        public async Task<ActionResult> Edit()
         {
             if (this.Student == null)
-                return RedirectToAction("Test");
-            return View(this.Student);
+                return RedirectToAction("Tests");
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Tests");
+            var model = new EditStudentViewModel
+            {
+                Student = this.Student,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(StudentDTO model)
+        public async Task<ActionResult> Edit(EditStudentViewModel model)
         {
             if (ModelState.IsValid)
             {
-                StudentDTO oldUser = this.Student;
-                if (oldUser != null)
+                AppUser appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+                if (appUser != null)
                 {
-                    AppUser appUser = await UserManager.FindByEmailAsync(oldUser.Email);
-                    if (appUser != null)
-                    {
-                        appUser.Email = model.Email;
-                        appUser.UserName = model.Email;
-                        await UserManager.UpdateAsync(appUser);
-                        await studentService.AddOrUpdateAsync(model);
-                        return RedirectToAction("Profile");
-                    }
+                    appUser.Email = model.Student.Email;
+                    appUser.UserName = model.Student.Email;
+                    appUser.TwoFactorEnabled = model.IsTwoFactorEnabled;
+                    await UserManager.UpdateAsync(appUser);
+                    await studentService.AddOrUpdateAsync(model.Student);
                 }
+                return RedirectToAction("Profile");
             }
             return View(model);
         }
