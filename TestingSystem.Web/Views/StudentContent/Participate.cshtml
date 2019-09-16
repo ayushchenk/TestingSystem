@@ -22,8 +22,18 @@
                 @Html.HiddenFor(model => model.QuestionAnswers[i].Question.Id)
                 @Html.HiddenFor(model => model.QuestionAnswers[i].Question.QuestionString)
                 @Html.HiddenFor(model => model.QuestionAnswers[i].Question.ImagePath)
-                <div class="col-md-7 col-sm-7">
+                <div class="col-md-2 col-sm-2">
+                </div>
+                <div class="col-md-8 col-sm-8">
                     <pre>@Model.QuestionAnswers[i].Question.QuestionString</pre>
+
+                    @if (!String.IsNullOrWhiteSpace(@Model.QuestionAnswers[i].Question.ImagePath))
+                    {
+                        <div class="row" style="margin: 25px;">
+                            <img src="@Model.QuestionAnswers[i].Question.ImagePath" style="max-height: 350px; max-width: 350px;" />
+                        </div>
+                    }
+
                     @for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
                     {
                         <div class="row">
@@ -48,10 +58,10 @@
                         </div>
                     }
                 </div>
-                <div class="col-md-5 col-sm-5">
-                    <img src="@Model.QuestionAnswers[i].Question.ImagePath" style="max-height: 350px; max-width: 350px;" />
+                <div class="col-md-2 col-sm-2">
                 </div>
             </div>
+
             <hr />
         }
         <input type="submit" value="Submit" id="btn-submit" onclick="btnLimiter()">

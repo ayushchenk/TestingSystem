@@ -26,7 +26,7 @@ namespace TestingSystem.BOL.Service
                 cfg.CreateMap<StudentTestResult, StudentTestResultDTO>()
                     .ForMember("GroupName", opt => opt.MapFrom(str => str.GroupsInTest.Group.GroupName))
                     .ForMember("TestName", opt => opt.MapFrom(str => str.GroupsInTest.Test.TestName))
-                    .ForMember("QuestionCount", opt => opt.MapFrom(str => str.GroupsInTest.Test.QuestionCount))
+                    .ForMember("QuestionCount", opt => opt.MapFrom(str => str.GroupsInTest.Test.EasyCount + str.GroupsInTest.Test.MediumCount + str.GroupsInTest.Test.HardCount))
                     .ForMember("SubjectName", opt => opt.MapFrom(str => str.GroupsInTest.Test.Subject.SubjectName))
                     .ForMember("GroupId", opt => opt.MapFrom(str => str.GroupsInTest.Group.Id))
                     .ForMember("TestId", opt => opt.MapFrom(str => str.GroupsInTest.Test.Id))

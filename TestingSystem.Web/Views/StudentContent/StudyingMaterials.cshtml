@@ -14,7 +14,7 @@
                 {
                     <div class="col-md-3 col-sm-6">
                         <figure class="card card-product">
-                            <div class="img-wrap">
+                            @*<div class="img-wrap">
                                 <a href="@Html.DisplayFor(modelItem => item.Link)">
                                     @if (item.SubjectName == "C#")
                                     {
@@ -29,6 +29,10 @@
                                         <img src="@Url.Content("~/Design/studentRSS/studyRSS/img/pythonLogo.png")">
                                     }
                                 </a>
+                            </div>*@
+
+                            <div style="text-align:center">
+                                <h3>@item.SubjectName</h3>
                             </div>
                             <figcaption class="info-wrap">
                                 <a href="@Html.DisplayFor(modelItem => item.Link)" class="text-center">@item.StudyingMaterialName.ToUpper()</a>

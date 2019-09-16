@@ -26,6 +26,23 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Subject")]
         public string SubjectName { get; set; }
 
+        [Range(1,3, ErrorMessage = "Set difficulty from 1 to 3")]
+        public int Difficulty { get; set; }
+
+        public string DifficultyString
+        {
+            get
+            {
+                if (Difficulty == 1)
+                    return "Easy";
+                if (Difficulty == 2)
+                    return "Medium";
+                if (Difficulty == 3)
+                    return "Hard";
+                return "Not set";
+            }
+        }
+
         public int? QuestionImageId { get; set; }
 
         public int SpecializationId { get; set; }

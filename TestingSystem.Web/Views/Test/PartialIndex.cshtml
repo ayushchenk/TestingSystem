@@ -23,7 +23,7 @@
                                         @Html.DisplayNameFor(model => model.SubjectName)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.SpecializationName)
+                                        Questions
                                     </th>
                                     <th></th>
                                 </tr>
@@ -39,9 +39,11 @@
                                             @Html.DisplayFor(modelItem => item.SubjectName)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.SpecializationName)
+                                            <span style="margin:3px;">@item.EasyCount E</span>
+                                            <span style="margin:3px;">@item.EasyCount M</span>
+                                            <span style="margin:3px;">@item.EasyCount H</span>
                                         </td>
-                                        <td>
+                                        <td align="center">
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default btn-sm" })
                                             @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete btn btn-default btn-sm", data_id = item.Id })
                                             @Html.ActionLink("Assign groups", "AssignGroups", "GroupsInTest", new { id = item.Id }, new { @class = "btn btn-default btn-sm" })
@@ -74,11 +76,11 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.TestName)
                                     </th>
-                                    <th>
+                                    <th> 
                                         @Html.DisplayNameFor(model => model.SubjectName)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.SpecializationName)
+                                        Questions
                                     </th>
                                     <th></th>
                                 </tr>
@@ -94,9 +96,11 @@
                                             @Html.DisplayFor(modelItem => item.SubjectName)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.SpecializationName)
+                                            <span style="margin:3px;">@item.EasyCount E</span>
+                                            <span style="margin:3px;">@item.EasyCount M</span>
+                                            <span style="margin:3px;">@item.EasyCount H</span>
                                         </td>
-                                        <td>
+                                        <td align="center">
                                             @Html.ActionLink("Restore", "Restore", "Test", new { id = item.Id }, new { @class = "btn btn-default btn-sm btn-restore", data_id = item.Id })
                                             @Html.ActionLink("Groups", "Groups", "GroupsInTest", new { id = item.Id }, new { @class = "btn btn-default btn-sm" })
                                             @Html.ActionLink("Delete forever", "DeleteForever", "Test", new { id = item.Id }, new { @class = "btn btn-danger btn-sm btn-delete-forever", data_id = item.Id })

@@ -95,9 +95,14 @@ namespace TestingSystem.Web.Controllers
                 var test = await testService.GetAsync(git.TestId);
                 if (test == null)
                     return RedirectToAction("Tests");
-                var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId);
+                var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId && q.TeacherId == test.TeacherId);
                 var questionIds = questions.Select(q => q.Id);
                 var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
+
+                var easyQuestions = questions.Where(q => q.Difficulty == 1);
+                var mediumQuestions = questions.Where(q => q.Difficulty == 2);
+                var hardQuestions = questions.Where(q => q.Difficulty == 3);
+
                 ParticipateViewModel model = new ParticipateViewModel()
                 {
                     StartTime = git.StartTime.Value,
@@ -105,20 +110,41 @@ namespace TestingSystem.Web.Controllers
                     GroupInTestId = git.Id,
                     StudentId = this.Student.Id,
                     Length = git.Length,
-                    QuestionCount = test.QuestionCount,
+                    QuestionCount = test.EasyCount + test.MediumCount + test.HardCount,
                     SubjectId = test.SubjectId
                 };
                 Random rnd = new Random();
-                int realCount = Math.Min(model.QuestionCount, questions.Count());
-                for (int i = 0; i < model.QuestionCount; i++)
+
+                int realCount = Math.Min(test.EasyCount, easyQuestions.Count());
+                for (int i = 0; i < test.EasyCount; i++)
                 {
                     int selId = rnd.Next(realCount);
-                    model.QuestionAnswers.Add(new QuestionAnswer
-                    {
-                        Question = questions.ElementAt(selId),
-                        Answers = answers.Where(ans => ans.QuestionId == questions.ElementAt(selId).Id).ToList()
-                    });
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = easyQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
                 }
+
+                realCount = Math.Min(test.MediumCount, mediumQuestions.Count());
+                for (int i = 0; i < test.MediumCount; i++)
+                {
+                    int selId = rnd.Next(realCount);
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = mediumQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
+                }
+
+                realCount = Math.Min(test.HardCount, hardQuestions.Count());
+                for (int i = 0; i < test.HardCount; i++)
+                {
+                    int selId = rnd.Next(realCount);
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = hardQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
+                }
+
                 Session.Add("ParticipateModel", model);
                 return View(model);
             }

@@ -20,6 +20,8 @@ namespace TestingSystem.DAL.DbModel
         [StringLength(1024)]
         public string QuestionString { get; set; }
 
+        public int Difficulty{ set; get; }
+
         public int? QuestionImageId { get; set; }
 
         public int SubjectId { get; set; }

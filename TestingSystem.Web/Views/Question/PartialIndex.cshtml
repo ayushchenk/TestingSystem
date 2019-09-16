@@ -7,14 +7,13 @@
 {
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                Question Id
-            </div>
             <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
                 Subject Name
             </div>
             <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                Specialization Name
+            </div>
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+                Difficulty
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 Action
@@ -24,25 +23,24 @@
             </div>
         </div>
     </div>
-    <hr/>
+    <hr />
     foreach (var item in Model)
     {
         <div class="row">
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                @item.Question.Id
-            </div>
             <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
                 @item.Question.SubjectName
             </div>
             <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                @item.Question.SpecializationName
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Question.Id })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Question.Id }, new { @class = "btn-delete", data_id = item.Question.Id })
+                @item.Question.DifficultyString
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                @if(!String.IsNullOrWhiteSpace(item.Question.ImagePath))
+                @Html.ActionLink("Edit", "Edit", new { id = item.Question.Id })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Question.Id }, new { @class = "btn-delete", data_id = item.Question.Id })
+            </div>
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+                @if (!String.IsNullOrWhiteSpace(item.Question.ImagePath))
                 {
                     <span>True</span>
                 }

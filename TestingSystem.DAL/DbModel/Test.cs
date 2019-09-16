@@ -20,7 +20,11 @@ namespace TestingSystem.DAL.DbModel
         [StringLength(128)]
         public string TestName { get; set; }
 
-        public int QuestionCount { get; set; }
+        public int EasyCount { get; set; }
+
+        public int MediumCount { get; set; }
+
+        public int HardCount { get; set; }
 
         public int SubjectId { get; set; }
 

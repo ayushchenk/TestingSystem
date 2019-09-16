@@ -61,7 +61,7 @@ namespace TestingSystem.Web.Controllers
             var questions = await questionService.FindByAsync(question => question.TeacherId == this.Teacher.Id);
             if (!String.IsNullOrWhiteSpace(filter))
                 questions = questions.Where(question => question.SubjectName.ToLower().Contains(filter.ToLower())
-                                                     || question.SpecializationName.ToLower().Contains(filter.ToLower()));
+                                                     || question.DifficultyString.ToLower().Contains(filter.ToLower()));
             foreach (var q in questions)
                 model.Add(new CreateQuestionViewModel
                 {
@@ -75,8 +75,9 @@ namespace TestingSystem.Web.Controllers
         {
             var model = new CreateQuestionViewModel();
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
+            ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", 2);
             ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
-            ViewBag.Images = new SelectList(await imageService.GetAllAsync(), "Id", "ImagePath");
+            ViewBag.Images = new SelectList(await imageService.FindByAsync(image=> image.TeacherId == this.Teacher.Id), "Id", "ImagePath");
             return View(model);
         }
 
@@ -108,9 +109,9 @@ namespace TestingSystem.Web.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName");
+            ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", 2);
             ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
-            ViewBag.Images = new SelectList(await imageService.GetAllAsync(), "Id", "ImagePath");
+            ViewBag.Images = new SelectList(await imageService.FindByAsync(image => image.TeacherId == this.Teacher.Id), "Id", "ImagePath");
             return View(model);
         }
 
@@ -122,9 +123,9 @@ namespace TestingSystem.Web.Controllers
             if (model.Question == null || model.Question.TeacherId != this.Teacher.Id)
                 return RedirectToAction("Index");
             model.Answers = answerService.FindBy(answer => answer.QuestionId == model.Question.Id).ToList();
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.Question.SpecializationId);
+            ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", model.Question.Difficulty);
             ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName", model.Question.SubjectId);
-            ViewBag.Images = new SelectList(await imageService.GetAllAsync(), "Id", "ImagePath", model.Question.QuestionImageId);
+            ViewBag.Images = new SelectList(await imageService.FindByAsync(image => image.TeacherId == this.Teacher.Id), "Id", "ImagePath");
             return View("Create", model);
         }
 

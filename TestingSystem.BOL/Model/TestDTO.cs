@@ -13,8 +13,14 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Test")]
         public string TestName { get; set; }
 
-        [Range(1, 100, ErrorMessage = "Please enter number between 1 and 100")]
-        public int QuestionCount { set; get; }
+        [Range(1, 50, ErrorMessage = "Please enter number between 1 and 50")]
+        public int EasyCount { get; set; }
+
+        [Range(1, 50, ErrorMessage = "Please enter number between 1 and 50")]
+        public int MediumCount { get; set; }
+
+        [Range(1, 50, ErrorMessage = "Please enter number between 1 and 50")]
+        public int HardCount { get; set; }
 
         [StringLength(64)]
         [DisplayName("Specialization")]
