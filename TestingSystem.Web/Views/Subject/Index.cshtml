@@ -10,6 +10,7 @@
 
 @Scripts.Render("~/bundles/jquery")
 @section Scripts{
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
     <script type="text/javascript">
         $(function () {
             $("#partial-content").load("@Url.Action("PartialIndex", "Subject")");

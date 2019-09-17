@@ -58,6 +58,16 @@ namespace TestingSystem.BOL.Service
             return repository.GetAll().Select(role => mapper.Map<AdminDTO>(role));
         }
 
+        public void DeleteRange(IEnumerable<AdminDTO> items)
+        {
+            repository.DeleteRange(items.Select(item => mapper.Map<Admin>(item)));
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<AdminDTO> items)
+        {
+            return Task.Run(() => DeleteRange(items));
+        }
+
         public Task<IEnumerable<AdminDTO>> GetAllAsync()
         {
             return Task.Run(() => GetAll());

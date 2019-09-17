@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TestingSystem.BOL.Model.SubjectThemeDTO>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.SubjectId })
+</p>
+@if (Model.Count() != 0)
+{
+    <table class="table table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ThemeName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThemeName)
+                </td>
+                <td align="center">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id})
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert alert-info">
+        No themes
+    </div>
+}
+
+@Html.ActionLink("Back to list", "Subjects", "TeacherContent")

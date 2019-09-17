@@ -26,9 +26,15 @@ namespace TestingSystem.BOL.Service
                     .ForMember("SpecializationName", opt => opt.MapFrom(question => question.Subject.Specialization.SpecializationName))
                     .ForMember("SpecializationId", opt => opt.MapFrom(question => question.Subject.Specialization.Id))
                     .ForMember("SubjectName", opt => opt.MapFrom(question => question.Subject.SubjectName))
+                    .ForMember("ThemeName", opt => opt.MapFrom(question => question.SubjectTheme.ThemeName))
                     .ForMember("ImagePath", opt => opt.MapFrom(question => question.QuestionImage.ImagePath));
                 cfg.CreateMap<QuestionDTO, Question>();
             }).CreateMapper();
+        }
+
+        public void Save()
+        {
+            repository.Save();
         }
 
         public QuestionDTO AddOrUpdate(QuestionDTO obj)
@@ -57,6 +63,16 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<QuestionDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<QuestionDTO>(role));
+        }
+
+        public void DeleteRange(IEnumerable<QuestionDTO> items)
+        {
+            repository.DeleteRange(items.Select(item => mapper.Map<Question>(item)));
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<QuestionDTO> items)
+        {
+            return Task.Run(() => DeleteRange(items));
         }
 
         public Task<IEnumerable<QuestionDTO>> GetAllAsync()

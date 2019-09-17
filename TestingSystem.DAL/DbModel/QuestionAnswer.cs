@@ -11,7 +11,7 @@ namespace TestingSystem.DAL.DbModel
         public int Id { get; set; }
 
         [Required]
-        [StringLength(512)]
+        [StringLength(1024)]
         public string AnswerString { get; set; }
 
         public bool IsCorrect { get; set; }

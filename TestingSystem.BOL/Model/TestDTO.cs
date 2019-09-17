@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,13 +14,13 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Test")]
         public string TestName { get; set; }
 
-        [Range(1, 50, ErrorMessage = "Please enter number between 1 and 50")]
+        [Range(0, 50, ErrorMessage = "Please enter number between 0 and 50")]
         public int EasyCount { get; set; }
 
-        [Range(1, 50, ErrorMessage = "Please enter number between 1 and 50")]
+        [Range(0, 50, ErrorMessage = "Please enter number between 0 and 50")]
         public int MediumCount { get; set; }
 
-        [Range(1, 50, ErrorMessage = "Please enter number between 1 and 50")]
+        [Range(0, 50, ErrorMessage = "Please enter number between 0 and 50")]
         public int HardCount { get; set; }
 
         [StringLength(64)]
@@ -39,5 +40,7 @@ namespace TestingSystem.BOL.Model
         public int SpecializationId { get; set; }
 
         public int EducationUnitId { get; set; }
+
+        public IEnumerable<ThemesInTestDTO> Themes { set; get; }
     }
 }

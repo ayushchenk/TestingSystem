@@ -16,23 +16,26 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<TeacherDTO> teacherService;
         private IEntityService<SubjectDTO> subjectService;
         private IEntityService<EducationUnitDTO> unitService;
+        private IEntityService<SubjectThemeDTO> themeService;
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<QuestionAnswerDTO> answerService;
         private IEntityService<TeachersInSubjectDTO> teacherInSubjectService;
 
-        public ServiceController(IEntityService<TeacherDTO> teacherService,
-                                 IEntityService<GroupDTO> groupService,
+        public ServiceController(IEntityService<GroupDTO> groupService,
+                                 IEntityService<TeacherDTO> teacherService,
                                  IEntityService<SubjectDTO> subjectService,
+                                 IEntityService<SubjectThemeDTO> themeService,
                                  IEntityService<EducationUnitDTO> unitService,
                                  IEntityService<SpecializationDTO> specService,
                                  IEntityService<QuestionAnswerDTO> answerService,
                                  IEntityService<TeachersInSubjectDTO> teacherInSubjectService)
         {
-            this.teacherService = teacherService;
             this.unitService = unitService;
             this.specService = specService;
+            this.themeService = themeService;
             this.groupService = groupService;
             this.answerService = answerService;
+            this.teacherService = teacherService;
             this.subjectService = subjectService;
             this.teacherInSubjectService = teacherInSubjectService;
         }
@@ -50,6 +53,14 @@ namespace TestingSystem.Web.Controllers
             var spec = specService.Get(id);
             if (spec != null)
                 return Json(subjectService.FindBy(subject => subject.SpecializationId == spec.Id).Where(subject => subject.Questions != 0).Select(subject => new { Id = subject.Id, SubjectName = subject.SubjectName }), JsonRequestBehavior.AllowGet);
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetThemesBySubject(int id = 0)
+        {
+            var subject = subjectService.Get(id);
+            if (subject != null)
+                return Json(themeService.FindBy(theme => theme.SubjectId == subject.Id).Select(theme => new { Id = theme.Id, ThemeName = theme.ThemeName}), JsonRequestBehavior.AllowGet);
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
 

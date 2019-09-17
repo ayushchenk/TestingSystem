@@ -27,6 +27,11 @@ namespace TestingSystem.BOL.Service
             }).CreateMapper();
         }
 
+        public void Save()
+        {
+            repository.Save();
+        }
+
         public QuestionImageDTO AddOrUpdate(QuestionImageDTO obj)
         {
             QuestionImage res = repository.AddOrUpdate(mapper.Map<QuestionImage>(obj));
@@ -53,6 +58,16 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<QuestionImageDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<QuestionImageDTO>(role));
+        }
+
+        public void DeleteRange(IEnumerable<QuestionImageDTO> items)
+        {
+            repository.DeleteRange(items.Select(item => mapper.Map<QuestionImage>(item)));
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<QuestionImageDTO> items)
+        {
+            return Task.Run(() => DeleteRange(items));
         }
 
         public Task<IEnumerable<QuestionImageDTO>> GetAllAsync()

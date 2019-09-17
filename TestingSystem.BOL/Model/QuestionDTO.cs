@@ -8,7 +8,7 @@ namespace TestingSystem.BOL.Model
         public int Id { get; set; }
 
         [Required]
-        [StringLength(1024)]
+        [StringLength(2048)]
         public string QuestionString { get; set; }
 
         [StringLength(128)]
@@ -25,6 +25,10 @@ namespace TestingSystem.BOL.Model
         [StringLength(32)]
         [DisplayName("Subject")]
         public string SubjectName { get; set; }
+
+        [StringLength(128)]
+        [DisplayName("Theme")]
+        public string ThemeName { get; set; }
 
         [Range(1,3, ErrorMessage = "Set difficulty from 1 to 3")]
         public int Difficulty { get; set; }
@@ -49,6 +53,10 @@ namespace TestingSystem.BOL.Model
 
         public int TeacherId { get; set; }
 
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int SubjectId { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
+        public int ThemeId { get; set; }
     }
 }

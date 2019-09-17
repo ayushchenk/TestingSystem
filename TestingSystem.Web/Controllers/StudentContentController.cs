@@ -20,13 +20,13 @@ namespace TestingSystem.Web.Controllers
     {
         private StudentDTO student;
         private IEntityService<TestDTO> testService;
-        private IEntityService<GroupDTO> groupService;
         private IEntityService<StudentDTO> studentService;
         private IEntityService<GroupsInTestDTO> gitService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<QuestionAnswerDTO> answerService;
         private IEntityService<StudentTestResultDTO> resultService;
         private IEntityService<StudyingMaterialDTO> materialService;
+        private IEntityService<ThemesInTestDTO> themesInTestsService;
 
         private AppUserManager UserManager
         {
@@ -55,22 +55,22 @@ namespace TestingSystem.Web.Controllers
         }
 
         public StudentContentController(IEntityService<TestDTO> testService,
-                                        IEntityService<GroupDTO> groupService,
                                         IEntityService<StudentDTO> studentService,
                                         IEntityService<GroupsInTestDTO> gitService,
                                         IEntityService<QuestionDTO> questionService,
                                         IEntityService<QuestionAnswerDTO> answerService,
                                         IEntityService<StudentTestResultDTO> resultService,
-                                        IEntityService<StudyingMaterialDTO> materialService)
+                                        IEntityService<StudyingMaterialDTO> materialService,
+                                        IEntityService<ThemesInTestDTO> themesInTestsService)
         {
             this.gitService = gitService;
             this.testService = testService;
-            this.groupService = groupService;
             this.answerService = answerService;
             this.resultService = resultService;
             this.studentService = studentService;
             this.materialService = materialService;
             this.questionService = questionService;
+            this.themesInTestsService = themesInTestsService;
         }
 
         public async Task<ActionResult> Tests()
@@ -95,7 +95,10 @@ namespace TestingSystem.Web.Controllers
                 var test = await testService.GetAsync(git.TestId);
                 if (test == null)
                     return RedirectToAction("Tests");
-                var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId && q.TeacherId == test.TeacherId);
+
+                var themes = (await themesInTestsService.FindByAsync(tit => tit.TestId == test.Id)).Select(tit => tit.ThemeId);
+
+                var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId && q.TeacherId == test.TeacherId && themes.Contains(q.ThemeId));
                 var questionIds = questions.Select(q => q.Id);
                 var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
 
@@ -165,8 +168,11 @@ namespace TestingSystem.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Participate(ParticipateViewModel model)
         {
+            //if (Session["ParticipateModel"] == null)
+            //    return RedirectToAction("Tests");
             StudentTestResultDTO result = new StudentTestResultDTO
             {
                 GroupInTestId = model.GroupInTestId,

@@ -92,19 +92,27 @@ namespace TestingSystem.Web.Controllers
         {
             var group = await groupService.GetAsync(id);
             if (group == null)
-                return RedirectToAction("Groups");
+                return RedirectToAction("Welcome");
             ViewBag.GroupName = group.GroupName;
             var model = await studentService.FindByAsync(student => student.GroupId == group.Id);
+            return View(model);
+        }
+
+        public async Task<ActionResult> Subjects()
+        {
+            if (this.Teacher == null)
+                return RedirectToAction("Welcome");
+            var model = await teachersInSubejctsService.FindByAsync(tis=> tis.TeacherId == this.Teacher.Id);
             return View(model);
         }
 
         public new async Task<ActionResult> Profile()
         {
             if (this.Teacher == null)
-                return RedirectToAction("Groups");
+                return RedirectToAction("Welcome");
             var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
             if (appUser == null)
-                return RedirectToAction("Groups");
+                return RedirectToAction("Welcome");
             var model = new EditTeacherViewModel
             {
                 Teacher = this.Teacher,
@@ -116,10 +124,10 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Edit()
         {
             if (this.Teacher == null)
-                return RedirectToAction("Groups");
+                return RedirectToAction("Welcome");
             var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
             if (appUser == null)
-                return RedirectToAction("Groups");
+                return RedirectToAction("Welcome");
             var model = new EditTeacherViewModel
             {
                 Teacher = this.Teacher,

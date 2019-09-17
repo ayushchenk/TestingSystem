@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Autofac\AutofacConfig.cs" />
+    <Compile Include="Model\ThemesInTestDTO.cs" />
     <Compile Include="Model\AdminDTO.cs" />
     <Compile Include="Model\EducationUnitDTO.cs" />
     <Compile Include="Model\GroupDTO.cs" />
@@ -84,11 +85,14 @@
     <Compile Include="Model\StudentTestResultDTO.cs" />
     <Compile Include="Model\StudyingMaterialDTO.cs" />
     <Compile Include="Model\SubjectDTO.cs" />
+    <Compile Include="Model\SubjectThemeDTO.cs" />
     <Compile Include="Model\TeachersInGroupDTO.cs" />
     <Compile Include="Model\TeachersInSubjectDTO.cs" />
     <Compile Include="Model\TestDTO.cs" />
     <Compile Include="Model\TeacherDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ThemesInTestDTOService.cs" />
+    <Compile Include="Service\SubjectThemeDTOService.cs" />
     <Compile Include="Service\AdminDTOService.cs" />
     <Compile Include="Service\EducationUnitDTOService.cs" />
     <Compile Include="Service\StudyingMaterialDTOService.cs" />

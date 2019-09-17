@@ -1,4 +1,4 @@
-﻿@model TestingSystem.BOL.Model.TestDTO
+﻿@model TestingSystem.Web.Models.ViewModels.CreateTestViewModel
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
@@ -10,47 +10,78 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.TeacherId)
-        @Html.HiddenFor(model => model.IsDeleted)
+        @Html.HiddenFor(model => model.Test.Id)
+        @Html.HiddenFor(model => model.Test.TeacherId)
+        @Html.HiddenFor(model => model.Test.IsDeleted)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TestName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Test.TestName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TestName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TestName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Test.TestName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Test.TestName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group" id="subject-cont">
-            @Html.LabelFor(m => m.SubjectName, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.Test.SubjectName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SubjectId, ViewBag.Subjects as SelectList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.Test.SubjectId, ViewBag.Subjects as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Test.SubjectId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EasyCount, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.Test.EasyCount, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EasyCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EasyCount, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Test.EasyCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Test.EasyCount, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MediumCount, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.Test.MediumCount, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MediumCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MediumCount, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Test.MediumCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Test.MediumCount, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.HardCount, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.Test.HardCount, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HardCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HardCount, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Test.HardCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Test.HardCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Themes
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <label><input type="checkbox" id="ch-all"/> All</label><hr/>
+                            @foreach (var item in Model.Themes)
+                            {
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"
+                                               name="SelectedThemes"
+                                               value="@item.Value"
+                                               @if (Model.SelectedThemes.Contains(Convert.ToInt32(item.Value))) { <text> checked </text> } /> @item.Text
+                                        </label>
+                                    </div>
+                                }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -59,11 +90,12 @@
                 <input type="submit" value="Save" class="btn btn-success" id="submit" onclick="submitLimit()" />
             </div>
         </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
     </div>
 }
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
@@ -78,6 +110,25 @@
                     });
                 });
             });*@
+
+            $("#ch-all").click(function () {
+                $('input:checkbox').prop('checked', $(this).prop('checked'));
+            });
+
+            $("#submit").click(function (e) {
+                easyCount = $("#Test_EasyCount").val();
+                mediumCount = $("#Test_MediumCount").val();
+                hardCount = $("#Test_HardCount").val();
+                numberOfChecked = $('input:checkbox:checked').length;
+                if (easyCount + mediumCount + hardCount <= 0 ) {
+                    e.preventDefault();
+                    alert("Input correct questions count");
+                }
+                if (numberOfChecked == 0) {
+                    e.preventDefault();
+                    alert("Select at least one theme");
+                }
+            });
         });
         function submitLimit() {
             var btn = document.getElementById('submit')
@@ -87,7 +138,7 @@
 
             setTimeout(function () {
                 btn.removeAttribute('disabled');
-            }, 10000);
+            }, 5000);
         }
     </script>
 }

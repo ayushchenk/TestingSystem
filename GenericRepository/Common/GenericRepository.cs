@@ -47,6 +47,16 @@ namespace GenericRepository.Common
             return dbSet;
         }
 
+        public void DeleteRange(IEnumerable<T> items)
+        {
+            foreach(var item in items)
+            {
+                T temp = dbSet.Find(item.Id);
+                dbSet.Remove(temp);
+            }
+            Save();
+        }
+
         public void Save()
         {
             context.SaveChanges();

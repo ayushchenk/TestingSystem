@@ -30,9 +30,15 @@ namespace TestingSystem.BOL.Service
                     .ForMember("SubjectName", opt => opt.MapFrom(str => str.GroupsInTest.Test.Subject.SubjectName))
                     .ForMember("GroupId", opt => opt.MapFrom(str => str.GroupsInTest.Group.Id))
                     .ForMember("TestId", opt => opt.MapFrom(str => str.GroupsInTest.Test.Id))
+                    .ForMember("StartDate", opt => opt.MapFrom(str => str.GroupsInTest.StartDate))
                     .ForMember("SubjectId", opt => opt.MapFrom(str => str.GroupsInTest.Test.Subject.Id));
                 cfg.CreateMap<StudentTestResultDTO, StudentTestResult>();
             }).CreateMapper();
+        }
+
+        public void Save()
+        {
+            repository.Save();
         }
 
         public StudentTestResultDTO AddOrUpdate(StudentTestResultDTO obj)
@@ -61,6 +67,16 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<StudentTestResultDTO> GetAll()
         {
             return repository.GetAll().Select(str => mapper.Map<StudentTestResultDTO>(str));
+        }
+
+        public void DeleteRange(IEnumerable<StudentTestResultDTO> items)
+        {
+            repository.DeleteRange(items.Select(item => mapper.Map<StudentTestResult>(item)));
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<StudentTestResultDTO> items)
+        {
+            return Task.Run(() => DeleteRange(items));
         }
 
         public Task<IEnumerable<StudentTestResultDTO>> GetAllAsync()

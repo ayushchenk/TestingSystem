@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace TestingSystem.Web.Controllers
 {
+    [ValidateInput(false)]
     [Authorize(Roles = "Teacher")]
     public class QuestionController : Controller
     {
@@ -19,6 +20,7 @@ namespace TestingSystem.Web.Controllers
         private IEntityService<SpecializationDTO> specService;
         private IEntityService<QuestionImageDTO> imageService;
         private IEntityService<QuestionAnswerDTO> answerService;
+        private IEntityService<SubjectThemeDTO> themeService;
         private IEntityService<TeachersInSubjectDTO> teachersInSubjectsService;
 
         private TeacherDTO Teacher
@@ -34,12 +36,14 @@ namespace TestingSystem.Web.Controllers
         public QuestionController(IEntityService<TeacherDTO> teacherService,
                                   IEntityService<SubjectDTO> subjectService,
                                   IEntityService<QuestionDTO> questionService,
+                                  IEntityService<SubjectThemeDTO> themeService,
                                   IEntityService<SpecializationDTO> specService,
                                   IEntityService<QuestionImageDTO> imageService,
                                   IEntityService<QuestionAnswerDTO> answerService,
                                   IEntityService<TeachersInSubjectDTO> teachersInSubjectsService)
         {
             this.specService = specService;
+            this.themeService = themeService;
             this.imageService = imageService;
             this.answerService = answerService;
             this.teacherService = teacherService;
@@ -61,7 +65,8 @@ namespace TestingSystem.Web.Controllers
             var questions = await questionService.FindByAsync(question => question.TeacherId == this.Teacher.Id);
             if (!String.IsNullOrWhiteSpace(filter))
                 questions = questions.Where(question => question.SubjectName.ToLower().Contains(filter.ToLower())
-                                                     || question.DifficultyString.ToLower().Contains(filter.ToLower()));
+                                                     || question.DifficultyString.ToLower().Contains(filter.ToLower())
+                                                     || question.ThemeName.ToLower().Contains(filter.ToLower()));
             foreach (var q in questions)
                 model.Add(new CreateQuestionViewModel
                 {
@@ -75,9 +80,10 @@ namespace TestingSystem.Web.Controllers
         {
             var model = new CreateQuestionViewModel();
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
-            ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", 2);
             ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
             ViewBag.Images = new SelectList(await imageService.FindByAsync(image=> image.TeacherId == this.Teacher.Id), "Id", "ImagePath");
+            ViewBag.Themes = new SelectList(await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id), "Id", "ThemeName");
+            ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", 2);
             return View(model);
         }
 
@@ -109,9 +115,10 @@ namespace TestingSystem.Web.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", 2);
             ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
             ViewBag.Images = new SelectList(await imageService.FindByAsync(image => image.TeacherId == this.Teacher.Id), "Id", "ImagePath");
+            ViewBag.Themes = new SelectList(await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id), "Id", "ThemeName");
+            ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", 2);
             return View(model);
         }
 
@@ -123,9 +130,11 @@ namespace TestingSystem.Web.Controllers
             if (model.Question == null || model.Question.TeacherId != this.Teacher.Id)
                 return RedirectToAction("Index");
             model.Answers = answerService.FindBy(answer => answer.QuestionId == model.Question.Id).ToList();
+            var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
+            ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName", model.Question.SubjectId);
+            ViewBag.Themes = new SelectList(await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id), "Id", "ThemeName", model.Question.ThemeId);
+            ViewBag.Images = new SelectList(await imageService.FindByAsync(image => image.TeacherId == this.Teacher.Id), "Id", "ImagePath", model.Question.QuestionImageId);
             ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", model.Question.Difficulty);
-            ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName", model.Question.SubjectId);
-            ViewBag.Images = new SelectList(await imageService.FindByAsync(image => image.TeacherId == this.Teacher.Id), "Id", "ImagePath");
             return View("Create", model);
         }
 

@@ -18,16 +18,19 @@ namespace TestingSystem.Web.ApiControllers
         private IEntityService<GroupsInTestDTO> gitService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<QuestionAnswerDTO> answerService;
+        private IEntityService<ThemesInTestDTO> themesInTestsService;
 
         public ParticipateApiController(IEntityService<TestDTO> testService,
                                         IEntityService<GroupsInTestDTO> gitService,
                                         IEntityService<QuestionDTO> questionService,
-                                        IEntityService<QuestionAnswerDTO> answerService)
+                                        IEntityService<QuestionAnswerDTO> answerService,
+                                        IEntityService<ThemesInTestDTO> themesInTestsService)
         {
             this.gitService = gitService;
             this.testService = testService;
             this.answerService = answerService;
             this.questionService = questionService;
+            this.themesInTestsService = themesInTestsService;
         }
 
         // GET: api/ParticipateApi/6
@@ -40,7 +43,9 @@ namespace TestingSystem.Web.ApiControllers
             if (test == null)
                 return BadRequest("Test");
 
-            var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId);
+            var themes = (await themesInTestsService.FindByAsync(tit => tit.TestId == test.Id)).Select(tit => tit.ThemeId);
+
+            var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId && q.TeacherId == test.TeacherId && themes.Contains(q.ThemeId));
             var questionIds = questions.Select(q => q.Id);
             var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
 

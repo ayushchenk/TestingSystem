@@ -8,9 +8,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                Subject Name
+                Subject
             </div>
             <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
+                Theme
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 Difficulty
@@ -31,6 +32,7 @@
                 @item.Question.SubjectName
             </div>
             <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
+                @item.Question.ThemeName
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 @item.Question.DifficultyString
@@ -52,7 +54,7 @@
         </div>
         <div class="row">
             <div class="col-md-10 col-sm-10 col-10">
-                @item.Question.QuestionString
+                <pre style="margin: 5px">@item.Question.QuestionString</pre>
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 Is Correct
@@ -62,7 +64,7 @@
         {
             <div class="row">
                 <div class="col-md-10 col-sm-10 col-10">
-                    @i. @item.Answers.ElementAt(i - 1).AnswerString
+                    @i. <pre style="margin: 5px"> @item.Answers.ElementAt(i - 1).AnswerString</pre>
                 </div>
                 <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                     @item.Answers.ElementAt(i - 1).IsCorrect
@@ -75,7 +77,7 @@
 }
 else
 {
-    <div class="alert-info">
+    <div class="alert alert-info">
         No questions
     </div>
 }

@@ -30,6 +30,11 @@ namespace TestingSystem.BOL.Service
             }).CreateMapper();
         }
 
+        public void Save()
+        {
+            repository.Save();
+        }
+
         public SubjectDTO AddOrUpdate(SubjectDTO obj)
         {
             Subject res = repository.AddOrUpdate(mapper.Map<Subject>(obj));
@@ -56,6 +61,16 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<SubjectDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<SubjectDTO>(role));
+        }
+
+        public void DeleteRange(IEnumerable<SubjectDTO> items)
+        {
+            repository.DeleteRange(items.Select(item => mapper.Map<Subject>(item)));
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<SubjectDTO> items)
+        {
+            return Task.Run(() => DeleteRange(items));
         }
 
         public Task<IEnumerable<SubjectDTO>> GetAllAsync()

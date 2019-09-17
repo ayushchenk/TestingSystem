@@ -28,6 +28,8 @@ namespace TestingSystem.BOL.Model
         [DisplayName("Subject")]
         public string SubjectName { get; set; }
 
+        public DateTime StartDate { set; get; }
+
         [Range(1, int.MaxValue, ErrorMessage = "Please select")]
         public int GroupInTestId { get; set; }
 

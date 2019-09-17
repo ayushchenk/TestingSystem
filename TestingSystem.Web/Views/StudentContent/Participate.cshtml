@@ -4,8 +4,10 @@
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
     int secondsRemaining = (int)(Model.EndTime - DateTime.Now).TotalSeconds;
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("Participate", "StudentContent", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
+
     <h3 id="countdown"></h3>
     <div class="container">
         @Html.HiddenFor(model => model.Length)
@@ -95,9 +97,8 @@
 
 
             $("#btn-submit").click(function(e){
-                if(!confirm("Are you sure want to end?"))
-                    e.preventDefault();
-                else
+                e.preventDefault();
+                if(confirm("Are you sure want to end?"))
                     $("form").submit();
             });
         });
