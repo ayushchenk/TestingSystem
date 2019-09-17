@@ -11,7 +11,7 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.ApiControllers
 {
-    [Authorize]
+    //[Authorize]
     public class ParticipateApiController : ApiController
     {
         private IEntityService<TestDTO> testService;
@@ -65,34 +65,44 @@ namespace TestingSystem.Web.ApiControllers
             Random rnd = new Random();
 
             int realCount = Math.Min(test.EasyCount, easyQuestions.Count());
-            for (int i = 0; i < test.EasyCount; i++)
+            if (realCount != 0)
             {
-                int selId = rnd.Next(realCount);
-                QuestionAnswer qa = new QuestionAnswer();
-                qa.Question = easyQuestions.ElementAt(selId);
-                qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
-                model.QuestionAnswers.Add(qa);
+                for (int i = 0; i < test.EasyCount; i++)
+                {
+                    int selId = rnd.Next(realCount);
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = easyQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
+                }
             }
 
             realCount = Math.Min(test.MediumCount, mediumQuestions.Count());
-            for (int i = 0; i < test.EasyCount; i++)
+            if (realCount != 0)
             {
-                int selId = rnd.Next(realCount);
-                QuestionAnswer qa = new QuestionAnswer();
-                qa.Question = mediumQuestions.ElementAt(selId);
-                qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
-                model.QuestionAnswers.Add(qa);
+                for (int i = 0; i < test.MediumCount; i++)
+                {
+                    int selId = rnd.Next(realCount);
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = mediumQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
+                }
             }
 
             realCount = Math.Min(test.HardCount, hardQuestions.Count());
-            for (int i = 0; i < test.EasyCount; i++)
+            if (realCount != 0)
             {
-                int selId = rnd.Next(realCount);
-                QuestionAnswer qa = new QuestionAnswer();
-                qa.Question = hardQuestions.ElementAt(selId);
-                qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
-                model.QuestionAnswers.Add(qa);
+                for (int i = 0; i < test.HardCount; i++)
+                {
+                    int selId = rnd.Next(realCount);
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = hardQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
+                }
             }
+
             return Ok(model);
         }
     }
