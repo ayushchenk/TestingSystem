@@ -1,0 +1,23 @@
+﻿.gradient {
+    font-size: 2em;
+    background: linear-gradient(77deg, rgb(255, 191, 172) 0%, rgb(157, 178, 255) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    padding: 0.3em 0.6em;
+    border: 3px solid transparent;
+    border-image: linear-gradient(77deg, rgb(255, 191, 172) 0%, rgb(157, 178, 255) 100%);
+    border-image-slice: 1;
+}
+
+.gradient-group {
+    font-size: 2em;
+    background: linear-gradient(77deg, rgb(140, 142, 199) 0%, rgb(113, 197, 255) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    padding: 0.3em 0.6em;
+    border: 3px solid transparent;
+    border-image: linear-gradient(77deg, rgb(140, 142, 199) 0%, rgb(113, 197, 255) 100%);
+    border-image-slice: 1;
+}
