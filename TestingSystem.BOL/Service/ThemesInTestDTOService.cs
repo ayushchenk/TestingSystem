@@ -24,6 +24,7 @@ namespace TestingSystem.BOL.Service
             {
                 cfg.AddExpressionMapping();
                 cfg.CreateMap<ThemesInTest, ThemesInTestDTO>().
+                    ForMember("SubjectId", opt => opt.MapFrom(theme => theme.SubjectTheme.SubjectId)).
                     ForMember("ThemeName", opt => opt.MapFrom(theme => theme.SubjectTheme.ThemeName));
                 cfg.CreateMap<ThemesInTestDTO, ThemesInTest>();
             }).CreateMapper();

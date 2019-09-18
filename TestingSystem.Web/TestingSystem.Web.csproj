@@ -2778,6 +2778,7 @@
     <Content Include="Views\SubjectTheme\Index.cshtml" />
     <Content Include="Views\SubjectTheme\PartialIndex.cshtml" />
     <Content Include="Views\SubjectTheme\Edit.cshtml" />
+    <Content Include="Views\Test\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -64,6 +64,14 @@ namespace TestingSystem.Web.Controllers
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetThemesBySubjectForTest(int id = 0)
+        {
+            var subject = subjectService.Get(id);
+            if (subject != null)
+                return Json(themeService.FindBy(theme => theme.SubjectId == subject.Id && theme.Questions > 0).Select(theme => new { Id = theme.Id, ThemeName = theme.ThemeName, EasyCount = theme.EasyCount, MediumCount = theme.MediumCount, HardCount = theme.HardCount}), JsonRequestBehavior.AllowGet);
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetTeachersBySpecialization(int id = 0)
         {
             var spec = specService.Get(id);

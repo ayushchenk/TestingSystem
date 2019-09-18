@@ -23,5 +23,11 @@ namespace TestingSystem.BOL.Model
         public int TeacherId { get; set; }
 
         public int Questions { set; get; }
+
+        public int EasyCount { set; get; }
+
+        public int MediumCount { set; get; }
+
+        public int HardCount { set; get; }
     }
 }

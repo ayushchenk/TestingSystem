@@ -70,8 +70,10 @@ namespace TestingSystem.Web.Controllers
                 return RedirectToAction("Subjects", "TeacherContent");
             var model = new SubjectThemeDTO()
             {
+                Id = 0,
                 SubjectId = subject.Id,
-                SubjectName = subject.SubjectName
+                SubjectName = subject.SubjectName,
+                TeacherId = this.Teacher.Id
             };
             return View("Edit", model);
         }
@@ -89,7 +91,6 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.TeacherId = this.Teacher.Id;
                 await themeService.AddOrUpdateAsync(model);
                 return RedirectToAction("Index", new { id = model.SubjectId});
             }

@@ -16,5 +16,7 @@ namespace TestingSystem.BOL.Model
         public int TestId { get; set; }
 
         public string ThemeName { set; get; }
+
+        public int SubjectId { set; get; }
     }
 }

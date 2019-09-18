@@ -23,10 +23,14 @@ namespace TestingSystem.BOL.Service
             mapper = new MapperConfiguration(cfg =>
             {
                 cfg.AddExpressionMapping();
-                cfg.CreateMap<SubjectTheme, SubjectThemeDTO>()
+                cfg.CreateMap<SubjectTheme, SubjectThemeDTO>()  
                     .ForMember("SubjectName", opt => opt.MapFrom(subject => subject.Subject.SubjectName))
-                    .ForMember("Questions", opt => opt.MapFrom(subject => subject.Questions.Count));
-                cfg.CreateMap<SubjectThemeDTO, SubjectTheme>();
+                    .ForMember("EasyCount", opt => opt.MapFrom(subject => subject.Questions.Where(q=>q.Difficulty == 1).Count()))
+                    .ForMember("MediumCount", opt => opt.MapFrom(subject => subject.Questions.Where(q => q.Difficulty == 2).Count()))
+                    .ForMember("HardCount", opt => opt.MapFrom(subject => subject.Questions.Where(q => q.Difficulty == 3).Count()))
+                    .ForMember("Questions", opt => opt.MapFrom(subject => subject.Questions.Count()));
+                cfg.CreateMap<SubjectThemeDTO, SubjectTheme>()
+                    .ForMember("Questions", opt=> opt.MapFrom( subject => new HashSet<Question>()));
             }).CreateMapper();
         }
 
