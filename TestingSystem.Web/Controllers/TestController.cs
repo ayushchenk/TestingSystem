@@ -76,8 +76,8 @@ namespace TestingSystem.Web.Controllers
         {
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
             var model = (await testService.FindByAsync(test => test.TeacherId == this.Teacher.Id && ids.Contains(test.SubjectId) && !test.IsDeleted)).ToList();
-            foreach(var test in model)
-                test.Themes = (await themesInTestsService.FindByAsync(tit => tit.TestId ==test.Id)).ToList();
+            foreach (var test in model)
+                test.Themes = (await themesInTestsService.FindByAsync(tit => tit.TestId == test.Id)).ToList();
 
 
             if (!String.IsNullOrWhiteSpace(filter))

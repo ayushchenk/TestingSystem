@@ -124,7 +124,7 @@ namespace TestingSystem.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginVerification(ExternalLoginVerificationViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
@@ -262,7 +262,7 @@ namespace TestingSystem.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> LoginTwoFactor(LoginTwoFactorViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 AppUser user = await UserManager.FindByEmailAsync(model.Login.Email);
                 if (user == null)
