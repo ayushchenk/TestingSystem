@@ -62,7 +62,7 @@ namespace MailSender
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("testing.system.yl@gmail.com", "Testing System Application"),
+                From = new EmailAddress("testing.system.yl@gmail.com", "Testing System | IES"),
                 Subject = subject,
                 PlainTextContent = body,
             };

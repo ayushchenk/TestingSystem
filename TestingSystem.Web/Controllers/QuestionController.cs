@@ -81,7 +81,7 @@ namespace TestingSystem.Web.Controllers
             var model = new CreateQuestionViewModel();
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
             ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
-            ViewBag.Images = new SelectList(await imageService.FindByAsync(image=> image.TeacherId == this.Teacher.Id), "Id", "ImagePath");
+            ViewBag.Images = new SelectList(await imageService.FindByAsync(image => image.TeacherId == this.Teacher.Id), "Id", "ImagePath");
             ViewBag.Themes = new SelectList(await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id), "Id", "ThemeName");
             ViewBag.Difficulties = new SelectList(new[] { new Difficulty(1, "Easy"), new Difficulty(2, "Medium"), new Difficulty(3, "Hard") }, "Value", "Text", 2);
             return View(model);

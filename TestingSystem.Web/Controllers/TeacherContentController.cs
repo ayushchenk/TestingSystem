@@ -102,7 +102,7 @@ namespace TestingSystem.Web.Controllers
         {
             if (this.Teacher == null)
                 return RedirectToAction("Welcome");
-            var model = await teachersInSubejctsService.FindByAsync(tis=> tis.TeacherId == this.Teacher.Id);
+            var model = await teachersInSubejctsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id);
             return View(model);
         }
 

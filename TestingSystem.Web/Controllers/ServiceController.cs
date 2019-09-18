@@ -60,7 +60,7 @@ namespace TestingSystem.Web.Controllers
         {
             var subject = subjectService.Get(id);
             if (subject != null)
-                return Json(themeService.FindBy(theme => theme.SubjectId == subject.Id).Select(theme => new { Id = theme.Id, ThemeName = theme.ThemeName}), JsonRequestBehavior.AllowGet);
+                return Json(themeService.FindBy(theme => theme.SubjectId == subject.Id).Select(theme => new { Id = theme.Id, ThemeName = theme.ThemeName }), JsonRequestBehavior.AllowGet);
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
 
@@ -78,18 +78,18 @@ namespace TestingSystem.Web.Controllers
             if (spec != null)
             {
                 var teachers = teacherService.FindBy(teacher => teacher.SpecializationId == spec.Id && !teacher.IsDeleted);
-                if(teachers == null || teachers.Count() == 0)
+                if (teachers == null || teachers.Count() == 0)
                     return Json(string.Empty, JsonRequestBehavior.AllowGet);
                 var teacherSubjects = new List<TeacherSubject>();
-                foreach(var teacher in teachers)
+                foreach (var teacher in teachers)
                 {
                     var teachersInSubjects = teacherInSubjectService.FindBy(tis => tis.TeacherId == teacher.Id);
-                    var subjectIds = teachersInSubjects.Select(tis => tis.SubjectId); 
+                    var subjectIds = teachersInSubjects.Select(tis => tis.SubjectId);
                     var subjects = subjectService.FindBy(subject => subjectIds.Contains(subject.Id) && subject.SpecializationId == spec.Id);
                     foreach (var subject in subjects)
-                        teacherSubjects.Add(new TeacherSubject() { Teacher = teacher, Subject = subject, TeacherInSubjectId = teachersInSubjects.FirstOrDefault(t=> t.TeacherId== teacher.Id && t.SubjectId == subject.Id)?.Id ?? 0});
+                        teacherSubjects.Add(new TeacherSubject() { Teacher = teacher, Subject = subject, TeacherInSubjectId = teachersInSubjects.FirstOrDefault(t => t.TeacherId == teacher.Id && t.SubjectId == subject.Id)?.Id ?? 0 });
                 }
-                return Json(teacherSubjects.Select(user => new { Id = user.TeacherInSubjectId, FullName = user.Teacher.FirstName + " " + user.Teacher.LastName + " - " + user.Subject.SubjectName}), JsonRequestBehavior.AllowGet);
+                return Json(teacherSubjects.Select(user => new { Id = user.TeacherInSubjectId, FullName = user.Teacher.FirstName + " " + user.Teacher.LastName + " - " + user.Subject.SubjectName }), JsonRequestBehavior.AllowGet);
             }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }

@@ -66,7 +66,7 @@ namespace TestingSystem.Web.Controllers
         public async Task<ActionResult> Create(int id = 0)
         {
             var subject = await subjectService.GetAsync(id);
-            if(subject == null)
+            if (subject == null)
                 return RedirectToAction("Subjects", "TeacherContent");
             var model = new SubjectThemeDTO()
             {
@@ -92,7 +92,7 @@ namespace TestingSystem.Web.Controllers
             if (ModelState.IsValid)
             {
                 await themeService.AddOrUpdateAsync(model);
-                return RedirectToAction("Index", new { id = model.SubjectId});
+                return RedirectToAction("Index", new { id = model.SubjectId });
             }
             return View(model);
         }
