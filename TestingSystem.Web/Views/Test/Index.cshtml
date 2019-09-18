@@ -1,10 +1,9 @@
-﻿@{
-    ViewBag.Title = "Tests";
-    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
-}
-<h2>Tests</h2>
-<input type="text" id="filter-input" class="form-control" />
-<div id="partial-content">
+﻿@{ ViewBag.Title = "Tests"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
+<div style="background-color: white;">
+    <h2>Tests</h2>
+    <input type="text" id="filter-input" class="form-control" />
+    <div id="partial-content">
+    </div>
 </div>
 @section Scripts{
     <script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>

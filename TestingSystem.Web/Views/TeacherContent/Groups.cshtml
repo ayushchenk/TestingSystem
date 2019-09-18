@@ -2,35 +2,37 @@
 @{ ViewBag.Title = "Groups"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
 @if (Model.Count() != 0)
 {
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card-body table-full-width table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">@Html.DisplayNameFor(model => model.Group.GroupName)</th>
-                            <th scope="col">@Html.DisplayNameFor(model => model.Group.SpecializationName)</th>
-                            <th scope="col">Subjects</th>
-                            <th scope="col">Students List</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+    <div style="background-color: white;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Group.GroupName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Group.SpecializationName)</td>
-                                <td>
-                                    @foreach (var subject in item.Subjects)
-                                    {
-                                        <span style="margin:3px">@subject.SubjectName</span>
-                                    }
-                                </td>
-                                <td>@Html.ActionLink("Students", "Students", new { id = item.Group.Id }, new { @class = "btn btn-primary" })</td>
+                                <th scope="col">@Html.DisplayNameFor(model => model.Group.GroupName)</th>
+                                <th scope="col">@Html.DisplayNameFor(model => model.Group.SpecializationName)</th>
+                                <th scope="col">Subjects</th>
+                                <th scope="col">Students List</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Group.GroupName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Group.SpecializationName)</td>
+                                    <td>
+                                        @foreach (var subject in item.Subjects)
+                                        {
+                                            <span style="margin:3px">@subject.SubjectName</span>
+                                        }
+                                    </td>
+                                    <td>@Html.ActionLink("Students", "Students", new { id = item.Group.Id }, new { @class = "btn btn-primary" })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
