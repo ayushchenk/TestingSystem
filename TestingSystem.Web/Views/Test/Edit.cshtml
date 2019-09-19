@@ -30,7 +30,6 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Test.Id)
-        @Html.HiddenFor(model => model.Test.SubjectId)
         @Html.HiddenFor(model => model.Test.TeacherId)
         @Html.HiddenFor(model => model.Test.IsDeleted)
 
