@@ -2141,6 +2141,8 @@
     <Content Include="Design\studentRSS\assets\js\plugins\bootstrap-switch.js" />
     <Content Include="Design\studentRSS\assets\js\plugins\chartist.min.js" />
     <Content Include="Design\studentRSS\assets\js\plugins\nouislider.min.js" />
+    <Content Include="Design\studentRSS\gradientsStyles\IMGSendEmail.png" />
+    <Content Include="Design\studentRSS\gradientsStyles\style.css" />
     <Content Include="Design\studentRSS\moduleGridRSS\imgStd\studentRSSImg.png" />
     <Content Include="Design\studentRSS\moduleGridRSS\module.css" />
     <Content Include="Design\studentRSS\studyRSS\img\cSharpLogo.png" />

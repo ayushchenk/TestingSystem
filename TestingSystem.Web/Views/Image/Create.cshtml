@@ -14,72 +14,74 @@
         Layout = "~/Views/Shared/_TeacherLayout.cshtml";
     }
 }
-<h2>Edit</h2>
-@using (Html.BeginForm("Create", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
+<div style="background-color: white;">
+    <h2>Edit</h2>
+    @using (Html.BeginForm("Create", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-10">
-                <input type="file" accept="image/*" name="file" id="file" />
-                <input type="button" value="Discard photo" id="btn-discard" style="margin-left: 20px;" /><br/>
-                @Html.EditorFor(model => model.ImagePath)
-                @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger"})
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    <input type="file" accept="image/*" name="file" id="file" />
+                    <input type="button" value="Discard photo" id="btn-discard" style="margin-left: 20px;" /><br />
+                    @Html.EditorFor(model => model.ImagePath)
+                    @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" id="img-container">
+                <div class="col-md-6">
+                    <img id="output" style="max-height: 250px; max-width: 250px;" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-success" id="submit" onclick="submitLimit()" />
+                </div>
             </div>
         </div>
-
-        <div class="form-group" id="img-container">
-            <div class="col-md-6">
-                <img id="output" style="max-height: 250px; max-width: 250px;" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-success" id="submit" onclick="submitLimit()"/>
-            </div>
-        </div>
+    }
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
-}
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        $(function () {
-            $("#ImagePath").hide();
-            $("#img-container").hide();
-
-            $("#btn-discard").click(function () {
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
+            $(function () {
+                $("#ImagePath").hide();
                 $("#img-container").hide();
-                $("#file").val("");
-                $("#ImagePath").val(null);
-                $("#output").attr("src", "");
-            });
 
-            $("#file").change(function (e) {
-                $("#img-container").show();
-                $(".field-validation-error text-danger").hide();
-                $("#ImagePath").val($(this).val());
-                $("#output").attr("src", URL.createObjectURL(e.target.files[0]));
-            });
-        });
-         function submitLimit() {
-            var btn = document.getElementById('submit')
-            setTimeout(function () {
-                btn.setAttribute('disabled', 'disabled');
-            }, 1);
+                $("#btn-discard").click(function () {
+                    $("#img-container").hide();
+                    $("#file").val("");
+                    $("#ImagePath").val(null);
+                    $("#output").attr("src", "");
+                });
 
-            setTimeout(function () {
-                btn.removeAttribute('disabled');
-            }, 10000);
-        }
-    </script>
-}
+                $("#file").change(function (e) {
+                    $("#img-container").show();
+                    $(".field-validation-error text-danger").hide();
+                    $("#ImagePath").val($(this).val());
+                    $("#output").attr("src", URL.createObjectURL(e.target.files[0]));
+                });
+            });
+            function submitLimit() {
+                var btn = document.getElementById('submit')
+                setTimeout(function () {
+                    btn.setAttribute('disabled', 'disabled');
+                }, 1);
+
+                setTimeout(function () {
+                    btn.removeAttribute('disabled');
+                }, 10000);
+            }
+        </script>
+    }
+</div>

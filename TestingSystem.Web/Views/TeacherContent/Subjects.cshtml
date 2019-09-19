@@ -1,30 +1,26 @@
 ﻿@model IEnumerable<TestingSystem.BOL.Model.TeachersInSubjectDTO>
-
-@{
-    ViewBag.Title = "Subjects";
-    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
-}
-
-<h2>Subjects</h2>
-
-@if (Model.Count() != 0)
-{
-<table class="table table-hover">
-    @foreach (var item in Model)
+@{ ViewBag.Title = "Subjects"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
+<div style="background-color: white;">
+    <h2>Subjects</h2>
+    @if (Model.Count() != 0)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubjectName)
-            </td>
-            <td align="center">
-                @Html.ActionLink("Themes", "Index", "SubjectTheme", new { id = item.SubjectId }, new { @class = "btn btn-outline-primary btn-sm" })
-            </td>
-        </tr>
-}
+        <table class="table table-hover">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubjectName)
+                    </td>
+                    <td align="center">
+                        @Html.ActionLink("Themes", "Index", "SubjectTheme", new { id = item.SubjectId }, new { @class = "btn btn-outline-primary btn-sm" })
+                    </td>
+                </tr>
+            }
 
-</table>
-}
-else
-{
-    <div class="alert alert-info">No subjects</div>
-}
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">No subjects</div>
+    }
+</div>
