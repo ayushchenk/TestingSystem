@@ -2,6 +2,25 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+    int allEasy = 0;
+    int allMedium = 0;
+    int allHard = 0;
+    int pickedEasy = 0;
+    int pickedMedium = 0;
+    int pickedHard = 0;
+    for (int i = 0; i < Model.SelectThemeItems.Count(); i++)
+    {
+        allEasy += Model.Themes[i].EasyCount;
+        allMedium += Model.Themes[i].MediumCount;
+        allHard += Model.Themes[i].HardCount;
+        if (Model.SelectedThemes.Contains(Convert.ToInt32(@Model.SelectThemeItems[i].Value)))
+        {
+            pickedEasy += Model.Themes[i].EasyCount;
+            pickedMedium += Model.Themes[i].MediumCount;
+            pickedHard += Model.Themes[i].HardCount;
+        }
+    }
+
 }
 @using (Html.BeginForm("Edit", "test"))
 {
@@ -11,6 +30,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Test.Id)
+        @Html.HiddenFor(model => model.Test.SubjectId)
         @Html.HiddenFor(model => model.Test.TeacherId)
         @Html.HiddenFor(model => model.Test.IsDeleted)
 
@@ -59,15 +79,29 @@
                             </div>
                             <hr />
                             <div id="themes-container">
-                                @foreach (var item in Model.Themes)
+                                @for (int i = 0; i < Model.SelectThemeItems.Count(); i++)
                                 {
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"
-                                                   name="SelectedThemes"
-                                                   value="@item.Value"
-                                                   @if (Model.SelectedThemes.Contains(Convert.ToInt32(item.Value))) { <text> checked </text> } /> @item.Text
-                                            </label>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"
+                                                           data-id="@Model.SelectThemeItems[i].Value"
+                                                           name="SelectedThemes"
+                                                           value="@Model.SelectThemeItems[i].Value"
+                                                           @if (Model.SelectedThemes.Contains(Convert.ToInt32(@Model.SelectThemeItems[i].Value))) { <text> checked </text> } /> @Model.SelectThemeItems[i].Text
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-2">
+                                                <label class="easy" data-id="@Model.SelectThemeItems[i].Value">@Model.Themes[i].EasyCount</label> Easy
+                                            </div>
+                                            <div class="col-md-2 col-sm-2">
+                                                <label class="medium" data-id="@Model.SelectThemeItems[i].Value">@Model.Themes[i].MediumCount</label> Medium
+                                            </div>
+                                            <div class="col-md-2 col-sm-2">
+                                                <label class="hard" data-id="@Model.SelectThemeItems[i].Value">@Model.Themes[i].HardCount</label> Hard
+                                            </div>
                                         </div>
                                     }
                             </div>
@@ -116,9 +150,21 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-             var allEasy = 0 , allMedium = 0, allHard = 0, pickedEasy = 0, pickedMedium = 0, pickedHard = 0;
+            var allEasy = @allEasy,
+                allMedium = @allMedium,
+                allHard = @allHard,
+                pickedEasy = @pickedEasy,
+                pickedMedium = @pickedMedium,
+                pickedHard = @pickedHard;
 
-            $("#Test_SubjectId").change(function () {
+            $("#allEasy").text(allEasy);
+            $("#allMedium").text(allMedium);
+            $("#allHard").text(allHard);
+            $("#pickedEasy").text(pickedEasy);
+            $("#pickedMedium").text(pickedMedium);
+            $("#pickedHard").text(pickedHard);
+
+            $("body").on("change", "#Test_SubjectId", function () {
                 themes = $("#themes-container");
                 $.getJSON("@Url.Action("GetThemesBySubjectForTest", "Service")", { id: $(this).val() }, function (response) {
                     allEasy = 0, allMedium = 0, allHard = 0;
@@ -157,9 +203,11 @@
                     $("#allEasy").text(allEasy);
                     $("#allMedium").text(allMedium);
                     $("#allHard").text(allHard);
+                    $("#pickedEasy").text(pickedEasy);
+                    $("#pickedMedium").text(pickedMedium);
+                    $("#pickedHard").text(pickedHard);
                 });
             });
-
 
             $("body").on("change", "input[name=SelectedThemes]", function () {
                 var id = $(this).attr("data-id");

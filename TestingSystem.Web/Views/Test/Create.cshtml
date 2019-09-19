@@ -148,14 +148,14 @@
                     $("#allEasy").text(allEasy);
                     $("#allMedium").text(allMedium);
                     $("#allHard").text(allHard);
+                    $("#pickedEasy").text(pickedEasy);
+                    $("#pickedMedium").text(pickedMedium);
+                    $("#pickedHard").text(pickedHard);
                 });
             });
 
             $("body").on("change", "input[name=SelectedThemes]", function () {
                 var id = $(this).attr("data-id");
-                $("#pickedEasy").text("");
-                $("#pickedMedium").text("");
-                $("#pickedHard").text("");
                 if ($(this).prop('checked')) {
                     pickedEasy += parseInt($(`.easy[data-id=${id}]`).text());
                     pickedMedium += parseInt($(`.medium[data-id=${id}]`).text());

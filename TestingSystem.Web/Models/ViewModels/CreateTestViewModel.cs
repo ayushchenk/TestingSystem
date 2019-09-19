@@ -10,7 +10,8 @@ namespace TestingSystem.Web.Models.ViewModels
     public class CreateTestViewModel
     {
         public TestDTO Test { set; get; }
-        public IEnumerable<SelectListItem> Themes { set; get; }
+        public IList<SubjectThemeDTO> Themes { set; get; }
+        public IList<SelectListItem> SelectThemeItems { set; get; }
         public IEnumerable<int> SelectedThemes { set; get; } = new List<int>();
     }
 }

@@ -92,7 +92,7 @@ namespace TestingSystem.Web.Controllers
             var model = new CreateTestViewModel()
             {
                 Test = new TestDTO() { TeacherId = this.Teacher.Id },
-                Themes = new List<SelectListItem>()
+                SelectThemeItems = new List<SelectListItem>(),
             };
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
             ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id) && subject.Questions > 0), "Id", "SubjectName"); ;
@@ -109,7 +109,8 @@ namespace TestingSystem.Web.Controllers
             {
                 Test = test,
                 SelectedThemes = (await themesInTestsService.FindByAsync(tit => tit.TestId == test.Id)).Select(tit => tit.ThemeId),
-                Themes = (await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id && theme.Questions > 0 && theme.SubjectId == test.SubjectId)).Select(theme => new SelectListItem() { Text = theme.ThemeName, Value = theme.Id.ToString() })
+                Themes = (await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id && theme.Questions > 0 && theme.SubjectId == test.SubjectId)).ToList(),
+                SelectThemeItems = (await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id && theme.Questions > 0 && theme.SubjectId == test.SubjectId)).Select(theme => new SelectListItem() { Text = theme.ThemeName, Value = theme.Id.ToString() }).ToList()
             };
 
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
@@ -132,7 +133,10 @@ namespace TestingSystem.Web.Controllers
             }
             var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
             ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id)), "Id", "SubjectName");
-            ViewBag.Themes = new SelectList(await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id), "Id", "ThemeName");
+            model.Test = await testService.GetAsync(model.Test.Id);
+            model.SelectedThemes = (await themesInTestsService.FindByAsync(tit => tit.TestId == model.Test.Id)).Select(tit => tit.ThemeId);
+            model.Themes = (await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id && theme.Questions > 0 && theme.SubjectId == model.Test.SubjectId)).ToList();
+            model.SelectThemeItems = (await themeService.FindByAsync(theme => theme.TeacherId == this.Teacher.Id && theme.Questions > 0 && theme.SubjectId == model.Test.SubjectId)).Select(theme => new SelectListItem() { Text = theme.ThemeName, Value = theme.Id.ToString() }).ToList();
             return View(model);
         }
 
