@@ -41,7 +41,7 @@
                         </h2>
                     </div>
 
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6 col-sm-6">
@@ -111,6 +111,7 @@
 
             $("#Test_SubjectId").change(function () {
                 themes = $("#themes-container");
+                $(".collapse").addClass("show");
                 $.getJSON("@Url.Action("GetThemesBySubjectForTest", "Service")", { id: $(this).val() }, function (response) {
                     allEasy = 0, allMedium = 0, allHard = 0;
                     pickedEasy = 0;
@@ -155,6 +156,15 @@
             });
 
             $("body").on("change", "input[name=SelectedThemes]", function () {
+                numberOfChecked = $('input[name="SelectedThemes"]:checked').length;
+                numberOfAll = $('input[name="SelectedThemes"]').length;
+                if (numberOfChecked == numberOfAll) {
+                    $("#ch-all").prop('checked', true);
+                }
+                else {
+                    $("#ch-all").prop('checked', false);
+                }
+
                 var id = $(this).attr("data-id");
                 if ($(this).prop('checked')) {
                     pickedEasy += parseInt($(`.easy[data-id=${id}]`).text());

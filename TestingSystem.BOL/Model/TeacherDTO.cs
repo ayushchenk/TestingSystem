@@ -33,9 +33,6 @@ namespace TestingSystem.BOL.Model
 
         public bool IsDeleted { set; get; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select")]
-        public int SubjectId { get; set; }
-
         public int EducationUnitId { set; get; }
 
         public List<SubjectDTO> Subjects { set; get; }
