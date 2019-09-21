@@ -2724,7 +2724,6 @@
     <Content Include="Views\Teacher\Edit.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Teacher\PartialIndex.cshtml" />
-    <Content Include="Views\Group\Teachers.cshtml" />
     <Content Include="Views\Shared\_QuickTestLayout.cshtml" />
     <Content Include="Views\StudentContent\Tests.cshtml" />
     <Content Include="Views\StudentContent\Group.cshtml" />
@@ -2749,7 +2748,6 @@
     <Content Include="Views\Shared\_GlobalAdminLayout.cshtml" />
     <Content Include="Views\AdminContent\Profile.cshtml" />
     <Content Include="Views\AdminContent\Edit.cshtml" />
-    <Content Include="Views\Group\AddTeacher.cshtml" />
     <Content Include="Views\Shared\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
