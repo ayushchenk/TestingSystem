@@ -163,6 +163,10 @@
             $("#pickedMedium").text(pickedMedium);
             $("#pickedHard").text(pickedHard);
 
+            if ($('input[name="SelectedThemes"]:checked').length == $('input[name="SelectedThemes"]').length) {
+                $("#ch-all").prop('checked', true);
+            }
+
             $("body").on("change", "#Test_SubjectId", function () {
                 themes = $("#themes-container");
                 $.getJSON("@Url.Action("GetThemesBySubjectForTest", "Service")", { id: $(this).val() }, function (response) {
@@ -209,6 +213,15 @@
             });
 
             $("body").on("change", "input[name=SelectedThemes]", function () {
+                numberOfChecked = $('input[name="SelectedThemes"]:checked').length;
+                numberOfAll = $('input[name="SelectedThemes"]').length;
+                if (numberOfChecked == numberOfAll) {
+                    $("#ch-all").prop('checked', true);
+                }
+                else {
+                    $("#ch-all").prop('checked', false);
+                }
+
                 var id = $(this).attr("data-id");
                 $("#pickedEasy").text("");
                 $("#pickedMedium").text("");

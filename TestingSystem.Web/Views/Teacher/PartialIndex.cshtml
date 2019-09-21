@@ -29,9 +29,12 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.LastName)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.EducationUnitName)
-                                    </th>
+                                    @if (User.IsInRole("Global Admin"))
+                                    {
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.EducationUnitName)
+                                        </th>
+                                    }
                                     <th>
                                         @Html.DisplayNameFor(model => model.SpecializationName)
                                     </th>
@@ -54,9 +57,12 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.LastName)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EducationUnitName)
-                                        </td>
+                                        @if (User.IsInRole("Global Admin"))
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EducationUnitName)
+                                            </td>
+                                        }
                                         <td>
                                             @Html.DisplayFor(modelItem => item.SpecializationName)
                                         </td>
@@ -65,7 +71,6 @@
                                             {<span style="margin:3px;">@subject.SubjectName</span>}
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Add subject", "AddSubject", new { id = item.Id }) |
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                             @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
                                         </td>
@@ -102,9 +107,12 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.LastName)
                                     </th>
-                                    <th> 
-                                        @Html.DisplayNameFor(model => model.EducationUnitName)
-                                    </th>
+                                    @if (User.IsInRole("Global Admin"))
+                                    {
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.EducationUnitName)
+                                        </th>
+                                    }
                                     <th>
                                         @Html.DisplayNameFor(model => model.SpecializationName)
                                     </th>
@@ -127,9 +135,12 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.LastName)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EducationUnitName)
-                                        </td>
+                                        @if (User.IsInRole("Global Admin"))
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EducationUnitName)
+                                            </td>
+                                        }
                                         <td>
                                             @Html.DisplayFor(modelItem => item.SpecializationName)
                                         </td>

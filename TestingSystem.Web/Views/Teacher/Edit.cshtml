@@ -1,18 +1,9 @@
-﻿@model TestingSystem.BOL.Model.TeacherDTO
+﻿@model TestingSystem.Web.Models.ViewModels.CreateTeacherViewModel
 @using System.Text;
 @using TestingSystem.Web.Content.Resources
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
-    //if (User.IsInRole("Global Admin"))
-    //{
-    //}
-    //if (User.IsInRole("Education Unit Admin"))
-    //{
-    //    Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
-    //}
-    string authInfo = ApiInfo.USERNAME_VALUE + ":" + ApiInfo.PASSWORD_VALUE;
-    authInfo = Convert.ToBase64String(Encoding.UTF8.GetBytes(authInfo));
 }
 <h2>Edit teacher</h2>
 @using (Html.BeginForm())
@@ -22,72 +13,86 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.IsDeleted)
-        @Html.HiddenFor(model => model.LastName)
-        @Html.HiddenFor(model => model.Email)
-        @Html.HiddenFor(model => model.SubjectId)
-        @Html.HiddenFor(model => model.FirstName)
-        @Html.HiddenFor(model => model.EducationUnitId)
+        @Html.HiddenFor(model => model.Teacher.Id)
+        @Html.HiddenFor(model => model.Teacher.IsDeleted)
+        @Html.HiddenFor(model => model.Teacher.Email)
+        @Html.HiddenFor(model => model.Teacher.EducationUnitId)
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Teacher.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Teacher.Email, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.Teacher.Email, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Teacher.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Teacher.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Teacher.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Teacher.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Teacher.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Teacher.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         @if (User.IsInRole("Global Admin"))
         {
             <div class="form-group">
-                @Html.LabelFor(model => model.EducationUnitId, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(model => model.Teacher.EducationUnitId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.EducationUnitId, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.Teacher.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Teacher.EducationUnitId, "", new { @class = "text-danger" })
                 </div>
             </div>
         }
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SpecializationId, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.Teacher.SpecializationId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SpecializationId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.Teacher.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Teacher.SpecializationId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group" id="subject-container">
-            @Html.Label("Subjects", new { @class = "col-md-2 control-label" })
-            <div class="col-md-10 col-sm-10" id="subjects">
-                @for (int i = 0; i < Model.Subjects.Count; i++)
-                {
-                    <div data-id="@i" data-subject-id="@Model.Subjects[i].Id">
-                        @Html.HiddenFor(model => model.Subjects[i].Id)
-                        @Html.HiddenFor(model => model.Subjects[i].SubjectName)
-                        @Html.HiddenFor(model => model.Subjects[i].SpecializationId)
-                        @Html.HiddenFor(model => model.Subjects[i].EducationUnitId)
-                        @Html.EditorFor(model => model.Subjects[i].SubjectName, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
-                        <input type="button" value="Delete" class="btn-delete-subject btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Subjects
+                            </button>
+                        </h2>
                     </div>
-                }
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <label><input type="checkbox" id="ch-all" /> All</label>
+                            <hr />
+                            <div id="subjects-container">
+                                @foreach (var item in Model.Subjects)
+                                {
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="SelectedSubjects"
+                                                   value="@item.Value"
+                                                   @if (Model.SelectedSubjects.Contains(int.Parse(item.Value))) { <text> checked </text> } /> @item.Text
+                                            </label>
+                                        </div>
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -108,90 +113,51 @@
     <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
     <script type="text/javascript">
         $(function () {
-            count = @Model.Subjects.Count
+            if ($('input[name="SelectedSubjects"]:checked').length == $('input[name="SelectedSubjects"]').length) {
+                $("#ch-all").prop('checked', true);
+            }
 
-            $("body").on("change", "#SpecializationId", function () {
-                subjects = $("#subject-container");
-
-                $("#subjects").children("div").each(function (index) {
-                    $.ajax({
-                        url: "/api/TeacherInSubjectsApi/post/",
-                        data: JSON.stringify({
-                            TeacherId: @Model.Id,
-                            subjectId: $(this).attr("data-subject-id")
-                        }),
-                        headers: {
-                            'Authorization': 'Basic @authInfo',
-                            '@ApiInfo.API_KEY_HEADER': '@ApiInfo.API_KEY_VALUE',
-                            'Content-Type': 'application/json'
-                        },
-                        type: "POST",
-                        success: function (data) {
-                            $.notify({
-	                        message: "Successfully deleted " + data
-                            },{
-	                            type: 'success'
-                            });
-                        },
-                        error: function (data) {
-                            $.notify({
-                                message: "There are groups or tests relying on such subject " + data
-                            },{
-	                            type: 'danger'
-                            });
-                        }
-                    });
-                });
-
-                subjects.remove();
+            $("#ch-all").change(function () {
+                $('input:checkbox').prop('checked', $(this).prop('checked'));
             });
 
-            $(".btn-delete-subject").click(function () {
-                if (count > 1 && confirm("Are you sure?")) {
-                     subjectId = $(this).closest("div").attr("data-subject-id");  
-                        $.ajax({
-                            url: "/api/TeacherInSubjectsApi/post",
-                            data: JSON.stringify({
-                                TeacherId: @Model.Id,
-                                subjectId: subjectId
-                            }),
-                            headers: {
-                                'Authorization': 'Basic @authInfo',
-                                '@ApiInfo.API_KEY_HEADER': '@ApiInfo.API_KEY_VALUE',
-                                'Content-Type': 'application/json'
-                            },
-                            type: "POST",
-                            success: function (data) {
-
-                                selectedId = $(this).closest("div").attr("data-id");
-                                for (i = selectedId; i < count; i++) {
-                                    hiddenId = $(`#Subjects_${i}__Id`).attr("id", `Subjects_${i - 1}__Id`);
-                                    hiddenId.attr("name", `Subjects[${i - 1}].Id`);
-                                    hiddenSubjectName = $(`#Subjects_${i}__SubjectName`).attr("id", `Subjects_${i - 1}__SubjectName`);
-                                    hiddenSubjectName.attr("name", `Subjects[${i - 1}].SubjectName`);
-                                    hiddenSpecId = $(`#Subjects_${i}__SpecializationId`).attr("id", `Subjects_${i - 1}__SpecializationId`);
-                                    hiddenSpecId.attr("name", `Subjects[${i - 1}].SpecializationId`);
-                                    hiddenUnitId = $(`#Subjects_${i}__EducationUnitId`).attr("id", `Subjects_${i - 1}__EducationUnitId`);
-                                    hiddenUnitId.attr("name", `Subjects[${i - 1}].EducationUnitId`);
-                                }
-                                $(this).closest("div").remove();
-                                count--;
-
-                                $.notify({
-	                                message: "Successfully deleted " + data
-                                },{
-	                                type: 'success'
-                                });
-                            },
-                            error: function (data) {
-                                $.notify({
-                                    message: "There are groups or test relying on such subject " + data
-                                },{
-	                                type: 'danger'
-                                });
-                            }
-                        });
+            $("body").on("change", 'input[name="SelectedSubjects"]', function () {
+                numberOfChecked = $('input[name="SelectedSubjects"]:checked').length;
+                numberOfAll = $('input[name="SelectedSubjects"]').length;
+                if (numberOfChecked == numberOfAll) {
+                    $("#ch-all").prop('checked', true);
                 }
+                else {
+                    $("#ch-all").prop('checked', false);
+                }
+            });
+
+            $("#submit").click(function (e) {
+                numberOfChecked = $('input[name="SelectedSubjects"]:checked').length;
+                if (numberOfChecked == 0) {
+                    e.preventDefault();
+                    alert("Select at least one theme");
+                    return;
+                }
+            });
+
+            $("body").on("change", "#Teacher_SpecializationId", function () {
+                subjects = $("#subjects-container");
+                $("#ch-all").prop('checked', false);
+                $.getJSON("@Url.Action("GetSubjectsBySpecialization", "Service")", { id: $(this).val() }, function (response) {
+                    subjects.empty();
+                    $.each(response, function (index, item) {
+                        html = `<div class="checkbox">
+                                    <label>
+                                         <input type="checkbox"
+                                                name="SelectedSubjects"
+                                                data-id="${item.Id}"
+                                                value="${item.Id}"/> ${item.SubjectName}
+                                    </label>
+                                </div>`;
+                        subjects.append(subjects.append(html));
+                    });
+                });
             });
         });
     </script>

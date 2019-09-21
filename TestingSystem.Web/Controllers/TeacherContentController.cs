@@ -133,7 +133,6 @@ namespace TestingSystem.Web.Controllers
                 Teacher = this.Teacher,
                 IsTwoFactorEnabled = appUser.TwoFactorEnabled
             };
-            model.Teacher.SubjectId = int.MaxValue;
             return View(model);
         }
 

@@ -203,7 +203,6 @@
   <ItemGroup>
     <Compile Include="ApiControllers\QuickTestApiController.cs" />
     <Compile Include="ApiControllers\ParticipateApiController.cs" />
-    <Compile Include="ApiControllers\TeacherInSubjectsApiController.cs" />
     <Compile Include="ApiControllers\ResultApiController.cs" />
     <Compile Include="ApiControllers\SpecializationApiController.cs" />
     <Compile Include="ApiControllers\SubjectApiController.cs" />
@@ -262,6 +261,7 @@
     <Compile Include="Models\ViewModels\AssignGroupsViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateGroupViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateQuestionViewModel.cs" />
+    <Compile Include="Models\ViewModels\CreateTeacherViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateTestViewModel.cs" />
     <Compile Include="Models\ViewModels\DeleteTeacherInSubject.cs" />
     <Compile Include="Models\ViewModels\Difficulty.cs" />

@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using TestingSystem.BOL.Model;
 using TestingSystem.BOL.Service;
+using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.Controllers
 {
@@ -109,33 +110,37 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<ActionResult> Edit(int id = 0)
         {
-            var model = await teacherService.GetAsync(id);
-            if (model == null || this.Admin == null || model.EducationUnitId != this.Admin.EducationUnitId)
+            var teacher = await teacherService.GetAsync(id);
+            if (teacher == null || this.Admin == null || teacher.EducationUnitId != this.Admin.EducationUnitId)
                 return RedirectToAction("Index");
-            model.SubjectId = 1;
-            model.Subjects = new List<SubjectDTO>();
-            var subjectIds = teacherInSubjectsService.FindBy(tis => tis.TeacherId == model.Id).Select(tis => tis.SubjectId).ToList();
-            foreach (var s in subjectService.FindBy(subject => subjectIds.Contains(subject.Id)).ToList())
-                model.Subjects.Add(s);
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
+            var model = new CreateTeacherViewModel()
+            {
+                Teacher = teacher,
+                Subjects = (await subjectService.FindByAsync(subject => subject.SpecializationId == teacher.SpecializationId)).Select(subject => new SelectListItem { Value = subject.Id.ToString(), Text = subject.SubjectName}).ToList(),
+                SelectedSubjects = (await teacherInSubjectsService.FindByAsync(tis=> tis.TeacherId == teacher.Id)).Select(tis=> tis.SubjectId).ToList()
+            };
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", teacher.EducationUnitId);
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", teacher.SpecializationId);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(TeacherDTO model)
+        public async Task<ActionResult> Edit(CreateTeacherViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await teacherService.AddOrUpdateAsync(model);
+                var oldSubjects = await teacherInSubjectsService.FindByAsync(tis => tis.TeacherId == model.Teacher.Id);
+                await teacherInSubjectsService.DeleteRangeAsync(oldSubjects);
+
+                model.Teacher = await teacherService.AddOrUpdateAsync(model.Teacher);
+                foreach (var subject in model.SelectedSubjects)
+                    await teacherInSubjectsService.AddOrUpdateAsync(new TeachersInSubjectDTO() { TeacherId = model.Teacher.Id, SubjectId = subject });
                 return RedirectToAction("Index");
             }
-            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.EducationUnitId);
-            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.SpecializationId);
-            model.Subjects = new List<SubjectDTO>();
-            var subjectIds = teacherInSubjectsService.FindBy(tis => tis.TeacherId == model.Id).Select(tis => tis.SubjectId).ToList();
-            foreach (var s in subjectService.FindBy(subject => subjectIds.Contains(subject.Id)).ToList())
-                model.Subjects.Add(s);
+            ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.Teacher.EducationUnitId);
+            ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName", model.Teacher.SpecializationId);
+            model.Subjects = (await subjectService.FindByAsync(subject => subject.SpecializationId == model.Teacher.SpecializationId)).Select(subject => new SelectListItem { Value = subject.Id.ToString(), Text = subject.SubjectName }).ToList();
+            model.SelectedSubjects = (await teacherInSubjectsService.FindByAsync(tis => tis.TeacherId == model.Teacher.Id)).Select(tis => tis.SubjectId).ToList();
             return View(model);
         }
 
@@ -143,28 +148,27 @@ namespace TestingSystem.Web.Controllers
         {
             ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName");
             ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName");
-            ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
-            return View(model: new TeacherDTO());
+            return View(model: new CreateTeacherViewModel() { Teacher = new TeacherDTO() { Id = 0} });
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(TeacherDTO model)
+        public async Task<ActionResult> Create(CreateTeacherViewModel model)
         {
             if (ModelState.IsValid)
             {
                 if (!this.Admin.IsGlobal)
-                    model.EducationUnitId = this.Admin.EducationUnitId.Value;
-                AppUser user = new AppUser { UserName = model.Email, Email = model.Email };
+                    model.Teacher.EducationUnitId = this.Admin.EducationUnitId.Value;
+                AppUser user = new AppUser { UserName = model.Teacher.Email, Email = model.Teacher.Email };
                 string password = Membership.GeneratePassword(10, 4);
                 IdentityResult result = await UserManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
-                    int subId = model.SubjectId;
                     await UserManager.AddToRoleAsync(user.Id, "Teacher");
-                    model = await teacherService.AddOrUpdateAsync(model);
-                    await teacherInSubjectsService.AddOrUpdateAsync(new TeachersInSubjectDTO() { TeacherId = model.Id, SubjectId = subId });
+                    model.Teacher = await teacherService.AddOrUpdateAsync(model.Teacher);
+                    foreach(var subject in model.SelectedSubjects)
+                        await teacherInSubjectsService.AddOrUpdateAsync(new TeachersInSubjectDTO() { TeacherId = model.Teacher.Id, SubjectId = subject });
                     MailService sender = new MailService();
-                    await sender.SendMessageAsync(model.Email, "Testing System", "Your password: " + password);
+                    await sender.SendMessageAsync(model.Teacher.Email, "Testing System", "Your password: " + password);
                     return RedirectToAction("Index");
                 }
                 else
@@ -179,29 +183,6 @@ namespace TestingSystem.Web.Controllers
             ViewBag.Specializations = new SelectList(await specService.GetAllAsync(), "Id", "SpecializationName");
             ViewBag.Subjects = new SelectList(await subjectService.GetAllAsync(), "Id", "SubjectName");
             return View(model: model);
-        }
-
-        public async Task<ActionResult> AddSubject(int id = 0)
-        {
-            var item = await teacherService.GetAsync(id);
-            if (item == null)
-                return RedirectToAction("Index");
-            var subjectIds = teacherInSubjectsService.FindBy(tis => tis.TeacherId == item.Id).Select(tis => tis.SubjectId).ToList();
-            ViewBag.Subjects = await subjectService.FindByAsync(subject => subject.SpecializationId == item.SpecializationId && !subjectIds.Contains(subject.Id));
-            return View(item);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> AddSubject(TeacherDTO model)
-        {
-            if (ModelState.IsValid)
-            {
-                await teacherInSubjectsService.AddOrUpdateAsync(new TeachersInSubjectDTO { TeacherId = model.Id, SubjectId = model.SubjectId });
-                return RedirectToAction("Index");
-            }
-            var subjectIds = teacherInSubjectsService.FindBy(tis => tis.TeacherId == model.Id).Select(tis => tis.SubjectId).ToList();
-            ViewBag.Subjects = await subjectService.FindByAsync(subject => subject.SpecializationId == model.SpecializationId && !subjectIds.Contains(subject.Id));
-            return View(model);
         }
 
         public async Task<ActionResult> Restore(int id = 0)

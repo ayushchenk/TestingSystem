@@ -1,14 +1,7 @@
-﻿@model TestingSystem.BOL.Model.TeacherDTO
+﻿@model TestingSystem.Web.Models.ViewModels.CreateTeacherViewModel
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
-    //if (User.IsInRole("Global Admin"))
-    //{
-    //}
-    //if (User.IsInRole("Education Unit Admin"))
-    //{
-    //    Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
-    //}
 }
 <h2>Create teacher</h2>
 @using (Html.BeginForm())
@@ -18,55 +11,71 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Teacher.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Teacher.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Teacher.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Teacher.Email, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Teacher.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Teacher.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Teacher.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Teacher.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Teacher.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Teacher.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
         @if (User.IsInRole("Global Admin"))
         {
             <div class="form-group">
-                @Html.LabelFor(model => model.EducationUnitId, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(model => model.Teacher.EducationUnitId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.EducationUnitId, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.Teacher.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Teacher.EducationUnitId, "", new { @class = "text-danger" })
                 </div>
             </div>
         }
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SpecializationId, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.Teacher.SpecializationId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SpecializationId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.Teacher.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Teacher.SpecializationId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group" id="subject-cont">
-            @Html.LabelFor(model => model.SubjectId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SubjectId, (SelectList)ViewBag.Subjects, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SubjectId, "", new { @class = "text-danger" })
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" id="collapse-show" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Subjects
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <label><input type="checkbox" id="ch-all" /> All</label>
+                            <hr />
+                            <div id="subjects-container">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -87,21 +96,52 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            $("#SubjectId").val([]);
-            $("#EducationUnitId").val([]);
-            $("#SpecializationId").val([]);
-            $("#SubjectId").prop("disabled", true);
+            $("#Teacher_EducationUnitId").val([]);
+            $("#Teacher_SpecializationId").val([]);
 
-            $("#SpecializationId").change(function () {
-                subjects = $("#SubjectId");
-                $("#SubjectId").prop("disabled", false);
+
+            $("#Teacher_SpecializationId").change(function () {
+                $(".collapse").addClass("show");
+                subjects = $("#subjects-container");
+                $("#ch-all").prop('checked', false);
                 $.getJSON("@Url.Action("GetSubjectsBySpecialization", "Service")", { id: $(this).val() }, function (response) {
                     subjects.empty();
                     $.each(response, function (index, item) {
-                        subjects.append($('<option></option>').text(item.SubjectName).val(item.Id));
+                        html = `<div class="checkbox">
+                                    <label>
+                                         <input type="checkbox"
+                                                name="SelectedSubjects"
+                                                data-id="${item.Id}"
+                                                value="${item.Id}"/> ${item.SubjectName}
+                                    </label>
+                                </div>`;
+                        subjects.append(subjects.append(html));
                     });
                 });
-                subjects.val([]);
+            });
+
+            $("#ch-all").change(function () {
+                $('input:checkbox').prop('checked', $(this).prop('checked'));
+            });
+
+            $("body").on("change", 'input[name="SelectedSubjects"]', function () {
+                numberOfChecked = $('input[name="SelectedSubjects"]:checked').length;
+                numberOfAll = $('input[name="SelectedSubjects"]').length;
+                if (numberOfChecked == numberOfAll) {
+                    $("#ch-all").prop('checked', true);
+                }
+                else {
+                    $("#ch-all").prop('checked', false);
+                }
+            });
+
+            $("#submit").click(function (e) {
+                numberOfChecked = $('input:checkbox:checked').length;
+                if (numberOfChecked == 0) {
+                    e.preventDefault();
+                    alert("Select at least one theme");
+                    return;
+                }
             });
         });
         function submitLimit() {
@@ -112,7 +152,7 @@
 
             setTimeout(function () {
                 btn.removeAttribute('disabled');
-            }, 10000);
+            }, 5000);
         }
     </script>
 }
