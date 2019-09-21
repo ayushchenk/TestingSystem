@@ -89,7 +89,7 @@ namespace TestingSystem.Web.Controllers
                     foreach (var subject in subjects)
                         teacherSubjects.Add(new TeacherSubject() { Teacher = teacher, Subject = subject, TeacherInSubjectId = teachersInSubjects.FirstOrDefault(t => t.TeacherId == teacher.Id && t.SubjectId == subject.Id)?.Id ?? 0 });
                 }
-                return Json(teacherSubjects.Select(user => new { Id = user.TeacherInSubjectId, FullName = user.Teacher.FirstName + " " + user.Teacher.LastName + " - " + user.Subject.SubjectName }), JsonRequestBehavior.AllowGet);
+                return Json(teacherSubjects.Select(user => new { Id = user.TeacherInSubjectId, FullName = user.Teacher.FirstName + " " + user.Teacher.LastName, SubjectName = user.Subject.SubjectName, Email = user.Teacher.Email}), JsonRequestBehavior.AllowGet);
             }
             return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }

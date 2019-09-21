@@ -35,6 +35,7 @@ namespace TestingSystem.BOL.Service
                     .ForMember("SpecializationName", opt => opt.MapFrom(tig => tig.Group.Specialization.SpecializationName))
                     .ForMember("EducationUnitName", opt => opt.MapFrom(tig => tig.Group.EducationUnit.EducationUnitName))
                     .ForMember("SpecializationId", opt => opt.MapFrom(tig => tig.Group.Specialization.Id))
+                    .ForMember("TeacherSpecialization", opt => opt.MapFrom(tig => tig.TeachersInSubject.Teacher.Specialization.Id))
                     .ForMember("EducationUnitId", opt => opt.MapFrom(tig => tig.Group.EducationUnit.Id));
                 cfg.CreateMap<TeachersInGroupDTO, TeachersInGroup>();
             }).CreateMapper();
