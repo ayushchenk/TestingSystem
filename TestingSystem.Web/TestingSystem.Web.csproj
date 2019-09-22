@@ -2142,6 +2142,9 @@
     <Content Include="Design\studentRSS\assets\js\plugins\chartist.min.js" />
     <Content Include="Design\studentRSS\assets\js\plugins\nouislider.min.js" />
     <Content Include="Design\studentRSS\assets\js\sidebarTogglerModule.js" />
+    <Content Include="Design\studentRSS\assets\venobox\venobox.css" />
+    <Content Include="Design\studentRSS\assets\venobox\venobox.js" />
+    <Content Include="Design\studentRSS\assets\venobox\venobox.min.js" />
     <Content Include="Design\studentRSS\gradientsStyles\IMGSendEmail.png" />
     <Content Include="Design\studentRSS\gradientsStyles\style.css" />
     <Content Include="Design\studentRSS\moduleGridRSS\imgStd\studentRSSImg.png" />

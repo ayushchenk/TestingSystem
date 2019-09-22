@@ -6,6 +6,8 @@
     <meta name="description" content="au theme template">
     <meta name="author" content="L A P I D U S">
     <meta name="keywords" content="EDUCATION SYSTEM">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/vs.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/styles/vs.min.css">
     <link href="@Url.Content("~/Design/adminForm/css/font-face.css")" rel="stylesheet" media="all">
     <link href="@Url.Content("~/Design/adminForm/vendor/font-awesome-4.7/css/font-awesome.min.css")" rel="stylesheet" media="all">
     <link href="@Url.Content("~/Design/adminForm/vendor/font-awesome-5/css/fontawesome-all.min.css")" rel="stylesheet" media="all">
@@ -288,9 +290,14 @@
     <script src="@Url.Content("~/Design/adminForm/js/main.js")"></script>
     <script src="@Url.Content("~/Design/adminForm/vendor/8aa3165203.js")"></script>
     <script src="@Url.Content("~/Design/adminForm/js/2qes926509.js")"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.10/build/highlight.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
+    <script>hljs.initHighlightingOnLoad();</script>
     <script type="text/javascript">
+        hljs.initHighlightingOnLoad();
+
         $body = $("body");
 
         $(document).on({

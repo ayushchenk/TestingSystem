@@ -3,12 +3,15 @@
     ViewBag.Title = "Participate";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
     int secondsRemaining = (int)(Model.EndTime - DateTime.Now).TotalSeconds;
+
+
 }
 @using (Html.BeginForm("Participate", "StudentContent", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <h3 id="countdown"></h3>
+    <div style="position:fixed;"><h3 id="countdown"></h3></div>
+
     <div class="container">
         @Html.HiddenFor(model => model.Length)
         @Html.HiddenFor(model => model.SubjectId)
@@ -24,45 +27,58 @@
                 @Html.HiddenFor(model => model.QuestionAnswers[i].Question.Id)
                 @Html.HiddenFor(model => model.QuestionAnswers[i].Question.QuestionString)
                 @Html.HiddenFor(model => model.QuestionAnswers[i].Question.ImagePath)
-                <div class="col-md-2 col-sm-2">
+                <div class="col-md-1 col-sm-1">
                 </div>
-                <div class="col-md-8 col-sm-8">
-                    <pre>@Model.QuestionAnswers[i].Question.QuestionString</pre>
+                <div class="col-md-10 col-sm-10">
+                    <div class="question-container" style="border: 1px solid black; border-radius: 20px; background-color:#ededed; padding:15px;">
+                        <pre style="margin:15px;">@Model.QuestionAnswers[i].Question.QuestionString</pre>
 
-                    @if (!String.IsNullOrWhiteSpace(@Model.QuestionAnswers[i].Question.ImagePath))
-                    {
-                        <div class="row" style="margin: 25px;">
-                            <img src="@Model.QuestionAnswers[i].Question.ImagePath" style="max-height: 350px; max-width: 350px;" />
-                        </div>
-                    }
+                        @if (!String.IsNullOrWhiteSpace(@Model.QuestionAnswers[i].Question.ImagePath))
+                        {
+                            <div class="row" style="margin: 15px; align-content:center;">
+                                <a class="venobox" href="@Model.QuestionAnswers[i].Question.ImagePath">
+                                    <img src="@Model.QuestionAnswers[i].Question.ImagePath" alt="image alt" style="width:50%; display: block; margin-left: auto; margin-right: auto;" />
+                                </a>
+                            </div>
+                        }
 
-                    @for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
-                    {
-                        <div class="row">
-                            @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].Id)
-                            @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].IsCorrect)
-                            @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].AnswerString)
-                            @switch (Model.QuestionAnswers[i].QuestionType)
-                            {
-                                case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersManyCorrect:
-                                    @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
-                                    @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.AnswerId, new { Value = $"{Model.QuestionAnswers[i].Answers[j].Id}" })
-                                    <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
-                                    break;
-                                case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersOneCorrect:
-                                    @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
-                                    <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
-                                    break;
-                                case TestingSystem.Web.Models.ViewModels.QuestionType.OneAnswerOneCorrect:
-                                    @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { @class = "form-group" } })
-                                    break;
-                            }
-                        </div>
-                    }
+                        @for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
+                        {
+                            <div class="row" style="margin:15px;">
+                                @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].Id)
+                                @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].IsCorrect)
+                                @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].AnswerString)
+                                @switch (Model.QuestionAnswers[i].QuestionType)
+                                {
+                                    case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersManyCorrect:
+                                        @Html.HiddenFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.AnswerId, new { Value = $"{Model.QuestionAnswers[i].Answers[j].Id}" })
+                                        <div class="col-md-1 col-sm-1">
+                                            @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                        </div>
+                                        <div class="col-md-11 col-sm-11">
+                                            <pre style="max-width:700px;"><code>@Model.QuestionAnswers[i].Answers[j].AnswerString</code></pre>
+                                        </div>
+                                        break;
+                                    case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersOneCorrect:
+                                        <div class="col-md-1 col-sm-1">
+                                            @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
+                                        </div>
+                                        <div class="col-md-11 col-sm-11">
+                                            <pre>@Model.QuestionAnswers[i].Answers[j].AnswerString</pre>
+                                        </div>
+                                        break;
+                                    case TestingSystem.Web.Models.ViewModels.QuestionType.OneAnswerOneCorrect:
+                                        @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { @class = "form-control", style = "width: 850px;" } })
+                                        break;
+                                }
+                            </div>
+                        }
+                    </div>
                 </div>
-                <div class="col-md-2 col-sm-2">
+                <div class="col-md-1 col-sm-1">
                 </div>
             </div>
+            <br />
 
             <hr />
         }
@@ -87,6 +103,8 @@
                 }
             }, 1000);
         }
+
+        $('.venobox').venobox();
 
         $(function () {
             var seconds = @secondsRemaining;

@@ -11,89 +11,121 @@
     @for (int i = 0; i < Model.QuestionCount; i++)
     {
         <div class="row">
-            <div class="col-md-2 col-sm-2">
+            <div class="col-md-1 col-sm-1">
             </div>
-            <div class="col-md-8 col-sm-8">
-                <pre>@Model.QuestionAnswers[i].Question.QuestionString</pre>
+            <div class="col-md-10 col-sm-10">
+                <div class="question-container" style="border: 1px solid black; border-radius: 20px; background-color:#ededed; padding:15px;">
+                    <pre style="margin:15px;">@Model.QuestionAnswers[i].Question.QuestionString</pre>
 
-                @if (!String.IsNullOrWhiteSpace(@Model.QuestionAnswers[i].Question.ImagePath))
-                {
-                    <div class="row" style="margin: 25px;">
-                        <img src="@Model.QuestionAnswers[i].Question.ImagePath" style="max-height: 350px; max-width: 350px;" />
-                    </div>
-                }
+                    @if (!String.IsNullOrWhiteSpace(@Model.QuestionAnswers[i].Question.ImagePath))
+                    {
+                        <div class="row" style="margin: 15px; align-content:center;">
+                            <a class="venobox" href="@Model.QuestionAnswers[i].Question.ImagePath">
+                                <img src="@Model.QuestionAnswers[i].Question.ImagePath" alt="image alt" style="width:50%; display: block; margin-left: auto; margin-right: auto;" />
+                            </a>
+                        </div>
+                    }
 
-                @for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
-                {
-                    <div class="row">
-                        @switch (Model.QuestionAnswers[i].QuestionType)
+                    <div class="container">
+                        @for (int j = 0; j < Model.QuestionAnswers[i].Answers.Count; j++)
                         {
-                            case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersManyCorrect:
-                                if (Model.QuestionAnswers[i].Answers[j].IsCorrect)
+                            <div class="row">
+                                @switch (Model.QuestionAnswers[i].QuestionType)
                                 {
-                                    <div class="alert-success">
-                                        @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
-                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
-                                    </div>
+                                    case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersManyCorrect:
+                                        if (Model.QuestionAnswers[i].Answers[j].IsCorrect)
+                                        {
+                                            <div class="col-md-1 col-sm-1">
+                                                @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                            </div>
+                                            <div class="col-md-11 col-sm-11 alert alert-success">
+                                                <pre>@Model.QuestionAnswers[i].Answers[j].AnswerString </pre>
+                                            </div>
+                                        }
+                                        else if (Model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                        {
+                                            <div class="col-md-1 col-sm-1">
+                                                @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                            </div>
+                                            <div class="col-md-11 col-sm-11 alert alert-danger">
+                                                <pre>@Model.QuestionAnswers[i].Answers[j].AnswerString </pre>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-1 col-sm-1">
+                                                @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
+                                            </div>
+                                            <div class="col-md-11 col-sm-11">
+                                                <pre>@Model.QuestionAnswers[i].Answers[j].AnswerString </pre>
+                                            </div>
+                                        }
+                                        break;
+                                    case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersOneCorrect:
+                                        if (Model.QuestionAnswers[i].Answers[j].IsCorrect)
+                                        {
+                                            <div class="col-md-1 col-sm-1">
+                                                @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
+                                            </div>
+                                            <div class="col-md-11 col-sm-11 alert alert-success">
+                                                <pre>@Model.QuestionAnswers[i].Answers[j].AnswerString </pre>
+                                            </div>
+                                        }
+                                        else if (Model.QuestionAnswers[i].AnswerId == Model.QuestionAnswers[i].Answers[j].Id)
+                                        {
+                                            <div class="col-md-1 col-sm-1">
+                                                @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
+                                            </div>
+                                            <div class="col-md-11 col-sm-11 alert alert-danger">
+                                                <pre>@Model.QuestionAnswers[i].Answers[j].AnswerString </pre>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-1 col-sm-1">
+                                                @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
+                                            </div>
+                                            <div class="col-md-11 col-sm-11">
+                                                <pre>@Model.QuestionAnswers[i].Answers[j].AnswerString </pre>
+                                            </div>
+                                        }
+                                        break;
+                                    case TestingSystem.Web.Models.ViewModels.QuestionType.OneAnswerOneCorrect:
+                                        if (Model.QuestionAnswers[i].AnswerString?.Trim().ToLower() == Model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
+                                        {
+                                            <div class="alert-success">
+                                                @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group" } })
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md col-sm">
+                                                <div class="alert alert-success">
+                                                    Right answer: @Html.EditorFor(model => model.QuestionAnswers[i].Answers[0].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-control" } })
+                                                </div>
+                                                <div class="alert alert-danger">
+                                                    Your answer: @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-control" } })
+                                                </div>
+                                            </div>
+                                        }
+                                        break;
                                 }
-                                else if (Model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
-                                {
-                                    <div class="alert-danger">
-                                        @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
-                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
-                                    </div>
-                                }
-                                else
-                                {
-                                    @Html.CheckBoxFor(model => model.QuestionAnswers[i].Answers[j].PickedCheckbox.Checked)
-                                    <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
-                                }
-                                break;
-                            case TestingSystem.Web.Models.ViewModels.QuestionType.ManyAnswersOneCorrect:
-                                if (Model.QuestionAnswers[i].Answers[j].IsCorrect)
-                                {
-                                    <div class="alert-success">
-                                        @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
-                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
-                                    </div>
-                                }
-                                else if (Model.QuestionAnswers[i].AnswerId == Model.QuestionAnswers[i].Answers[j].Id)
-                                {
-                                    <div class="alert-danger">
-                                        @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
-                                        <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
-                                    </div>
-                                }
-                                else
-                                {
-                                    @Html.RadioButtonFor(model => Model.QuestionAnswers[i].AnswerId, Model.QuestionAnswers[i].Answers[j].Id)
-                                    <label>@Model.QuestionAnswers[i].Answers[j].AnswerString </label>
-                                }
-                                break;
-                            case TestingSystem.Web.Models.ViewModels.QuestionType.OneAnswerOneCorrect:
-                                if (Model.QuestionAnswers[i].AnswerString?.Trim().ToLower() == Model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
-                                {
-                                    <div class="alert-success">
-                                        @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group" } })
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="alert-success">
-                                        Right answer: @Html.EditorFor(model => model.QuestionAnswers[i].Answers[0].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group" } })
-                                    </div>
-                                    <div class="alert-danger">
-                                        Your answer: @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group" } })
-                                    </div>
-                                }
-                                break;
+                            </div>
                         }
                     </div>
-                }
+                </div>
             </div>
-            <div class="col-md-2 col-sm-2">
+            <div class="col-md-1 col-sm-1">
             </div>
         </div>
         <hr />
     }
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $('.venobox').venobox();
+        });
+    </script>
+}

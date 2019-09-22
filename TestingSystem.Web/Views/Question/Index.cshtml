@@ -1,4 +1,7 @@
 ﻿@{ ViewBag.Title = "Index"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
+
+@*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/vs.min.css">*@
+
 <div style="background-color: white;">
     <h2>Questions</h2>
     <input type="text" id="filter-input" class="form-control" />
@@ -7,6 +10,8 @@
 </div>
 @Scripts.Render("~/bundles/jquery")
 @section Scripts{
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>*@
     <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
 
     <script type="text/javascript">

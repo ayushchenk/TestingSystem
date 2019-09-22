@@ -168,11 +168,12 @@ namespace TestingSystem.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Participate(ParticipateViewModel model)
         {
-            //if (Session["ParticipateModel"] == null)
-            //    return RedirectToAction("Tests");
+            if (Session["ParticipateModel"] == null)
+                return RedirectToAction("Tests");
             StudentTestResultDTO result = new StudentTestResultDTO
             {
                 GroupInTestId = model.GroupInTestId,
