@@ -2190,7 +2190,6 @@
     <Content Include="Design\WelcomePageTeachers\vendor\magnific-popup\jquery.magnific-popup.js" />
     <Content Include="Design\WelcomePageTeachers\vendor\magnific-popup\jquery.magnific-popup.min.js" />
     <Content Include="Design\WelcomePageTeachers\vendor\magnific-popup\magnific-popup.css" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Design\loginForm\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
@@ -2437,6 +2436,7 @@
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.eot" />
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.ttf" />
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.woff" />
+    <Content Include="favicon.ico" />
     <Content Include="Scripts\bootstrap-notify.js" />
     <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.js" />
