@@ -270,7 +270,10 @@ namespace TestingSystem.Web.Controllers
 
                 int verificationCode = (int)Session["VerificationCode"];
                 if (model.InputCode != verificationCode)
+                {
+                    ModelState.AddModelError("", "Wrong code");
                     return View(model);
+                }
 
                 AppUser user = await UserManager.FindByEmailAsync(model.Login.Email);
                 if (user == null)
