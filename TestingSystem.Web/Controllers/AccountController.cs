@@ -225,10 +225,11 @@ namespace TestingSystem.Web.Controllers
                     var twoFactorModel = new LoginTwoFactorViewModel()
                     {
                         Login = model,
-                        VerificationCode = new Random().Next(100000, 1000000),
                     };
+                    int verificationCode = new Random().Next(100000, 1000000);
+                    Session["VerificationCode"] = verificationCode;
                     MailSender.MailService sender = new MailSender.MailService();
-                    await sender.SendMessageAsync(model.Email, "Confirmation code", "Your two factor login verification code: " + twoFactorModel.VerificationCode);
+                    await sender.SendMessageAsync(model.Email, "Confirmation code", "Your two factor login verification code: " + verificationCode);
                     return View("LoginTwoFactor", twoFactorModel);
                 }
                 else
@@ -264,6 +265,13 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Session["VerificationCode"] == null)
+                    return RedirectToAction("Login");
+
+                int verificationCode = (int)Session["VerificationCode"];
+                if (model.InputCode != verificationCode)
+                    return View(model);
+
                 AppUser user = await UserManager.FindByEmailAsync(model.Login.Email);
                 if (user == null)
                     return RedirectToAction("Login");
