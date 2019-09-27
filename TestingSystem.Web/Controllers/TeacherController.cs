@@ -129,12 +129,16 @@ namespace TestingSystem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var oldSubjects = await teacherInSubjectsService.FindByAsync(tis => tis.TeacherId == model.Teacher.Id);
-                await teacherInSubjectsService.DeleteRangeAsync(oldSubjects);
-
                 model.Teacher = await teacherService.AddOrUpdateAsync(model.Teacher);
-                foreach (var subject in model.SelectedSubjects)
-                    await teacherInSubjectsService.AddOrUpdateAsync(new TeachersInSubjectDTO() { TeacherId = model.Teacher.Id, SubjectId = subject });
+                var oldSubjects = await teacherInSubjectsService.FindByAsync(tis => tis.TeacherId == model.Teacher.Id);
+
+                if (!oldSubjects.Select(x => x.SubjectId).SequenceEqual(model.SelectedSubjects))
+                {
+                    await teacherInSubjectsService.DeleteRangeAsync(oldSubjects);
+                    foreach (var subject in model.SelectedSubjects)
+                        await teacherInSubjectsService.AddOrUpdateAsync(new TeachersInSubjectDTO() { TeacherId = model.Teacher.Id, SubjectId = subject });
+                }
+
                 return RedirectToAction("Index");
             }
             ViewBag.EducationUnits = new SelectList(await unitService.GetAllAsync(), "Id", "EducationUnitName", model.Teacher.EducationUnitId);
