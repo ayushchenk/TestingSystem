@@ -8,23 +8,22 @@
 
 @if (Model.Count() != 0)
 {
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                Subject
-            </div>
-            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                Theme
-            </div>
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                Difficulty
-            </div>
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                Action
-            </div>
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                Has image
-            </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
+            Subject
+        </div>
+        <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
+            Theme
+        </div>
+        <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+            Difficulty
+        </div>
+        <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+            Action
+        </div>
+        <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+            Has image
         </div>
     </div>
     <hr />
@@ -55,7 +54,7 @@
                 }
             </div>
         </div>
-        <hr/>
+        <hr />
         <div class="row">
             <div class="col-md-10 col-sm-10 col-10">
                 <pre style="margin: 5px"><code>@Model.ElementAt(i).Question.QuestionString</code></pre>
@@ -87,7 +86,7 @@
                                         <label>@Model.ElementAt(i).Answers.ElementAt(j - 1).IsCorrect</label>
                                     </div>
                                 </div>
-                                if(j != Model.ElementAt(i).Answers.Count())
+                                if (j != Model.ElementAt(i).Answers.Count())
                                 {
                                     <hr />
                                 }
@@ -109,6 +108,6 @@ else
 
 @section Scripts{
     @*<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>*@
+        <script>hljs.initHighlightingOnLoad();</script>*@
     <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
 }
