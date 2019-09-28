@@ -15,6 +15,7 @@ namespace TestingSystem.Web.Models.ViewModels
         public DateTime StartTime { set; get; }
         public int QuestionCount { set; get; }
         public int Result { set; get; }
+        public int Seconds { set; get; }
         public List<QuestionAnswer> QuestionAnswers { set; get; } = new List<QuestionAnswer>();
     }
 }

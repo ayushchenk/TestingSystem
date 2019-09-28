@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Participate";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
-    int secondsRemaining = (int)(Model.EndTime - DateTime.Now).TotalSeconds;
+    int secondsRemaining = Model.Seconds;
 
 
 }
@@ -78,8 +78,6 @@
                 <div class="col-md-1 col-sm-1">
                 </div>
             </div>
-            <br />
-
             <hr />
         }
         <input type="submit" value="Submit" id="btn-submit" onclick="btnLimiter()">

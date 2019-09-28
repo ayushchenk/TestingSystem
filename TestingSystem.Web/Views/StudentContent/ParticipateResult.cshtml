@@ -94,7 +94,7 @@
                                         if (Model.QuestionAnswers[i].AnswerString?.Trim().ToLower() == Model.QuestionAnswers[i].Answers[0].AnswerString.Trim().ToLower())
                                         {
                                             <div class="alert-success">
-                                                @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-group" } })
+                                                @Html.EditorFor(model => model.QuestionAnswers[i].AnswerString, new { htmlAttributes = new { disabled = "disabled", @class = "form-control" } })
                                             </div>
                                         }
                                         else

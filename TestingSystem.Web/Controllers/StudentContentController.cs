@@ -115,6 +115,7 @@ namespace TestingSystem.Web.Controllers
                     Length = git.Length,
                     SubjectId = test.SubjectId
                 };
+                model.Seconds = (int)(model.EndTime - DateTime.Now).TotalSeconds;
                 Random rnd = new Random();
 
                 int realCount = Math.Min(test.EasyCount, easyQuestions.Count());

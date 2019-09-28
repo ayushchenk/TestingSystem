@@ -94,7 +94,7 @@ namespace TestingSystem.Web.Controllers
                 Test = new TestDTO() { TeacherId = this.Teacher.Id },
                 SelectThemeItems = new List<SelectListItem>(),
             };
-            var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId);
+            var ids = (await teachersInSubjectsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id)).Select(tis => tis.SubjectId).ToList();
             ViewBag.Subjects = new SelectList(await subjectService.FindByAsync(subject => ids.Contains(subject.Id) && subject.Questions > 0), "Id", "SubjectName"); ;
             return View(model);
         }
