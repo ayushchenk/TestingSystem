@@ -18,13 +18,10 @@
                             <a href="#" class="title">@item.FileName</a>
                             <br />
                             ID: @item.Id
-                            @if (item.TeacherId == ViewBag.TeacherId)
-                            {
-                                <br /><br />
-                                <div class="price-wrap">
-                                    @Html.ActionLink("Remove", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
-                                </div>
-                            }
+                            <br /><br />
+                            <div class="price-wrap">
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
+                            </div>
                         </figcaption>
                     </figure>
                 </div>
