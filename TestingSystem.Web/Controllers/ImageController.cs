@@ -37,10 +37,10 @@ namespace TestingSystem.Web.Controllers
 
         public async Task<PartialViewResult> PartialIndex(string filter = null)
         {
-            ViewBag.TeacherId = this.Teacher?.Id ?? 0;
+            var model = await imageService.FindByAsync(image => image.TeacherId == this.Teacher.Id);
             if (!String.IsNullOrWhiteSpace(filter))
-                return PartialView(await imageService.FindByAsync(image => image.ImagePath.ToLower().Contains(filter.ToLower())));
-            return PartialView(await imageService.GetAllAsync());
+                return PartialView(model.Where(image => image.ImagePath.ToLower().Contains(filter.ToLower())));
+            return PartialView(model);
         }
 
         public ActionResult Create() => View(new QuestionImageDTO());

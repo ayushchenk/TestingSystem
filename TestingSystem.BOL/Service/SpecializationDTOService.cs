@@ -27,6 +27,11 @@ namespace TestingSystem.BOL.Service
             }).CreateMapper();
         }
 
+        public void Save()
+        {
+            repository.Save();
+        }
+
         public SpecializationDTO AddOrUpdate(SpecializationDTO obj)
         {
             Specialization res = repository.AddOrUpdate(mapper.Map<Specialization>(obj));
@@ -53,6 +58,16 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<SpecializationDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<SpecializationDTO>(role));
+        }
+
+        public void DeleteRange(IEnumerable<SpecializationDTO> items)
+        {
+            repository.DeleteRange(items.Select(item => mapper.Map<Specialization>(item)));
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<SpecializationDTO> items)
+        {
+            return Task.Run(() => DeleteRange(items));
         }
 
         public Task<IEnumerable<SpecializationDTO>> GetAllAsync()

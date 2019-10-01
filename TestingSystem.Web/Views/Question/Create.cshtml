@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
 
 @using (Html.BeginForm("Create", "Question", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -29,8 +29,24 @@
         <div class="form-group" id="subject-container">
             @Html.LabelFor(m => m.Question.SubjectName, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Question.SubjectId, (SelectList)ViewBag.Subjects, null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Question.SubjectId, ViewBag.Subjects as SelectList, null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Question.SubjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Question.ThemeName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Question.ThemeId, ViewBag.Themes as SelectList, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Question.ThemeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Question.Difficulty, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Question.Difficulty, ViewBag.Difficulties as SelectList, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Question.Difficulty, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -38,7 +54,7 @@
             @Html.LabelFor(model => model.Question.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="file" accept="image/*" name="file" id="file" class="form-control" />
-                @Html.DropDownListFor(model => model.Question.QuestionImageId, (SelectList)ViewBag.Images, null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Question.QuestionImageId, ViewBag.Images as SelectList, null, new { @class = "form-control" })
                 <input type="button" value="Discard photo" id="btn-discard" class="btn btn-default" />
             </div>
         </div>
@@ -97,10 +113,12 @@
         $(function () {
             specId = @Model.Question.SpecializationId;
             subId = @Model.Question.SubjectId;
-            //if(specId == 0)
-            //    $("#Question_SpecializationId").val([]);
-            //if(subId == 0)
-            //    $("#subject-container").hide();
+            themeId = @Model.Question.ThemeId;
+
+            if (subId == 0)
+                $("#Question_SubjectId").val([]);
+            if (themeId == 0)
+                $("#Question_ThemeId").empty();
 
             id = @Model.Answers.Count();
             if(!$("#output").attr("src"))
@@ -113,12 +131,31 @@
             if(id == 0)
                 $("#answer-cont-master").hide();
 
+            $("#Question_QuestionString").keydown(function (e) {
+                var code = e.keyCode || e.which;
+
+                if (code === 9) {
+                    $(this).val($(this).val() + "   ");
+                    e.preventDefault();
+                }
+            });
+
+            $("#Question_SubjectId").change(function () {
+                themes = $("#Question_ThemeId");
+                $.getJSON("@Url.Action("GetThemesBySubject", "Service")", { id : $(this).val()}, function (response) {
+                    themes.empty();
+                    $.each(response, function (index, item) {
+                        themes.append($('<option></option>').text(item.ThemeName).val(item.Id));
+                    });
+                });
+            });
+
             $("#add-item").click(function () {
                 if (id < 10) {
                     $("#answer-cont-master").show();
                     html = `<tr data-id=${id}>` +
                                 `<input type="hidden" id="Answers_${id}__Id" name="Answers[${id}].Id" value="0"/>` +
-                                `<td> <textarea id="Answers_${id}__AnswerString" name="Answers[${id}].AnswerString" class="form-control" rows="2" columns="100" maxlength="250"/> </td>` +
+                                `<td width="800px"> <textarea id="Answers_${id}__AnswerString" name="Answers[${id}].AnswerString" class="form-control" rows="2" maxlength="1024"/> </td>` +
                                 `<td class="text-center"> <input type="checkbox" id="Answers_${id}__IsCorrect" name="Answers[${id}].IsCorrect" value="true"/>` +
                                 `<input type="hidden" value="false" name="Answers[${id}].IsCorrect"/></td> ` +
                                 `<td> <input type="button" value="Remove" class="btn-remove btn btn-default"/> </td>` +
@@ -234,7 +271,7 @@
 
             setTimeout(function () {
                 btn.removeAttribute('disabled');
-            }, 10000);
+            }, 5000);
         }
     </script>
 }

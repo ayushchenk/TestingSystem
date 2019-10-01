@@ -1,4 +1,4 @@
-﻿@model TestingSystem.BOL.Model.StudentDTO
+﻿@model TestingSystem.Web.Models.ViewModels.EditStudentViewModel
 @{ ViewBag.Title = "Profile"; Layout = "~/Views/Shared/_StudentLayout.cshtml"; }
 <div class="content">
     <div class="container-fluid">
@@ -14,19 +14,19 @@
                                 <div class="col-md-5 pr-1">
                                     <div class="form-group">
                                         <label>Education Unit</label>
-                                        <input type="text" class="form-control" disabled="disabled" placeholder="Company" value="@Html.DisplayFor(model => model.EducationUnitName)">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="Company" value="@Html.DisplayFor(model => model.Student.EducationUnitName)">
                                     </div>
                                 </div>
                                 <div class="col-md-3 px-1">
                                     <div class="form-group">
                                         <label>Username</label>
-                                        <input type="text" class="form-control" disabled="disabled" placeholder="Username" value="@Html.DisplayFor(model => model.Email)">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="Username" value="@Html.DisplayFor(model => model.Student.Email)">
                                     </div>
                                 </div>
                                 <div class="col-md-4 pl-1">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control" disabled="disabled" placeholder="Email" value="@Html.DisplayFor(model => model.Email)">
+                                        <input type="email" class="form-control" disabled="disabled" placeholder="Email" value="@Html.DisplayFor(model => model.Student.Email)">
                                     </div>
                                 </div>
                             </div>
@@ -34,13 +34,13 @@
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" disabled="disabled" placeholder="Company" value="@Html.DisplayFor(model => model.FirstName)">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="Company" value="@Html.DisplayFor(model => model.Student.FirstName)">
                                     </div>
                                 </div>
                                 <div class="col-md-6 pl-1">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" class="form-control" disabled="disabled" placeholder="Last Name" value="@Html.DisplayFor(model => model.LastName)">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="Last Name" value="@Html.DisplayFor(model => model.Student.LastName)">
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,15 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>INFORMATION FOR ADMINISTRATION</label>
-                                        <input type="text" class="form-control" disabled="disabled" placeholder="INFO" value="ACC_ID: @Html.DisplayFor(model => model.Id), ED_ID: @Html.DisplayFor(model => model.EducationUnitId), GR_ID @Html.DisplayFor(model => model.GroupId)">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="INFO" value="ACC_ID: @Html.DisplayFor(model => model.Student.Id), ED_ID: @Html.DisplayFor(model => model.Student.EducationUnitId), GR_ID @Html.DisplayFor(model => model.Student.GroupId)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Two factor email authentication</label>
+                                        @Html.DisplayFor(m => m.IsTwoFactorEnabled)
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +64,7 @@
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>Group of Education Branch</label>
-                                        <input type="text" class="form-control" disabled="disabled" placeholder="City" value="@Html.DisplayFor(model => model.GroupName).ToString().ToUpper()">
+                                        <input type="text" class="form-control" disabled="disabled" placeholder="City" value="@Html.DisplayFor(model => model.Student.GroupName).ToString().ToUpper()">
                                     </div>
                                 </div>
                                 <div class="col-md-4 px-1">
@@ -71,7 +79,7 @@
                                     <div class="form-group">
                                         <label>About Me</label>
                                         <textarea rows="4" cols="80" disabled="disabled" class="form-control" placeholder="Description of this Profile" value="">
-@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName), i am student of @Html.DisplayFor(model => model.EducationUnitName), listener @Html.DisplayFor(model => model.GroupName), my direction @Html.DisplayFor(model => model.SpecializationName) in Academy Branch @Html.DisplayFor(model => model.EducationUnitName).</textarea>
+@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName), i am student of @Html.DisplayFor(model => model.Student.EducationUnitName), listener @Html.DisplayFor(model => model.Student.GroupName), my direction @Html.DisplayFor(model => model.Student.SpecializationName) in Academy Branch @Html.DisplayFor(model => model.Student.EducationUnitName).</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -90,18 +98,18 @@
                         <div class="author">
                             <a href="#">
                                 <img class="avatar border-gray" src="@Url.Content("~/Design/ProfilePage/img/teacherLogo.jpg")" alt=" ">
-                                <h5 class="title">@Html.DisplayFor(model => model.FirstName).ToString().ToUpper() @Html.DisplayFor(model => model.LastName).ToString().ToUpper()</h5>
+                                <h5 class="title">@Html.DisplayFor(model => model.Student.FirstName).ToString().ToUpper() @Html.DisplayFor(model => model.Student.LastName).ToString().ToUpper()</h5>
                             </a>
                             <p class="description">
-                                @Html.DisplayFor(model => model.Email).ToString().ToUpper()
+                                @Html.DisplayFor(model => model.Student.Email).ToString().ToUpper()
                             </p>
                         </div>
                         <p class="description text-center">
-                            @Html.DisplayFor(model => model.EducationUnitName).ToString().ToUpper()
+                            @Html.DisplayFor(model => model.Student.EducationUnitName).ToString().ToUpper()
                             <br />
-                            @Html.DisplayFor(model => model.SpecializationName)
+                            @Html.DisplayFor(model => model.Student.SpecializationName)
                             <br />
-                            @Html.DisplayFor(model => model.GroupName)
+                            @Html.DisplayFor(model => model.Student.GroupName)
                         </p>
                     </div>
                     <hr>

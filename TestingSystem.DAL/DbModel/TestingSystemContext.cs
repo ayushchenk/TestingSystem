@@ -24,10 +24,12 @@ namespace TestingSystem.DAL.DbModel
         public virtual DbSet<StudentTestResult> StudentTestResults { get; set; }
         public virtual DbSet<StudyingMaterial> StudyingMaterials { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<SubjectTheme> SubjectThemes { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<TeachersInGroup> TeachersInGroups { get; set; }
         public virtual DbSet<TeachersInSubject> TeachersInSubjects { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
+        public virtual DbSet<ThemesInTest> ThemesInTests { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -42,11 +44,6 @@ namespace TestingSystem.DAL.DbModel
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Group>()
-                .HasMany(e => e.GroupsInTests)
-                .WithRequired(e => e.Group)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Group>()
                 .HasMany(e => e.Students)
                 .WithRequired(e => e.Group)
                 .WillCascadeOnDelete(false);
@@ -54,8 +51,7 @@ namespace TestingSystem.DAL.DbModel
             modelBuilder.Entity<GroupsInTest>()
                 .HasMany(e => e.StudentTestResults)
                 .WithRequired(e => e.GroupsInTest)
-                .HasForeignKey(e => e.GroupInTestId)
-                .WillCascadeOnDelete(true);
+                .HasForeignKey(e => e.GroupInTestId);
 
             modelBuilder.Entity<Specialization>()
                 .HasMany(e => e.Groups)
@@ -83,6 +79,11 @@ namespace TestingSystem.DAL.DbModel
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Subject>()
+                .HasMany(e => e.SubjectThemes)
+                .WithRequired(e => e.Subject)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Subject>()
                 .HasMany(e => e.TeachersInSubjects)
                 .WithRequired(e => e.Subject)
                 .WillCascadeOnDelete(false);
@@ -92,41 +93,27 @@ namespace TestingSystem.DAL.DbModel
                 .WithRequired(e => e.Subject)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Teacher>()
-                .HasMany(e => e.QuestionImages)
-                .WithRequired(e => e.Teacher)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Teacher>()
+            modelBuilder.Entity<SubjectTheme>()
                 .HasMany(e => e.Questions)
-                .WithRequired(e => e.Teacher)
+                .WithRequired(e => e.SubjectTheme)
+                .HasForeignKey(e => e.ThemeId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Teacher>()
-                .HasMany(e => e.StudyingMaterials)
-                .WithRequired(e => e.Teacher)
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Teacher>()
-                .HasMany(e => e.TeachersInSubjects)
-                .WithRequired(e => e.Teacher)
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Teacher>()
-                .HasMany(e => e.Tests)
-                .WithRequired(e => e.Teacher)
+            modelBuilder.Entity<SubjectTheme>()
+                .HasMany(e => e.ThemesInTests)
+                .WithRequired(e => e.SubjectTheme)
+                .HasForeignKey(e => e.ThemeId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TeachersInSubject>()
                 .HasMany(e => e.TeachersInGroups)
                 .WithRequired(e => e.TeachersInSubject)
-                .HasForeignKey(e => e.TeacherInSubjectId)
-                .WillCascadeOnDelete(true);
+                .HasForeignKey(e => e.TeacherInSubjectId);
 
             modelBuilder.Entity<Test>()
-                .HasMany(e => e.GroupsInTests)
+                .HasMany(e => e.ThemesInTests)
                 .WithRequired(e => e.Test)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
         }
     }
 }

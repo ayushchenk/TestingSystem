@@ -1,48 +1,50 @@
 ﻿@model IEnumerable<TestingSystem.Web.Models.ViewModels.CreateQuestionViewModel>
 
+@*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/vs.min.css">*@
+
 <p>
     @Html.ActionLink("Create New", "Create", new { id = ViewBag.SpecializationId })
 </p>
+
 @if (Model.Count() != 0)
 {
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                Question Id
-            </div>
-            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                Subject Name
-            </div>
-            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                Specialization Name
-            </div>
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                Action
-            </div>
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                Has image
-            </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
+            Subject
+        </div>
+        <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
+            Theme
+        </div>
+        <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+            Difficulty
+        </div>
+        <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+            Action
+        </div>
+        <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+            Has image
         </div>
     </div>
-    <hr/>
-    foreach (var item in Model)
+    <hr />
+    for (int i = 0; i < Model.Count(); i++)
     {
         <div class="row">
-            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                @item.Question.Id
+            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
+                @Model.ElementAt(i).Question.SubjectName
             </div>
             <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                @item.Question.SubjectName
-            </div>
-            <div class="col-md-3 col-sm-3 col-3" style="text-align:center;">
-                @item.Question.SpecializationName
+                @Model.ElementAt(i).Question.ThemeName
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Question.Id })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Question.Id }, new { @class = "btn-delete", data_id = item.Question.Id })
+                @Model.ElementAt(i).Question.DifficultyString
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                @if(!String.IsNullOrWhiteSpace(item.Question.ImagePath))
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ElementAt(i).Question.Id })
+                @Html.ActionLink("Delete", "Delete", new { id = Model.ElementAt(i).Question.Id }, new { @class = "btn-delete", data_id = Model.ElementAt(i).Question.Id })
+            </div>
+            <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
+                @if (!String.IsNullOrWhiteSpace(Model.ElementAt(i).Question.ImagePath))
                 {
                     <span>True</span>
                 }
@@ -52,32 +54,60 @@
                 }
             </div>
         </div>
+        <hr />
         <div class="row">
             <div class="col-md-10 col-sm-10 col-10">
-                @item.Question.QuestionString
+                <pre style="margin: 5px"><code>@Model.ElementAt(i).Question.QuestionString</code></pre>
             </div>
             <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
                 Is Correct
             </div>
         </div>
-        for (int i = 1; i <= item.Answers.Count(); i++)
-        {
-            <div class="row">
-                <div class="col-md-10 col-sm-10 col-10">
-                    @i. @item.Answers.ElementAt(i - 1).AnswerString
-                </div>
-                <div class="col-md-2 col-sm-2 col-2" style="text-align:center;">
-                    @item.Answers.ElementAt(i - 1).IsCorrect
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-header" id="heading-@i">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-@i" aria-expanded="true" aria-controls="collapse-@i">
+                                Answers
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse-@i" class="collapse" aria-labelledby="heading-@i" data-parent="#accordionExample">
+                        <div class="card-body">
+                            @for (int j = 1; j <= Model.ElementAt(i).Answers.Count(); j++)
+                            {
+                                <div class="row">
+                                    <div class="col-md-10 col-sm-10">
+                                        <pre>@j<text>. </text><code>@Model.ElementAt(i).Answers.ElementAt(j - 1).AnswerString</code></pre>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                        <label>@Model.ElementAt(i).Answers.ElementAt(j - 1).IsCorrect</label>
+                                    </div>
+                                </div>
+                                if (j != Model.ElementAt(i).Answers.Count())
+                                {
+                                    <hr />
+                                }
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
-
-        }
+        </div>
         <hr />
     }
 }
 else
 {
-    <div class="alert-info">
+    <div class="alert alert-info">
         No questions
     </div>
+}
+
+@section Scripts{
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>*@
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
 }

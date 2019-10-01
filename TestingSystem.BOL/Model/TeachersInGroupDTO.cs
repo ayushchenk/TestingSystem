@@ -50,6 +50,8 @@ namespace TestingSystem.BOL.Model
 
         public int SpecializationId { get; set; }
 
+        public int TeacherSpecialization { get; set; }
+
         public int EducationUnitId { get; set; }
     }
 }

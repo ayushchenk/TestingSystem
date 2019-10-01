@@ -11,23 +11,26 @@ using TestingSystem.Web.Models.ViewModels;
 
 namespace TestingSystem.Web.ApiControllers
 {
-    [Authorize]
+    //[Authorize]
     public class ParticipateApiController : ApiController
     {
         private IEntityService<TestDTO> testService;
         private IEntityService<GroupsInTestDTO> gitService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<QuestionAnswerDTO> answerService;
+        private IEntityService<ThemesInTestDTO> themesInTestsService;
 
         public ParticipateApiController(IEntityService<TestDTO> testService,
                                         IEntityService<GroupsInTestDTO> gitService,
                                         IEntityService<QuestionDTO> questionService,
-                                        IEntityService<QuestionAnswerDTO> answerService)
+                                        IEntityService<QuestionAnswerDTO> answerService,
+                                        IEntityService<ThemesInTestDTO> themesInTestsService)
         {
             this.gitService = gitService;
             this.testService = testService;
             this.answerService = answerService;
             this.questionService = questionService;
+            this.themesInTestsService = themesInTestsService;
         }
 
         // GET: api/ParticipateApi/6
@@ -39,29 +42,67 @@ namespace TestingSystem.Web.ApiControllers
             var test = await testService.GetAsync(git.TestId);
             if (test == null)
                 return BadRequest("Test");
-            var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId);
+
+            var themes = (await themesInTestsService.FindByAsync(tit => tit.TestId == test.Id)).Select(tit => tit.ThemeId);
+
+            var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId && q.TeacherId == test.TeacherId && themes.Contains(q.ThemeId));
             var questionIds = questions.Select(q => q.Id);
             var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
+
+            var easyQuestions = questions.Where(q => q.Difficulty == 1);
+            var hardQuestions = questions.Where(q => q.Difficulty == 2);
+            var mediumQuestions = questions.Where(q => q.Difficulty == 3);
+
             ParticipateViewModel model = new ParticipateViewModel()
             {
                 StartTime = git.StartTime.Value,
                 EndTime = git.StartTime.Value.AddMinutes(git.Length),
                 GroupInTestId = git.Id,
                 Length = git.Length,
-                QuestionCount = test.QuestionCount,
+                QuestionCount = test.EasyCount + test.MediumCount + test.HardCount,
                 SubjectId = test.SubjectId
             };
             Random rnd = new Random();
-            int realCount = Math.Min(model.QuestionCount, questions.Count());
-            for (int i = 0; i < model.QuestionCount; i++)
+
+            int realCount = Math.Min(test.EasyCount, easyQuestions.Count());
+            if (realCount != 0)
             {
-                int selId = rnd.Next(realCount);
-                model.QuestionAnswers.Add(new QuestionAnswer
+                for (int i = 0; i < test.EasyCount; i++)
                 {
-                    Question = questions.ElementAt(selId),
-                    Answers = answers.Where(ans => ans.QuestionId == questions.ElementAt(selId).Id).ToList()
-                });
+                    int selId = rnd.Next(realCount);
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = easyQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
+                }
             }
+
+            realCount = Math.Min(test.MediumCount, mediumQuestions.Count());
+            if (realCount != 0)
+            {
+                for (int i = 0; i < test.MediumCount; i++)
+                {
+                    int selId = rnd.Next(realCount);
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = mediumQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
+                }
+            }
+
+            realCount = Math.Min(test.HardCount, hardQuestions.Count());
+            if (realCount != 0)
+            {
+                for (int i = 0; i < test.HardCount; i++)
+                {
+                    int selId = rnd.Next(realCount);
+                    QuestionAnswer qa = new QuestionAnswer();
+                    qa.Question = hardQuestions.ElementAt(selId);
+                    qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                    model.QuestionAnswers.Add(qa);
+                }
+            }
+
             return Ok(model);
         }
     }

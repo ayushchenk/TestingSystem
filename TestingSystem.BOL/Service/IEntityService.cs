@@ -12,10 +12,12 @@ namespace TestingSystem.BOL.Service
         TDTO Get(int id);
         TDTO AddOrUpdate(TDTO obj);
         TDTO Delete(TDTO obj);
+        void DeleteRange(IEnumerable<TDTO> items);
         Task<IEnumerable<TDTO>> GetAllAsync();
         Task<IEnumerable<TDTO>> FindByAsync(Expression<Func<TDTO, bool>> predicate);
         Task<TDTO> GetAsync(int id);
         Task<TDTO> AddOrUpdateAsync(TDTO obj);
         Task<TDTO> DeleteAsync(TDTO obj);
+        Task DeleteRangeAsync(IEnumerable<TDTO> items);
     }
 }

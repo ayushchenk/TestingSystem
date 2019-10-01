@@ -1,0 +1,45 @@
+﻿@model TestingSystem.BOL.Model.SubjectDTO
+@{ ViewBag.Title = "Index"; Layout = "~/Views/Shared/_TeacherLayout.cshtml"; }
+<h2>Subject @Model.SubjectName themes</h2>
+<input type="text" id="filter-input" class="form-control" />
+<div id="partial-content">
+</div>
+@Scripts.Render("~/bundles/jquery")
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/bootstrap-notify.min.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#partial-content").load("@Url.Action("PartialIndex", "SubjectTheme", new { id = Model.Id})");
+
+            $("body").on("click", ".btn-delete", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "SubjectTheme")",
+                    data: { id: $(this).attr("data-id") },
+                    success: function (data) {
+                        $("#partial-content").load("@Url.Action("PartialIndex", "SubjectTheme", new { id = Model.Id})");
+                        $.notify({
+	                        message: data
+                        },{
+	                        type: 'success'
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.notify({
+	                        message: "An error occured while processing your request"
+                        },{
+	                        type: 'danger'
+                        });
+                    }
+                });
+            });
+
+            $("body").on("keypress", "#filter-input", function (e) {
+                if (e.which == 13)
+                    $("#partial-content").load("@Url.Action("PartialIndex", "SubjectTheme")", { id : @Model.Id, filter : $(this).val()});
+            });
+        });
+
+    </script>
+}

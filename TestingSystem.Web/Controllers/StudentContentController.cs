@@ -20,13 +20,13 @@ namespace TestingSystem.Web.Controllers
     {
         private StudentDTO student;
         private IEntityService<TestDTO> testService;
-        private IEntityService<GroupDTO> groupService;
         private IEntityService<StudentDTO> studentService;
         private IEntityService<GroupsInTestDTO> gitService;
         private IEntityService<QuestionDTO> questionService;
         private IEntityService<QuestionAnswerDTO> answerService;
         private IEntityService<StudentTestResultDTO> resultService;
         private IEntityService<StudyingMaterialDTO> materialService;
+        private IEntityService<ThemesInTestDTO> themesInTestsService;
 
         private AppUserManager UserManager
         {
@@ -55,22 +55,22 @@ namespace TestingSystem.Web.Controllers
         }
 
         public StudentContentController(IEntityService<TestDTO> testService,
-                                        IEntityService<GroupDTO> groupService,
                                         IEntityService<StudentDTO> studentService,
                                         IEntityService<GroupsInTestDTO> gitService,
                                         IEntityService<QuestionDTO> questionService,
                                         IEntityService<QuestionAnswerDTO> answerService,
                                         IEntityService<StudentTestResultDTO> resultService,
-                                        IEntityService<StudyingMaterialDTO> materialService)
+                                        IEntityService<StudyingMaterialDTO> materialService,
+                                        IEntityService<ThemesInTestDTO> themesInTestsService)
         {
             this.gitService = gitService;
             this.testService = testService;
-            this.groupService = groupService;
             this.answerService = answerService;
             this.resultService = resultService;
             this.studentService = studentService;
             this.materialService = materialService;
             this.questionService = questionService;
+            this.themesInTestsService = themesInTestsService;
         }
 
         public async Task<ActionResult> Tests()
@@ -95,9 +95,17 @@ namespace TestingSystem.Web.Controllers
                 var test = await testService.GetAsync(git.TestId);
                 if (test == null)
                     return RedirectToAction("Tests");
-                var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId);
+
+                var themes = (await themesInTestsService.FindByAsync(tit => tit.TestId == test.Id)).Select(tit => tit.ThemeId);
+
+                var questions = await questionService.FindByAsync(q => q.SubjectId == test.SubjectId && q.TeacherId == test.TeacherId && themes.Contains(q.ThemeId));
                 var questionIds = questions.Select(q => q.Id);
                 var answers = await answerService.FindByAsync(a => questionIds.Contains(a.QuestionId));
+
+                var easyQuestions = questions.Where(q => q.Difficulty == 1);
+                var mediumQuestions = questions.Where(q => q.Difficulty == 2);
+                var hardQuestions = questions.Where(q => q.Difficulty == 3);
+
                 ParticipateViewModel model = new ParticipateViewModel()
                 {
                     StartTime = git.StartTime.Value,
@@ -105,20 +113,52 @@ namespace TestingSystem.Web.Controllers
                     GroupInTestId = git.Id,
                     StudentId = this.Student.Id,
                     Length = git.Length,
-                    QuestionCount = test.QuestionCount,
                     SubjectId = test.SubjectId
                 };
+                model.Seconds = (int)(model.EndTime - DateTime.Now).TotalSeconds;
                 Random rnd = new Random();
-                int realCount = Math.Min(model.QuestionCount, questions.Count());
-                for (int i = 0; i < model.QuestionCount; i++)
+
+                int realCount = Math.Min(test.EasyCount, easyQuestions.Count());
+                if (realCount != 0)
                 {
-                    int selId = rnd.Next(realCount);
-                    model.QuestionAnswers.Add(new QuestionAnswer
+                    for (int i = 0; i < test.EasyCount; i++)
                     {
-                        Question = questions.ElementAt(selId),
-                        Answers = answers.Where(ans => ans.QuestionId == questions.ElementAt(selId).Id).ToList()
-                    });
+                        int selId = rnd.Next(realCount);
+                        QuestionAnswer qa = new QuestionAnswer();
+                        qa.Question = easyQuestions.ElementAt(selId);
+                        qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                        model.QuestionAnswers.Add(qa);
+                    }
                 }
+
+                realCount = Math.Min(test.MediumCount, mediumQuestions.Count());
+                if (realCount != 0)
+                {
+                    for (int i = 0; i < test.MediumCount; i++)
+                    {
+                        int selId = rnd.Next(realCount);
+                        QuestionAnswer qa = new QuestionAnswer();
+                        qa.Question = mediumQuestions.ElementAt(selId);
+                        qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                        model.QuestionAnswers.Add(qa);
+                    }
+                }
+
+                realCount = Math.Min(test.HardCount, hardQuestions.Count());
+                if (realCount != 0)
+                {
+                    for (int i = 0; i < test.HardCount; i++)
+                    {
+                        int selId = rnd.Next(realCount);
+                        QuestionAnswer qa = new QuestionAnswer();
+                        qa.Question = hardQuestions.ElementAt(selId);
+                        qa.Answers = answers.Where(ans => ans.QuestionId == qa.Question.Id).ToList();
+                        model.QuestionAnswers.Add(qa);
+                    }
+                }
+
+                model.QuestionCount = model.QuestionAnswers.Count;
+
                 Session.Add("ParticipateModel", model);
                 return View(model);
             }
@@ -129,8 +169,12 @@ namespace TestingSystem.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Participate(ParticipateViewModel model)
         {
+            if (Session["ParticipateModel"] == null)
+                return RedirectToAction("Tests");
             StudentTestResultDTO result = new StudentTestResultDTO
             {
                 GroupInTestId = model.GroupInTestId,
@@ -189,38 +233,51 @@ namespace TestingSystem.Web.Controllers
             return View(model);
         }
 
-        public new ActionResult Profile()
+        public new async Task<ActionResult> Profile()
         {
             if (this.Student == null)
-                return RedirectToAction("Test");
-            return View(this.Student);
+                return RedirectToAction("Tests");
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Tests");
+            var model = new EditStudentViewModel
+            {
+                Student = this.Student,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
         }
 
-        public ActionResult Edit()
+        public async Task<ActionResult> Edit()
         {
             if (this.Student == null)
-                return RedirectToAction("Test");
-            return View(this.Student);
+                return RedirectToAction("Tests");
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Tests");
+            var model = new EditStudentViewModel
+            {
+                Student = this.Student,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(StudentDTO model)
+        public async Task<ActionResult> Edit(EditStudentViewModel model)
         {
             if (ModelState.IsValid)
             {
-                StudentDTO oldUser = this.Student;
-                if (oldUser != null)
+                AppUser appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+                if (appUser != null)
                 {
-                    AppUser appUser = await UserManager.FindByEmailAsync(oldUser.Email);
-                    if (appUser != null)
-                    {
-                        appUser.Email = model.Email;
-                        appUser.UserName = model.Email;
-                        await UserManager.UpdateAsync(appUser);
-                        await studentService.AddOrUpdateAsync(model);
-                        return RedirectToAction("Profile");
-                    }
+                    appUser.Email = model.Student.Email;
+                    appUser.UserName = model.Student.Email;
+                    appUser.TwoFactorEnabled = model.IsTwoFactorEnabled;
+                    await UserManager.UpdateAsync(appUser);
+                    await studentService.AddOrUpdateAsync(model.Student);
                 }
+                return RedirectToAction("Profile");
             }
             return View(model);
         }

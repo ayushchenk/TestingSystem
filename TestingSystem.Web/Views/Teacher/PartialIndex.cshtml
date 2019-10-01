@@ -2,6 +2,8 @@
 @*<script src="@Url.Content("~/Design/adminForm/vendor/jquery-3.2.1.min.js")"></script>
     <link href="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/bootstrap.min.css")" rel="stylesheet" media="all">
     <script src="@Url.Content("~/Design/adminForm/vendor/bootstrap-4.1/bootstrap.min.js")"></script>*@
+
+
 <br />
 <p> @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" }) </p>
 <ul class="nav nav-tabs" role="tablist">
@@ -27,9 +29,12 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.LastName)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.EducationUnitName)
-                                    </th>
+                                    @if (User.IsInRole("Global Admin"))
+                                    {
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.EducationUnitName)
+                                        </th>
+                                    }
                                     <th>
                                         @Html.DisplayNameFor(model => model.SpecializationName)
                                     </th>
@@ -52,18 +57,20 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.LastName)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EducationUnitName)
-                                        </td>
+                                        @if (User.IsInRole("Global Admin"))
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EducationUnitName)
+                                            </td>
+                                        }
                                         <td>
                                             @Html.DisplayFor(modelItem => item.SpecializationName)
                                         </td>
                                         <td>
                                             @foreach (var subject in item.Subjects)
-                                            { <span style="margin:3px;">@subject.SubjectName</span> }
+                                            {<span style="margin:3px;">@subject.SubjectName</span>}
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Add subject", "AddSubject", new { id = item.Id }) |
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                             @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
                                         </td>
@@ -77,7 +84,7 @@
         }
         else
         {
-            <div class="alert-info">
+            <div class="alert alert-info">
                 No teachers
             </div>
         }
@@ -88,7 +95,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card-body table-full-width table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true">
                             <thead>
                                 <tr>
                                     <th>
@@ -100,9 +107,12 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.LastName)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.EducationUnitName)
-                                    </th>
+                                    @if (User.IsInRole("Global Admin"))
+                                    {
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.EducationUnitName)
+                                        </th>
+                                    }
                                     <th>
                                         @Html.DisplayNameFor(model => model.SpecializationName)
                                     </th>
@@ -125,9 +135,12 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.LastName)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EducationUnitName)
-                                        </td>
+                                        @if (User.IsInRole("Global Admin"))
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EducationUnitName)
+                                            </td>
+                                        }
                                         <td>
                                             @Html.DisplayFor(modelItem => item.SpecializationName)
                                         </td>
@@ -152,7 +165,7 @@
         }
         else
         {
-            <div class="alert-info">
+            <div class="alert alert-info">
                 No teachers
             </div>
         }

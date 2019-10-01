@@ -1,0 +1,252 @@
+﻿@model TestingSystem.Web.Models.ViewModels.CreateTestViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+@using (Html.BeginForm("Edit", "Test"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Test.Id)
+        @Html.HiddenFor(model => model.Test.TeacherId)
+        @Html.HiddenFor(model => model.Test.IsDeleted)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Test.TestName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Test.TestName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Test.TestName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="subject-cont">
+            @Html.LabelFor(m => m.Test.SubjectName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Test.SubjectId, ViewBag.Subjects as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Test.SubjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Themes
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <label><input type="checkbox" id="ch-all" /> All</label>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <label id="pickedEasy">0</label>/<label id="allEasy">0</label> Easy
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <label id="pickedMedium">0</label>/<label id="allMedium">0</label> Medium
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <label id="pickedHard">0</label>/<label id="allHard">0</label> Hard
+                                </div>
+                            </div>
+                            <hr />
+                            <div id="themes-container">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Test.EasyCount, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Test.EasyCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Test.EasyCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Test.MediumCount, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Test.MediumCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Test.MediumCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Test.HardCount, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Test.HardCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Test.HardCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" id="submit" onclick="submitLimit()" />
+            </div>
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            var allEasy = 0 , allMedium = 0, allHard = 0, pickedEasy = 0, pickedMedium = 0, pickedHard = 0;
+            $("#Test_SubjectId").val([]);
+
+            $("#Test_SubjectId").change(function () {
+                themes = $("#themes-container");
+                $(".collapse").addClass("show");
+                $.getJSON("@Url.Action("GetThemesBySubjectForTest", "Service")", { id: $(this).val() }, function (response) {
+                    allEasy = 0, allMedium = 0, allHard = 0;
+                    pickedEasy = 0;
+                    pickedMedium = 0;
+                    pickedHard = 0;
+                    $("#ch-all").prop("checked", false);
+                    themes.empty();
+                    $.each(response, function (index, item) {
+                        allEasy += item.EasyCount;
+                        allMedium += item.MediumCount;
+                        allHard += item.HardCount;
+                        html = `<div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="SelectedThemes"
+                                                       data-id="${item.Id}"
+                                                       value="${item.Id}"/> ${item.ThemeName}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                        <label class="easy" data-id="${item.Id}">${item.EasyCount}</label> Easy
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                        <label class="medium" data-id="${item.Id}">${item.MediumCount}</label> Medium
+                                    </div>
+                                    <div class="col-md-2 col-sm-2">
+                                        <label class="hard" data-id="${item.Id}">${item.HardCount}</label> Hard
+                                    </div>
+                                </div>`;
+                        themes.append(html);
+                    });
+                    $("#allEasy").text(allEasy);
+                    $("#allMedium").text(allMedium);
+                    $("#allHard").text(allHard);
+                    $("#pickedEasy").text(pickedEasy);
+                    $("#pickedMedium").text(pickedMedium);
+                    $("#pickedHard").text(pickedHard);
+                });
+            });
+
+            $("body").on("change", "input[name=SelectedThemes]", function () {
+                numberOfChecked = $('input[name="SelectedThemes"]:checked').length;
+                numberOfAll = $('input[name="SelectedThemes"]').length;
+                if (numberOfChecked == numberOfAll) {
+                    $("#ch-all").prop('checked', true);
+                }
+                else {
+                    $("#ch-all").prop('checked', false);
+                }
+
+                var id = $(this).attr("data-id");
+                if ($(this).prop('checked')) {
+                    pickedEasy += parseInt($(`.easy[data-id=${id}]`).text());
+                    pickedMedium += parseInt($(`.medium[data-id=${id}]`).text());
+                    pickedHard += parseInt($(`.hard[data-id=${id}]`).text());
+                }
+                else {
+                    pickedEasy -= parseInt($(`.easy[data-id=${id}]`).text());
+                    pickedMedium -= parseInt($(`.medium[data-id=${id}]`).text());
+                    pickedHard -= parseInt($(`.hard[data-id=${id}]`).text());
+                }
+                $("#pickedEasy").text(pickedEasy);
+                $("#pickedMedium").text(pickedMedium);
+                $("#pickedHard").text(pickedHard);
+            });
+
+            $("#ch-all").change(function () {
+                $('input:checkbox').prop('checked', $(this).prop('checked'));
+                pickedEasy = 0;
+                pickedMedium = 0;
+                pickedHard = 0;
+                if ($(this).prop('checked')) {
+
+                    $(".easy").each(function () {
+                        pickedEasy += parseInt($(this).text());
+                    });
+                    $(".medium").each(function () {
+                        pickedMedium += parseInt($(this).text());
+                    });
+                    $(".hard").each(function () {
+                        pickedHard += parseInt($(this).text());
+                    });
+                }
+                $("#pickedEasy").text(pickedEasy);
+                $("#pickedMedium").text(pickedMedium);
+                $("#pickedHard").text(pickedHard);
+            });
+
+            $("#submit").click(function (e) {
+                easyCount = $("#Test_EasyCount").val();
+                mediumCount = $("#Test_MediumCount").val();
+                hardCount = $("#Test_HardCount").val();
+                numberOfChecked = $('input:checkbox:checked').length;
+                if (easyCount + mediumCount + hardCount <= 0 ) {
+                    e.preventDefault();
+                    alert("Input correct questions count");
+                    return;
+                }
+                if (numberOfChecked == 0) {
+                    e.preventDefault();
+                    alert("Select at least one theme");
+                    return;
+                }
+
+                if ($("#Test_EasyCount").val() != 0 && pickedEasy == 0) {
+                    e.preventDefault();
+                    alert("Picked themes don't have any easy questions");
+                    return;
+                }
+
+                if ($("#Test_MediumCount").val() != 0 && pickedMedium == 0) {
+                    e.preventDefault();
+                    alert("Picked themes don't have any medium questions");
+                    return;
+                }
+
+                if ($("#Test_HardCount").val() != 0 && pickedHard == 0) {
+                    e.preventDefault();
+                    alert("Picked themes don't have any hard questions");
+                    return;
+                }
+            });
+        });
+        function submitLimit() {
+            var btn = document.getElementById('submit')
+            setTimeout(function () {
+                btn.setAttribute('disabled', 'disabled');
+            }, 1);
+
+            setTimeout(function () {
+                btn.removeAttribute('disabled');
+            }, 5000);
+        }
+    </script>
+}

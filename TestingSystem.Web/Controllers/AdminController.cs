@@ -108,9 +108,9 @@ namespace TestingSystem.Web.Controllers
                     {
                         appUser.Email = model.Email;
                         appUser.UserName = model.Email;
-                        if(oldUser.IsGlobal != model.IsGlobal)
+                        if (oldUser.IsGlobal != model.IsGlobal)
                         {
-                            if(model.IsGlobal)
+                            if (model.IsGlobal)
                             {
                                 await UserManager.RemoveFromRoleAsync(appUser.Id, "Education Unit Admin");
                                 await UserManager.AddToRoleAsync(appUser.Id, "Global Admin");

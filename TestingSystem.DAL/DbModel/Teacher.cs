@@ -14,6 +14,7 @@ namespace TestingSystem.DAL.DbModel
             QuestionImages = new HashSet<QuestionImage>();
             Questions = new HashSet<Question>();
             StudyingMaterials = new HashSet<StudyingMaterial>();
+            SubjectThemes = new HashSet<SubjectTheme>();
             TeachersInSubjects = new HashSet<TeachersInSubject>();
             Tests = new HashSet<Test>();
         }
@@ -50,6 +51,9 @@ namespace TestingSystem.DAL.DbModel
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StudyingMaterial> StudyingMaterials { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubjectTheme> SubjectThemes { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TeachersInSubject> TeachersInSubjects { get; set; }

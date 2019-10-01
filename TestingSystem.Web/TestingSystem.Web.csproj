@@ -203,7 +203,6 @@
   <ItemGroup>
     <Compile Include="ApiControllers\QuickTestApiController.cs" />
     <Compile Include="ApiControllers\ParticipateApiController.cs" />
-    <Compile Include="ApiControllers\TeacherInSubjectsApiController.cs" />
     <Compile Include="ApiControllers\ResultApiController.cs" />
     <Compile Include="ApiControllers\SpecializationApiController.cs" />
     <Compile Include="ApiControllers\SubjectApiController.cs" />
@@ -237,6 +236,7 @@
     <Compile Include="Controllers\StudentContentController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
+    <Compile Include="Controllers\SubjectThemeController.cs" />
     <Compile Include="Controllers\SystemsController.cs" />
     <Compile Include="Controllers\TeacherContentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
@@ -251,6 +251,7 @@
     <Compile Include="Models\Identity\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Identity\ExternalLoginVerificationViewModel.cs" />
     <Compile Include="Models\Identity\ForgotPasswordViewModel.cs" />
+    <Compile Include="Models\Identity\LoginTwoFactorViewModel.cs" />
     <Compile Include="Models\Identity\LoginViewModel.cs" />
     <Compile Include="Models\Identity\RegisterViewModel.cs" />
     <Compile Include="Models\Identity\ResetPasswordViewModel.cs" />
@@ -260,7 +261,13 @@
     <Compile Include="Models\ViewModels\AssignGroupsViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateGroupViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateQuestionViewModel.cs" />
+    <Compile Include="Models\ViewModels\CreateTeacherViewModel.cs" />
+    <Compile Include="Models\ViewModels\CreateTestViewModel.cs" />
     <Compile Include="Models\ViewModels\DeleteTeacherInSubject.cs" />
+    <Compile Include="Models\ViewModels\Difficulty.cs" />
+    <Compile Include="Models\ViewModels\EditTeacherViewModel.cs" />
+    <Compile Include="Models\ViewModels\EditStudentViewModel.cs" />
+    <Compile Include="Models\ViewModels\EditAdminViewModel.cs" />
     <Compile Include="Models\ViewModels\EditUserViewModel.cs" />
     <Compile Include="Models\ViewModels\EducationUnitGroupsViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupDetailsViewModel.cs" />
@@ -2134,6 +2141,12 @@
     <Content Include="Design\studentRSS\assets\js\plugins\bootstrap-switch.js" />
     <Content Include="Design\studentRSS\assets\js\plugins\chartist.min.js" />
     <Content Include="Design\studentRSS\assets\js\plugins\nouislider.min.js" />
+    <Content Include="Design\studentRSS\assets\js\sidebarTogglerModule.js" />
+    <Content Include="Design\studentRSS\assets\venobox\venobox.css" />
+    <Content Include="Design\studentRSS\assets\venobox\venobox.js" />
+    <Content Include="Design\studentRSS\assets\venobox\venobox.min.js" />
+    <Content Include="Design\studentRSS\gradientsStyles\IMGSendEmail.png" />
+    <Content Include="Design\studentRSS\gradientsStyles\style.css" />
     <Content Include="Design\studentRSS\moduleGridRSS\imgStd\studentRSSImg.png" />
     <Content Include="Design\studentRSS\moduleGridRSS\module.css" />
     <Content Include="Design\studentRSS\studyRSS\img\cSharpLogo.png" />
@@ -2177,7 +2190,6 @@
     <Content Include="Design\WelcomePageTeachers\vendor\magnific-popup\jquery.magnific-popup.js" />
     <Content Include="Design\WelcomePageTeachers\vendor\magnific-popup\jquery.magnific-popup.min.js" />
     <Content Include="Design\WelcomePageTeachers\vendor\magnific-popup\magnific-popup.css" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Design\loginForm\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
@@ -2424,6 +2436,7 @@
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.eot" />
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.ttf" />
     <Content Include="Design\StartPages\assets\web\assets\mobirise-icons2\mobirise2.woff" />
+    <Content Include="favicon.ico" />
     <Content Include="Scripts\bootstrap-notify.js" />
     <Content Include="Scripts\bootstrap-notify.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -2665,9 +2678,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
@@ -2718,7 +2728,6 @@
     <Content Include="Views\Teacher\Edit.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Teacher\PartialIndex.cshtml" />
-    <Content Include="Views\Group\Teachers.cshtml" />
     <Content Include="Views\Shared\_QuickTestLayout.cshtml" />
     <Content Include="Views\StudentContent\Tests.cshtml" />
     <Content Include="Views\StudentContent\Group.cshtml" />
@@ -2743,7 +2752,6 @@
     <Content Include="Views\Shared\_GlobalAdminLayout.cshtml" />
     <Content Include="Views\AdminContent\Profile.cshtml" />
     <Content Include="Views\AdminContent\Edit.cshtml" />
-    <Content Include="Views\Group\AddTeacher.cshtml" />
     <Content Include="Views\Shared\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
@@ -2766,6 +2774,12 @@
     <Content Include="Views\Education\Reviews.cshtml" />
     <Content Include="Views\Teacher\AddSubject.cshtml" />
     <Content Include="Views\Account\ExternalLoginVerification.cshtml" />
+    <Content Include="Views\Account\LoginTwoFactor.cshtml" />
+    <Content Include="Views\TeacherContent\Subjects.cshtml" />
+    <Content Include="Views\SubjectTheme\Index.cshtml" />
+    <Content Include="Views\SubjectTheme\PartialIndex.cshtml" />
+    <Content Include="Views\SubjectTheme\Edit.cshtml" />
+    <Content Include="Views\Test\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -35,9 +35,15 @@ namespace TestingSystem.BOL.Service
                     .ForMember("SpecializationName", opt => opt.MapFrom(tig => tig.Group.Specialization.SpecializationName))
                     .ForMember("EducationUnitName", opt => opt.MapFrom(tig => tig.Group.EducationUnit.EducationUnitName))
                     .ForMember("SpecializationId", opt => opt.MapFrom(tig => tig.Group.Specialization.Id))
+                    .ForMember("TeacherSpecialization", opt => opt.MapFrom(tig => tig.TeachersInSubject.Teacher.Specialization.Id))
                     .ForMember("EducationUnitId", opt => opt.MapFrom(tig => tig.Group.EducationUnit.Id));
                 cfg.CreateMap<TeachersInGroupDTO, TeachersInGroup>();
             }).CreateMapper();
+        }
+
+        public void Save()
+        {
+            repository.Save();
         }
 
         public TeachersInGroupDTO AddOrUpdate(TeachersInGroupDTO obj)
@@ -66,6 +72,16 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<TeachersInGroupDTO> GetAll()
         {
             return repository.GetAll().Select(tig => mapper.Map<TeachersInGroupDTO>(tig));
+        }
+
+        public void DeleteRange(IEnumerable<TeachersInGroupDTO> items)
+        {
+            repository.DeleteRange(items.Select(item => mapper.Map<TeachersInGroup>(item)));
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<TeachersInGroupDTO> items)
+        {
+            return Task.Run(() => DeleteRange(items));
         }
 
         public Task<IEnumerable<TeachersInGroupDTO>> GetAllAsync()

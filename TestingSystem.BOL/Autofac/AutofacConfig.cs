@@ -35,6 +35,8 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<TeachersInGroupRepository>().As<IGenericRepository<TeachersInGroup>>().InstancePerRequest();
             builder.RegisterType<TeachersInSubjectRepository>().As<IGenericRepository<TeachersInSubject>>().InstancePerRequest();
             builder.RegisterType<StudyingMaterialRepository>().As<IGenericRepository<StudyingMaterial>>().InstancePerRequest();
+            builder.RegisterType<SubjectThemeRepository>().As<IGenericRepository<SubjectTheme>>().InstancePerRequest();
+            builder.RegisterType<ThemesInTestRepository>().As<IGenericRepository<ThemesInTest>>().InstancePerRequest();
 
             builder.RegisterType<GroupDTOService>().As<IEntityService<GroupDTO>>().InstancePerRequest();
             builder.RegisterType<GroupsInTestDTOService>().As<IEntityService<GroupsInTestDTO>>().InstancePerRequest();
@@ -52,6 +54,8 @@ namespace TestingSystem.BOL.Autofac
             builder.RegisterType<TeachersInGroupsDTOService>().As<IEntityService<TeachersInGroupDTO>>().InstancePerRequest();
             builder.RegisterType<TeachersInSubjectDTOService>().As<IEntityService<TeachersInSubjectDTO>>().InstancePerRequest();
             builder.RegisterType<StudyingMaterialDTOService>().As<IEntityService<StudyingMaterialDTO>>().InstancePerRequest();
+            builder.RegisterType<SubjectThemeDTOService>().As<IEntityService<SubjectThemeDTO>>().InstancePerRequest();
+            builder.RegisterType<ThemesInTestDTOService>().As<IEntityService<ThemesInTestDTO>>().InstancePerRequest();
         }
     }
 }

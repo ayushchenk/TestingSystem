@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbExtensions\ThemesInTestExt.cs" />
+    <Compile Include="DbExtensions\SubjectThemeExt.cs" />
     <Compile Include="DbExtensions\AdminExt.cs" />
     <Compile Include="DbExtensions\EducationUnitExt.cs" />
     <Compile Include="DbExtensions\GroupExt.cs" />
@@ -79,11 +81,13 @@
     <Compile Include="DbModel\StudentTestResult.cs" />
     <Compile Include="DbModel\StudyingMaterial.cs" />
     <Compile Include="DbModel\Subject.cs" />
+    <Compile Include="DbModel\SubjectTheme.cs" />
     <Compile Include="DbModel\Teacher.cs" />
     <Compile Include="DbModel\TeachersInGroup.cs" />
     <Compile Include="DbModel\TeachersInSubject.cs" />
     <Compile Include="DbModel\Test.cs" />
     <Compile Include="DbModel\TestingSystemContext.cs" />
+    <Compile Include="DbModel\ThemesInTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

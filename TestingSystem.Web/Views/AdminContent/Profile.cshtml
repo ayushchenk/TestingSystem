@@ -1,45 +1,47 @@
-﻿@model TestingSystem.BOL.Model.AdminDTO
-
-@{
-    ViewBag.Title = "Profile";
-        Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
-}
-
+﻿@model TestingSystem.Web.Models.ViewModels.EditAdminViewModel
+@{ ViewBag.Title = "Profile"; Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml"; }
 <h2>Profile</h2>
-
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Admin.Email)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Admin.Email)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.Admin.FirstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.Admin.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.Admin.LastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.Admin.LastName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EducationUnitName)
+            @Html.DisplayNameFor(model => model.Admin.EducationUnitName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EducationUnitName)
+            @Html.DisplayFor(model => model.Admin.EducationUnitName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTwoFactorEnabled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTwoFactorEnabled)
         </dd>
     </dl>
 </div>

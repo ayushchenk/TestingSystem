@@ -14,18 +14,21 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>@Html.DisplayNameFor(model => model.Result)</th>
-                                        <th>@Html.DisplayNameFor(model => model.TestName)</th>
                                         <th>@Html.DisplayNameFor(model => model.SubjectName)</th>
+                                        <th>@Html.DisplayNameFor(model => model.TestName)</th>
+                                        <th>@Html.DisplayNameFor(model => model.Result)</th>
+                                        <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@item.Result / @item.QuestionCount</td>
-                                            <td>@Html.DisplayFor(modelItem => item.TestName)</td>
                                             <td>@Html.DisplayFor(modelItem => item.SubjectName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.TestName)</td>
+                                            <td>@item.Result / @item.QuestionCount</td>
+                                            <td>@Html.DisplayFor(modelItem => item.StartDate.Date)</td>  
                                         </tr>
                                     }
                                 </tbody>

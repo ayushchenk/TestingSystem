@@ -11,6 +11,7 @@ namespace GenericRepository.Common
         T Get(int id);
         T AddOrUpdate(T obj);
         T Delete(T obj);
+        void DeleteRange(IEnumerable<T> items);
         void Save();
     }
 }

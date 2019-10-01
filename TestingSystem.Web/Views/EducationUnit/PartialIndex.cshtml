@@ -25,7 +25,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.EducationUnitName)
                                 </td>
-                                <td>
+                                <td align="center">
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { }) |
                                     @Html.ActionLink("Groups", "Groups", new { id = item.Id }, new { }) |
                                     @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn-delete", data_id = item.Id })
@@ -40,7 +40,7 @@
 }
 else
 {
-    <div class="alert-info">
+    <div class="alert alert-info">
         No education units
     </div>
 }

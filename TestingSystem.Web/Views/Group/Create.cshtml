@@ -1,73 +1,71 @@
 ﻿@model TestingSystem.Web.Models.ViewModels.CreateGroupViewModel
 @{
     ViewBag.Title = "Create";
-    //if (User.IsInRole("Education Unit Admin"))
-    //{
-    //    Layout = "~/Views/Shared/_UnitAdminLayout.cshtml";
-    //}
-    //if (User.IsInRole("Global Admin"))
-    //{
-    //}
     Layout = "~/Views/Shared/_GlobalAdminLayout.cshtml";
-    int count = 0;
 }
 <h2>Create</h2>
 @using (Html.BeginForm("Create", "Group"))
 {
     @Html.AntiForgeryToken()
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Group.Id)
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Group.Id)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Group.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Group.GroupName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Group.GroupName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Group.SpecializationName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Group.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Group.SpecializationId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    @if (User.IsInRole("Global Admin"))
-    {
         <div class="form-group">
-            @Html.LabelFor(m => m.Group.EducationUnitName, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(model => model.Group.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Group.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Group.EducationUnitId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Group.GroupName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Group.GroupName, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
-    <div class="form-group" id="teacher-cont-master">
-        @Html.LabelFor(m => m.Teachers, new { @class = "col-md-2 control-label" })
-        <div class="col-md-offset-2 col-md-10" id="teacher-cont">
-            @for (int i = 0; i < Model.Teachers.Count; i++)
-            {
-                <div data-id="@i">
-                    @Html.DropDownListFor(model => model.Teachers[i], new SelectList(Model.SpecTeachers, "Id", "FullName", Model.Teachers[i]), null, new { @class = "form-control" })
-                    <input type="button" value="Delete" class="btn-delete-teacher btn btn-default" />
+        <div class="form-group">
+            @Html.LabelFor(m => m.Group.SpecializationName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Group.SpecializationId, (SelectList)ViewBag.Specializations, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Group.SpecializationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @if (User.IsInRole("Global Admin"))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Group.EducationUnitName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Group.EducationUnitId, (SelectList)ViewBag.EducationUnits, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Group.EducationUnitId, "", new { @class = "text-danger" })
                 </div>
-            }
+            </div>
+        }
+        <div class="form-group" id="teacher-cont-master">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" id="collapse-show" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Teachers
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <label><input type="checkbox" id="ch-all" /> All</label>
+                            <hr />
+                            <div id="teachers-container">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <br />
+                <input type="submit" value="Submit" class="btn btn-success" id="btn_submit" onclick="submitLimit()" />
+            </div>
         </div>
     </div>
-    <div class="d-flex align-items-center justify-content-center h-100">
-        <div class="d-flex flex-column">
-            <button class="btn btn-secondary align-self-center p-2" type="button" id="add-teacher">Add teacher</button>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <br />
-            <input type="submit" value="Create Request" class="btn btn-success" id="btn_submit" onclick="submitLimit()" />
-        </div>
-    </div>
-</div>
 }
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -76,60 +74,65 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
-            id = @Model.Teachers.Count();
-            if(id == 0)
-                $("#teacher-cont-master").hide();
+            $("#Group_EducationUnitId").val([]);
+            $("#Group_SpecializationId").val([]);
 
-            maxLength = 0;
 
-            $("#add-teacher").click(function (e) {
-                $("#teacher-cont-master").show();
-                if(maxLength != 0 && $("#teacher-cont").children("div[data-id]").length >= maxLength)
-                {
-                    alert("No more teachers with such specialization");
+            $("#Group_SpecializationId").change(function () {
+                $(".collapse").addClass("show");
+                subjects = $("#teachers-container");
+                $("#ch-all").prop('checked', false);
+                $.getJSON("@Url.Action("GetTeachersBySpecialization", "Service")", { id: $(this).val() }, function (response) {
+                    subjects.empty();
+                    $.each(response, function (index, item) {
+                        html = `<div class="row">
+                                    <div class="col-dm-5 col-sm-5">
+                                        <div class="checkbox">
+                                            <label>
+                                                 <input type="checkbox"
+                                                        name="SelectedTeachers"
+                                                        data-id="${item.Id}"
+                                                        value="${item.Id}"/> ${item.FullName}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <label>${item.SubjectName}</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4">
+                                        <label>${item.Email}</label>
+                                    </div>
+                                </div>`;
+                        subjects.append(subjects.append(html));
+                    });
+                });
+            });
+
+            $("#ch-all").change(function () {
+                $('input:checkbox').prop('checked', $(this).prop('checked'));
+            });
+
+            $("body").on("change", 'input[name="SelectedTeachers"]', function () {
+                numberOfChecked = $('input[name="SelectedTeachers"]:checked').length;
+                numberOfAll = $('input[name="SelectedTeachers"]').length;
+                if (numberOfChecked == numberOfAll) {
+                    $("#ch-all").prop('checked', true);
+                }
+                else {
+                    $("#ch-all").prop('checked', false);
+                }
+            });
+
+            $("#btn_submit").click(function (e) {
+                numberOfChecked = $('input:checkbox:checked').length;
+                if (numberOfChecked == 0) {
                     e.preventDefault();
+                    alert("Select at least one teacher");
                     return;
                 }
-                html = `<div data-id=${id}>` +
-                            `<select class="form-control" id="Teachers_${id}_" name="Teachers[${id}]" style="margin-top: 5px;"></select>` +
-                            `<input type="button" value="Remove" class="btn-delete-teacher btn btn-default text-danger"/>` +
-                    `</div>`;
-                $.ajax({
-                    url: this.href,
-                    cache: false,
-                    success: function () {
-                        $("#teacher-cont").append(html);
-                        //setTimeout(function(){
-                        select = $(`#Teachers_${id}_`);
-                        $.getJSON("@Url.Action("GetTeachersBySpecialization", "Service")", { id: $("#Group_SpecializationId").val() }, function (response) {
-                            maxLength = Object.keys(response).length;
-                            select.empty();
-                            $.each(response, function (index, item) {
-                                select.append($('<option></option>').text(item.FullName).val(item.Id));
-                            });
-                        });
-                        select.val([]);
-                        id++;
-                    }
-                });
-                //}, 1000);
-            });
-            $("#Group_SpecializationId").change(function () {
-                $("#teacher-cont").children().remove();
-                $("#teacher-cont-master").hide();
-                id = 0;
-            });
-            $("body").on("click", ".btn-delete-teacher", function(){
-                selectedId = $(this).closest("div").attr("data-id");
-                for(i = selectedId; i< id; i++){
-                    select = $(`#Teachers_${i}_`).attr("id", `Teachers_${i - 1}_`);
-                    select.attr("name", `Teachers[${i - 1}]`);
-                }
-                $(`div[data-id=${selectedId}]`).remove();
-                if($("#teacher-cont").children("div[data-id]").length == 0)
-                    $("#teacher-cont-master").hide();
             });
         });
+
         function submitLimit() {
             var btn = document.getElementById('btn_submit')
             setTimeout(function () {

@@ -40,7 +40,7 @@ namespace TestingSystem.Web.Controllers
         {
             get
             {
-                if(teacher == null)
+                if (teacher == null)
                     teacher = teacherService.FindBy(s => s.Email == User.Identity.Name).FirstOrDefault();
                 return teacher;
             }
@@ -83,7 +83,7 @@ namespace TestingSystem.Web.Controllers
                 model.Add(new TeacherGroupSubjects
                 {
                     Group = group,
-                    Subjects = groups.Where(tig=> tig.TeacherId == this.Teacher.Id && tig.GroupId == group.Id)
+                    Subjects = groups.Where(tig => tig.TeacherId == this.Teacher.Id && tig.GroupId == group.Id)
                 });
             return View(model);
         }
@@ -92,44 +92,65 @@ namespace TestingSystem.Web.Controllers
         {
             var group = await groupService.GetAsync(id);
             if (group == null)
-                return RedirectToAction("Groups");
+                return RedirectToAction("Welcome");
             ViewBag.GroupName = group.GroupName;
             var model = await studentService.FindByAsync(student => student.GroupId == group.Id);
             return View(model);
         }
 
-        public new ActionResult Profile()
+        public async Task<ActionResult> Subjects()
         {
             if (this.Teacher == null)
-                return RedirectToAction("Groups");
-            return View(this.Teacher);
+                return RedirectToAction("Welcome");
+            var model = await teachersInSubejctsService.FindByAsync(tis => tis.TeacherId == this.Teacher.Id);
+            return View(model);
         }
 
-        public ActionResult Edit()
+        public new async Task<ActionResult> Profile()
         {
             if (this.Teacher == null)
-                return RedirectToAction("Groups");
-            return View(this.Teacher);
+                return RedirectToAction("Welcome");
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Welcome");
+            var model = new EditTeacherViewModel
+            {
+                Teacher = this.Teacher,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
+        }
+
+        public async Task<ActionResult> Edit()
+        {
+            if (this.Teacher == null)
+                return RedirectToAction("Welcome");
+            var appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (appUser == null)
+                return RedirectToAction("Welcome");
+            var model = new EditTeacherViewModel
+            {
+                Teacher = this.Teacher,
+                IsTwoFactorEnabled = appUser.TwoFactorEnabled
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(TeacherDTO model)
+        public async Task<ActionResult> Edit(EditTeacherViewModel model)
         {
             if (ModelState.IsValid)
             {
-                TeacherDTO oldUser = this.Teacher;
-                if (oldUser != null)
+                AppUser appUser = await UserManager.FindByEmailAsync(User.Identity.Name);
+                if (appUser != null)
                 {
-                    AppUser appUser = await UserManager.FindByEmailAsync(oldUser.Email);
-                    if (appUser != null)
-                    {
-                        appUser.Email = model.Email;
-                        appUser.UserName = model.Email;
-                        await UserManager.UpdateAsync(appUser);
-                        await teacherService.AddOrUpdateAsync(model);
-                        return RedirectToAction("Profile");
-                    }
+                    appUser.Email = model.Teacher.Email;
+                    appUser.UserName = model.Teacher.Email;
+                    appUser.TwoFactorEnabled = model.IsTwoFactorEnabled;
+                    await UserManager.UpdateAsync(appUser);
+                    await teacherService.AddOrUpdateAsync(model.Teacher);
                 }
+                return RedirectToAction("Profile");
             }
             return View(model);
         }

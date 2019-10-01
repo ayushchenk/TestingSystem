@@ -32,6 +32,11 @@ namespace TestingSystem.BOL.Service
             }).CreateMapper();
         }
 
+        public void Save()
+        {
+            repository.Save();
+        }
+
         public TeacherDTO AddOrUpdate(TeacherDTO obj)
         {
             Teacher res = repository.AddOrUpdate(mapper.Map<Teacher>(obj));
@@ -58,6 +63,16 @@ namespace TestingSystem.BOL.Service
         public IEnumerable<TeacherDTO> GetAll()
         {
             return repository.GetAll().Select(role => mapper.Map<TeacherDTO>(role));
+        }
+
+        public void DeleteRange(IEnumerable<TeacherDTO> items)
+        {
+            repository.DeleteRange(items.Select(item => mapper.Map<Teacher>(item)));
+        }
+
+        public Task DeleteRangeAsync(IEnumerable<TeacherDTO> items)
+        {
+            return Task.Run(() => DeleteRange(items));
         }
 
         public Task<IEnumerable<TeacherDTO>> GetAllAsync()
